@@ -41,3 +41,24 @@ README.md is merged; `_readme/` fragments are deleted.
 - BiRefNet matte path untested (venv lacks timm, kornia). SAM 2.1 works.
 - Demo clips for d04-d12 were rendered before the last core edits; re-render to refresh (results should not change).
 - Fork demos d04, d05, d06, d08, d11 use stub timing; examples use the real map.
+
+## cliff.py v2 (team MOUNTAIN, 2026-11-17): real 摩崖石刻 on painted plates
+Owner now: team MOUNTAIN. API is backward compatible (all old calls and defaults work; ex2 and d07 re-run). Changes:
+- **Look fix ("embossing on shards")**: the rock's micro-relief came from paper fibres/pixel grain lit at a raking
+  angle. New `soft_relief=True` (default) takes relief only from the painting's broad strokes, and keeps the
+  rounded arris INSIDE the cut (no halo on the face). `soft_relief=False` = old behaviour.
+- New build options (all default off): `weight` (dilate the font's hairline seal strokes into a chisel-width cut,
+  fraction of size, ~0.012-0.02), `paint` (0..1: cinnabar as a body of vermilion paste instead of a thin stain;
+  with `fill` near 1 it covers the walls, which is what makes a big character read as CUT, not raised),
+  `chips` (flakes off old lips, clustered, weather-scaled), `streaks` (rain staining hanging below each cut).
+- `region` may be a LIST of inscription blocks `(x, y, w, h[, rows])` in reading order; text flows through them
+  (`blocks_layout`); columns numbered globally (gold order), gold rises foot->top of each column's own extent.
+- `presence='plane'` (`plane_presence(rock, size)`): carve on the pale flat planes, break off over dark fissures.
+- `render(..., box=(x0,y0,x1,y1))`: render only a window of a long plate (9040 px run: ~0.13 s/frame instead of
+  ~1 s); identical to a crop of the full render. Call `c.prepare(fill=..., gold=...)` in setup so workers share
+  the fill/gold caches.
+- `render(..., tint=RGB, ambient_tint=RGB)`: coloured direct/ambient light (cool-silver moon; never blue-white).
+- `ambient` and `pool` may be HxW maps, 1xW rows (light varying along the cliff) or callables of t. Tip: to make
+  carving flare without a glow on the flat rock, lower `ambient` inside the light and set
+  `pool = (flat_target - ambient) / (1 - ambient)` (see shots/B4.py `light_at`).
+- Raking light reads as CUT when it comes from above (az ~300-335); from below/side the eye flips it to relief.

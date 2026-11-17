@@ -513,6 +513,14 @@ class RoomShot:
             kinds = pg.get('kinds', [pg['kind']])
             self.SP = {k: spread(k) for k in kinds}
         self.BEAM = beam_field(self.G, self.KF, s) if c.get('dust') else None
+        self.INS = []
+        if lyrics_on(ctx):
+            for line, region in c.get('lyrics', []):
+                try:
+                    w = ctx.timing.words(line)
+                except Exception:
+                    w = None
+                self.INS.append(inscription(line.replace('(', '').replace(')', ''), region, ctx, words=w or None))
         if c.get('setup'):
             c['setup'](self, ctx)
 
@@ -545,7 +553,10 @@ class RoomShot:
         cam = c.get('cam')
         if cam is None and not self.pick:
             cam = c.get('still_cam', [(c['T0'], 960, 540, 1.0), (c['T1'], 960, 540, 1.04)])
-        return camera_move(f, t, cam or [])
+        f = camera_move(f, t, cam or [])
+        for ins in self.INS:
+            ins.draw(f, t, opacity=0.8)
+        return f
 
 
 # ----------------------------------------------------------------------------------------------------------------

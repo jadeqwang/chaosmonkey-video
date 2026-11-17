@@ -364,3 +364,40 @@ def mis_at(t, times, hold=0.16, amount=10.0, seed=0):
             d = amount * r.uniform(0.7, 1.0)
             return (d * math.cos(a) * 0.45, d * math.sin(a) * 0.45, -d * math.cos(a) * 0.55, -d * math.sin(a) * 0.55)
     return None
+
+
+# ------------------------------------------------------------------------------------------------ category seals (H3, H4)
+
+SEAL_CELLS = [10, 3, 13, 14]                     # tool, threat, trick, kid
+SEAL_LEAF = 66.0                                 # seal side in leaf px
+
+
+def category_seal(px=220, seed=31):
+    """a plain 白文 square: a cinnabar block with nothing cut in it, worn rim, starved paste (RGBA)."""
+    pad = int(px * 0.12)
+    S = px + 2 * pad
+    m = np.zeros((S, S), F32)
+    m[pad:pad + px, pad:pad + px] = 1.0
+    m = rough_mask(m, 3.0, 9.0, seed, 'rim')
+    paste = 0.78 + 0.22 * fbm(S, S, 18, seed, 'paste')
+    starve = np.clip((fbm(S, S, 40, seed, 'starve') - 0.30) / 0.25, 0, 1)
+    a = np.clip(m * paste * (0.55 + 0.45 * starve), 0, 1)
+    rgb = np.ones((S, S, 3), F32) * np.asarray(CINNABAR, F32)[None, None]
+    return np.dstack([rgb, a]).astype(F32)
+
+
+def seal_pos(i):
+    x, y, w, h = CELLS[SEAL_CELLS[i]]
+    return x + w - 58.0, y + h - 62.0
+
+
+def draw_category_seals(f, cam, t, ctx, album, seal_rgba, hits):
+    """press each seal at its hit (slam + dent) and keep it; positions in leaf px."""
+    sc = SEAL_LEAF * cam[2] * ctx.s / (seal_rgba.shape[0] / 1.24)
+    for i, th in enumerate(hits):
+        if t < th - 2 / 24:
+            continue
+        fx, fy = album.to_frame(cam, *seal_pos(i))
+        if -200 < fx < ctx.W + 200 and -200 < fy < ctx.H + 200:
+            strike(f, seal_rgba, t, th, (fx, fy), scale=sc, overshoot=0.16, dent=0.8)
+    return f

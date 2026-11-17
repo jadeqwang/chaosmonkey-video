@@ -143,13 +143,13 @@ def warp_layer_quad(tex, quad, ctx):
     return warp_to_quad(tex, quad, ctx)
 
 
-def paper_mask(frame, region, warm=True, lo=0.35, soft=0.12):
+def paper_mask(frame, region, warm=True, lo=0.35, soft=0.12, sat=(0.18, 0.34)):
     """Where the frame shows lit page paper (bright, low-saturation, warm-ish) inside `region` (HxW 0..1).
     Hands, sleeves and the dark beyond fall out, so page art never prints on them."""
     L = luma(frame)
     mx, mn = frame.max(-1), frame.min(-1)
-    sat = (mx - mn) / np.maximum(mx, 1e-3)
-    m = smoothstep(lo - soft, lo + soft, L) * (1 - smoothstep(0.18, 0.34, sat))
+    sat_ = (mx - mn) / np.maximum(mx, 1e-3)
+    m = smoothstep(lo - soft, lo + soft, L) * (1 - smoothstep(sat[0], sat[1], sat_))
     if warm:   # paper is warm or neutral; skin is warm too but saturated; cool white sleeves (b > r) fall out
         m *= 1 - smoothstep(0.015, 0.06, frame[..., 2] - frame[..., 0])
     return (m * region).astype(F32)
