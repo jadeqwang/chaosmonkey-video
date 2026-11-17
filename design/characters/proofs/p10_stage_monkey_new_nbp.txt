@@ -1,0 +1,10 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "2K", "output_format": "jpg", "image_input": ["file:design/characters/monkey/monkey_stage_model_sheet.jpg", "file:design/characters/monkey/monkey_poses_B_staff.jpg"]}
+refs: ['design/characters/monkey/monkey_stage_model_sheet.jpg', 'design/characters/monkey/monkey_poses_B_staff.jpg']
+est_usd: 0.134
+secs: 41
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper in the manner of Liang Kai's splashed ink: a large close figure of the monkey, three-quarter view from the right, mid-leap in a high somersault seen from slightly below, knees tucked to his chest, the staff held across his body in both hands, his two long pheasant plumes whipping in a wide arc behind him as two thin dry-brush strokes, a spray of ink droplets thrown off his body. A new pose, not on his sheets. The figure fills about half the sheet's height; everything else bare paper. The monkey is exactly the design in the reference images: lean splashed-ink body, small round black cap with exactly two plumes, the peach-shaped cinnabar field around the gold eyes, pale muzzle and beaked mouth, a few ochre dabs for the kilt, the staff dark with gold bands at each end. Not the 1961 animation, no gold circlet, no headband, no armour. No border, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette.
+
+Reference images: image 1 is his canon model sheet (face close-up on the right); image 2 is his canon staff pose sheet. Keep his design exactly.

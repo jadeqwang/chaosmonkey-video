@@ -1,0 +1,4 @@
+monkey/test_poses1_sd5_v1.jpg sd5 design/characters/_prompts/monkey_poses1_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg,media/look/L3/sd5_v2.jpg 16:9 2K
+monkey/test_poses1_nbp_v1.jpg nbp design/characters/_prompts/monkey_poses1_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg,media/look/L3/sd5_v2.jpg 16:9 4K
+monkey/test_poses2_sd5_v1.jpg sd5 design/characters/_prompts/monkey_poses2_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg,media/look/L3/sd5_v2.jpg 16:9 2K
+monkey/test_poses2_nbp_v1.jpg nbp design/characters/_prompts/monkey_poses2_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg,media/look/L3/sd5_v2.jpg 16:9 4K

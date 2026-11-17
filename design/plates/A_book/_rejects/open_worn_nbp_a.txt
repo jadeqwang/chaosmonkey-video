@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['/tmp/claude-1000/-home-jade-Documents-chaosmonkey-video/e0374f19-0e18-4b47-948d-235491a67d56/scratchpad/p/open_new_in.jpg']
+output: 1376x768
+est_usd: 0.24
+secs: 66
+
+PROMPT:
+Edit this painting: the same open book, in exactly the same position, size and outline, painted in the same hand, but 38 years older and much read: the corners of the pages and the cover softened and rounded, the page edges yellowed, uneven and slightly dog-eared, the gutter shadow paler and the pages a warmer, more yellowed cream with a few small brown foxing spots and one faint tide-line stain near a corner, the indigo cloth edge faded and rubbed. In the bottom margin of the left page, near its outer corner, a small child's drawing of a monkey in orange and brown wax crayon: a round head with two dot eyes, a scribbled body, stick limbs and a curly tail, about one eighth of the page's height. Everything else on the pages stays blank: no text, no picture, no letters, no characters, no page numbers. No seal, no signature, no border.

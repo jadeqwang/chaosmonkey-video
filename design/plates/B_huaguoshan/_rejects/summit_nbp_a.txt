@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "9:16", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 3072x5504
+est_usd: 0.24
+secs: 54
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper in the monumental high-distance manner (gaoyuan) of Fan Kuan's "Travelers among Mountains and Streams": we look up from below at the summit of a steep rock peak. The massive rock rises from the bottom edge of the sheet and fills only the lower half, built with dense raindrop and axe-cut texture strokes in ink, a few small pines and dark moss dots along its upper edge. On the very top of the peak, seen against the empty paper, rests one smooth round stone, a little larger than a pine tree there, drawn with one soft outline and a pale grey ink wash: smooth, unmarked, uncarved, no cracks. The upper half of the sheet is bare unpainted paper: the sky is the paper itself. Ink with faint ochre. No clouds, no sun, no birds, no figures, no writing, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette, no shadow.

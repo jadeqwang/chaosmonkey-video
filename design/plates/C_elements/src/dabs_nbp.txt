@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['design/plates/_refs/canon_troop_dabs.jpg']
+output: 5504x3072
+est_usd: 0.24
+secs: 71
+
+PROMPT:
+A study sheet of Chinese ink painting on plain unsized cream xuan paper, abbreviated-brush (jianbi) manner of Liang Kai: forty small monkeys, each a single faceless dab of the brush (one wet blot for body and head, quick flicked limbs, a dry flick for the tail), every one in a different pose (sitting, climbing, running on all fours, hanging by one arm, grooming another's back, leaping, scratching, curled asleep, carrying a peach), arranged in a loose grid of five rows by eight with clear bare paper around each one so they do not touch. No faces, no eyes, no plumes, no red, no ground, no rocks. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette. The reference image is ONLY a reference for how each small monkey is painted; do not copy its layout.

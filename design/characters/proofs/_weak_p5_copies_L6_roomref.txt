@@ -1,0 +1,16 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "2K", "output_format": "jpg", "image_input": ["file:design/characters/jade/jade_A_turnaround.jpg", "file:design/characters/daughter/daughter_A_turnaround.jpg", "file:media/look/L6/nbp_a_v2.jpg"]}
+refs: ['design/characters/jade/jade_A_turnaround.jpg', 'design/characters/daughter/daughter_A_turnaround.jpg', 'media/look/L6/nbp_a_v2.jpg']
+est_usd: 0.134
+secs: 121
+
+PROMPT:
+A Chinese painting of night, ink and light colour on cream xuan paper, in one hand: fine-line baimiao outlines for the faces and hands with light colour washes, dark ink and dusk-violet washes for the room, the paper grain showing through everywhere. Faces drawn in delicate fine ink lines with a light flesh wash, as in a Song or Ming figure painting, not anime, not a photograph, not a digital render. No text, no signature, no seal, no border, no logos.
+
+A child's bedroom in the dark, 2026, seen from low, three-quarter from the left: the woman sits on the floor beside a child's low bed with the open picture book on her knees, a small flashlight in her hand making one round pool of white light on the pages; the little girl lies on her tummy on the edge of the bed, chin on her hands, looking down at the page, deadpan. Everything outside the flashlight pool sinks into violet-grey ink wash.
+
+Jade, 2026: an adult Chinese woman with long straight black hair, centre-parted, with long curtain bangs framing her face and falling past the shoulders; thin dark rectangular glasses; an oval face with straight dark brows, calm almond eyes and full lips; a short cropped white racer jacket that ends above the navel with an elastic hem, stand collar with two snap tabs, a zip, worn open; one orange band right across the chest and one orange band around each upper arm at the same height, so with the arms down the three read as one continuous line; a small pale-blue dot on her left chest; a small round white patch with a black ring on her left sleeve (leave it blank); on the back a large pale-blue circle; a black mock-neck crop top underneath showing a strip of midriff; wide navy cargo trousers with orange straps.
+
+The daughter, 2026, age 4 (an original character): a small girl with a round face and full soft cheeks and exactly the same small dark eyes, small nose, small closed mouth and deadpan, watchful, unimpressed face as little Jade, so the two read as twins across time; light chestnut-brown hair (brown, never black) in two braided pigtails tied with pink elastics, short wisps at the temples, no bangs; a pink short-sleeved dress with puffed sleeves, printed all over with small red strawberries with green tops; white socks.
+
+Reference images: image 1 is the woman's canon sheet (keep her face, glasses, curtain bangs, long hair and the jacket with its orange band); image 2 is the girl's canon sheet (keep her face, brown braids and strawberry dress); image 3 shows the room and the painting hand. Use them for likeness only; repaint in this painting.

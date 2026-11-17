@@ -1,0 +1,15 @@
+model: bytedance/seedream-5-pro
+params: {"size": "2560x1440", "watermark": false, "image": ["file:media/look/_refs/lj_face.jpg", "file:media/look/_refs/lj_body.jpg", "file:design/characters/_src/lj_L5_crop.jpg"]}
+refs: ['media/look/_refs/lj_face.jpg', 'media/look/_refs/lj_body.jpg', 'design/characters/_src/lj_L5_crop.jpg']
+est_usd: 0.135
+secs: 231
+
+PROMPT:
+A character model sheet of one five-year-old girl, all views the same child, evenly spaced on bare paper.
+Painted on one sheet of plain cream xuan paper in the hand of a Chinese fine-line figure painting: delicate baimiao ink outlines for faces, hands and clothing folds, light transparent colour washes (pale flesh, the clothing colours), hair in soft black ink wash, the paper grain showing through everywhere. Not anime, not cel shading, not a photograph, not a 3D or digital render. Plain bare cream paper behind every figure: no room, no floor, no cast shadows. No text, no labels, no numbers, no letters, no signature, no seal, no border, no frame.
+
+Little Jade, 1988, age 5: a small Chinese girl with a round face and full soft cheeks, straight glossy black hair with blunt bangs to the eyebrows and a small half-ponytail tied high at the back of the head, the rest hanging straight to her shoulders; small dark almond eyes, a tiny nose, a small closed mouth; the family's deadpan, watchful, unsmiling "resting oblivious face". She wears a child-size cropped white zip jacket with a stand collar, one orange band right across the chest and around both upper arms, and a small pale-blue dot on her left chest; under it loose dark pyjama-like trousers; bare feet. No headphones.
+
+Layout: four full-figure standing views in a row at exactly the same size: front, three-quarter, side facing left, and back (on the back of the jacket a large pale-blue circle, no lettering). Then, on the right, the same girl sitting up on a thin rolled-out floor mat, legs out in front, looking at the viewer with her deadpan face.
+
+Reference images: image 1 and image 2 show this girl's face, hair and jacket in another painting style; keep her face shape, bangs, half-ponytail, deadpan look and jacket, ignore the headphones and sneakers. Image 3 shows the painting hand to use; match that hand.

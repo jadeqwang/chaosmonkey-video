@@ -1,0 +1,9 @@
+model: openai/gpt-image-2
+params: {"size": "3840x1280", "quality": "high", "output_format": "png"}
+refs: ['/tmp/claude-1000/-home-jade-Documents-chaosmonkey-video/e0374f19-0e18-4b47-948d-235491a67d56/scratchpad/p/outpaint_left1.png']
+output: 3840x1280
+est_usd: 0.606
+secs: 51
+
+PROMPT:
+This image is one section of a long horizontal handscroll painting of a sheer sea cliff, in Chinese ink and light colour on paper. Only its right third is painted so far; the left two thirds are still empty. Paint the empty left two thirds as the direct continuation of the same cliff, so that the rock runs on without any visible join: the same broad, flat, nearly vertical stone planes of the same width, the same narrow dark fissures with axe-cut texture strokes (fupi cun), the same few small clinging pines and moss dots, the same pale grey-ochre wash, the same ink tones, the same scale and the same paper colour. The rock fills the whole sheet from edge to edge, top to bottom, with no sky, no ground and no margin. Keep the right third exactly as it is. The flat planes stay bare and uncarved. No writing, no characters, no inscriptions, no seal, no signature, no border, no frame. Flat even scan of the painting.

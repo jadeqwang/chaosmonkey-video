@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 1376x768
+est_usd: 0.24
+secs: 162
+
+PROMPT:
+A flat, even photograph of a sheet of an old Chinese ink rubbing (tapian) taken from a smooth uncarved stone: the whole sheet is covered edge to edge in black ink applied by dabbing with a pad, so it is a deep matte black with a fine mottled texture of slightly uneven dabs, a few paler grey patches where the pad touched lightly, tiny white pinholes and specks where the paper caught the grain of the stone, faint creases where the paper was pressed into the stone, and soft paper fibres. There are no characters, no inscriptions, no carving, no images, no seals and no writing of any kind: only the black texture. No border, no frame, no background, no shadow, no vignette.

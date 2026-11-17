@@ -1,0 +1,6 @@
+monkey/test_storybook_nbp_v1.jpg nbp design/characters/_prompts/monkey_storybook_v1.txt media/look/L2/nbp_monkey_v1.jpg,design/characters/monkey/monkey_stage_model_sheet.jpg 16:9 4K
+monkey/test_puppet_parts_dark_gpt2_v1.jpg gpt2 design/characters/_prompts/puppet_parts_dark_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg 16:9 4K
+monkey/test_puppet_parts_colour_gpt2_v1.jpg gpt2 design/characters/_prompts/puppet_parts_colour_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg 16:9 4K
+monkey/test_puppet_heads_gpt2_v1.jpg gpt2 design/characters/_prompts/puppet_heads_v1.txt design/characters/monkey/monkey_stage_model_sheet.jpg 16:9 4K
+monkey/test_hands_handshadow_nbp_v1.jpg nbp design/characters/_prompts/hands_handshadow_v1.txt design/characters/monkey/test_handshadow_sil_nbp_v2.jpg 16:9 4K
+master/test_master_nbp_v1.jpg nbp design/characters/_prompts/master_v1.txt - 16:9 2K

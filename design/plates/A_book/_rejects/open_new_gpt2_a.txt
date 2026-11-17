@@ -1,0 +1,9 @@
+model: openai/gpt-image-2
+params: {"size": "3840x2160", "quality": "high", "output_format": "png"}
+refs: []
+output: 3840x2160
+est_usd: 0.989
+secs: 67
+
+PROMPT:
+A painting in the fine-line ink-and-light-colour hand of a Chinese storybook illustration, on cream paper: an open hardcover picture book lying flat, seen exactly from straight above, centred, filling most of the image as a clean upright rectangle about twice as wide as it is tall. Both pages are completely blank cream paper. Down the middle runs the gutter with a soft grey shadow, the two pages curving gently down into it; along the outer edges and the bottom, the stacked edges of the pages show as many fine parallel lines; a thin margin of the faded indigo cloth cover shows around the pages. The book is new: crisp square corners, clean white page edges. Around the book is plain bare paper. Nothing printed or drawn on the pages: no text, no picture, no letters, no characters, no page numbers, no seal, no signature, no border, no frame. Flat even light, no cast shadow outside the book.

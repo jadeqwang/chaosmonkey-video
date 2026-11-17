@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "1:1", "image_size": "2K", "output_format": "png"}
+refs: []
+output: 2048x2048
+est_usd: 0.134
+secs: 86
+
+PROMPT:
+A five-year-old child's wax-crayon drawing of a small monkey, drawn on plain cream paper: a round head with two dot eyes and a big smile line, a scribbled orange-brown body, four stick limbs and a long curly tail, one arm raised, drawn with heavy waxy orange and brown crayon strokes that skip over the paper grain, a little wobbly and childlike. It is about a quarter of the sheet's height, in the middle. Nothing else on the sheet. No text, no letters, no name, no signature, no border.

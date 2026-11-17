@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['design/plates/_refs/canon_pilgrim.jpg']
+output: 5504x3072
+est_usd: 0.24
+secs: 58
+
+PROMPT:
+Chinese ink painting on plain unsized cream xuan paper, abbreviated-brush manner of Liang Kai, in greys only: the monkey in the pilgrim years, in a plain undyed grey robe drawn in a few pale fluent lines and one pale wash, crouching low with his knees drawn up and both hands clutching the sides of his head in pain, head bowed, his long tail curling on the paper behind him; his head and hands in darker wet ink, no face details beyond a few lines. Around his head one thin, bright, hard line of gold: the gold band, the ONLY colour in the painting (no red, no ochre, no other gold). He sits a little left of centre and low, about one third of the sheet's height. Everything else is bare paper: no ground, no rocks, no clouds. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette. The reference image is ONLY a reference for this monkey's brush manner (the crouching grey-robed figure at its lower right); repaint him as one new, larger painting.

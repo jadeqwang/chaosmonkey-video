@@ -1,0 +1,13 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "jpg", "image_input": ["file:design/characters/monkey/test_handshadow_sil_nbp_v2.jpg"]}
+refs: ['design/characters/monkey/test_handshadow_sil_nbp_v2.jpg']
+est_usd: 0.24
+secs: 115
+
+PROMPT:
+A hand study sheet: four pairs of hands, each pair making the same hand-shadow of a monkey's head, side view, evenly spaced on bare paper, and beside each pair its flat black shadow on the paper: the monkey-head silhouette of image 1.
+Painted on one sheet of plain cream xuan paper in the hand of a Chinese fine-line figure painting: delicate baimiao ink outlines for faces, hands and clothing folds, light transparent colour washes (pale flesh, the clothing colours), hair in soft black ink wash, the paper grain showing through everywhere. Not anime, not cel shading, not a photograph, not a 3D or digital render. Plain bare cream paper behind every figure: no room, no floor, no cast shadows. No text, no labels, no numbers, no letters, no signature, no seal, no border, no frame.
+
+Every hand has exactly five fingers: one thumb and four fingers. The four pairs, left to right: 1. a young woman's hands, slim, pinkish-red from hot dishwater, cream cotton blouse sleeves pushed up to the elbow; 2. a five-year-old girl's small plump hands, the cuffs of a white jacket with an orange band at the wrists; 3. an adult woman's slim hands, the cuffs of a white racer jacket; 4. a four-year-old girl's small plump hands, short pink puffed sleeves printed with small red strawberries. The hand pose is identical in all four: the hands held together in profile, one hand flat on top forming the brow and skull, the thumb raised as the ear, the fingers of the lower hand forming the muzzle and an open jaw.
+
+Reference image: image 1 is the shadow they make.

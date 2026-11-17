@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "21:9", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 1584x672
+est_usd: 0.24
+secs: 164
+
+PROMPT:
+A study sheet of Chinese ink painting on plain unsized cream xuan paper, Southern Song academy manner of Ma Yuan: five separate pine trees, each standing alone with wide bare paper between them, arranged loosely in one row: a tall twisted pine leaning out over nothing, a small pine clinging sideways as if from a cliff crack, a pine with one long horizontal arm, a young straight pine, and a gnarled old pine with a split trunk. Trunks drawn with dry scaly strokes and pale ochre wash, needles in dark ink clusters of fine radiating strokes, roots ending in a few dry strokes with no ground, no rock, no grass. Each pine about two thirds of the sheet's height. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette.

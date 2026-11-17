@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "9:16", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 3072x5504
+est_usd: 0.24
+secs: 91
+
+PROMPT:
+Chinese ink painting on plain unsized cream xuan paper, Southern Song manner: one thin thread of waterfall falling straight down the full height of the sheet, drawn as two or three fine, slightly broken, pale ink lines with the bare paper between them as the water, a little spray at the bottom suggested by a few faint dots, and at the top a small dark notch of rock in a few strokes where the water leaves the cliff. Nothing else on the sheet: no rocks along the sides, no trees, no pool, no sky. Everything else is bare paper. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette.

@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 5504x3072
+est_usd: 0.24
+secs: 51
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper, abbreviated-brush (jianbi) manner of Southern Song figure painting. A study sheet of eight tiny stone-carvers, each painted in four or five quick strokes of ink, each one separate and far apart from the others on the blank sheet, arranged loosely in two rows with wide bare paper between them. Each carver is a small hunched figure seen from behind or in profile, a dab of ink for the body and a dot for the head with a small round hat, holding a mallet and chisel up against an unseen rock face; some stand on a short piece of thin bamboo ladder drawn with a single dry line, one kneels on a plank, one reaches up, one leans back to look. No faces drawn. No rock, no ground, no background: only the figures and their short ladders on bare unpainted paper. No writing, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette.

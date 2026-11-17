@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "3:2", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 5056x3392
+est_usd: 0.24
+secs: 52
+
+PROMPT:
+Chinese painting in ink and light mineral colour on cream paper, in the manner of the Song court painting "Literary Gathering" attributed to Emperor Huizong, reduced to its furniture like a bare opera stage: one long rectangular banquet table, lacquered dark red-brown, with eight plain wooden chairs set around it (three along each long side, one at each end), seen from slightly above and from the near side, the side the servants would stand on. No people. On the table only a few dishes of peaches, and in front of every chair except one a small blank folded paper name slip standing upright on the table edge; the slips are bare, with nothing written on them. The chair without a slip is the one at the near end of the table, nearest to us, pulled out a little and clearly empty. Above the table, entering from the upper left corner, one flowering peach bough with pink blossoms and a few ripe peaches, painted with a fine brush. Everything else on the sheet is bare unpainted paper: no ground, no floor, no trees, no garden, no sky. The table group sits in the lower middle of the sheet and fills about a third of it. No writing anywhere, no characters, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette.

@@ -1,0 +1,9 @@
+model: openai/gpt-image-2
+params: {"size": "3840x1280", "quality": "high", "output_format": "png"}
+refs: []
+output: 3840x1280
+est_usd: 0.586
+secs: 51
+
+PROMPT:
+A Chinese ink painting on cream xuan paper of a sheer sea cliff seen frontally and close, the rock filling the entire sheet from edge to edge: no paper margin, no sky, no ground, no sea. Southern Song academy manner of Li Tang and Ma Yuan: axe-cut texture strokes (fupi cun) in dark ink along the edges and fissures of the rock. The cliff is built of broad, flat, nearly vertical planes of stone, each plane much taller than it is wide, smooth, and left almost the colour of the paper with only a pale grey-ochre wash; the planes are separated by narrow dark fissures and a few stepped ledges, with a few small clinging pines and moss dots only in the cracks. The rock is even from the left edge to the right edge with no focal point, like one section of a long handscroll, so it clearly continues beyond both sides. Ink and light colour (qianjiang): ink, pale ochre, a little pale indigo in the shadows. The flat planes are bare and uncarved. No writing, no characters, no inscriptions, no carving, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette, no shadow.

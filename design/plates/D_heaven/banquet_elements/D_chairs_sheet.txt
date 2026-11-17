@@ -1,0 +1,10 @@
+SOURCE: design/plates/D_heaven/_cand/banquet_chairs_gpt2.png
+model: openai/gpt-image-2
+params: {"size": "3072x2048", "quality": "high", "output_format": "png"}
+refs: ['design/plates/D_heaven/_cand/banquet_gpt2_a.png']
+output: 3072x2048
+est_usd: 0.77
+secs: 100
+
+PROMPT:
+Using the reference painting, paint a study sheet of the chairs on their own: four of the same plain wooden yoke-back chairs, in exactly the same drawing style, colours and paper, each standing alone and far apart from the others on the bare sheet: one seen from the back (as at the near side of the table), one seen from the front (as at the far side), one in left profile and one in right profile (as at the two ends), all from the same slightly-above viewpoint and at the same size. No table, no people, no peach bough, nothing else. No writing, no seal, no signature, no border, no frame. Flat even scan of the painting.

@@ -1,0 +1,15 @@
+model: openai/gpt-image-2
+params: {"size": "3072x1728", "quality": "high", "output_format": "jpeg", "images": ["file:design/characters/little_jade/lj_C_expressions_mouths.jpg", "file:design/characters/daughter/daughter_A_turnaround.jpg"]}
+refs: ['design/characters/little_jade/lj_C_expressions_mouths.jpg', 'design/characters/daughter/daughter_A_turnaround.jpg']
+est_usd: 0.2128
+secs: 73
+
+PROMPT:
+A side-by-side expression sheet of two small girls, 'twins across time', on bare paper: top row six heads of the first girl, bottom row six heads of the second girl directly beneath, each pair showing exactly the same expression, so the two faces read as the same face thirty-eight years apart.
+Painted on one sheet of plain cream xuan paper in the hand of a Chinese fine-line figure painting: delicate baimiao ink outlines for faces, hands and clothing folds, light transparent colour washes (pale flesh, the clothing colours), hair in soft black ink wash, the paper grain showing through everywhere. Not anime, not cel shading, not a photograph, not a 3D or digital render. Plain bare cream paper behind every figure: no room, no floor, no cast shadows. No text, no labels, no numbers, no letters, no signature, no seal, no border, no frame.
+
+Top row: little Jade, 1988, age 5: straight black hair with blunt bangs and a small half-ponytail, cropped white jacket with an orange band. Bottom row: the daughter, 2026, age 4: the same round face, same small dark eyes and same mouth, but light brown hair in two braided pigtails with pink elastics and a pink strawberry dress.
+
+The six matched expressions, left to right: 1. deadpan, watchful; 2. asking, eyebrows slightly raised, mouth a little open; 3. a sideways suspicious look, eyes turned to the side; 4. eyes wide; 5. holding a look a moment too long, a steady unblinking stare at the viewer; 6. a tiny almost-smile.
+
+Reference images: image 1 is little Jade's expression sheet; image 2 is the daughter's model sheet. Keep both faces and the painting hand exactly.

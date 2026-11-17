@@ -1,0 +1,9 @@
+model: bytedance/seedream-5-pro
+params: {"size": "2720x1520", "watermark": false}
+refs: ['design/plates/_refs/wangximeng_a.jpg']
+output: 2720x1520
+est_usd: 0.075
+secs: 128
+
+PROMPT:
+Blue-green landscape painting (qinglü shanshui) in the manner of Wang Ximeng's "A Thousand Li of Rivers and Mountains" (1113), on cream paper: a heavenly range of steep mineral peaks painted in azurite blue and malachite green over ochre-brown underpainting, with crisp fine ink outlines and texture strokes, tiny pines along the ridges. The peaks crowd the middle of the sheet, overlapping in several rows, filling about three quarters of it: the densest, fullest part is the centre. Toward all four edges of the sheet the peaks thin out and sink into bands of cloud that are the bare unpainted paper itself, so that every edge of the sheet is bare paper and the range floats in it. One peak a little left of centre stands taller and slightly apart from its neighbours, and on its very summit sits one small smooth round pale stone. No palaces, no buildings, no bridges, no people, no boats, no rivers. The cloud is the paper, never painted white or grey. Flat even scan of the painting. No text, no seal, no signature, no border, no frame, no sun, no birds. The reference image is ONLY a reference for the mineral colours, brushwork and drawing of the peaks; do not copy its composition, its buildings, its water or its silk colour.

@@ -1,0 +1,10 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "2K", "output_format": "jpg"}
+refs: []
+est_usd: 0.134
+secs: 122
+
+PROMPT:
+A Chinese figure painting on plain cream xuan paper, fine-line baimiao in pale ink with the lightest grey wash, in the manner of a Song dynasty Daoist figure painting: only a long, pale, flowing sleeve of an old teacher's robe and one slender old hand emerging from it, leaning in from the upper right toward an empty point at the lower left, as if bending to whisper into a small listener's ear. The sleeve hangs in long soft folds drawn with fluent iron-wire lines; the hand is calm, long-fingered, with five fingers, one finger lightly extended. Three studies on one sheet, side by side with bare paper between them: 1. the sleeve and hand leaning in to whisper; 2. the hand raised, one finger tapping lightly three times (three small dry marks beside the fingertip); 3. the sleeve withdrawing, the hand turning away. No face, no body, no head, no figure beyond the sleeve and the hand. Everything else bare paper. Flat even scan, no shadow, no vignette, no border, no seal, no text, no signature.
+
+Upscaled from the 1376x768 nbp output with pruna/p-image-upscale (target 12 MP).

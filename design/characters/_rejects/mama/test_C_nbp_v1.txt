@@ -1,0 +1,15 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "jpg", "image_input": ["file:design/characters/mama/mama_A_turnaround.jpg"]}
+refs: ['design/characters/mama/mama_A_turnaround.jpg']
+est_usd: 0.24
+secs: 169
+
+PROMPT:
+A hand study sheet for one woman's hands, four drawings evenly spaced on bare paper, each showing the hands and forearms only (sleeves pushed up to the elbow, cream cotton blouse).
+Painted on one sheet of plain cream xuan paper in the hand of a Chinese fine-line figure painting: delicate baimiao ink outlines for faces, hands and clothing folds, light transparent colour washes (pale flesh, the clothing colours), hair in soft black ink wash, the paper grain showing through everywhere. Not anime, not cel shading, not a photograph, not a 3D or digital render. Plain bare cream paper behind every figure: no room, no floor, no cast shadows. No text, no labels, no numbers, no letters, no signature, no seal, no border, no frame.
+
+Her hands: a young woman's hands, about 30, slim fingers, short nails, the skin pinkish-red from hot dishwater, drawn in fine ink line with a light flesh wash; every hand has exactly five fingers: one thumb and four fingers.
+
+The four drawings: 1. one hand making a ring with the tip of the index finger touching the tip of the thumb, the other three fingers loosely curled; 2. her index finger gently pressing down on the backs of a small child's two hands to lower them (the child's hands small and plump, white jacket cuffs with an orange band); 3. her two hands held together, side view, shaping the shadow of a monkey's head, and the flat black shadow of a monkey's head cast on the paper beside them; 4. one hand cupped beside the corner of a mouth, as if whispering (only the lower half of her face visible).
+
+Reference image: image 1 is her model sheet: keep the hands, sleeves, colouring and painting hand.

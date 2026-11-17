@@ -1,0 +1,9 @@
+model: openai/gpt-image-2
+params: {"size": "1536x1536", "quality": "high", "output_format": "png"}
+refs: ['design/plates/F_lianpu/_cand/F01.png']
+output: 1536x1536
+est_usd: 0.301
+secs: 99
+
+PROMPT:
+A single Peking-opera painted face (lianpu) design, frontal, painted on plain cream album paper in the manner of a late-Qing court album of opera faces: mineral pigments laid flat in clean fields, fine black ink outlines, the paper grain showing through. Only the face mask, seen straight on: from a plain black hairline cap at the top down to the chin, with two small plain ears; no hat, no headdress, no beard, no neck, no costume. The face is centred on the sheet and fills about two thirds of its height; everything around it is bare paper. Original design (not a copy of any famous character's face): the glossy oil-white face: a white face with bold black patterns round the eyes and brows and small red accents on the forehead and cheeks. No text, no labels, no characters, no seal, no signature, no border, no frame. Flat even scan of the painting, no shadow, no vignette. Use the reference image ONLY for the outline of the face, its size and position on the sheet, the black hairline cap, the ears, the paper and the painting technique: keep the face outline exactly the same. Repaint the pattern and colours entirely as described; do not keep anything of the reference's pattern.

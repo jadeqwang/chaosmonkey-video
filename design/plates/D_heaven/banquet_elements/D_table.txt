@@ -1,0 +1,10 @@
+SOURCE: design/plates/D_heaven/_cand/banquet_table_gpt2.png
+model: openai/gpt-image-2
+params: {"size": "3072x2048", "quality": "high", "output_format": "png"}
+refs: ['design/plates/D_heaven/_cand/banquet_gpt2_a.png']
+output: 3072x2048
+est_usd: 0.77
+secs: 97
+
+PROMPT:
+Using the reference painting, paint the same banquet table on its own: the same long lacquered dark red-brown table, in exactly the same drawing style, colours, paper and viewpoint (seen from slightly above from the near side), with the same three dishes of peaches on it and the same small blank folded paper name slips standing on it, but with NO chairs at all and no peach bough. The table sits in the middle of an otherwise bare sheet of the same cream paper. The slips are blank, with nothing written on them. No writing anywhere, no seal, no signature, no border, no frame. Flat even scan of the painting.

@@ -1,0 +1,10 @@
+model: openai/gpt-image-2
+params: {"size": "3072x1728", "quality": "high", "output_format": "jpeg", "images": ["file:design/characters/monkey/monkey_stage_model_sheet.jpg"]}
+refs: ['design/characters/monkey/monkey_stage_model_sheet.jpg']
+est_usd: 0.2
+secs: 67
+
+PROMPT:
+A sheet of five swappable heads for a traditional Chinese leather shadow puppet (piying), all in side view facing right, all ending in exactly the same neck: the same rounded neck tab of the same width with the same round rivet hole at the same place, so any head fits the same body. Top row, five heads as solid flat black silhouettes with fine pierced openwork: 1. a monkey's head in a small round cap with two long pheasant plumes and a peach-shaped cut-out around the eye; 2. a pine tree (a gnarled small pine with flat layered needle clusters) growing from the neck tab; 3. a bird's head with a sharp beak and crest; 4. a fish rising from the neck tab, head up, fins and scales as cut lines; 5. a cat's head with pointed ears and whiskers. Bottom row: the same five heads again in exactly the same shapes, cut from translucent dyed leather lit from behind so the colours glow (black, cinnabar red, ochre, dark green, pale gold), with the same openwork. Evenly spaced, same size, on plain flat cream paper, no screen, no rods, no text, no labels, no numbers, no border.
+
+Reference image: the monkey's design; the monkey head must match it.

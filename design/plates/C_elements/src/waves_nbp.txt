@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "21:9", "image_size": "4K", "output_format": "png"}
+refs: ['design/plates/_refs/mayuan_water_crop.jpg']
+output: 6336x2688
+est_usd: 0.24
+secs: 77
+
+PROMPT:
+Chinese ink painting on plain unsized cream xuan paper in the manner of Ma Yuan's album "Twelve Views of Water": a few sparse lines of a calm open sea, drawn as thin, flowing, slightly trembling ink lines of gentle waves, spaced far apart in four or five loose horizontal bands across the lower part of the sheet, fading out toward the top and the sides. Pale ink only, no wash, no colour. Most of the sheet is bare paper; the waves are hints, not a pattern. No horizon line, no boats, no rocks, no birds, no sun, no moon. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette. The reference image is ONLY a reference for how the wave lines are drawn; do not copy its density, its silk colour, its inscription or its seal.

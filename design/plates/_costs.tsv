@@ -1,0 +1,80 @@
+11-17 00:47	design/plates/B_huaguoshan/_cand/master_sd5_a.png	sd5	0	FAIL HTTP 400: {"errors":[{"message":"Model execution failed (User Input Error): Validation error at size: Total pixels must be between 921600 and 4194304"
+11-17 00:48	design/plates/B_huaguoshan/_cand/master_qwen_a.png	qwen	0.07	ok 3072x1728
+11-17 00:48	design/plates/B_huaguoshan/_cand/cliff_gpt2_a.png	gpt2	0.586	ok 3840x1280
+11-17 00:48	design/plates/B_huaguoshan/_cand/cliff_qwen_a.png	qwen	0.07	ok 3584x1152
+11-17 00:48	design/plates/B_huaguoshan/_cand/cliff_nbp_a.png	nbp	0.24	ok 6336x2688
+11-17 00:49	design/plates/B_huaguoshan/_cand/master_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 00:50	design/plates/B_huaguoshan/_cand/master_sd5_b.png	sd5	0	FAIL HTTP 400: {"errors":[{"message":"Model execution failed (User Input Error): Validation error at size: Width and height must be multiples of 16","code"
+11-17 00:50	design/plates/B_huaguoshan/_cand/mid_qwen_a.png	qwen	0.07	ok 3072x1728
+11-17 00:50	design/plates/B_huaguoshan/_cand/master_qwen_b.png	qwen	0.07	ok 3072x1728
+11-17 00:50	design/plates/B_huaguoshan/_cand/cliff_gpt2_ext1.png	gpt2	0.606	ok 3840x1280
+11-17 00:51	design/plates/B_huaguoshan/_cand/summit_sd5_a.png	sd5	0	FAIL HTTP 400: {"errors":[{"message":"Model execution failed (User Input Error): Validation error at size: Width and height must be multiples of 16","code"
+11-17 00:51	design/plates/B_huaguoshan/_cand/summit_qwen_a.png	qwen	0.07	ok 1728x3072
+11-17 00:51	design/plates/B_huaguoshan/_cand/summit_nbp_a.png	nbp	0.24	ok 3072x5504
+11-17 00:51	design/plates/B_huaguoshan/_cand/stone_qwen_a.png	qwen	0.07	ok 3072x1728
+11-17 00:51	design/plates/B_huaguoshan/_cand/stone_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 00:52	design/plates/B_huaguoshan/_cand/egg_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 00:52	design/plates/B_huaguoshan/_cand/mid_nbp_a.png	nbp	0.24	ok 1376x768
+11-17 00:53	design/plates/B_huaguoshan/_cand/summit_qwen_b.png	qwen	0	FAIL HTTP 400: {"errors":[{"message":"Model execution failed (User Input Error): {\"request_id\":\"c1708b11-ab69-951c-9c96-204d50ffb576\",\"code\":\"Invali
+11-17 00:54	design/plates/B_huaguoshan/_cand/master_qwen_c.png	qwen	0	FAIL HTTP 400: {"errors":[{"message":"Model execution failed (User Input Error): {\"request_id\":\"62178528-e578-9123-93c8-1d73073cb416\",\"code\":\"Invali
+11-17 00:54	design/plates/B_huaguoshan/_cand/cliff_gpt2_ext2.png	gpt2	0.606	ok 3840x1280
+11-17 00:54	design/plates/B_huaguoshan/_cand/stone_nbp_crack.png	nbp	0.24	ok 5504x3072
+11-17 00:54	design/plates/B_huaguoshan/_cand/carvers_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 00:55	design/plates/B_huaguoshan/_cand/carvers_qwen_a.png	qwen	0.07	ok 3072x1728
+11-17 00:56	design/plates/B_huaguoshan/_cand/summit_qwen_b.png	qwen	0.07	ok 1920x3392
+11-17 00:56	design/plates/B_huaguoshan/_cand/master_qwen_c.png	qwen	0.07	ok 3392x1920
+11-17 01:01	design/plates/D_heaven/_cand/heaven_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 01:02	design/plates/D_heaven/_cand/heaven_sd5_b.png	sd5	0.075	ok 2720x1520
+11-17 01:02	design/plates/D_heaven/_cand/banquet_gpt2_a.png	gpt2	0.75	ok 3072x2048
+11-17 01:03	design/plates/D_heaven/_cand/banquet_nbp_a.png	nbp	0.24	ok 5056x3392
+11-17 01:05	design/plates/D_heaven/_cand/heaven_sd5_a.png	sd5	0	FAIL HTTP 500: {"errors":[{"message":"Server Error","code":6001}],"success":false,"result":{},"messages":[]}
+11-17 01:11	design/plates/D_heaven/_cand/heaven_close_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 01:12	design/plates/D_heaven/_cand/banquet_table_gpt2.png	gpt2	0.77	ok 3072x2048
+11-17 01:12	design/plates/D_heaven/_cand/banquet_chairs_gpt2.png	gpt2	0.77	ok 3072x2048
+11-17 01:17	design/plates/F_lianpu/_cand/F01.png	gpt2	0.281	ok 1536x1536
+11-17 01:19	design/plates/F_lianpu/_cand/F02.png	gpt2	0.301	ok 1536x1536
+11-17 01:19	design/plates/F_lianpu/_cand/F05.png	gpt2	0.301	ok 1536x1536
+11-17 01:19	design/plates/F_lianpu/_cand/F04.png	gpt2	0.301	ok 1536x1536
+11-17 01:19	design/plates/F_lianpu/_cand/F03.png	gpt2	0.301	ok 1536x1536
+11-17 01:19	design/plates/E_underworld/_cand/king_sd5_a.png	sd5	0	FAIL HTTP 400: {"errors":[{"message":"Model execution failed (User Input Error): Validation error at size: Total pixels must be between 921600 and 4194304"
+11-17 01:20	design/plates/A_book/_cand/open_new_gpt2_a.png	gpt2	0.989	ok 3840x2160
+11-17 01:20	design/plates/F_lianpu/_cand/F06.png	gpt2	0.301	ok 1536x1536
+11-17 01:20	design/plates/F_lianpu/_cand/F07.png	gpt2	0.301	ok 1536x1536
+11-17 01:20	design/plates/A_book/_cand/cover_gpt2_a.png	gpt2	0.712	ok 2304x2592
+11-17 01:20	design/plates/F_lianpu/_cand/F08.png	gpt2	0.301	ok 1536x1536
+11-17 01:21	design/plates/F_lianpu/_cand/F09.png	gpt2	0.301	ok 1536x1536
+11-17 01:21	design/plates/A_book/_cand/crayon_nbp_a.png	nbp	0.134	ok 2048x2048
+11-17 01:22	design/plates/E_underworld/_cand/king_nbp_a.png	nbp	0.24	ok 1200x896
+11-17 01:22	design/plates/F_lianpu/_cand/F10.png	gpt2	0.301	ok 1536x1536
+11-17 01:22	design/plates/F_lianpu/_cand/F13.png	gpt2	0.301	ok 1536x1536
+11-17 01:22	design/plates/F_lianpu/_cand/F11.png	gpt2	0.301	ok 1536x1536
+11-17 01:22	design/plates/F_lianpu/_cand/F12.png	gpt2	0.301	ok 1536x1536
+11-17 01:23	design/plates/E_underworld/_cand/king_nbp_b.png	nbp	0.24	ok 1200x896
+11-17 01:24	design/plates/F_lianpu/_cand/F14.png	gpt2	0.301	ok 1536x1536
+11-17 01:24	design/plates/A_book/_cand/open_new_nbp_a.png	nbp	0.24	ok 5504x3072
+11-17 01:24	design/plates/F_lianpu/_cand/F16.png	gpt2	0.301	ok 1536x1536
+11-17 01:24	design/plates/F_lianpu/_cand/F15.png	gpt2	0.301	ok 1536x1536
+11-17 01:24	design/plates/F_lianpu/_cand/F17.png	gpt2	0.301	ok 1536x1536
+11-17 01:24	design/plates/A_book/_cand/cover_worn_gpt2_a.png	gpt2	0.732	ok 2304x2592
+11-17 01:24	design/plates/E_underworld/_cand/king_sd5_a.png	sd5	0.075	ok 2304x1728
+11-17 01:25	design/plates/F_lianpu/_cand/F18.png	gpt2	0.301	ok 1536x1536
+11-17 01:25	design/plates/F_lianpu/_cand/F19.png	gpt2	0.301	ok 1536x1536
+11-17 01:26	design/plates/F_lianpu/_cand/F20.png	gpt2	0.301	ok 1536x1536
+11-17 01:26	design/plates/F_lianpu/_cand/F21.png	gpt2	0.301	ok 1536x1536
+11-17 01:26	design/plates/A_book/_cand/open_worn_nbp_a.png	nbp	0.24	ok 1376x768
+11-17 01:27	design/plates/F_lianpu/_cand/F22.png	gpt2	0.301	ok 1536x1536
+11-17 01:27	design/plates/F_lianpu/_cand/F23.png	gpt2	0.301	ok 1536x1536
+11-17 01:31	design/plates/F_lianpu/_cand/F19.png	gpt2	0.301	ok 1536x1536
+11-17 01:35	design/plates/E_underworld/_cand/king_sd5_up_nbp.png	nbp	0.24	ok 4800x3584
+11-17 01:39	design/plates/C_elements/_cand/ridges_qwen.png	qwen	0.07	ok 3392x1920
+11-17 01:40	design/plates/C_elements/_cand/waves_nbp.png	nbp	0.24	ok 6336x2688
+11-17 01:40	design/plates/C_elements/_cand/waterfall_nbp.png	nbp	0.24	ok 3072x5504
+11-17 01:41	design/plates/C_elements/_cand/mist_nbp.png	nbp	0.24	ok 5504x3072
+11-17 01:41	design/plates/C_elements/_cand/troop_nbp.png	nbp	0.24	ok 5504x3072
+11-17 01:41	design/plates/C_elements/_cand/dabs_nbp.png	nbp	0.24	ok 5504x3072
+11-17 01:41	design/plates/C_elements/_cand/pines_nbp.png	nbp	0.24	ok 1584x672
+11-17 01:42	design/plates/C_elements/_cand/pilgrim_nbp.png	nbp	0.24	ok 5504x3072
+11-17 01:42	design/plates/G_extras/_cand/halo_nbp.png	nbp	0.24	ok 4096x4096
+11-17 01:43	design/plates/C_elements/_cand/pines_qwen.png	qwen	0.07	ok 3392x1920
+11-17 01:44	design/plates/C_elements/_cand/sleeve_nbp.png	nbp	0.24	ok 1376x768
+11-17 01:44	design/plates/G_extras/_cand/rubbing_nbp.png	nbp	0.24	ok 1376x768

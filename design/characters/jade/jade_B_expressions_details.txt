@@ -1,0 +1,15 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "jpg", "image_input": ["file:design/characters/refs/jade_upper.jpg", "file:design/characters/_src/jade_face_photo.jpg"]}
+refs: ['design/characters/refs/jade_upper.jpg', 'design/characters/_src/jade_face_photo.jpg']
+est_usd: 0.24
+secs: 58
+
+PROMPT:
+An expression and detail sheet of one woman, evenly spaced on bare paper.
+Painted on one sheet of plain cream xuan paper in the hand of a Chinese fine-line figure painting: delicate baimiao ink outlines for faces, hands and clothing folds, light transparent colour washes (pale flesh, the clothing colours), hair in soft black ink wash, the paper grain showing through everywhere. Not anime, not cel shading, not a photograph, not a 3D or digital render. Plain bare cream paper behind every figure: no room, no floor, no cast shadows. No text, no labels, no numbers, no letters, no signature, no seal, no border, no frame.
+
+Jade, 2026: an adult Chinese woman with long straight black hair, centre-parted, with long curtain bangs framing her face and falling past the shoulders; thin dark rectangular glasses; an oval face with straight dark brows, calm almond eyes and full lips; a cropped white racer jacket with a stand collar, snap tabs and a zip, one orange band across the chest and one around each upper arm, a small pale-blue dot on her left chest, a small round white patch with a black ring on her left sleeve (leave it blank), and on the back a large pale-blue circle; a black mock-neck top underneath; navy cargo trousers.
+
+Top row, four head-and-shoulders drawings the same size: 1. softly telling a story, eyes lowered to a book, a gentle face; 2. certain and encouraging, saying 'you're able': a direct steady gaze at the viewer, a slight nod, the corners of the mouth firm; 3. amused, a small closed-mouth laugh, eyes creased; 4. singing softly, eyes half closed. Middle row, four small front views of her face for lip-sync, same neutral eyes: mouth closed humming; open 'ah'; rounded 'oh'; wide 'ee'. Bottom row: a long narrow car rear-view mirror seen straight on, holding only a reflection of her eyes and brows behind the thin rectangular glasses, in dusk light; and beside it her hand with the thumb on the switch of a small black flashlight.
+
+The jacket must show in every drawing: white, stand collar, one orange band across the chest, small pale-blue dot on the left chest. Reference images: image 1 is her upper body from her model sheet: keep her face, glasses, curtain bangs, long straight hair and the jacket with its orange band exactly; image 2 is her face.

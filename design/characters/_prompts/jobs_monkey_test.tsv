@@ -1,0 +1,3 @@
+monkey/test_model_nbp_v1.jpg nbp design/characters/_prompts/monkey_model_v1.txt media/look/L3/sd5_v2.jpg 16:9 4K
+monkey/test_model_sd5_v1.jpg sd5 design/characters/_prompts/monkey_model_v1.txt media/look/L3/sd5_v2.jpg 16:9 2K
+monkey/test_model_gpt2_v1.jpg gpt2 design/characters/_prompts/monkey_model_v1.txt media/look/L3/sd5_v2.jpg 16:9 2K

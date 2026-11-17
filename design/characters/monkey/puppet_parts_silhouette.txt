@@ -1,0 +1,10 @@
+model: openai/gpt-image-2
+params: {"size": "3072x1728", "quality": "high", "output_format": "jpeg", "images": ["file:design/characters/monkey/monkey_stage_model_sheet.jpg"]}
+refs: ['design/characters/monkey/monkey_stage_model_sheet.jpg']
+est_usd: 0.2
+secs: 69
+
+PROMPT:
+A rigging sheet for a traditional Chinese leather shadow puppet (piying) of an original monkey character, side view facing right. The puppet's separate flat parts are laid out apart from one another on plain cream paper like a cut-out kit, in a tidy arrangement with generous space between them, none overlapping: the head in profile wearing a small round cap; two very long thin curved pheasant plumes as two separate parts; the torso with a short tiger-skin kilt at the waist; two upper arms; two forearms with hands; two thighs; two shins with feet; a long thin staff with a band at each end. Every part is a solid flat black silhouette with fine pierced openwork (tiny holes and lines cut through, the face showing a peach-shaped cut-out around the eye, fur and kilt stripes as cut lines), and each part has one or two small round white rivet holes clearly marked at its pivot points, where it joins the next part (neck, shoulders, elbows, hips, knees, plume bases). The joint ends of each limb are rounded discs so they overlap neatly. Top right corner, small: the fully assembled puppet in the same black silhouette, standing on one leg with the staff, showing how the parts join. Plain flat cream background, no screen, no lighting effects, no rods, no text, no labels, no numbers, no border.
+
+Reference image: the monkey's design (cap with two plumes, peach-shaped face patch, kilt, staff, lean proportions); translate it into shadow-puppet form.

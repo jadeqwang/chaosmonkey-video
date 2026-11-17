@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 5504x3072
+est_usd: 0.24
+secs: 115
+
+PROMPT:
+A study sheet of Chinese ink painting on plain unsized cream xuan paper: six separate pale ink-wash shapes, each the foot of a mountain dissolving into mist: a soft grey wash whose top edge is a faint rock contour and whose lower part fades gradually into bare paper with feathery, irregular wet edges and blooms where the wash dried, the fade lasting most of each shape's height. Different widths and heights, scattered with wide bare paper between them. Pale ink only, no strokes, no texture, no trees, no colour. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette.

@@ -1,0 +1,4 @@
+little_jade/test_C_gpt2_v3.jpg gpt2 design/characters/_prompts/lj_C_v3.txt design/characters/little_jade/lj_A_turnaround.jpg,design/characters/little_jade/test_C_nbp_v2.jpg 16:9 4K
+daughter/test_B_nbp_v1.jpg nbp design/characters/_prompts/daughter_B_v1.txt design/characters/daughter/daughter_A_turnaround.jpg,design/characters/little_jade/lj_A_turnaround.jpg 16:9 4K
+jade/test_B_nbp_v1.jpg nbp design/characters/_prompts/jade_B_v1.txt design/characters/jade/jade_A_turnaround.jpg,design/characters/_src/jade_face_photo.jpg 16:9 4K
+monkey/test_puppet_parts_colour_gpt2_v2.jpg gpt2 design/characters/_prompts/puppet_parts_colour_v2.txt design/characters/monkey/test_puppet_parts_dark_gpt2_v1.jpg 16:9 4K

@@ -1,0 +1,9 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['design/plates/_refs/canon_master_sleeve.jpg', 'design/plates/_refs/canon_tiny_monkey.jpg']
+output: 1376x768
+est_usd: 0.24
+secs: 170
+
+PROMPT:
+A Chinese figure painting on plain unsized cream xuan paper, fine-line baimiao in pale ink with the lightest grey wash, Song dynasty manner: from the upper right edge of the sheet, a long, pale, flowing sleeve of an old teacher's robe and one slender old hand lean in and down, the sleeve hanging in long soft folds drawn with fluent iron-wire lines, the hand calm and long-fingered, bending close beside the ear of a very small monkey who sits on the bare paper in the lower left third, painted in only six or seven brushstrokes: one wet blot of ink for body and head, four quick flicks for the limbs, a dry flick for the tail, a single dot of cinnabar for the face. The teacher is never seen: no face, no head, no shoulder, no body beyond the sleeve and the hand, which enter from outside the sheet. The monkey is tiny, about one tenth of the sheet's height. Everything else is bare paper: no ground, no trees, no room. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette. Use the reference images only for the drawing of the sleeve and hand and for the brush manner of the small monkey; repaint everything as one new painting.
