@@ -62,3 +62,18 @@ video bake-off (`docs/VIDEO_BAKEOFF.md`); plates (`design/plates/PLATES.md`).
 Next: on video bake-off verdict -> animate room keyframes + lip-sync; book/stage sequence teams build comps in tools/ink
 from plates; assemble preview_v1; morning report.
 Spend: TOTAL $79.08 of $600 cap  (287 billed items; list-price estimates)
+
+## Checkpoint 6 — 2026-11-17 01:36
+Production started. Brief for all shot teams: `docs/COMP_BRIEF.md`. Each team logs to `media/comp/LOG_<team>.md`,
+writes `shots/<ID>.py`, renders `media/comp/<ID>.mp4` (960x540, exact frames).
+Teams running (relaunch from the shot lists here if a log stops growing):
+- MOUNTAIN: B3 B4 B5 C1 C4 C5b C6 D4 D5 E2 E4 G2 H5 H6 G6 (+ `shots/_margins.py` margin schedule for the G shots) ($20)
+- STAGE: D1 D2 D6 D7 D8 J3 J4 (monkey; Kling v4 first+last between canon poses) ($60)
+- FACES: H1-H4 (脸谱 bridge), F2 F4b F5 F6a (shadow puppets in car panes) ($10)
+- HEAVEN & LEDGER: I3b J2 J5 K2b K3 K4 K5 + page art for I2/J1 ($10)
+- Keyframes: attic (`media/kf/LOG_attic88.md`), bedroom+car; video bake-off (`docs/VIDEO_BAKEOFF.md`, partial: Kling v4,
+  Seedance 2.0, HappyHorse keep the ink figure; h3 i2v needs ratio "adaptive"); plates (B, D, F done; E, A, C, G in progress).
+Not yet assigned: ROOMS team (animate room keyframes, lip-sync 18 shots, map pages onto the book, hand shadows, neon sign in
+code, margins on G shots, splice a/b parts): starts when keyframes + bake-off lip-sync verdict land.
+Then: assemble preview_v1 (`tools/cut/assemble.py --profile preview --audio media/sound/mix_v1.wav`), QA pass, `docs/MORNING.md`.
+Spend: TOTAL $94.29 of $600 cap  (362 billed items; list-price estimates)
