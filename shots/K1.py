@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _rooms26 import *
-from _bed_grade import bed_grade, bed_field
+from _bed_grade import bed_grade, bed_field, dehalo, find_lens
 
 T0, T1 = 203.70833333333334, 210.54166666666666
 Q0 = np.float32([(530, 548), (895, 688), (750, 785), (320, 615)])    # spread on clip frame 0 (TL far-left, TR, BR, BL)
@@ -55,6 +55,7 @@ def render(t, ctx):
     m = paper_mask(f, soften(reg, ctx, 2), warm=False, lo=0.30, soft=0.10, sat=(0.30, 0.42))
     f = lay_page(f, pt, m, 0.92)
     f = bed_grade(f, ctx, POOL, 290, field=FLD)
+    f = dehalo(f, ctx, find_lens(f, ctx, (430, 250, 640, 440)), R=110)     # fix2: the torch head has no glow halo
     f = paper_fibre(f, P, 0.55)
     txt = sung(W1, t, tail=0.5) if t < 207.19 else sung(W2, t, tail=0.6)
     lyric(f, ctx, txt, x=0.64, y=0.10, px=26)

@@ -93,3 +93,11 @@ budget by design (two written columns frame the emptiness).
 - I3b: vignette (shared torch field).
 - E2: the troop plate is realistic macaques.
 - J2: at the end of the pull-back the hard-edged pool reads as a flat pale disc, a little moon-like. It could use a softer far edge.
+
+## K5 re-frame (lead's request, after the round)
+The 2.10 close-up read as giant characters. K5 is now reframed at **scale 1.20** (p8 page px -> 1080p px).
+- **Framing:** the frame shows `E_ledger_p8.png` / `spread_7_8.png` (p8 is the left page) x -405.7 to 1194.3, y 260 to 1160. Frame = (page - (-405.67, 260)) x 1.2. Negative x is beyond the book's edge, the dark bedspread.
+- **Bare column:** page x 208-414 sits at frame x 735-985, a little left of centre. Its two rules run full height from the top frame rule (page y about 350).
+- **Torch:** centre at frame (860, 600) = page (311, 760). Radius 560 frame px = 467 page px, stretched 1.30 vertically. Ambient 0.07, gain 1.42.
+- **What reads:** about four written columns show to the right, falling into the dark. The outer frame rule, the page margin and the book's edge are on the left.
+- **Exposure and stillness:** paper tone is 247/228/185, against K4's last frame at 245/227/187. The picture is static; only the lyric changes.

@@ -14,17 +14,18 @@ from tools.ink import *
 from _heaven import *
 
 T0, T1 = 224.16666666666666, 228.75
-# fix2: closer. The last three columns (bare | 1391 note | 1391 number, page x ~200-810) fill ~70 % of the frame; the
-# bare one sits in the torch pool's centre with the outer frame rule on its left and the column rule on its right,
-# the written columns fall toward the pool edge. Window in p8 page px: x 50.3-964.6, y 880-1394.3 (PAGE_RECT).
-SC = 2.10                         # page px -> 1080p px (was 0.38)
-BARE_X = 317                      # centre of the bare column (p8 col 8: x 220-415), spread px (p8 is the LEFT page)
-FX = 560                          # where the bare column sits in the frame (1080p px)
-Y0 = 880
-POOL = (640, 540, 660)            # torch centre (1080p px) and radius
+# fix2 (lead's re-frame): a ledger page, not a close-up. Scale 1.20 page px -> 1080p px: the bare last column (p8
+# x 208-414, between the outer frame rule and the first column rule) sits a little left of centre in the middle of the
+# torch pool, from the page's top frame rule down; written columns to its right fall off to dark, the page margin and
+# the book's edge on its left. Window in p8 page px: see PAGE_RECT.
+SC = 1.20                         # page px -> 1080p px
+BARE_X = 311                      # centre of the bare column, spread px (p8 is the LEFT page)
+FX = 860                          # where the bare column sits in the frame (1080p px)
+Y0 = 260                          # page y at the frame's top edge (the top frame rule is at ~350)
+POOL = (860, 600, 560)            # torch centre (1080p px) and radius
 
 
-GAIN = float(os.environ.get('K5_GAIN', '1.30'))
+GAIN = float(os.environ.get('K5_GAIN', '1.42'))
 PAGE_RECT = (BARE_X - FX / SC, Y0, BARE_X - FX / SC + 1920 / SC, Y0 + 1080 / SC)
 
 

@@ -14,13 +14,16 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _rooms26 import *
-from _bed_grade import bed_grade, bed_field
+from _bed_grade import bed_grade, bed_field, dehalo, find_lens
 from tools.ink.light import flashlight_field
 
 T0, T1 = 228.75, 233.20833333333334
 T_MOVE0, T_MOVE1 = 228.80, 232.70
 # p8 page corners (TL TR BR BL) in K5's frame, 1080p px (K5: spread px -> frame = (p - (-1867.2, 314)) * 0.38)
-QK5 = np.float32([(709.5, -119.3), (1545.5, -119.3), (1545.5, 1134.7), (709.5, 1134.7)])
+# fix round 2: K5 was reframed by the book fixer (LOG_fix2_book): frame = (page - (50.33, 880)) * 2.1, p8 is 2200x3300
+_K5O, _K5S = np.float32([50.33, 880.0]), 2.1
+QK5 = (np.float32([(0, 0), (2200, 0), (2200, 3300), (0, 3300)]) - _K5O) * _K5S
+LENS_BOX = (1235, 455, 1360, 575)            # the torch lens on the bed, room px (1080p)
 # the same page lying in the room (measured on the L1 clip): far edge on top
 QROOM = np.float32([(1200, 620), (1303, 643), (1250, 686), (1175, 651)])
 POOL_ROOM = (1255, 640)
@@ -40,8 +43,8 @@ def page_plate():
     h, w = pg.shape[:2]
     k = 0.5
     pg = cv2.resize(pg, (int(w * k), int(h * k)), interpolation=cv2.INTER_AREA)
-    # K5's torch in page px: centre (317, 560 / 0.38 + 314), r 400 / 0.38, stretch 1.45, tilt 88
-    I = flashlight_field(pg.shape[1], pg.shape[0], (317 * k, (560 / 0.38 + 314) * k), 400 / 0.38 * k, 88, 1.45, 11)
+    # K5's torch in page px (fix2 framing): centre (355.1, 1137.1), r 660 / 2.1, stretch 1.30, tilt 88
+    I = flashlight_field(pg.shape[1], pg.shape[0], (355.1 * k, 1137.1 * k), 660 / 2.1 * k, 88, 1.30, 11)
     L = I[..., None] * 1.36 * np.float32([1.0, 0.985, 0.95]) + 0.06 * np.float32([0.55, 0.68, 1.0])
     T = pg / np.median(pg.reshape(-1, 3), axis=0)
     return np.clip(pg * L, 0.012, 0.985).astype(F32), np.clip(T, 0, 1).astype(F32)
@@ -53,7 +56,7 @@ def setup(ctx):
     KF = load_k5(ctx)
     B, _ = base_for('L1', 'media/kf/L1.jpg', ctx)
     P = Paper(ctx.W, ctx.H, 'aged', seed=33)
-    PG, PT = ctx.cache('L1_page', page_plate, deps=['work/heaven/ledger/spread_7_8.png'])
+    PG, PT = ctx.cache('L1_page_fix2', page_plate, deps=['work/heaven/ledger/spread_7_8.png'])
     FLD = bed_field(ctx, POOL_ROOM, 120, faces=[(1010, 520, 70, 80, 0.45), (1150, 590, 60, 60, 0.45)], amb=0.42,
                     key='L1')
 
@@ -82,6 +85,7 @@ def render(t, ctx):
     # on the book (the whole painting tilts out from under the camera); the surround stays in the dark until mid-move
     room = B.at(t)
     room = bed_grade(room, ctx, POOL_ROOM, 120, field=FLD)
+    room = dehalo(room, ctx, find_lens(room, ctx, LENS_BOX), R=70, lens_r=16)     # fix2: no glow on the torch head
     Hr = cv2.getPerspectiveTransform(QROOM * ctx.s, np.float32(q) * ctx.s)
     room = cv2.warpPerspective(room, Hr, (ctx.W, ctx.H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
     room = room * float(0.16 + 0.84 * smoothstep(0.30, 0.80, u))
