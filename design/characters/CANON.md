@@ -39,6 +39,49 @@ The proof prompts in `_prompts/proofs/` are complete, working examples for each 
 
 ---
 
+## 0. Corrections from Jade (2026-11-17, after preview_v2). These override the blocks below.
+
+1. **Hair, little Jade and adult Jade: no bangs covering the forehead.** The front hair is curtained to the sides, almost like
+   layers; the forehead shows. The old little-Jade block's "blunt bangs to the eyebrows" and the old Jade block's "curtain
+   bangs" are WRONG, and so is every v1 sheet, crop and shot of either of them.
+2. **No "deadpan, watchful, unsmiling".** Jade: it "makes them look lifeless and have no action direction", and the girls are
+   "less cute than their reference images". Never use deadpan / unsmiling / flat / "never cute" for anyone, and do not treat
+   "cute" as drift. Give every shot a playable action instead (see `docs/HANDOFF.md`, "Acting").
+
+**Redrawn sheets (v2), made 2026-11-17. Not yet approved by Jade** (her verdict comes back with the notes page):
+
+| Use | File |
+|---|---|
+| Little Jade turnaround | `little_jade/lj_A_turnaround_v2.jpg` |
+| Little Jade poses, each with an acted expression | `little_jade/lj_B_poses_v2.jpg` |
+| Little Jade six expressions + four singing mouths | `little_jade/lj_C_expressions_mouths_v2.jpg` |
+| Little Jade crops for prompts | `refs/lj_heads_v2.jpg`, `refs/lj_full_v2.jpg` |
+| Jade turnaround | `jade/jade_A_turnaround_v2.jpg` |
+| Jade expressions, mouths, mirror eyes, flashlight hand | `jade/jade_B_expressions_details_v2.jpg` |
+| Jade crops for prompts | `refs/jade_heads_v2.jpg`, `refs/jade_upper_v2.jpg` |
+
+Do not pass any v1 little-Jade or Jade sheet, crop, keyframe or the twins sheet's top row as a reference: a v1 image in the
+refs brings the fringe straight back (it did on the first try at `lj_B`). Prompts beside each file (`*_v2.txt`).
+
+**Prompt block, little Jade (v2)**
+> Little Jade, 1988, age 5: a small Chinese girl with a round face and full soft rosy cheeks, large dark glossy eyes each
+> with a small clear highlight, a tiny nose, a small soft mouth. Glossy jet-black straight hair with NO fringe and NO bangs:
+> the forehead is open, the front hair parted slightly off-centre and swept to both sides in soft face-framing layers that
+> fall beside her cheeks; a small half-ponytail tied high at the back, the rest to her shoulders. A cropped white zip jacket
+> with a stand collar, one orange band across the chest and around both upper arms, a small pale-blue dot on her left chest;
+> loose dark navy trousers; bare feet. No headphones.
+
+**Prompt block, Jade (v2)**: the old block with the hair sentence replaced by:
+> long black hair with NO fringe and NO bangs and no strands on the forehead: the forehead open, the hair parted slightly
+> off-centre and swept to both sides in long soft face-framing layers with a loose natural wave, past the shoulders.
+
+Known in v2: on the turnaround's front view little Jade's hair lies flatter than on the other views (prefer the 3/4 view
+and the expression heads as the hair reference); the pose sheet has small motion ticks beside two poses (crop them out);
+Jade's v2 expression sheet is shaded a little more softly than the v1 hand.
+
+The daughter and Mama were not redrawn. The daughter's block still says "deadpan, watchful, unimpressed": drop those words
+when prompting her, and consider a new expression sheet for her in the same spirit as `lj_C_expressions_mouths_v2.jpg`.
+
 ## 1. Mama, 1988 (about 30)
 
 | Sheet | File | Model |

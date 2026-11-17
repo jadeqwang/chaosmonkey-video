@@ -159,3 +159,11 @@ Complete 540p cut delivered: `previews/chaosmonkey_preview_v2_540p.mp4` (lyrics)
 Current QA: `docs/QA_PREVIEW_V2.md`. No agents or jobs are running; the hourly checkpoint job is cancelled.
 Nothing further is to be generated or rendered until Jade has reviewed (her stop point). No 1080p render was made.
 Spend: $174.90 of $600.
+
+## Checkpoint 15 — 2026-11-17 13:30 — Jade's first feedback; sheets redrawn; handoff written
+Jade watched preview_v2: "a pretty good start". Feedback so far: girls less cute than references; little Jade and Jade
+must have no bangs over the forehead (curtained to the sides); "deadpan unsmiling" makes them lifeless. Done since:
+notes page `review/preview_v2_notes.html` (built by `tools/review/notes_page.py`); v2 sheets for little Jade and Jade
+(`design/characters/*/…_v2.jpg`, crops `refs/*_v2.jpg`, not yet approved); `design/characters/CANON.md` section 0;
+`docs/HANDOFF.md` (what her notes will look like, acting direction per shot, which shots need new keyframes).
+No shots regenerated. Uncommitted. Spend: $176.20 of $600. Next: wait for her pasted notes; start from `docs/HANDOFF.md`.
