@@ -14,9 +14,9 @@ from _rooms26 import *
 from _bed_grade import bed_grade, bed_field
 
 T0, T1 = 177.20833333333334, 180.20833333333334
-PAGE = [(322, 662), (790, 708), (925, 885), (600, 837)]     # the painted visible page, TL TR BR BL (far-left first)
+PAGE = [(313, 622), (772, 662), (872, 792), (600, 832)]     # the visible page measured on the CLIP (sd25 reframed frame 0 ~40 px up from I1.jpg), TL TR BR BL
 POOL = (650, 770)
-FACES = [(800, 330, 120, 150, 0.80), (1125, 585, 95, 105, 0.80), (530, 425, 40, 40, 0.9)]
+FACES = [(800, 330, 150, 190, 0.62), (1150, 590, 150, 140, 0.52), (530, 425, 40, 40, 0.9)]
 
 
 def page_tex():
@@ -27,26 +27,27 @@ def page_tex():
     T = 1 - 0.7 * (1 - np.clip(pg / g, 0, 1))
     H, W = T.shape[:2]
     art = load_image(os.path.join(ROOT, 'design/plates/B_huaguoshan/B_master.png'))
-    art = art[:, :1900]                                          # the mountain half of the plate
-    Ta = key_paper(art, gain=1.1)
-    aw = int(W * 0.92); ah = int(aw * Ta.shape[0] / Ta.shape[1])
+    art = art[:, :2300]                                          # the mountain half of the plate
+    Ta = key_paper(art, gain=1.25)
+    # only the band of the page above her knee is visible (v 0..0.32 of the quad): the painting sits there
+    ah = int(H * 0.55); aw = int(ah * Ta.shape[1] / Ta.shape[0])
     Ta = cv2.resize(Ta, (aw, ah), interpolation=cv2.INTER_AREA)
-    y0 = int(H * 0.06); x0 = int(W * 0.04)
-    ah2 = min(ah, H - y0)
-    T[y0:y0 + ah2, x0:x0 + aw] *= Ta[:ah2]
-    # crayon monkey, wax multiplied, in the outer (right) margin low on the page
+    x0, y0 = int(W * 0.03), int(H * 0.0)
+    T[y0:y0 + ah, x0:x0 + aw] *= Ta
+    # crayon monkey, wax multiplied, in the outer (right) margin where her fingertip lands in I1_end
     cr = load_image(os.path.join(ROOT, 'design/plates/A_book/A_crayon_monkey_rgba.png'), alpha=True)
-    cw = int(W * 0.17); chh = int(cw * cr.shape[0] / cr.shape[1])
+    cw = int(W * 0.15); chh = int(cw * cr.shape[0] / cr.shape[1])
     cr = cv2.resize(cr, (cw, chh), interpolation=cv2.INTER_AREA)
-    cx0, cy0 = int(W * 0.80), int(H * 0.50)
+    cx0, cy0 = int(W * 0.78), int(H * 0.30)
     a = cr[..., 3:4]
     T[cy0:cy0 + chh, cx0:cx0 + cw] *= (1 - a + a * np.clip(cr[..., :3], 0, 1))
     return T.astype(F32)
 
 
 def setup(ctx):
-    global B, P, PT, REG, FLD, WORDS
-    B, _ = base_for('I1', 'media/kf/I1.jpg', ctx)
+    global B, P, PT, REG, FLD, WORDS, TR, CLIP
+    B, CLIP = base_for('I1', 'media/kf/I1.jpg', ctx)
+    TR = track_affine(B, (300, 600, 960, 900), ctx) if CLIP else None
     P = Paper(ctx.W, ctx.H, 'aged', seed=27)
     T = ctx.cache('I1_page', page_tex, deps=['design/plates/B_huaguoshan/B_master.png'])
     PT, REG = warp_layer_quad(T, PAGE, ctx)
@@ -57,8 +58,12 @@ def setup(ctx):
 
 def render(t, ctx):
     f = B.at(t)
-    m = paper_mask(f, REG, warm=False, lo=0.30, soft=0.10, sat=(0.30, 0.42))
-    f = lay_page(f, PT, m, 0.95)
+    pt, reg = PT, REG
+    if TR is not None:
+        A = TR[B.index(t)]
+        pt, reg = apply_affine(PT, A, ctx, 1.0), apply_affine(REG, A, ctx, 0.0)
+    m = paper_mask(f, reg, warm=False, lo=0.30, soft=0.10, sat=(0.30, 0.42))
+    f = lay_page(f, pt, m, 0.95)
     f = bed_grade(f, ctx, POOL, 300, field=FLD)
     f = paper_fibre(f, P, 0.55)
     lyric(f, ctx, sung(WORDS, t, tail=0.7), x=0.63, y=0.10, px=26)

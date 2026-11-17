@@ -17,10 +17,10 @@ TORCH_W = np.array([1.00, 0.99, 0.965], F32)    # flashlight white, a hair warm 
 _CACHE = {}
 
 
-def _ellipse(W, H, cx, cy, rx, ry, soft=0.55):
+def _ellipse(W, H, cx, cy, rx, ry, soft=0.9):
     yy, xx = np.mgrid[0:H, 0:W].astype(F32)
     d = np.sqrt(((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2)
-    return (1 - smoothstep(1 - soft, 1 + soft * 0.3, d)).astype(F32)
+    return np.exp(-0.5 * (d / (0.75 * soft)) ** 2).astype(F32)
 
 
 def bed_field(ctx, pool, radius, faces=(), amb=0.36, face_lift=0.72, tilt=0.0, stretch=1.0, seed=0, key=None):

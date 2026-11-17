@@ -387,8 +387,8 @@ def category_seal(px=220, seed=31):
 
 
 def seal_pos(i):
-    x, y, w, h = CELLS[SEAL_CELLS[i]]
-    return x + w - 58.0, y + h - 62.0
+    cx, cy = cell_centre(SEAL_CELLS[i])            # tucked under the jaw line, right side, inside its own cell
+    return cx + 168.0, cy + 138.0
 
 
 def draw_category_seals(f, cam, t, ctx, album, seal_rgba, hits):

@@ -673,3 +673,13 @@
 {"ts": "2026-11-17T08:10:34Z", "model": "bytedance/seedance-2.5", "tag": "r26_F4a_t2", "job": "chaosmonkey/r26_F4a_t2-2c28eb35fe", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
 {"ts": "2026-11-17T08:10:35Z", "model": "bytedance/seedance-2.5", "tag": "r26_F3a_t2", "job": "chaosmonkey/r26_F3a_t2-d5cc0c8a34", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
 {"ts": "2026-11-17T08:10:51Z", "model": "klingai/kling-v4", "tag": "r26_I4b", "job": "chaosmonkey/r26_I4b-c8bf0de643", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:12:30Z", "model": "bytedance/seedance-2.5", "tag": "r88_B1_sd25_t1", "job": "chaosmonkey/r88_B1_sd25_t1-278049bc61", "event": "result", "ok": true, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T08:12:31Z", "model": "bytedance/seedance-2.5", "tag": "r88_B1_sd25_t2", "job": "chaosmonkey/r88_B1_sd25_t2-549023f15d", "event": "result", "ok": true, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T08:12:32Z", "model": "bytedance/seedance-2.5", "tag": "r88_B2_sd25_t2", "job": "chaosmonkey/r88_B2_sd25_t2-e1e256e69b", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:13:39Z", "model": "bytedance/seedance-2.5", "tag": "r88_B2_sd25_t1", "job": "chaosmonkey/r88_B2_sd25_t1-6cc417cf0f", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:13:40Z", "model": "klingai/kling-v4", "tag": "r88_C2_kling4_t1", "job": "chaosmonkey/r88_C2_kling4_t1-643e310d7b", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:13:48Z", "model": "bytedance/seedance-2.5", "tag": "r88_G5_sd25_t1", "job": "chaosmonkey/r88_G5_sd25_t1-e2105a73fa", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:14:49Z", "model": "bytedance/seedance-2.5", "tag": "r88_D3b_sd25_t2", "job": "chaosmonkey/r88_D3b_sd25_t2-bdec862997", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:14:52Z", "model": "klingai/kling-v4", "tag": "r88_E5_kling4_t1", "job": "chaosmonkey/r88_E5_kling4_t1-cf0d4da4d8", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:14:55Z", "model": "bytedance/seedance-2.5", "tag": "r88_G5_sd25_t2", "job": "chaosmonkey/r88_G5_sd25_t2-0d99866ced", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:15:32Z", "model": "klingai/kling-v4", "tag": "r88_E6_kling4_t1", "job": "chaosmonkey/r88_E6_kling4_t1-2b136500b6", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}

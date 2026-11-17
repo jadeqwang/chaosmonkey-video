@@ -89,3 +89,14 @@ F4 = F4a+F4b @~114.3; F6 = F6a+F6b @~120.6; I3 = I3a+I3b @~184.6; K2 = K2a+K2b @
 Still running: attic keyframes; video bake-off (V1b/V4/V6 tails); teams MOUNTAIN, STAGE, FACES, HEAVEN.
 Next (lead): splice script; assemble preview_v1 with `media/sound/mix_v1.wav`; QA sheets; `docs/MORNING.md`.
 Spend: TOTAL $123.20 of $600 cap  (451 billed items; list-price estimates)
+
+## Checkpoint 8 — 2026-11-17 02:15
+Done: teams MOUNTAIN (15 shots), STAGE (7), FACES (8, H3 fixed to stay on the album), HEAVEN & LEDGER (7): all in
+`media/comp/`, scripts in `shots/`, logs `media/comp/LOG_*.md`, sheets `work/review/comp/`. Video bake-off final.
+Interim cut: `media/cut/preview_v0.mp4` (finished shots + keyframes for rooms; sound mix v1; 5720 frames verified);
+contact sheets `work/cut/preview_v0/contact_<SEQ>.jpg`. Keyframe animatic: `media/cut/animatic_v1.mp4`.
+Splice tool: `tools/cut/splice.py` (writes `media/comp/spliced/`, updates `docs/picks.json`); 7 split shots wait on room parts.
+Running: ROOMS-88 and ROOMS-26 (no logs written yet at this time; they are generating Kling/Seedance clips).
+Next: when rooms land -> splice.py -> assemble preview_v1 -> lead QA pass on contact sheets (continuity, lyric text
+consistency, brightness of rooms) -> fixes -> `docs/MORNING.md`.
+Spend: TOTAL $172.24 of $600 cap  (506 billed items; list-price estimates)

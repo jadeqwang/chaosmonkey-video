@@ -190,6 +190,7 @@ class PageTrack:
 
     def __init__(self, src, roi, tl_dir=(-1, -1), thr=None, smooth=1.5, every=1, quad=None, cthr=11.0):
         self.roi, self.tl_dir, self.cthr = roi, tl_dir, cthr
+        self.src = src
         W0, H0 = 960, 540
         r = [v / 2 for v in roi]
         q_list = []
@@ -255,6 +256,8 @@ def spread(kind, scale=0.5):
         T = _keyed(P + 'C_elements/C_troop_plate.png')
     elif kind == 'pilgrim':
         T = _keyed(P + 'C_elements/C_pilgrim_band.png')
+    elif kind == 'birth_r':
+        T = _keyed(P + 'B_huaguoshan/B_stone_crack.png', size=(SW // 2, SH))
     else:
         raise ValueError(kind)
     T = cv2.resize(T.astype(F32), (int(SW * scale), int(SH * scale)), interpolation=cv2.INTER_AREA)
@@ -554,6 +557,11 @@ class RoomShot:
         if cam is None and not self.pick:
             cam = c.get('still_cam', [(c['T0'], 960, 540, 1.0), (c['T1'], 960, 540, 1.04)])
         f = camera_move(f, t, cam or [])
+        if c.get('margins'):
+            from shots._margins import apply_margins, make_margins
+            if not hasattr(self, 'M'):
+                self.M = make_margins(f.shape[1], f.shape[0])
+            f = apply_margins(f, t, self.M)
         for ins in self.INS:
             ins.draw(f, t, opacity=0.8)
         return f

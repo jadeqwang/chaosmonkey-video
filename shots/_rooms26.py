@@ -297,3 +297,36 @@ def map_pt(Hm, A, p):
     x, y = A[0, 0] * p[0] + A[0, 2], A[1, 1] * p[1] + A[1, 2]
     v = Hm @ np.array([x, y, 1.0])
     return v[0] / v[2], v[1] / v[2]
+
+
+def track_affine(plate, roi, ctx, step=1):
+    """Per-frame 2x3 affine (frame px at ctx size) of the content inside roi=(x0, y0, x1, y1) (1080p px) relative to
+    the plate's frame 0, by ECC on the high-passed grey ROI, chained frame to frame. For page art that must follow a
+    book the model moved. Returns an (n, 2, 3) array."""
+    x0, y0, x1, y1 = [int(v * ctx.s) for v in roi]
+    def g(i):
+        a = cv2.cvtColor(plate.f[i], cv2.COLOR_RGB2GRAY).astype(F32) / 255
+        a = a - cv2.GaussianBlur(a, (0, 0), 6)
+        return a
+    m = np.zeros((ctx.H, ctx.W), np.uint8)
+    m[y0:y1, x0:x1] = 1
+    ref = g(0)
+    out = [np.eye(2, 3, dtype=F32)]
+    W = np.eye(2, 3, dtype=F32)
+    for i in range(1, plate.n):
+        cur = g(i)
+        try:
+            _, W2 = cv2.findTransformECC(ref, cur, W.copy(), cv2.MOTION_AFFINE,
+                                         (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 60, 1e-5), m, 5)
+            W = W2.astype(F32)
+        except cv2.error:
+            pass
+        out.append(W.copy())
+    return np.stack(out)
+
+
+def apply_affine(img, A, ctx, border=0.0):
+    """Move a layer (made for the plate's frame 0) to where the tracked content sits in frame i (A from track_affine
+    maps frame-0 coords -> frame-i coords... ECC gives cur(x') = ref(x) with x' = A x)."""
+    return cv2.warpAffine(img, A, (ctx.W, ctx.H), flags=cv2.INTER_LINEAR,
+                          borderMode=cv2.BORDER_CONSTANT, borderValue=(border,) * (1 if img.ndim == 2 else img.shape[2]))
