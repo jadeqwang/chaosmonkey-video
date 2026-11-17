@@ -61,3 +61,5 @@
 {"ts": "2026-11-17T05:51:53Z", "model": "openai/gpt-image-2", "tag": "look_L3_gpt2_pose_v1", "ok": true, "est_usd": 0.2, "where": "box"}
 {"ts": "2026-11-17T05:52:06Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "look_L4_qwen_v1", "ok": true, "est_usd": 0.04, "where": "box"}
 {"ts": "2026-11-17T05:52:09Z", "model": "google/nano-banana-pro", "tag": "look_L4_nbp_v1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T05:53:13Z", "model": "openai/gpt-image-2", "tag": "look_L4_gpt2_v1", "ok": true, "est_usd": 0.1872, "where": "box"}
+{"ts": "2026-11-17T05:53:21Z", "model": "bytedance/seedream-5-pro", "tag": "look_L4_sd5_v1", "ok": true, "est_usd": 0.045, "where": "box"}
