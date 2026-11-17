@@ -10,7 +10,7 @@ Fix round 2:
   so the strip at the cut into G2 is unchanged.
 - framing (QA item 7): her face sits on the left third (comp reframe x1.15 -> 1.21); the frame's right edge past the
   plate is the room's dark tone, so the right margin closes toward her across dark wall.
-- lip-sync: the take plays 2 frames earlier (clips.json t_clip0 121.773 -> 121.690).
+- lip-sync: the take plays 1 frame earlier (clips.json t_clip0 121.773 -> 121.731; 2 frames overshot to -107 ms).
 """
 from shots._rooms88 import *
 from shots._margins import margin_state, _width, T_START

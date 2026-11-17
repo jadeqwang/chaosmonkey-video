@@ -131,3 +131,13 @@ I1 white-in, G4 ring, F6b reflection).
 Next: global lyric pass (QA item 4: one consistent lyric layer; per-shot lyric text off) -> splice -> preview_v2 ->
 `docs/MORNING.md` -> stop for Jade.
 Spend: TOTAL $174.90 of $600 cap  (514 billed items; list-price estimates)
+
+## Checkpoint 12 — 2026-11-17 03:32
+Done: fix round 2 BOOK/STAGE (`docs/logs/LOG_fix2_book.md`): hit triggers fixed at the source in tools/ink (all
+measured at 0 frames), D2 bows distinct, seal syllables in 館閣楷 白文, 脸谱 painted surface, J3/J2 light, K5 reframed
+(scale 1.20; framing in the log and in `shots/K5.py`).
+Running: fix round 2 ROOMS (`docs/logs/LOG_fix2_rooms.md`).
+Next: global lyric pass (ctx has no `opts`; teams used three different switches incl. env INK_LYRICS: unify, turn
+per-shot lyric text off, keep art inscriptions 一通百通 in D4/D5/J5, add one consistent lyric layer at assembly) ->
+`tools/cut/splice.py` -> preview_v2 -> `docs/MORNING.md`.
+Spend: TOTAL $174.90 of $600 cap  (514 billed items; list-price estimates)

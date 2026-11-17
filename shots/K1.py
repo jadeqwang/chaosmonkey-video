@@ -57,6 +57,7 @@ def render(t, ctx):
     f = bed_grade(f, ctx, POOL, 290, field=FLD)
     f = dehalo(f, ctx, find_lens(f, ctx, (430, 250, 640, 440)), R=110)     # fix2: the torch head has no glow halo
     f = paper_fibre(f, P, 0.55)
+    f = move(f, ctx, 1.22 + 0.08 * ramp(t, T0, T1, 'inout'), 760, 470)   # fix2: closer, so her mouth reads (page kept)
     txt = sung(W1, t, tail=0.5) if t < 207.19 else sung(W2, t, tail=0.6)
     lyric(f, ctx, txt, x=0.64, y=0.10, px=26)
     return f

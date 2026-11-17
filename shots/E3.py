@@ -4,7 +4,7 @@ Jade close, deadpan. Seedance 2.5 lip-sync. Sign in the window behind her.
 Fix round 2 (QA item 2): the keyframe's 'Mama blur' (a huge beige shoulder + stick in the left third) is painted out
 with the attic's own dark wash (row colours sampled from the room beside it, falling darker to the left edge, paper
 fibre on top): little Jade sits right of centre, the left third is dark room. Mask: media/comp/rooms88/E3_blob_mask.png
-(the blob's footprint over all 166 frames of the take, dilated). Clip retimed 2 frames earlier (lip-sync +102 ms).
+(the blob's footprint over all 166 frames of the take, dilated). Clip retimed 1 frame earlier (lip-sync +102 -> -65 ms).
 """
 from shots._rooms88 import *
 

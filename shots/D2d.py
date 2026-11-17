@@ -24,9 +24,9 @@ def setup(ctx):
 
 
 def render(t, ctx):
-    f = (RS if t < T_BOW - 1e-6 else RB).render(t)
+    f = (RS if t < on_frame(T_BOW) - 1e-6 else RB).render(t)       # fix2: on the frame containing the beat
     s = ctx.s
     strike(f, SEAL, t, T_BOW, (1545 * s, 760 * s), overshoot=0.16)
-    if 0 <= t - T_BOW < 2 / 24:                                   # the same 2-frame jolt STAGE gives each bow
-        f = shaken(f, *shake_offset(t, [T_BOW], amp=5 * s, dur=0.16))
+    if 0 <= t - on_frame(T_BOW) < 2 / 24:                                # the same 2-frame jolt STAGE gives each bow
+        f = shaken(f, *shake_offset(t, [on_frame(T_BOW)], amp=5 * s, dur=0.16))
     return f

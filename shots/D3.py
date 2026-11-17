@@ -57,6 +57,7 @@ RA = RoomShot(shot='D3a', kf='D3a', T0=T0, T1=T_B, page=dict(kind='birth_r', roi
 RB = RoomShot(shot='D3b', kf='D3b', T0=T_B, T1=T1, page=dict(kind='birth', roi=(780, 900, 1140, 1080), tl=(-1, -1), cthr=22),
               window=(1389, 285, 1679, 509), sign=(1534, 397, 140, 0.0),
               keep=[(740, 380, 130, 160, 1.0), (1180, 460, 110, 140, 1.0), (960, 980, 220, 100, 0.9)], floor=0.24,
+              cam=[(T_B, 960, 470, 1.25), (T1, 960, 460, 1.32)],     # fix2: closer on both faces (mouths readable)
               lyrics=[('No cradle, no lullaby, no song', (560, 40, 800, 44))])
 
 

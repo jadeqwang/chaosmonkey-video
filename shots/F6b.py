@@ -6,6 +6,9 @@ Base: Kling take of F6b.jpg (she waves, deadpan; an amber streetlight passes), i
 is made in code from the same frame: her upper body keyed (colour inside a box around her), mirrored about the window's
 right edge, dimmed and cooled, offset a little, laid only inside the side-window pane (measured on the clip), so the two
 waves are the same frame: the same instant. Car grade, paper fibre.
+Fix round 2 (QA item 15): the reflection is a reflection, not a ghost: mixed into the glass at ~25 % (never
+lightened with max()), blurred a little, tinted dusk-violet like the pane, so her head, body and raised hand sit IN
+the pane beside her and the two hands wave on the same frames.
 """
 import os
 import sys
@@ -54,9 +57,10 @@ def render(t, ctx):
     i = B.index(t)
     f = cv2.warpAffine(B.at(t), INV[i], (ctx.W, ctx.H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
     rf, rk = reflection(f, ctx)
-    cool = np.float32([0.82, 0.84, 1.0])
-    a = (0.30 * rk * PM)[..., None]
-    f = f * (1 - a) + np.maximum(f, rf * cool * 0.85) * a
+    glass = np.float32([0.74, 0.70, 1.0])                        # the pane's dusk violet
+    rf = cv2.GaussianBlur(rf, (0, 0), 2.2 * ctx.s) * glass * 0.92
+    a = (0.25 * cv2.GaussianBlur(rk, (0, 0), 1.5 * ctx.s) * PM)[..., None]
+    f = f * (1 - a) + rf * a
     f = car_grade(f, ctx, [(1290, 470, 240, 260)], dark=0.66)
     f = move(f, ctx, 1.05, 960, 540)                  # hide the stabiliser's edges
     return paper_fibre(f, P, 0.5)

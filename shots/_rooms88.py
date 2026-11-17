@@ -293,6 +293,15 @@ def spread(kind, scale=0.5):
         T = np.clip(page / np.maximum(bare, 1e-3), 0, 1)
     elif kind == 'egg':
         T = _keyed(P + 'B_huaguoshan/B_egg.png', lo=0.06, hi=0.16)
+    elif kind == 'egg_close':                      # fix2 (C5a): the egg big on the left page, its wash deepened,
+        a = load_image(P + 'B_huaguoshan/B_egg.png')  # so the open book visibly holds what she blows on
+        h, w = a.shape[:2]
+        cw = int(0.58 * w)
+        ch = min(h, int(cw * SH / SW))
+        x0 = int(0.36 * w - 0.25 * cw)
+        y0 = int(np.clip(0.59 * h - 0.5 * ch, 0, h - ch))
+        a = cv2.resize(a[y0:y0 + ch, x0:x0 + cw], (SW, SH), interpolation=cv2.INTER_AREA)
+        T = np.clip(key_paper(a, lo=0.03, hi=0.10), 0, 1) ** 1.8
     elif kind == 'birth':
         T = _keyed(P + 'B_huaguoshan/B_stone_crack.png')
     elif kind == 'troop':
