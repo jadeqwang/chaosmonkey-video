@@ -62,17 +62,42 @@ def margin_state(t, W=1920, H=1080):
     return {'rect': rect, 'desat': float(min(1.0, p ** 0.7 * 1.08)), 'progress': p, 'open': p <= 0.0}
 
 
-def make_margins(W=1920, H=1080):
-    """The margin sheets (torn edges, lip, contact shadow), identical in every shot that calls this."""
-    return Margins(Paper(W, H, 'new', seed=MARGIN_PAPER_SEED), seed=MARGIN_EDGE_SEED, rough=5.0 * W / 1920.0,
-                   shadow_px=9.0 * W / 1920.0)
+# Paper-ground shots (the book page itself, e.g. G2; polish-1): paper margins on a paper picture do not read. There the
+# PICTURE keeps the page's light in the attic (the neon-lit page: a touch darker, warm, a faint cinnabar cast) and the
+# advancing margins are brighter bare paper with a stronger soft torn-edge shadow, so the window visibly narrows.
+PAGE_LIGHT = (0.905, 0.845, 0.810)   # multiply on the picture (warm, ~13 % darker, faint red)
+SHEET_LIFT = 1.045                   # the margin sheets: bare paper, brighter than the lit page (never pure white)
+
+
+def make_margins(W=1920, H=1080, ground='room'):
+    """The margin sheets (torn edges, lip, contact shadow), identical in every shot that calls this.
+    ground='paper': the brighter sheets with a deeper contact shadow, for shots whose picture is the bare page."""
+    if ground == 'paper':
+        M = Margins(Paper(W, H, 'new', seed=MARGIN_PAPER_SEED), seed=MARGIN_EDGE_SEED, rough=5.0 * W / 1920.0,
+                    shadow=0.55, shadow_px=16.0 * W / 1920.0)
+        M.paper.rgb = np.clip(M.paper.rgb * SHEET_LIFT, 0, 0.975).astype(np.float32)
+        M.ground = 'paper'
+        return M
+    M = Margins(Paper(W, H, 'new', seed=MARGIN_PAPER_SEED), seed=MARGIN_EDGE_SEED, rough=5.0 * W / 1920.0,
+                shadow_px=9.0 * W / 1920.0)
+    M.ground = 'room'
+    return M
+
+
+def page_light(frame):
+    """The neon-lit page tone (paper-ground shots): applied to the picture whether or not margins show."""
+    return (frame * np.asarray(PAGE_LIGHT, np.float32)[None, None]).astype(np.float32)
 
 
 def apply_margins(frame, t, M, desat=True, paper_tint=True):
-    """Drain to greys (gold kept) and lay the margin sheets for time t. Returns a new frame."""
+    """Drain to greys (gold kept) and lay the margin sheets for time t. Returns a new frame.
+    With a make_margins(..., ground='paper') M the picture also gets the lit-page tone (page_light)."""
     st = margin_state(t, M.W, M.H)
+    paper = getattr(M, 'ground', 'room') == 'paper'
+    if desat and st['desat'] > 0 and not st['open']:
+        frame = desaturate(frame, st['desat'], paper=M.paper.ground if paper_tint else None)
+    if paper:
+        frame = page_light(frame)
     if st['open']:
         return frame
-    if desat and st['desat'] > 0:
-        frame = desaturate(frame, st['desat'], paper=M.paper.ground if paper_tint else None)
     return M.lay(frame, st['rect'])

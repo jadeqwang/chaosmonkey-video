@@ -7,6 +7,10 @@ so the crossing is invisible). The torch stays on 花果山 (anchored to the pag
 Seal: the name seal 悟空 is pressed on the downbeat (190.885), then pressed again without re-inking on the echoes
 '(formed)' 191.51 and 192.37 (`echoes`); under each echo, for ~10 frames, a small head keyed as pale ink: Mama
 (from mama_B_expressions), then little Jade (lj_C_expressions_mouths). No chops fall inside J2: no mis-registration.
+
+Polish-1: the first ~20 frames are back on paper: the aged page under a wide flashlight-white pool (J5's end-of-shot
+light: centre near white, the bare paper falling off softly to a dim paper tone at the frame edges, never black), the
+peak lit; from frame ~16 to ~30 the light narrows to the original torch pool on 花果山 as the pull-back runs.
 """
 import os
 import sys
@@ -98,6 +102,11 @@ def render(t, ctx):
     cx, cy = SC_.to_frame(POOL[0], POOL[1], st, ctx.size)
     L = light_field(ctx.W, ctx.H, (cx, cy), max(POOL[2] * st[2] * ctx.s, 160 * ctx.s), ambient=0.16, gain=1.3,
                     stretch=1.35, tilt=90, seed=5)
+    u = float(smoothstep(T0 + 16 / 24, T0 + 30 / 24, t))
+    if u < 1:                                   # polish-1: the page light of J5's end (wide pool, paper to the edges)
+        Lp = light_field(ctx.W, ctx.H, (ctx.W * 0.5, ctx.H * 0.46), 1250 * ctx.s, ambient=0.16, gain=1.3, stretch=1.2,
+                         seed=5)
+        L = Lp * (1 - u) + L * u
     f = lit(f, L)
     # pale heads under the echo presses, ~10 frames each
     for k in (1, 2):

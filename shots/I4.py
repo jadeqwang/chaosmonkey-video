@@ -33,7 +33,7 @@ def setup(ctx):
     m = load_still('media/kf/I4_mama.jpg', ctx)
     MAMA = paper_fibre(flatten(m, ctx, 0.5), P, 0.6)
     # face grade: underlight pool at the chin, the face kept by bounce light, the hair and wall to violet
-    FA = bed_field(ctx, (960, 1010), 520, faces=[(960, 560, 330, 470, 0.80)], amb=0.34, stretch=1.4, key='I4a')
+    FA = bed_field(ctx, (960, 1010), 520, faces=[(960, 560, 330, 470, 0.80)], amb=0.22, stretch=1.4, key="I4a")   # polish-1: the new take paints a cream ground: amb 0.34 -> 0.22
 
     # ---- I4b: the banquet page on the spread
     PB = load_still('media/kf/I4b.jpg', ctx)

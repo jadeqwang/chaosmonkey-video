@@ -704,3 +704,13 @@
 {"ts": "2026-11-17T08:26:07Z", "model": "bytedance/seedance-2.5", "tag": "r26_I3a", "job": "chaosmonkey/r26_I3a-7e9745c98b", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
 {"ts": "2026-11-17T08:26:38Z", "model": "bytedance/seedance-2.5", "tag": "r26_K2a_t2", "job": "chaosmonkey/r26_K2a_t2-abe5f9bff2", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
 {"ts": "2026-11-17T08:27:27Z", "model": "klingai/kling-v4", "tag": "r88_F3b_kling4_t1", "job": "chaosmonkey/r88_F3b_kling4_t1-eec91f3c6a", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:45:02Z", "model": "google/nano-banana-pro", "tag": "p1_kf_I4a", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T08:46:05Z", "model": "google/nano-banana-pro", "tag": "p1_kf_I4a", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T08:47:18Z", "model": "google/nano-banana-pro", "tag": "p1_kf_I4mama", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T08:47:19Z", "model": "google/nano-banana-pro", "tag": "p1_kf_I4mama", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T08:48:23Z", "model": "google/nano-banana-pro", "tag": "p1_kf_I4mama", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T08:48:41Z", "model": "bytedance/seedance-2.5", "tag": "p1_I4", "job": "chaosmonkey/p1_I4-2a8d20b659", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:48:42Z", "model": "bytedance/seedance-2.5", "tag": "p1_I4_t2", "job": "chaosmonkey/p1_I4_t2-81d1b3589d", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:51:50Z", "model": "google/nano-banana-pro", "tag": "p1_kf_L2", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T08:54:59Z", "model": "bytedance/seedance-2.5", "tag": "p1_I4", "job": "chaosmonkey/p1_I4-2a8d20b659", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:55:00Z", "model": "bytedance/seedance-2.5", "tag": "p1_I4_t2", "job": "chaosmonkey/p1_I4_t2-81d1b3589d", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}

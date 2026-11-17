@@ -42,7 +42,7 @@ def setup(ctx):
     BAND_POS = (PAD + x0 * S, y0 * S)
     hx, hy = PAD + HEAD[0] * S, HEAD[1] * S
     CXY = (hx, hy + 110)                     # camera: his head at frame (960, 430)
-    M = make_margins(ctx.W, ctx.H)
+    M = make_margins(ctx.W, ctx.H, ground='paper')   # polish-1: lit page vs brighter bare-paper margins
 
 
 def tight(t):

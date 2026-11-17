@@ -6,6 +6,11 @@ sky bare paper) and a narrow column on the right page. No ch.1 stone wording exi
 director the column is faint ruled lines (界行) with no characters. Then the film's signature push in toward the
 mountain until the page edges have left frame; only once we are inside does the mist band (bare paper) begin to
 drift. Outside the pages: flat faded-indigo cloth (to be replaced by the room team's book).
+
+Polish-1: the indigo cloth is gone. Around the spread is what B2 ends on: the book's faded red cloth cover rim and the
+dark attic (warm ink-dark, Mama's trousers / the floor in shadow), and the paper carries the attic's cinnabar neon cast
+for the first ~1 s; the cast fades out of the page as the push crosses the page edges (T_IN), so inside the painting
+the paper is neutral cream as in B4.
 """
 import numpy as np
 
@@ -19,7 +24,11 @@ PS = SH / 1920.0                          # B_master scale onto the spread
 START = (MX + SW / 2, MY + SH / 2, 1920 / (SW + 330))
 END = (MX + 1060, MY + 1500, 1920 / 2350)
 T_PUSH0, T_PUSH1 = 26.32, T1 + 0.25       # the push is still moving on the cut
-CLOTH = np.array([0.33, 0.36, 0.43], np.float32)
+ATTIC = np.array([0.105, 0.078, 0.068], np.float32)        # the dark attic around the book (warm ink-dark)
+COVER = np.array([0.43, 0.16, 0.12], np.float32)           # the storybook's faded red cloth cover (B2)
+RIM = 46                                                   # cover rim around the spread, canvas px
+NEON = np.array([1.0, 0.875, 0.825], np.float32) * 0.96     # cinnabar neon cast on the page (multiply)
+NEON_HOLD = 0.9                                            # s of full cast after the cut
 
 
 def setup(ctx):
@@ -41,7 +50,17 @@ def setup(ctx):
         rules[y:y + 3, x1 - n * pitch:x1 + 3] *= 0.86
     page *= blur(rules, 0.7)
     PAGE = np.empty((CH, CW, 3), np.float32)
-    PAGE[:] = CLOTH * (0.92 + 0.08 * fbm(CH, CW, 60.0, 2, 'cloth')[..., None])
+    yy, xx = np.mgrid[0:CH, 0:CW].astype(np.float32)
+    dx = np.maximum(np.maximum(MX - xx, xx - (MX + SW)), 0)
+    dy = np.maximum(np.maximum(MY - yy, yy - (MY + SH)), 0)
+    dout = np.hypot(dx, dy)                                     # distance outside the spread
+    tex = fbm(CH, CW, 90.0, 2, 'attic')[..., None]
+    PAGE[:] = ATTIC * (0.85 + 0.3 * tex)
+    glow = np.exp(-np.maximum(dout - RIM, 0) / 140.0)[..., None]   # the lit book spills a little red on the dark
+    PAGE += np.array([0.10, 0.025, 0.02], np.float32) * glow
+    rim = blur((dout <= RIM).astype(np.float32), 2.0)[..., None]
+    cov = COVER * (0.9 + 0.2 * fbm(CH, CW, 14.0, 4, 'cover')[..., None]) * (1 - 0.35 * np.clip(dout / RIM, 0, 1))[..., None]
+    PAGE = PAGE * (1 - rim) + cov * rim
     PAGE[MY:MY + SH, MX:MX + SW] = page
     BARE = PAGE.copy()
     BARE[MY:MY + SH, MX:MX + SW] = paper.rgb
@@ -72,4 +91,9 @@ def render(t, ctx):
     am = view(a, cx, cy, z, ctx.W, ctx.H)
     bv = view(BARE, cx, cy, z, ctx.W, ctx.H)
     f += (bv - f) * np.clip(am, 0, 1)[..., None] * 0.8
+    # the attic's neon cast on the paper, fading out as the push crosses the page edges
+    t_a, t_b = T0 + NEON_HOLD, max(T0 + NEON_HOLD + 0.3, T_IN)
+    n = 1.0 - smoothstep(t_a, t_b, t)
+    if n > 0:
+        f = f * (1.0 + n * (NEON - 1.0))[None, None]
     return f
