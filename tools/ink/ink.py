@@ -142,7 +142,7 @@ def stroke(points, width=40.0, seed=0, paper=None, density=0.9, dry=0.35, dry_en
     tw_in, tw_out = smoothstep(0, max(tin, 1e-4), u) ** 0.6, smoothstep(0, max(tout, 1e-4), 1 - u) ** 0.8
     # the brush is pressed down at the start (a rounded head) and lifted to a point at the end
     half = np.maximum(0.6, 0.5 * width * pr * (0.55 + 0.45 * tw_in) * (0.12 + 0.88 * tw_out))
-    padv = int(pad if pad is not None else width * 0.75 + bleed * 3 + 6)
+    padv = int(pad if pad is not None else width * 1.3 + bleed * 3 + 6)
     x0, y0 = int(math.floor(xy[:, 0].min())) - padv, int(math.floor(xy[:, 1].min())) - padv
     x1, y1 = int(math.ceil(xy[:, 0].max())) + padv, int(math.ceil(xy[:, 1].max())) + padv
     w, h = x1 - x0, y1 - y0

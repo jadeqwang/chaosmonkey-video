@@ -125,6 +125,8 @@ def estimate(model, inp):
     dur = inp.get("duration", inp.get("seconds"))
     if inp.get("music_length_ms"):
         dur = inp["music_length_ms"] / 1000
+        if "output_audio_seconds" in p:     # elevenlabs/music-v2 (added 2026-11-17 for the sound layer)
+            return round(dur * p["output_audio_seconds"], 4), f"{dur:g}s x {p['output_audio_seconds']}/s audio"
     if dur in (None, -1, "-1"):
         dur = 15 if dur in (-1, "-1") else 5
         auto = True

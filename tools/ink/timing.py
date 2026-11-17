@@ -42,28 +42,44 @@ class Timing:
         self.downbeats = sorted(_t(b) for b in data.get('downbeats', []))
         self.sections = data.get('sections', [])
         self.lines = data.get('lyrics', data.get('lines', []))
-        ev = data.get('hits', data.get('events', []))
-        self._hits = sorted(({'t': _t(e), 'kind': e.get('kind', e.get('class', e.get('type', 'hit'))),
-                              'strength': float(e.get('strength', 1.0)), **{k: v for k, v in e.items()
-                                                                            if k not in ('t', 'kind', 'strength')}}
-                             for e in ev), key=lambda e: e['t'])
+        ev = list(data.get('hits', data.get('events', [])))
+        # span events (real map: hit_events.{chops, suona_phrases, silences, risers, sub_drops, ...}) become hits too,
+        # kind = the singular list name ('chop', 'suona_phrase', 'silence', 'riser', 'sub_drop'), t = start
+        self.spans = data.get('hit_events', {}) if isinstance(data.get('hit_events'), dict) else {}
+        for name, lst in self.spans.items():
+            kind = name[:-1] if name.endswith('s') else name
+            for e in lst or []:
+                if isinstance(e, dict) and ('t' in e or 'start' in e):
+                    ev.append({**e, 't': e.get('t', e.get('start')), 'kind': kind, 'detail': e.get('cls', e.get('kind'))})
+
+        def kind_of(e):
+            for k in ('kind', 'cls', 'class', 'type'):
+                if isinstance(e.get(k), str):
+                    return e[k]
+            return 'hit'
+        self._hits = sorted(({**{k: v for k, v in e.items() if k not in ('t', 'kind', 'strength')}, 't': _t(e),
+                              'kind': kind_of(e), 'strength': float(e.get('strength', 1.0))} for e in ev),
+                            key=lambda e: e['t'])
         en = data.get('energy') or data.get('loudness') or {}
         self._energy = None
         if isinstance(en, dict):
-            vals = en.get('values') or en.get('rms') or en.get('rms_dbfs')
+            vals = en.get('values') or en.get('rms') or en.get('rms_dbfs') or en.get('rms_db')
+            db = not en.get('values') and not en.get('rms')
+            if isinstance(vals, dict):                              # per-stem: use the mix
+                vals = vals.get('mix') or next(iter(vals.values()))
             if vals:
-                db = 'rms_dbfs' in en and not en.get('values')
                 v = [10 ** (x / 20.0) for x in vals] if db else list(vals)
                 mx = max(v) or 1.0
-                self._energy = (float(en.get('rate_hz', en.get('rate', 10))), float(en.get('t0', 0.0)),
-                                [x / mx for x in v])
+                ts = en.get('t')
+                rate = float(en.get('rate_hz', en.get('rate', 0)) or (1.0 / en['hop_s'] if en.get('hop_s') else 10))
+                self._energy = (rate, float(ts[0]) if ts else float(en.get('t0', 0.0)), [x / mx for x in v])
         elif isinstance(en, list) and en:
             ts = [_t(e) for e in en]
             v = [float(e.get('v', e.get('value', 0))) for e in en]
             mx = max(v) or 1.0
             rate = (len(ts) - 1) / max(ts[-1] - ts[0], 1e-6)
             self._energy = (rate, ts[0], [x / mx for x in v])
-        self.duration = float((data.get('source') or {}).get('duration', data.get('duration', 0)) or
+        self.duration = float((data.get('source') or data.get('meta') or {}).get('duration', data.get('duration', 0)) or
                               (self.beats[-1] if self.beats else 0))
 
     @classmethod
@@ -75,6 +91,20 @@ class Timing:
             if not p.exists():
                 write_stub(p)
         return cls(json.loads(p.read_text()), p)
+
+    @classmethod
+    def stub(cls):
+        """The synthetic stub map (work/ink_demo/timing_stub.json), whatever exists in analysis/."""
+        if not STUB.exists():
+            write_stub(STUB)
+        return cls(json.loads(STUB.read_text()), STUB)
+
+    def kinds(self):
+        """The hit kinds present in this map, with counts."""
+        out = {}
+        for e in self._hits:
+            out[e['kind']] = out.get(e['kind'], 0) + 1
+        return out
 
     @property
     def is_stub(self):

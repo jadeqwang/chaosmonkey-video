@@ -178,7 +178,7 @@ def hand_shadow(frame, mask, light_pos, distance=0.4, light_size=18.0, t=0.0, st
     return (frame * np.clip(k, 0.05, 1)).astype(F32)
 
 
-def dust(frame, t, beam, n=70, seed=0, colour=TORCH, gain=0.5, drift=(4.0, -2.5), size=(0.7, 2.6), threshold=0.10):
+def dust(frame, t, beam, n=70, seed=0, colour=TORCH, gain=1.0, drift=(4.0, -2.5), size=(1.0, 3.0), threshold=0.10):
     """Dust motes in a beam: sparse, each visible only while it is inside the light (`beam`: an HxW intensity
     field such as flashlight_field / neon_field, or the product with 1 - shadow), fading out as it leaves.
 
@@ -219,7 +219,8 @@ def dust(frame, t, beam, n=70, seed=0, colour=TORCH, gain=0.5, drift=(4.0, -2.5)
         gy = np.exp(-0.5 * ((np.arange(y0, y1) - y) / s) ** 2).astype(F32)
         g = (gy[:, None] * gx[None, :] * a)[..., None]
         reg = out[y0:y1, x0:x1]
-        reg += (col[None, None] * 0.96 - reg) * np.clip(g, 0, 0.9)        # a lit speck: toward the light's colour
+        reg += col[None, None] * np.clip(g, 0, 0.9) * (0.38 + 0.6 * (1.0 - reg))   # a lit speck; clearest over dark ink
+        np.minimum(reg, 0.985, out=reg)
     return out
 
 

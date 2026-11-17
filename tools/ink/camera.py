@@ -142,7 +142,8 @@ class Scene:
     """A stack of layers on a canvas, rendered through a Camera.
 
     add(src, depth, pos, kind, occlude, opacity, home, name, fade)
-        src      array or callable t -> array. ink (HxWx3 transmittance), rgba (HxWx4) or 'frame' (opaque HxWx3)
+        src      array or callable t -> array. ink (HxWx3 transmittance), rgba (HxWx4), 'frame' (opaque HxWx3) or
+                 'erase' (HxW alpha, or RGBA whose alpha is used: bare paper where it is 1, e.g. a keyed mist clip)
         depth    1.0 = paper plane; >1 farther, <1 nearer
         pos      (x, y) canvas position of the layer's top-left (default 0, 0)
         occlude  ink only: True makes the layer hide what is behind it (bare paper shows where it is not inked,
@@ -162,7 +163,7 @@ class Scene:
                  home=home or self.home, name=name, scale=float(scale), mips=None, body=None)
         if not callable(src):
             if kind is None:
-                L['kind'] = 'rgba' if src.shape[2] == 4 else 'ink'
+                L['kind'] = 'erase' if src.ndim == 2 else ('rgba' if src.shape[2] == 4 else 'ink')
             L['mips'] = _Mips(src)
             if L['kind'] == 'ink' and occlude is not False:
                 L['body'] = _Mips(self._body(src, occlude))
@@ -258,6 +259,9 @@ class Scene:
                 s = sample(src, M, W, H, 0.0, mips)
                 a = np.clip(s[..., 3:4], 0, 1) * op
                 frame = frame * (1 - a) + s[..., :3] * a
+            elif kind == 'erase':                     # an HxW alpha that takes the picture back to bare paper
+                a = sample(src if src.ndim == 2 else src[..., -1], M, W, H, 0.0, None, sharp=False)
+                frame += (pv - frame) * (np.clip(a, 0, 1) * op)[..., None]
             elif kind == 'frame':
                 s = sample(np.dstack([src, np.ones(src.shape[:2], F32)]), M, W, H, 0.0)
                 a = s[..., 3:4] * op

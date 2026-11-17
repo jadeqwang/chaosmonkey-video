@@ -1,0 +1,1644 @@
+{
+ "about": "Chaos Monkey sound layer cue sheet (data). tools/audio/sfx/build_layer.py reads this, resolves every anchor against analysis/timing.json (and docs/shots.yaml for shot:), renders the layer and the mixes, and writes the tables in docs/SOUND.md. To re-time after the picture cut: change an anchor or add/adjust 'offset' (seconds) on the event; cues with picture_dependent=true are the ones tied to an action inside a shot rather than to the music.",
+ "anchors": "t:<s> raw time | hit:<s> nearest measured hit (timing.json hits[], must be within 40 ms) | beat:<s> nearest beat (within 60 ms) | word:<line id>:<word>[:<n>] word onset (line ids as in timing.json lines[], = AUDIO_MAP # - 1) | wordend:<line>:<word> | chop:<s> breakbeat chop start | sync:<text> sync_points[] whose name starts with text | silence:<s>:start|end | section:<name>:start|end | shot:<id> shot in-point (docs/shots.yaml)",
+ "level": "margin = target median dB under the song's momentary loudness (BS.1770, 400 ms) over the cue's active span; floor = never closer than this in any frame (hard rule 6); cap = peak ceiling dBFS; abs_lufs = absolute momentary target where the song is silent (end variant C). Then the whole layer is held >= 6 dB (fitted at 7) under the vocal stem (50 ms) wherever a word sounds: beds duck (ride), events take a lower fixed gain.",
+ "rooms": {
+  "none": null,
+  "small": {
+   "rt60": 0.35,
+   "wet_db": -14,
+   "lp": 7000
+  },
+  "attic": {
+   "rt60": 0.6,
+   "wet_db": -11,
+   "lp": 5000
+  },
+  "below": {
+   "rt60": 0.5,
+   "wet_db": -5,
+   "lp": 2500
+  },
+  "valley": {
+   "rt60": 2.4,
+   "wet_db": -3,
+   "lp": 6000,
+   "predelay": 0.04
+  },
+  "stage": {
+   "rt60": 1.1,
+   "wet_db": -12,
+   "lp": 6000
+  },
+  "car": {
+   "rt60": 0.12,
+   "wet_db": -16,
+   "lp": 5000
+  }
+ },
+ "cues": [
+  {
+   "id": "neon_on",
+   "shot": "A1",
+   "kind": "events",
+   "src": "relay_tick",
+   "events": [
+    {
+     "at": "hit:0.165"
+    },
+    {
+     "at": "hit:0.220",
+     "gain": -5
+    },
+    {
+     "at": "hit:0.272",
+     "gain": -2
+    },
+    {
+     "at": "hit:0.316",
+     "gain": -7
+    },
+    {
+     "at": "hit:0.381",
+     "gain": -3
+    }
+   ],
+   "proc": {
+    "room": "attic",
+    "lp": 6000
+   },
+   "pan": 0.45,
+   "level": {
+    "margin": 14,
+    "cap": -18
+   },
+   "intent": "The neon sign stutters on outside the window, lower right: five ballast ticks, each exactly on a click of the song's opening clapper roll (0.165-0.381), so the song's own clapper reads as the sign striking.",
+   "picture_dependent": false
+  },
+  {
+   "id": "neon_hum_intro",
+   "shot": "A1-A4",
+   "kind": "bed",
+   "src": "neon_hum",
+   "start": "hit:0.165",
+   "end": "silence:15.44:start",
+   "gate": [
+    [
+     "hit:0.165",
+     0.03
+    ],
+    [
+     "hit:0.220",
+     0.025
+    ],
+    [
+     "hit:0.272",
+     0.03
+    ],
+    [
+     "hit:0.316",
+     0.02
+    ]
+   ],
+   "steady_from": "hit:0.381",
+   "fade_in": 0.004,
+   "fade_out": 0.9,
+   "proc": {
+    "lp": 4000,
+    "hp": 120
+   },
+   "pan": 0.45,
+   "width": 0.3,
+   "duck": true,
+   "level": {
+    "margin": 18,
+    "cap": -24
+   },
+   "intent": "The sign's hum (D2 series, in the song's key) flickers in with the ticks and holds steady under the attic; it fades out to nothing by the 75 ms full-band hole at 15.44 so the hole stays clean.",
+   "picture_dependent": false
+  },
+  {
+   "id": "dishes_below",
+   "shot": "A2",
+   "kind": "events",
+   "src": "dishes",
+   "events": [
+    {
+     "at": "beat:6.351",
+     "src_at": 0.745,
+     "dur": 0.7
+    },
+    {
+     "at": "beat:7.248",
+     "src_at": 2.865,
+     "dur": 0.6,
+     "gain": -4
+    },
+    {
+     "at": "t:7.47",
+     "src_at": 5.21,
+     "dur": 0.5,
+     "gain": -8
+    },
+    {
+     "at": "beat:8.581",
+     "src_at": 8.03,
+     "dur": 0.9,
+     "gain": -3
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 1400,
+    "room": "below"
+   },
+   "pan": -0.15,
+   "level": {
+    "margin": 18,
+    "cap": -18
+   },
+   "intent": "Mama washing up downstairs, heard through the floorboards as the warm lines of light come up between them: four muffled porcelain clinks, irregular, three of them on beats.",
+   "picture_dependent": false
+  },
+  {
+   "id": "stairs",
+   "shot": "A3",
+   "kind": "events",
+   "src": "stairs",
+   "events": [
+    {
+     "at": "beat:10.374",
+     "src_at": 2.06,
+     "dur": 0.5,
+     "gain": -8
+    },
+    {
+     "at": "beat:10.796",
+     "src_at": 3.26,
+     "dur": 0.5,
+     "gain": -6
+    },
+    {
+     "at": "beat:11.273",
+     "src_at": 3.83,
+     "dur": 0.5,
+     "gain": -4
+    },
+    {
+     "at": "beat:11.715",
+     "src_at": 4.425,
+     "dur": 0.5,
+     "gain": -3
+    },
+    {
+     "at": "beat:12.164",
+     "src_at": 5.665,
+     "dur": 0.55,
+     "gain": -2
+    }
+   ],
+   "proc": {
+    "hp": 60,
+    "lp": 3500,
+    "room": "attic"
+   },
+   "pan": -0.4,
+   "level": {
+    "margin": 14,
+    "cap": -16
+   },
+   "intent": "Mama comes up the wooden stairs into the slot of tungsten light: five creaking steps on the beats after the drum roll, getting closer.",
+   "picture_dependent": true
+  },
+  {
+   "id": "mat_rustle",
+   "shot": "A3",
+   "kind": "events",
+   "src": "rustle",
+   "events": [
+    {
+     "at": "t:11.05",
+     "src_at": 3.715,
+     "pre": 0.5,
+     "dur": 0.45
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 6000,
+    "room": "small"
+   },
+   "pan": 0.1,
+   "level": {
+    "margin": 18,
+    "cap": -20
+   },
+   "intent": "Little Jade sits up on her mat: one quilt-and-mat rustle between two steps.",
+   "picture_dependent": true
+  },
+  {
+   "id": "book_lift",
+   "shot": "A4",
+   "kind": "events",
+   "src": "book",
+   "events": [
+    {
+     "at": "t:12.95",
+     "src_at": 2.95,
+     "pre": 0.6,
+     "dur": 0.35
+    }
+   ],
+   "proc": {
+    "hp": 120,
+    "lp": 7000,
+    "room": "small"
+   },
+   "pan": 0.05,
+   "level": {
+    "margin": 15,
+    "cap": -18
+   },
+   "intent": "Mama's wet hands lift the storybook from the pillow, before the wordless hum (13.3).",
+   "picture_dependent": true
+  },
+  {
+   "id": "book_open",
+   "shot": "B2",
+   "kind": "events",
+   "src": "pages",
+   "events": [
+    {
+     "at": "t:22.30",
+     "src_at": 2.07,
+     "pre": 0.25,
+     "dur": 0.45
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 8000,
+    "room": "small"
+   },
+   "pan": -0.1,
+   "level": {
+    "margin": 15,
+    "cap": -18
+   },
+   "intent": "The book opened across Mama's knees on the B2 cut, in the 1.4 s gap between the child's line and Mama's 'On 花果山'.",
+   "picture_dependent": true
+  },
+  {
+   "id": "chisel_far",
+   "shot": "B4",
+   "kind": "events",
+   "src": "chisel",
+   "events": [
+    {
+     "at": "beat:30.869",
+     "src_at": 2.31,
+     "dur": 0.6
+    },
+    {
+     "at": "beat:31.307",
+     "src_at": 3.37,
+     "dur": 0.6,
+     "gain": -6,
+     "pan": -0.3
+    },
+    {
+     "at": "beat:31.748",
+     "src_at": 5.59,
+     "dur": 0.6,
+     "gain": -2,
+     "pan": -0.5
+    },
+    {
+     "at": "beat:32.201",
+     "src_at": 6.41,
+     "dur": 0.6,
+     "gain": -5,
+     "pan": -0.6
+    },
+    {
+     "at": "beat:35.755",
+     "src_at": 7.975,
+     "dur": 0.6,
+     "gain": -6,
+     "pan": -0.75
+    }
+   ],
+   "proc": {
+    "hp": 700,
+    "lp": 6000,
+    "room": "valley"
+   },
+   "pan": -0.2,
+   "level": {
+    "margin": 20,
+    "cap": -20
+   },
+   "intent": "Tiny carvers on ladders far off on the cliff: chisel taps ringing on A7 (D minor pentatonic), on beats in the gap after 'by day' (30.6-32.9) and one after 'night', travelling right to left with the camera.",
+   "picture_dependent": false
+  },
+  {
+   "id": "stone_crack",
+   "shot": "C1",
+   "kind": "events",
+   "src": "stone_crack",
+   "events": [
+    {
+     "at": "t:43.70",
+     "src_at": 1.5,
+     "pre": 0.25,
+     "dur": 0.4,
+     "gain": -6
+    },
+    {
+     "at": "t:44.15",
+     "src_at": 3.895,
+     "pre": 0.04,
+     "dur": 0.75
+    }
+   ],
+   "proc": {
+    "hp": 70,
+    "lp": 8000,
+    "room": "small"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 11,
+    "cap": -12
+   },
+   "intent": "'It split apart': a dry grind under 'It split', then the hairline crack itself in the drum break at 44.15, between 'split' (43.81) and 'apart' (44.37).",
+   "picture_dependent": false
+  },
+  {
+   "id": "flips_c1",
+   "shot": "C1",
+   "kind": "events",
+   "src": "flip",
+   "events": [
+    {
+     "at": "chop:43.805",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.09
+    },
+    {
+     "at": "chop:44.040",
+     "src_at": 0.25,
+     "pre": 0.0,
+     "dur": 0.09
+    },
+    {
+     "at": "chop:44.385",
+     "src_at": 0.5,
+     "pre": 0.0,
+     "dur": 0.09
+    }
+   ],
+   "proc": {
+    "hp": 400,
+    "lp": 9000
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 16,
+    "cap": -20
+   },
+   "intent": "The frame flips to its rubbing and back on the three stutter chops: a tiny paper flip inside each measured chop.",
+   "picture_dependent": false
+  },
+  {
+   "id": "breath",
+   "shot": "C5",
+   "kind": "bed",
+   "src": "breath",
+   "start": "t:52.55",
+   "end": "t:54.45",
+   "fade_in": 0.05,
+   "fade_out": 0.3,
+   "proc": {
+    "lp": 3500,
+    "dip": -4
+   },
+   "pan": 0.0,
+   "duck": true,
+   "level": {
+    "margin": 14,
+    "cap": -20
+   },
+   "intent": "Mama leans to the page and blows: one long soft unvoiced breath (~52.5-54.5), ducked under 'wind blew once' so it fills the spaces between the words.",
+   "picture_dependent": true
+  },
+  {
+   "id": "sleeve_wind",
+   "shot": "C5",
+   "kind": "bed",
+   "src": "sleeve_wind",
+   "start": "t:54.60",
+   "end": "t:57.20",
+   "fade_in": 0.2,
+   "fade_out": 0.6,
+   "proc": {
+    "lp": 3000,
+    "dip": -4
+   },
+   "pan": 0.0,
+   "duck": true,
+   "level": {
+    "margin": 16,
+    "cap": -20
+   },
+   "intent": "'The wind': cut inside, the mist (bare paper) rolls across the egg like a water sleeve: one slow gust with a silk swish, left to right.",
+   "picture_dependent": true
+  },
+  {
+   "id": "egg_tremble",
+   "shot": "C6",
+   "kind": "events",
+   "src": "egg",
+   "events": [
+    {
+     "at": "sync:Pre-hook roll",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 1.5
+    }
+   ],
+   "proc": {
+    "hp": 200,
+    "lp": 7000,
+    "room": "small"
+   },
+   "pan": -0.1,
+   "level": {
+    "margin": 15,
+    "cap": -18
+   },
+   "intent": "The egg trembles on the pre-hook roll (57.035): a stone-on-paper rattle with three hairline ticks, crescendo, gone before the crash.",
+   "picture_dependent": false
+  },
+  {
+   "id": "ink_throw",
+   "shot": "D1",
+   "kind": "events",
+   "src": "ink_splash",
+   "events": [
+    {
+     "at": "hit:58.673",
+     "src_at": 0.22,
+     "pre": 0.2,
+     "dur": 1.6
+    }
+   ],
+   "proc": {
+    "hp": 70,
+    "lp": 11000,
+    "room": "stage"
+   },
+   "pan": -0.15,
+   "level": {
+    "margin": 8,
+    "cap": -8
+   },
+   "intent": "CRASH: one wet throw of splashed ink across the whole sheet, the splat exactly on the 58.673 crash, droplets after.",
+   "picture_dependent": false
+  },
+  {
+   "id": "seal_d1",
+   "shot": "D1",
+   "kind": "events",
+   "src": "seal",
+   "events": [
+    {
+     "at": "beat:59.126",
+     "src_at": 4.2,
+     "dur": 0.6
+    }
+   ],
+   "proc": {
+    "hp": 45,
+    "lp": 4000,
+    "room": "stage"
+   },
+   "pan": 0.3,
+   "level": {
+    "margin": 8,
+    "cap": -8
+   },
+   "intent": "The red seal 仓 slams beside the frozen newborn (亮相): one thump on the next beat, between 'formed' and the echo 'born'.",
+   "picture_dependent": false
+  },
+  {
+   "id": "seals_d2",
+   "shot": "D2",
+   "kind": "events",
+   "src": "seal",
+   "events": [
+    {
+     "at": "beat:61.321",
+     "src_at": 2.27,
+     "dur": 0.4,
+     "gain": -6,
+     "rate": 1.12
+    },
+    {
+     "at": "beat:62.205",
+     "src_at": 2.27,
+     "dur": 0.4,
+     "gain": -6,
+     "rate": 1.12
+    },
+    {
+     "at": "beat:63.090",
+     "src_at": 2.27,
+     "dur": 0.4,
+     "gain": -6,
+     "rate": 1.12
+    },
+    {
+     "at": "beat:63.980",
+     "src_at": 4.2,
+     "dur": 0.5
+    }
+   ],
+   "proc": {
+    "hp": 45,
+    "lp": 1500,
+    "room": "stage"
+   },
+   "pan": 0.2,
+   "level": {
+    "margin": 10,
+    "cap": -10
+   },
+   "intent": "四击头: four bows re-posed on every second beat from 61.32, each landing with a small seal (才 才 才, a smaller stone, re-pitched up) and 仓 on the fourth (little Jade's bow on her mat). Low-passed to 1.5 kHz so they sit under the words they share beats with.",
+   "picture_dependent": false
+  },
+  {
+   "id": "land_d6",
+   "shot": "D6",
+   "kind": "events",
+   "src": "feet",
+   "events": [
+    {
+     "at": "hit:75.025",
+     "src_at": 1.63,
+     "pre": 0.05,
+     "dur": 0.5
+    }
+   ],
+   "proc": {
+    "hp": 40,
+    "lp": 5000,
+    "room": "stage"
+   },
+   "pan": -0.4,
+   "level": {
+    "margin": 9,
+    "cap": -10
+   },
+   "intent": "The tumbling pass lands: feet on the boards = 亮相 freeze on the strong kick at 75.025, before the drum break.",
+   "picture_dependent": true
+  },
+  {
+   "id": "staff_d7",
+   "shot": "D7",
+   "kind": "events",
+   "src": "staff_whoosh",
+   "events": [
+    {
+     "at": "beat:76.811",
+     "src_at": 0.27,
+     "pre": 0.27,
+     "dur": 0.62
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 5000,
+    "room": "stage"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 11,
+    "cap": -14
+   },
+   "intent": "Staff flower: two swings of the staff, their peaks on the beats 76.81 and 77.25 (suona solo, no voice).",
+   "picture_dependent": true
+  },
+  {
+   "id": "drybrush_d7",
+   "shot": "D7",
+   "kind": "events",
+   "src": "drybrush",
+   "events": [
+    {
+     "at": "beat:77.697",
+     "src_at": 1.765,
+     "pre": 0.35,
+     "dur": 0.45
+    },
+    {
+     "at": "beat:78.586",
+     "src_at": 3.74,
+     "pre": 0.3,
+     "dur": 0.4,
+     "gain": -3
+    }
+   ],
+   "proc": {
+    "hp": 400,
+    "lp": 10000,
+    "room": "small"
+   },
+   "pan": 0.15,
+   "level": {
+    "margin": 13,
+    "cap": -16
+   },
+   "intent": "The ring of dry-brush (飞白) the spinning staff leaves on the paper: two scratchy strokes peaking on beats.",
+   "picture_dependent": true
+  },
+  {
+   "id": "staff_plant_d8",
+   "shot": "D8",
+   "kind": "events",
+   "src": "feet",
+   "events": [
+    {
+     "at": "hit:79.252",
+     "src_at": 1.33,
+     "pre": 0.03,
+     "dur": 0.35,
+     "rate": 1.3
+    }
+   ],
+   "proc": {
+    "hp": 80,
+    "lp": 6000,
+    "room": "stage"
+   },
+   "pan": 0.1,
+   "level": {
+    "margin": 11,
+    "cap": -12
+   },
+   "intent": "He plants the staff on the boards (a short wooden knock on the kick at 79.252) and climbs it.",
+   "picture_dependent": true
+  },
+  {
+   "id": "seal_d8",
+   "shot": "D8",
+   "kind": "events",
+   "src": "seal",
+   "events": [
+    {
+     "at": "hit:79.930",
+     "src_at": 4.2,
+     "dur": 0.6
+    }
+   ],
+   "proc": {
+    "hp": 45,
+    "lp": 4000,
+    "room": "stage"
+   },
+   "pan": 0.25,
+   "level": {
+    "margin": 8,
+    "cap": -8
+   },
+   "intent": "Freeze on top of the staff, hand shading his eyes: seal 仓 on the last stroke of the fast roll (79.930).",
+   "picture_dependent": true
+  },
+  {
+   "id": "neon_hum_e5",
+   "shot": "E5-E6",
+   "kind": "bed",
+   "src": "neon_hum",
+   "start": "shot:E5",
+   "end": "shot:F1",
+   "fade_in": 0.35,
+   "cut_end": true,
+   "proc": {
+    "lp": 4000,
+    "hp": 120
+   },
+   "pan": 0.45,
+   "width": 0.3,
+   "duck": true,
+   "level": {
+    "margin": 16,
+    "cap": -24
+   },
+   "intent": "Back in the attic with the band gone (100.9-107.9): the neon hum under the whisper; it cuts dead on the hard cut to the car (107.040).",
+   "picture_dependent": false
+  },
+  {
+   "id": "whisper",
+   "shot": "E5",
+   "kind": "bed",
+   "src": "whisper",
+   "start": "word:22:ps:1",
+   "end": "word:23:a",
+   "fade_in": 0.05,
+   "fade_out": 0.15,
+   "proc": {
+    "lp": 7000,
+    "dip": -3
+   },
+   "pan": -0.2,
+   "duck": true,
+   "level": {
+    "margin": 13,
+    "cap": -22
+   },
+   "intent": "Mama's cupped hand at little Jade's ear: breath close to the ear (unvoiced, wandering formants: no words by construction), under and between the song's own 'ps ps ps', gone before 'a secret'.",
+   "picture_dependent": false
+  },
+  {
+   "id": "car_cabin",
+   "shot": "F1-F6",
+   "kind": "bed",
+   "src": "car_cabin",
+   "src_from": 3.2,
+   "src_to": 12.0,
+   "loop": true,
+   "start": "shot:F1",
+   "end": "shot:G1",
+   "fade_in": 0.004,
+   "cut_end": true,
+   "proc": {
+    "lp": 4000,
+    "room": "car",
+    "dip": -3,
+    "hp": 140
+   },
+   "pan": 0.0,
+   "width": 0.7,
+   "duck": true,
+   "level": {
+    "margin": 15,
+    "cap": -18
+   },
+   "intent": "2026, the car at dusk on the highway: cabin tone and tyre roar, in on the hard cut (107.040) and out on the hard cut back to 1988 (121.470). High-passed at 140 Hz: tyre roar, not rumble, so the cabin never fills the rap's own bass drop-outs (e.g. 117.7-118.0).",
+   "picture_dependent": false,
+   "band_follow": {
+    "lo": 125,
+    "hi": 250,
+    "margin": 3
+   }
+  },
+  {
+   "id": "streetlights",
+   "shot": "F1-F6",
+   "kind": "events",
+   "src": "streetlight",
+   "events": [
+    {
+     "at": "beat:108.425",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3
+    },
+    {
+     "at": "beat:110.175",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3
+    },
+    {
+     "at": "beat:111.935",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3
+    },
+    {
+     "at": "beat:113.688",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3
+    },
+    {
+     "at": "beat:115.445",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3
+    },
+    {
+     "at": "beat:116.320",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -1
+    },
+    {
+     "at": "beat:116.736",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -2
+    },
+    {
+     "at": "beat:117.200",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -3
+    },
+    {
+     "at": "beat:117.628",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -4
+    },
+    {
+     "at": "beat:118.938",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -2
+    },
+    {
+     "at": "beat:119.812",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -2
+    },
+    {
+     "at": "beat:120.687",
+     "src_at": 0.3,
+     "pre": 0.3,
+     "dur": 0.3,
+     "gain": -2
+    }
+   ],
+   "proc": {
+    "hp": 60,
+    "lp": 2500
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 15,
+    "cap": -18
+   },
+   "intent": "Each passing streetlight: a soft pressure swoosh past the daughter's window (R -> centre), one per bar while the puppets are lit (F1-F4), on each beat as the copies go dark one per beat (F5, 116.3-117.6), then one per two beats (F6). No turn-signal tick. In the rap every beat carries a syllable, so these cannot sit 150 ms clear of words: they are soft swells (no transient), ~30 dB under the song and >= 6.5 dB under the vocal.",
+   "picture_dependent": false
+  },
+  {
+   "id": "margins_close",
+   "shot": "G1",
+   "kind": "events",
+   "src": "paper_slide",
+   "events": [
+    {
+     "at": "beat:122.430",
+     "src_at": 3.4,
+     "pre": 0.55,
+     "dur": 0.25,
+     "pan": -0.7
+    },
+    {
+     "at": "beat:122.430",
+     "offset": 0.03,
+     "src_at": 3.4,
+     "pre": 0.55,
+     "dur": 0.25,
+     "pan": 0.7,
+     "gain": -1
+    }
+   ],
+   "proc": {
+    "hp": 200,
+    "lp": 5000,
+    "room": "attic"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 15,
+    "cap": -18
+   },
+   "intent": "As the sound narrows (width 121.905, filter 122.545) the paper margins start to close from left and right: two sheets sliding in, one from each side, landing on the beat 122.43.",
+   "picture_dependent": false
+  },
+  {
+   "id": "margin_notches",
+   "shot": "G2-G4",
+   "kind": "events",
+   "src": "paper_slide",
+   "events": [
+    {
+     "at": "word:37:听",
+     "src_at": 3.4,
+     "pre": 0.12,
+     "dur": 0.18,
+     "pan": -0.6
+    },
+    {
+     "at": "word:39:听",
+     "src_at": 3.4,
+     "pre": 0.12,
+     "dur": 0.18,
+     "pan": 0.6
+    },
+    {
+     "at": "word:42:听",
+     "src_at": 3.4,
+     "pre": 0.12,
+     "dur": 0.18,
+     "pan": -0.6
+    }
+   ],
+   "proc": {
+    "hp": 250,
+    "lp": 2500,
+    "room": "attic"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 14,
+    "cap": -18
+   },
+   "intent": "The margins step in one notch on each 听话 (130.175, 133.690, 141.45): a short dry paper slide, alternating sides, low-passed to 2.5 kHz to stay under the sung word it lands with.",
+   "picture_dependent": false
+  },
+  {
+   "id": "room_yes",
+   "shot": "G5",
+   "kind": "bed",
+   "src": "room_attic",
+   "start": "shot:G5",
+   "end": "silence:149.285:start",
+   "fade_in": 0.6,
+   "cut_end": true,
+   "proc": {
+    "lp": 1500
+   },
+   "pan": 0.0,
+   "duck": true,
+   "level": {
+    "margin": 16,
+    "cap": -30
+   },
+   "intent": "Drums out: the attic room itself under 'no more, no less' and 'Yes' (148.72); cut to true digital zero at 149.285 so the 0.24 s hole is untouched.",
+   "picture_dependent": false
+  },
+  {
+   "id": "neon_hum_yes",
+   "shot": "G5",
+   "kind": "bed",
+   "src": "neon_hum",
+   "start": "shot:G5",
+   "end": "silence:149.285:start",
+   "fade_in": 0.6,
+   "cut_end": true,
+   "proc": {
+    "lp": 3000,
+    "hp": 120
+   },
+   "pan": 0.45,
+   "width": 0.3,
+   "duck": true,
+   "level": {
+    "margin": 18,
+    "cap": -30
+   },
+   "intent": "The sign's hum, faint, with the room; both cut together into the hole.",
+   "picture_dependent": false
+  },
+  {
+   "id": "stamps_h",
+   "shot": "H1-H2",
+   "kind": "events",
+   "src": "dab",
+   "events": [
+    {
+     "at": "beat:150.588",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:151.463",
+     "src_at": 0.25,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:152.325",
+     "src_at": 0.5,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:153.195",
+     "src_at": 0.75,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:154.061",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:154.930",
+     "src_at": 0.25,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:155.810",
+     "src_at": 0.5,
+     "pre": 0.0,
+     "dur": 0.12
+    },
+    {
+     "at": "beat:156.668",
+     "src_at": 0.75,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -2
+    },
+    {
+     "at": "beat:157.104",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -2
+    },
+    {
+     "at": "beat:157.537",
+     "src_at": 0.25,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -3
+    },
+    {
+     "at": "beat:157.972",
+     "src_at": 0.5,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -3
+    },
+    {
+     "at": "beat:158.850",
+     "src_at": 0.75,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -3
+    },
+    {
+     "at": "beat:159.277",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -4
+    },
+    {
+     "at": "beat:159.711",
+     "src_at": 0.25,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -4
+    },
+    {
+     "at": "beat:160.143",
+     "src_at": 0.5,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -4
+    },
+    {
+     "at": "beat:160.583",
+     "src_at": 0.75,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -5
+    },
+    {
+     "at": "beat:161.025",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -5
+    },
+    {
+     "at": "beat:161.447",
+     "src_at": 0.25,
+     "pre": 0.0,
+     "dur": 0.12,
+     "gain": -6
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 6000,
+    "room": "small"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 14,
+    "cap": -16
+   },
+   "intent": "The 脸谱 album fills cell by cell: a soft paint-dab stamp per face, on every second beat in H1 (close, one face per cut), on every beat in H2 and fading as the grid fills; none in the 158.19 roll; the last face lands 161.45 (the bare cell gets nothing). All in the 13 s instrumental: no lyric under any.",
+   "picture_dependent": false
+  },
+  {
+   "id": "paint_strokes_h1",
+   "shot": "H1",
+   "kind": "events",
+   "src": "brush_wet",
+   "events": [
+    {
+     "at": "t:150.80",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.3
+    },
+    {
+     "at": "t:152.54",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.3,
+     "gain": -2
+    },
+    {
+     "at": "t:154.28",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.3,
+     "gain": -3
+    }
+   ],
+   "proc": {
+    "hp": 400,
+    "lp": 7000,
+    "room": "small"
+   },
+   "pan": 0.1,
+   "level": {
+    "margin": 16,
+    "cap": -18
+   },
+   "intent": "Three of the faces finished in quick strokes: one short brush stroke a 16th after the stamp (between beats).",
+   "picture_dependent": true
+  },
+  {
+   "id": "hair_air",
+   "shot": "H6",
+   "kind": "bed",
+   "src": "hair_air",
+   "start": "t:172.90",
+   "end": "t:177.10",
+   "fade_in": 0.3,
+   "fade_out": 0.6,
+   "proc": {
+    "lp": 1800,
+    "dip": -3
+   },
+   "pan": 0.0,
+   "duck": true,
+   "level": {
+    "margin": 20,
+    "cap": -30
+   },
+   "intent": "'one hair that can't gather': almost nothing, a single slow breath of air drifting off to the left as the hair leaves the page.",
+   "picture_dependent": true
+  },
+  {
+   "id": "flashlight_on",
+   "shot": "I1",
+   "kind": "events",
+   "src": "flashlight",
+   "events": [
+    {
+     "at": "hit:177.193",
+     "src_at": 8.66,
+     "pre": 0.01,
+     "dur": 0.15
+    }
+   ],
+   "proc": {
+    "hp": 300,
+    "lp": 12000,
+    "room": "small"
+   },
+   "pan": 0.15,
+   "level": {
+    "margin": 12,
+    "cap": -16
+   },
+   "intent": "The white of the page becomes flashlight glare: the switch clicks ON, placed on the kick at 177.193 (the I1 picture cut is at 177.000: let the glare bloom to the click, or move the cut).",
+   "picture_dependent": true
+  },
+  {
+   "id": "room_build",
+   "shot": "I1-I4",
+   "kind": "bed",
+   "src": "room_bed",
+   "start": "sync:Build: drums",
+   "end": "hit:189.790",
+   "fade_in": 0.5,
+   "cut_end": true,
+   "proc": {
+    "lp": 2200
+   },
+   "pan": 0.0,
+   "duck": true,
+   "level": {
+    "margin": 18,
+    "cap": -30
+   },
+   "intent": "2026 bedroom: a faint room under the drum-less build; cut by the first stuttered crash of drop 2.",
+   "picture_dependent": false
+  },
+  {
+   "id": "page_turn_i",
+   "shot": "I1",
+   "kind": "events",
+   "src": "pages",
+   "events": [
+    {
+     "at": "t:179.75",
+     "src_at": 3.32,
+     "pre": 0.3,
+     "dur": 0.4
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 8000,
+    "room": "small"
+   },
+   "pan": 0.1,
+   "level": {
+    "margin": 14,
+    "cap": -18
+   },
+   "intent": "Jade turns to the heaven page, in the gap after 'twin' (179.43) and before 'you'd fight' (180.19).",
+   "picture_dependent": true
+  },
+  {
+   "id": "fingertip_j1",
+   "shot": "J1",
+   "kind": "events",
+   "src": "fingertip",
+   "events": [
+    {
+     "at": "t:189.62",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.3
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 6000,
+    "room": "small"
+   },
+   "pan": 0.1,
+   "level": {
+    "margin": 14,
+    "cap": -20
+   },
+   "intent": "The daughter's fingertip touches a carved character, just after the chop hole (189.505-189.585) and before the stuttered crashes light it.",
+   "picture_dependent": true
+  },
+  {
+   "id": "seal_echoes",
+   "shot": "J2-J5",
+   "kind": "events",
+   "src": "seal",
+   "events": [
+    {
+     "at": "hit:191.526",
+     "src_at": 2.27,
+     "dur": 0.5,
+     "pan": -0.3
+    },
+    {
+     "at": "hit:192.383",
+     "src_at": 2.27,
+     "dur": 0.5,
+     "gain": -3,
+     "pan": 0.3
+    },
+    {
+     "at": "hit:195.607",
+     "src_at": 2.27,
+     "dur": 0.5,
+     "gain": -5,
+     "pan": -0.1
+    },
+    {
+     "at": "t:198.740",
+     "src_at": 2.27,
+     "dur": 0.5,
+     "gain": -7,
+     "pan": 0.2
+    },
+    {
+     "at": "hit:202.468",
+     "src_at": 2.27,
+     "dur": 0.5,
+     "gain": -9,
+     "pan": 0.0
+    }
+   ],
+   "proc": {
+    "hp": 45,
+    "lp": 2500,
+    "room": "stage"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 9,
+    "cap": -10
+   },
+   "intent": "Drop 2's chopped echoes are the seal pressed again without re-inking, fainter each time: (formed) on Mama's face, (formed) on little Jade's, (warmed) on Jade, (no song) on the daughter, (百通) the inscription's faint re-press. Each snapped to the nearest measured hit (198.74 sits between the hits 198.613 and 198.833).",
+   "picture_dependent": false
+  },
+  {
+   "id": "staff_j3",
+   "shot": "J3",
+   "kind": "events",
+   "src": "staff_whoosh",
+   "events": [
+    {
+     "at": "t:195.20",
+     "src_at": 0.27,
+     "pre": 0.27,
+     "dur": 0.15
+    }
+   ],
+   "proc": {
+    "hp": 200,
+    "lp": 5000,
+    "room": "stage"
+   },
+   "pan": -0.3,
+   "level": {
+    "margin": 11,
+    "cap": -14
+   },
+   "intent": "The staff's last sweep across the heaven: one swing ending into the dry-brush stroke.",
+   "picture_dependent": true
+  },
+  {
+   "id": "drybrush_j3",
+   "shot": "J3",
+   "kind": "events",
+   "src": "drybrush",
+   "events": [
+    {
+     "at": "t:195.36",
+     "src_at": 1.765,
+     "pre": 0.1,
+     "dur": 0.25
+    }
+   ],
+   "proc": {
+    "hp": 400,
+    "lp": 10000,
+    "room": "small"
+   },
+   "pan": 0.3,
+   "level": {
+    "margin": 12,
+    "cap": -16
+   },
+   "intent": "...the dry-brush stroke that leaves the 1988 page and lands in the 2026 page, ending before the (warmed) re-press.",
+   "picture_dependent": true
+  },
+  {
+   "id": "flips_j5",
+   "shot": "J5",
+   "kind": "events",
+   "src": "flip",
+   "events": [
+    {
+     "at": "chop:200.675",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.09
+    },
+    {
+     "at": "chop:201.030",
+     "src_at": 0.75,
+     "pre": 0.0,
+     "dur": 0.09
+    }
+   ],
+   "proc": {
+    "hp": 400,
+    "lp": 9000
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 16,
+    "cap": -20
+   },
+   "intent": "Stutter chop inside '一通': a tiny rubbing flip in each of the two measured chops.",
+   "picture_dependent": false
+  },
+  {
+   "id": "brush_strike",
+   "shot": "K3",
+   "kind": "events",
+   "src": "brush_wet",
+   "events": [
+    {
+     "at": "hit:216.060",
+     "src_at": 0.0,
+     "pre": 0.0,
+     "dur": 0.5
+    }
+   ],
+   "proc": {
+    "hp": 250,
+    "lp": 6000,
+    "room": "small"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 11,
+    "cap": -14
+   },
+   "intent": "'in a single breath': one wet brushstroke strikes the entry out, starting on the hit 216.06 (0.28 s after 'single', 0.46 s before 'breath').",
+   "picture_dependent": false
+  },
+  {
+   "id": "ledger_pages",
+   "shot": "K4",
+   "kind": "events",
+   "src": "pages",
+   "events": [
+    {
+     "at": "t:218.75",
+     "src_at": 1.185,
+     "pre": 0.25,
+     "dur": 0.35,
+     "gain": -6,
+     "pan": -0.2
+    },
+    {
+     "at": "t:219.80",
+     "src_at": 2.07,
+     "pre": 0.25,
+     "dur": 0.4,
+     "pan": -0.2
+    },
+    {
+     "at": "t:220.23",
+     "src_at": 3.32,
+     "pre": 0.25,
+     "dur": 0.4,
+     "gain": -5,
+     "pan": 0.25
+    }
+   ],
+   "proc": {
+    "hp": 150,
+    "lp": 8000,
+    "room": "small"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 12,
+    "cap": -16
+   },
+   "intent": "'I turned each page': the beat has cut out (218.715); a small hand turns the ledger's pages, then little Jade's hand turns with it a beat behind (0.43 s), in the gap after 'page' (ends 219.74) before 'I looked' (220.78).",
+   "picture_dependent": true
+  },
+  {
+   "id": "page_land",
+   "shot": "K4",
+   "kind": "events",
+   "src": "book",
+   "events": [
+    {
+     "at": "hit:221.805",
+     "src_at": 5.295,
+     "pre": 0.06,
+     "dur": 0.35
+    }
+   ],
+   "proc": {
+    "hp": 120,
+    "lp": 5000,
+    "room": "small"
+   },
+   "pan": 0.0,
+   "level": {
+    "margin": 10,
+    "cap": -14
+   },
+   "intent": "The page lands flat on the song's wooden hit 221.805.",
+   "picture_dependent": false
+  },
+  {
+   "id": "flashlight_off",
+   "shot": "L2",
+   "kind": "events",
+   "src": "flashlight",
+   "events": [
+    {
+     "at": "hit:235.833",
+     "src_at": 8.915,
+     "pre": 0.01,
+     "dur": 0.15
+    }
+   ],
+   "proc": {
+    "hp": 300,
+    "lp": 12000,
+    "room": "small"
+   },
+   "pan": 0.1,
+   "level": {
+    "margin": 9,
+    "cap": -12
+   },
+   "intent": "Jade clicks the flashlight OFF exactly on the last hit (235.833): 2026 goes black. Not softened.",
+   "picture_dependent": false
+  },
+  {
+   "id": "neon_hum_end",
+   "shot": "L3",
+   "kind": "bed",
+   "src": "neon_hum",
+   "start": "hit:235.833",
+   "end": "sync:Hum/drone",
+   "fade_in": 0.02,
+   "cut_end": true,
+   "proc": {
+    "lp": 5000,
+    "hp": 200
+   },
+   "pan": 0.45,
+   "width": 0.3,
+   "duck": false,
+   "level": {
+    "margin": 16,
+    "cap": -26
+   },
+   "intent": "In the black, the 1988 window, its neon still humming: the song's own D drone carries the hum; the layer adds only the sign's faint upper buzz (same D series) at the window, and cuts with the drone at 237.840.",
+   "picture_dependent": false
+  },
+  {
+   "id": "neon_off",
+   "shot": "L3",
+   "kind": "events",
+   "src": "relay_tick",
+   "events": [
+    {
+     "at": "sync:Hum/drone"
+    }
+   ],
+   "proc": {
+    "room": "attic",
+    "lp": 6000
+   },
+   "pan": 0.45,
+   "level": {
+    "margin": 8,
+    "cap": -22,
+    "exempt_after": true
+   },
+   "intent": "The neon goes off: one small relay/ballast tick exactly at 237.840, then nothing.",
+   "picture_dependent": false
+  },
+  {
+   "id": "room_tail_C",
+   "shot": "L3 (end C)",
+   "kind": "bed",
+   "src": "room_attic",
+   "start": "sync:Hum/drone",
+   "end_rel": 3.0,
+   "fade_in": 0.004,
+   "cut_end": true,
+   "variants": [
+    "C"
+   ],
+   "proc": {
+    "lp": 1500
+   },
+   "pan": 0.0,
+   "duck": false,
+   "level": {
+    "abs_lufs": -54,
+    "cap": -50
+   },
+   "intent": "Ending C only: after the click to black, 3 s of faint attic room tone, then it stops (3 ms).",
+   "picture_dependent": false
+  }
+ ]
+}
