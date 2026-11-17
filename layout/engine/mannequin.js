@@ -17,7 +17,7 @@
 // set resolver knows. dirs: [x,y,z] world | 'up' 'down' 'fwd' 'back' 'left' 'right' 'in' 'out' (figure-relative) |
 // 'to:<target>' (toward a target).
 import * as THREE from 'three';
-import { mk, limb, ball, slab, V, rad, UP, ik, basisQ } from './core.js';
+import { mk, limb, ball, slab, V, rad, UP, ik, basisQ, tag } from './core.js';
 
 export const CAST = {
   mama: { name: 'Mama', h: 1.60, kind: 'adult', skin: 0xd8a27c, hair: 0x15110f, top: 0x6e3a33, legs: 0x3a3632, apron: 0xb9b2a0, hairStyle: 'bun', sleeves: 'pushed' },
@@ -232,6 +232,7 @@ export function buildFigure(spec, ctx) {
     if (a.off) target.add(V(a.off));
     const resolveDir = (d) => (typeof d === 'string' && d.startsWith('to:')) ? ctx.resolve(d.slice(3), P).sub(target).normalize() : dirOf(d);
     let f = resolveDir(a.fingers), nrm = resolveDir(a.palm);
+    const thumbDir = a.thumb ? resolveDir(a.thumb) : null;
     const pole = a.elbow ? (resolveDir(a.elbow) || V(a.elbow)) : UP.clone().negate().addScaledVector(cx, s * 0.65).addScaledVector(cz, -0.3);
     let r, ff = f;
     for (let it = 0; it < 3; it++) {
@@ -241,6 +242,10 @@ export function buildFigure(spec, ctx) {
       if (!f) ff = r.end.clone().sub(r.mid).normalize();
     }
     f = ff.clone().normalize();
+    if (thumbDir) { // orient the thumb side along a direction (e.g. the ring's hole facing the light)
+      const t = thumbDir.clone().addScaledVector(f, -thumbDir.dot(f)).normalize();
+      nrm = n === 'L' ? new THREE.Vector3().crossVectors(f, t) : new THREE.Vector3().crossVectors(t, f);
+    }
     if (!nrm) { nrm = UP.clone().negate(); if (Math.abs(nrm.dot(f)) > 0.9) nrm = cz.clone(); }
     nrm.addScaledVector(f, -nrm.dot(f)).normalize();
     const sleeveLook = LK.top, foreLook = c.sleeves === 'long' ? LK.top : LK.skin, upperLook = c.sleeves === 'short' ? LK.skin : LK.top;
@@ -254,6 +259,7 @@ export function buildFigure(spec, ctx) {
     P.hands[n] = { group: hg, shape, f, n: nrm, t: hand.t, reach: +r.reach.toFixed(2) };
   }
   g.traverse((o) => { o.userData.who = spec.who; });
+  tag(g, c.name);
   g.userData.report = { legs: legInfo, arms: { L: P.hands.L.reach, R: P.hands.R.reach }, headTurn: P.headTurn };
   return g;
 }

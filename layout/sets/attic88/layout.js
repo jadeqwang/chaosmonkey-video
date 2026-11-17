@@ -14,10 +14,10 @@ export const ROOM = {
 export const roofY = (z) => ROOM.knee + (ROOM.ridge - ROOM.knee) * (1 - Math.abs(z) / ROOM.z1);
 
 // the window: low in the right gable, centred, two-by-two panes, dusty
-export const WINDOW = { x: 3.5, z: -0.8, sill: 0.5, w: 0.8, h: 0.6, frame: 0.05, mullion: 0.03, depth: 0.16 };
+export const WINDOW = { x: 3.5, z: -0.8, sill: 0.45, w: 0.8, h: 0.8, frame: 0.05, mullion: 0.03, depth: 0.16 };
 // the neon sign: a letter frame hung on brackets 1.2 m outside the gable, parallel to it, facing the street.
 // From inside it is read backwards. Lettering (invented): CHIN. IND. SPEC. REST. / 酒家
-export const SIGN = { x: 3.5 + 1.2, z: -0.6, y: 0.86, w: 2.6, h: 1.15, text: ['CHIN. IND. SPEC. REST.', '酒家'],
+export const SIGN = { x: 3.5 + 1.2, z: -0.6, y: 1.1, w: 2.6, h: 1.25, text: ['CHIN. IND. SPEC. REST.', '酒家'],
   red: 0xff2a14, blue: 0x3f6dff };
 // the stair door: centred in the left gable, opening outward over the stairwell
 export const DOOR = { x: -3.5, z: 0.0, w: 0.76, h: 1.9, hingeZ: 0.38, maxDeg: 95 };
@@ -42,7 +42,7 @@ export const KITCHEN = { x0: -2.4, x1: 2.9, z0: -0.45, z1: 1.7 };
 
 // light list (positions in metres)
 export const LIGHTS = {
-  neon: { kind: 'neon sign through window (effective point: the part of the sign the mats see through the glass)', pos: [SIGN.x - 0.03, 1.0, -0.2], colors: { red: SIGN.red, blue: SIGN.blue } },
+  neon: { kind: 'neon sign through window (effective point: the part of the sign the mats see through the glass)', pos: [SIGN.x - 0.03, 1.5, -0.2], colors: { red: SIGN.red, blue: SIGN.blue } },
   floor: { kind: 'tungsten through floorboard cracks', color: 0xffa24a },
   stair: { kind: 'tungsten bulb in the stairwell, through the door', pos: STAIRWELL.bulb, color: 0xffb468 },
   night: { kind: 'ambient night', color: 0x1a2240 },

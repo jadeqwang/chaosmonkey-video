@@ -1,7 +1,8 @@
 // Build one attic88 shot: room (from layout.js) + figures + book + light rig for each render mode.
 import * as THREE from 'three';
 import { mk, box, cyl, ball, quad, slab, tag, V, rad, UP, textTexture, limb } from '../../engine/core.js';
-import { stage, casterMeshes, projectShadow } from '../../engine/stage.js';
+import { stage, casterMeshes, projectShadow, solveCamera, hideParts, namedPoint } from '../../engine/stage.js';
+import { aim } from '../../engine/aim.js';
 import { ROOM, roofY, WINDOW, SIGN, DOOR, STAIRWELL, MATS, PILLOW, PROPS, KITCHEN, LIGHTS } from './layout.js';
 
 const WOOD = { grey: 0.45, col: 0x5a3f2a }, WOOD_D = { grey: 0.32, col: 0x3d2a1c }, FLOOR = { grey: 0.55, col: 0x6a4a30 };
@@ -185,12 +186,24 @@ function blanket(spec, figs) {
 export function build(shot, { makeCam }) {
   const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
   const { g: roomG, panes } = room(shot); root.add(roomG); root.add(props(shot));
-  const { figs, book } = stage(shot.figs, shot.book);
+  const neonP = V(LIGHTS.neon.pos);
+  // set targets: 'neon' (the light), 'ray:<point>:<d>' = d metres from a point toward the neon (where a hand must be
+  // for its shadow to land on that point)
+  const extra = (t, figs, book) => {
+    if (t === 'neon') return neonP.clone();
+    if (t.startsWith('ray:')) { const parts = t.split(':'); const d = Number(parts.pop()); const name = parts.slice(1).join(':');
+      let p; try { p = namedPoint(name, figs, book); } catch (e) { return null; }
+      return p.clone().addScaledVector(neonP.clone().sub(p).normalize(), d); }
+    return null;
+  };
+  const { figs, book } = stage(shot.figs, shot.book, extra);
   if (shot.hide) root.traverse((o) => { if (o.isMesh && shot.hide.includes(o.userData.label)) o.visible = false; });
   for (const f of Object.values(figs)) root.add(f);
   if (shot.hide) for (const f of Object.values(figs)) if (shot.hide.includes(f.name)) f.visible = false;
   if (book) root.add(book.group);
   for (const b of shot.blankets || [{ who: 'mama', mode: 'folded' }, { who: 'littleJade', mode: 'flat' }]) { const m = blanket(b, figs); if (m) root.add(m); }
+  Object.assign(shot, solveCamera(shot, figs, book, aim));
+  hideParts(shot.hideParts, figs);
   const cam = makeCam(shot);
   // lights
   const neonState = shot.light?.neon ?? 'red'; const neonCol = neonState === 'blue' ? SIGN.blue : SIGN.red;

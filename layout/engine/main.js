@@ -50,8 +50,11 @@ function labelOverlay(b, canvas, shot) {
     const cx = s.sx / s.n, cy = s.sy / s.n; let best = s.pts[0], bd = 1e18;
     for (const p of s.pts) { const d = (p[0] - cx) ** 2 + (p[1] - cy) ** 2; if (d < bd) { bd = d; best = p; } }
     const tw = g.measureText(name).width + 12, th = 28;
-    let bx = Math.min(Math.max(best[0] + 10, 4), W - tw - 4), by = Math.min(Math.max(best[1] - th - 6, 4), H - th - 4);
-    for (let k = 0; k < 30; k++) { const hit = placed.find((p) => bx < p.x + p.w && bx + tw > p.x && by < p.y + p.h && by + th > p.y); if (!hit) break; by = hit.y + hit.h + 2; if (by > H - th) { by = 4; bx += 60; } }
+    const clampX = (x) => Math.min(Math.max(x, 4), W - tw - 4), clampY = (y) => Math.min(Math.max(y, 44), H - th - 4);
+    const cands = [[10, -th - 6], [10, 8], [-tw - 10, -th - 6], [-tw - 10, 8], [10, -2 * th - 14], [-tw / 2, 16], [-tw / 2, -th - 18], [24, 2 * th], [-tw - 24, -2 * th - 10], [40, -3 * th]];
+    let bx, by, ok = false;
+    for (const [ox, oy] of cands) { bx = clampX(best[0] + ox); by = clampY(best[1] + oy); if (!placed.some((p) => bx < p.x + p.w && bx + tw > p.x && by < p.y + p.h && by + th > p.y)) { ok = true; break; } }
+    if (!ok) { bx = clampX(best[0] + 10); by = clampY(best[1] - th - 6); for (let k = 0; k < 40; k++) { const hit = placed.find((p) => bx < p.x + p.w && bx + tw > p.x && by < p.y + p.h && by + th > p.y); if (!hit) break; by = hit.y + hit.h + 2; if (by > H - th) { by = 44; bx = clampX(bx + 80); } } }
     placed.push({ x: bx, y: by, w: tw, h: th });
     const who = s.pts.length && id.meshAt(best[0], best[1])?.userData.who;
     g.strokeStyle = who ? '#b0201a' : '#222'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(best[0], best[1]); g.lineTo(bx + 4, by + th / 2); g.stroke();
@@ -98,6 +101,10 @@ window.sidecar = (id) => {
       facing_camera_deg: +(Math.acos(THREE.MathUtils.clamp(Pf.headFwd.dot(cam.position.clone().sub(Pf.head).normalize()), -1, 1)) * 180 / Math.PI).toFixed(0) };
     for (const n of ['L', 'R']) { const hp2 = px(Pf['hand' + n], cam); out.hands[`${who}.${n}`] = { px: [hp2.x, hp2.y], shape: Pf.hands[n].shape, in_frame: hp2.front && hp2.x >= 0 && hp2.x <= W && hp2.y >= 0 && hp2.y <= H, visible: visOf(hp2, who) }; }
     if (shot.sync === 'lip' && (shot.singers || []).includes(who) && inFrame && (hp.x < SAFE.x0 || hp.x > SAFE.x1)) out.warnings.push(`${who}'s face is outside the 4:5 safe area`);
+    // what blocks the line of sight from the camera to this face?
+    if (inFrame) { const eye = Pf.eyes; const d = eye.clone().sub(cam.position); const rc = new THREE.Raycaster(cam.position, d.clone().normalize(), 0.01, d.length() - Pf.headH * 0.45);
+      const hits = rc.intersectObjects(b.scene.children, true).filter((h) => h.object.visible && h.object.userData.baseVisible !== false && h.object.userData.look && !h.object.userData.look.glass && !(h.object.userData.look.only && !h.object.userData.look.only.includes('flat')));
+      if (hits.length) { const o = hits[0].object; out.heads[who].blocked_by = (o.userData.who ? o.userData.who + ' ' : '') + (o.userData.label || ''); if ((shot.singers || []).includes(who) || (shot.focus || []).includes(who)) out.warnings.push(`${who}'s face is blocked by ${out.heads[who].blocked_by}`); } }
   }
   const subj = b.subject || (b.book ? b.book.at : new THREE.Vector3(0, 0.5, 0));
   for (const L of b.lights || []) {

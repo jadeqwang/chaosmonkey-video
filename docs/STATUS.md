@@ -30,3 +30,12 @@ Next (lead): review look bake-off -> lock rendering hand + models; design lock (
 storybook spreads); video bake-off (ink mist, ink figure/staff, character acting, lip-sync on Seedance 2.5 with automatic
 lag measurement); then sequence teams A-L produce shots -> `media/comp/<ID>.mp4`; assemble preview; `docs/MORNING.md`.
 Spend: $0 at time of writing (look bake-off in progress).
+
+## Checkpoint 3 — 2026-11-17 00:32
+Done since last: ink compositor (`tools/ink/`, README + NOTES; cliff carving needs a real rock plate and tuning);
+sound layer v1 (`docs/SOUND.md`, `media/sound/mix_v1*.wav`, ending variants A/B/C; agent recommends A = hard cut);
+I1 cut moved to the kick at 177.193.
+Running: image look bake-off (outputs in `media/look/L1..L10`; early read: ink-wash "painting of night" rooms work,
+Mama renders too old); painting library; codex cut tooling; Three.js blockouts.
+Next: lock rendering hand + models from `docs/LOOK_BAKEOFF.md`; design lock; video bake-off; sequence teams.
+Spend: TOTAL $10.50 of $600 cap  (118 billed items; list-price estimates)
