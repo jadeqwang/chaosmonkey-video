@@ -27,40 +27,47 @@ def setup(ctx):
     rock = pm.rgb * key_paper(raw, lo=0.03)
     CM = Cliff(rock, qianziwen(160), SEAL_FONT, size=34, region=MID_BLOCKS, seed=6, weather=0.25,
                presence='plane', weight=0.02, paint=0.6, depth=1.2)
-    CM.prepare(fill=0.6, gold=True, gold_stagger=0.6)
+    CM.prepare(fill=0.4, gold=True, gold_stagger=0.6)
     P = Paper(ctx.W, ctx.H, 'new', seed=BOOK_PAPER_SEED, breathe=1.0)
     EGG = egg_layer(ctx.W, ctx.H)
     # fine cracks from the crown of the egg: each a thin dry line arriving at its own time
     s = ctx.s
-    cx, cy, rx, ry = 665 * s, 690 * s, 100 * s, 108 * s
+    d = blur(1 - EGG.min(axis=2), 6 * ctx.s)
+    n, lab, stats, _ = cv2.connectedComponentsWithStats((d > 0.08).astype(np.uint8))
+    big = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
+    ys, xs = np.where(lab == big)
+    cx, cy = (xs.min() + xs.max()) / 2.0, (ys.min() + ys.max()) / 2.0
+    rx, ry = (xs.max() - xs.min()) / 2.0 * 0.86, (ys.max() - ys.min()) / 2.0 * 0.86
+    global EGG_C
+    EGG_C = (cx, cy)
     r = rng(17, 'cracks')
     CRACKS = []
-    for k in range(9):
-        a0 = -np.pi / 2 + r.normal(0, 0.55)
+    for k in range(7):
+        a0 = -np.pi / 2 + (k - 3) * 0.32 + r.normal(0, 0.1)
         x, y = cx + np.cos(a0) * rx * 0.92, cy + np.sin(a0) * ry * 0.92
         pts = [(x, y, 0.9)]
-        th = a0 + np.pi + r.normal(0, 0.35)
-        for j in range(r.integers(3, 6)):
-            th += r.normal(0, 0.5)
-            st = r.uniform(18, 42) * s
+        th = np.pi / 2 + (a0 + np.pi / 2) * 0.35 + r.normal(0, 0.15)
+        for j in range(r.integers(4, 8)):
+            th += r.normal(0, 0.35)
+            st = r.uniform(0.18, 0.32) * ry
             x, y = x + np.cos(th) * st, y + np.sin(th) * st
             if ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 > 0.95:
                 break
             pts.append((x, y, r.uniform(0.4, 1.0)))
         if len(pts) < 2:
             continue
-        t_on = T_CUT + 0.05 + (T_CRASH - T_CUT - 0.25) * (k / 9.0) ** 0.8
-        CRACKS.append((stroke(pts, width=r.uniform(2.0, 3.4) * s, seed=40 + k, paper=P, density=0.85, dry=0.3),
+        t_on = T_CUT + 0.05 + (T_CRASH - T_CUT - 0.25) * (k / 7.0) ** 0.8
+        CRACKS.append((stroke(pts, width=r.uniform(1.6, 2.8) * s, seed=40 + k, paper=P, density=0.85, dry=0.3),
                        t_on, r.uniform(0.12, 0.3)))
     ROLL = [h['t'] for h in ctx.timing.hits(None, T_CUT, T_CRASH)] if True else []
 
 
 def render(t, ctx):
     if t < T_CUT:
-        g = ramp(t, T0, T_CUT - 0.05, 'in')
+        g = ramp(t, T0, T_CUT - 0.08, 'linear')
         cy = 1150 - 260 * ramp(t, T0, T_CUT, 'inout')
         return view(None, 1150, cy, 1.0, ctx.W, ctx.H,
-                    render=lambda box: CM.render((305, 28, 0.7), fill=0.6, gold=g, ambient=0.8, warmth=0.6,
+                    render=lambda box: CM.render((305, 28, 0.7), fill=0.4, gold=g, ambient=0.8, warmth=0.6,
                                                  gold_stagger=0.6, box=box))
     f = P.frame(t)
     lay_ink(f, EGG, 0, 0)
@@ -70,4 +77,7 @@ def render(t, ctx):
     # trembling: a small hard jolt on each roll hit, growing toward the crash
     k = ramp(t, T_CUT, T_CRASH, 'in')
     dx, dy = shake_offset(t, ROLL, amp=(1.5 + 5.0 * k) * ctx.s, dur=0.09) if ROLL else (0, 0)
-    return shaken(f, dx, dy)
+    f = shaken(f, dx, dy)
+    z = 1.0 + 0.3 * ramp(t, T_CUT, T_CRASH, 'in')          # pressed tight toward the burst
+    ex, ey = EGG_C
+    return view(f, ex + (ctx.W / 2 - ex) / z, ey + (ctx.H / 2 - ey) / z, z, ctx.W, ctx.H)

@@ -136,10 +136,10 @@ def d1_layout(s=1.0):
 _SPL = {}
 
 
-def d1_splash(W, H, s):
+def d1_splash(W, H, s, figure=True):
     """The one throw of splashed ink: thrown from the upper right across the whole sheet, landing on the gong and
     gathering into the 亮相 (canon single 01). Built once per size."""
-    key = (W, H)
+    key = (W, H, figure)
     if key in _SPL:
         return _SPL[key]
     from tools.ink import Paper, splash
@@ -155,8 +155,8 @@ def d1_splash(W, H, s):
     mask = (blur(dfig, 2.0 * s) > 0.10).astype(np.float32)
     h, w = mask.shape
     pos = (int(L['cx'] * s - w / 2), int(L['base'] * s - h))
-    sp = splash((int(980 * s), int(470 * s)), size=int(520 * s), direction=150, seed=31, into=mask, into_pos=pos,
-                paper=P, figure_density=dfig, resolve=0.42, fly=0.10, remain=0.30, fingers=18, droplets=160)
+    sp = splash((int(700 * s), int(560 * s)), size=int(520 * s), direction=150, seed=31, into=mask, into_pos=pos,
+                paper=P, figure_density=dfig if figure else np.zeros_like(dfig), resolve=0.42, fly=0.10, remain=0.30, fingers=18, droplets=160)
     _SPL[key] = (sp, Tf, pos, COL)
     return _SPL[key]
 
@@ -168,7 +168,7 @@ def d1_residue(W, H, s):
     """What the throw leaves on the sheet besides the figure: the pale dried stain and spatter (ink layer, full frame)."""
     key = (W, H)
     if key not in _RES:
-        sp = d1_splash(W, H, s)[0]
+        sp = d1_splash(W, H, s, figure=os.environ.get('STAGE_D1', 'hybrid') != 'procedural')[0]
         d = sp.Ds * sp.remain * sp._bleed_gate(30.0)
         out = np.ones((H, W, 3), np.float32)
         lay_ink(out, ink_T(d.astype(np.float32)), int(sp.pos[0]), int(sp.pos[1]))
@@ -215,14 +215,87 @@ def clip_bbox(clip, i, thr=0.12):
 
 
 def heaven(W, H):
-    """D_heaven_mid keyed as ink, cropped to its densest 16:9 window (x 832-4684, y 704-2870; ~74 % marks) and sized
+    """D_heaven_mid keyed as ink, cropped to a 16:9 window 80 % of its width (x 560-4960, y 560-3035), so with the figure and strokes the frame lands near 70-80 % marks and sized
     to the frame: the blue-green heaven as the stage for J3."""
     p = f'{CACHE}/heaven_{W}x{H}.npy'
     if os.path.exists(p):
         return np.load(p)
     img = load_image('design/plates/D_heaven/D_heaven_mid.png')
-    T = key_paper(img, lo=0.03)[704:2870, 832:4684]
+    T = key_paper(img, lo=0.03)[560:3035, 560:4960]
     T = resize(T, W, H).astype(np.float32)
     os.makedirs(CACHE, exist_ok=True)
     np.save(p, T)
     return T
+
+
+def figure_centre(clip, i, thr=0.35, upper=0.55):
+    """Centre of the dense ink of frame i in its upper part (the hands/chest the staff turns around), clip px."""
+    d = clip.density(i)
+    ys, xs = np.where(d > thr)
+    if len(xs) == 0:
+        return (clip.w / 2, clip.h / 2)
+    y0, y1 = ys.min(), ys.max()
+    k = ys < y0 + (y1 - y0) * upper
+    return (float(xs[k].mean()), float(ys[k].mean()))
+
+
+def ring_path(clip, s0, s1, radius, revs, phase=0.0, squash=0.92, step=1 / 48, direction=1, follow=0.25,
+              offset=(0, 0)):
+    """Keypoints (src_t, x, y) for a staff end wheeling round the figure (舞花): the centre rides the figure's chest
+    frame by frame, the end turns `revs` times between source times s0 and s1. Used where 'staff' tracking locks onto
+    a leg instead of the staff (thin legs and plumes in the generated clips)."""
+    rows = []
+    n = int((s1 - s0) / step) + 1
+    cs = {}
+    for k in range(n):
+        st = s0 + k * step
+        i = min(int(st * clip.fps), clip.n - 1)
+        if i not in cs:
+            cs[i] = figure_centre(clip, i)
+        cx, cy = cs[i][0] + offset[0], cs[i][1] + offset[1]
+        a = phase + direction * 2 * np.pi * revs * (k / max(n - 1, 1))
+        rows.append((st, cx + radius * np.cos(a), cy + radius * squash * np.sin(a)))
+    r = np.asarray(rows)
+    # the ring stays mostly where he stands (one ring of 飞白, not a coil): follow = how much it rides his chest
+    if follow < 1:
+        ang = phase + direction * 2 * np.pi * revs * (np.arange(n) / max(n - 1, 1))
+        ox = r[:, 1] - radius * np.cos(ang)
+        oy = r[:, 2] - radius * squash * np.sin(ang)
+        ox = ox.mean() + (ox - ox.mean()) * follow
+        oy = oy.mean() + (oy - oy.mean()) * follow
+        r[:, 1] = ox + radius * np.cos(ang)
+        r[:, 2] = oy + radius * squash * np.sin(ang)
+    # smooth the centre (the figure's centroid jitters as limbs move)
+    from tools.ink import blur
+    for c in (1, 2):
+        r[:, c] = np.convolve(np.pad(r[:, c], 4, mode='edge'), np.ones(9) / 9, mode='valid')
+    return r
+
+
+def tip_line(clip, i, s0, s1, length=520, n=12):
+    """Keypoints of a straight thrust: from `length` px behind the staff's far end to the end (rightmost or leftmost
+    ink at frame i), written between source times s0 and s1."""
+    d = clip.density(i)
+    ys, xs = np.where(d > 0.3)
+    j = np.argmax(xs)
+    tx, ty = float(xs[j]), float(ys[j])
+    return np.asarray([(s0 + (s1 - s0) * k / (n - 1), tx - length * (1 - k / (n - 1)), ty) for k in range(n)])
+
+
+def sweep_to_tip(clip, s0, s1, i_tip, a0=np.pi, a1=2 * np.pi, n=40):
+    """Keypoints of the last big sweep: an arc round the chest (angles a0 -> a1, image coords, so pi -> 2 pi passes
+    over the top) whose radius grows to land exactly on the staff's far end at frame i_tip (the thrust)."""
+    d = clip.density(i_tip)
+    ys, xs = np.where(d > 0.3)
+    j = np.argmax(xs)
+    tx, ty = float(xs[j]), float(ys[j])
+    cx, cy = figure_centre(clip, i_tip)
+    r1 = float(np.hypot(tx - cx, ty - cy))
+    e1 = np.arctan2(ty - cy, tx - cx) + 2 * np.pi
+    rows = []
+    for k in range(n):
+        u = k / (n - 1)
+        a = a0 + (e1 - a0) * u
+        r = r1 * (0.8 + 0.2 * u)
+        rows.append((s0 + (s1 - s0) * u, cx + r * np.cos(a), cy + r * np.sin(a)))
+    return np.asarray(rows)

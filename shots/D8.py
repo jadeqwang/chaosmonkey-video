@@ -14,8 +14,8 @@ from tools.stage.stage import seals, KeyRetime, clip_bbox, PAPER_SEED
 
 T0, T1 = 79.291667, 82.5
 T_HIT = 80.806                  # snare 0.89 on the beat grid
-SRC_PERCH = 2.70                # clip time when he is up and set on the staff (measured)
-SRC_END = 3.55                  # held from here (the dissolve needs a still figure)
+SRC_PERCH = 2.95                # clip time when he is up and set on the staff (measured: motion stops f71)
+SRC_END = 3.60                  # held from here (the dissolve needs a still figure)
 T_DIS0, T_DIS1 = 81.45, 82.45   # the bleed back into the paper
 SCALE = 0.92
 STAFF_FOOT = (1270, 1040)       # where the staff foot stands (authoring px); the sea is the bare left
@@ -49,7 +49,7 @@ def _layer(src):
 def render(t, ctx):
     s = ctx.s
     f = P.frame(t)
-    q = ramp(t, T_DIS0, T_DIS1, 'in')
+    q = ramp(t, T_DIS0, T_DIS1, 'sine')
     if t < T_DIS0:
         lay_ink(f, _layer(RT.src(t)), POS[0], POS[1])
     else:

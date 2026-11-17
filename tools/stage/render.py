@@ -9,6 +9,7 @@ t0, t1 = sh['in_frame'] / 24 - 1e-6, sh['out_frame'] / 24 - 1e-6
 out = f'media/comp/{sid}.mp4' if size == '960x540' else f'work/stage/{sid}_{size}.mp4'
 cmd = [sys.executable, '-m', 'tools.ink.run', f'shots/{sid}.py', '--t0', f'{t0:.6f}', '--t1', f'{t1:.6f}', '--size', size,
        '--out', out]
+cmd += ['--fresh']   # tools/stage/*.py is not in the runner's cache key
 if '--jobs' in sys.argv:
     cmd += ['--jobs', sys.argv[sys.argv.index('--jobs') + 1]]
 r = subprocess.run(cmd, capture_output=True, text=True)

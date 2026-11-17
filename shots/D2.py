@@ -32,7 +32,7 @@ def setup(ctx):
     # the last 0.6 s (from 63.817) must be a clean hold for the room team: 'warmed' is set by 63.75
     words = [(w, min(a, 63.62), min(b, 63.75)) for w, a, b in tm.words('He bowed four ways before the day had warmed')]
     INS = Inscription('He bowed four ways\nbefore the day had warmed', LATIN,
-                      region=(int(545 * s), int(52 * s), int(330 * s), int(104 * s)), size=ctx.size, vertical=False,
+                      region=(int(1058 * s), int(52 * s), int(330 * s), int(104 * s)), size=ctx.size, vertical=False,
                       words=words, mode='word', paper=P, seed=3, density=0.85)
 
 

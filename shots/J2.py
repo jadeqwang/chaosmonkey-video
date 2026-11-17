@@ -1,0 +1,112 @@
+"""J2 (190.875-192.833, drop 2 downbeat) 'the page lights, then the mountain'.
+
+Starts on the carved, lit 花果山 peak (heaven close plate, columns of 千字文 cut into its faces with tools.ink.cliff, raking
+warm light, cinnabar in the cuts) and begins the film's second and last pull-back: 花果山 becomes one lit peak among many
+in the blue-green heaven (close -> mid on the plates' registration chain, crossfaded while both are at the same scale,
+so the crossing is invisible). The torch stays on 花果山 (anchored to the page), so its pool shrinks as we pull back.
+Seal: the name seal 悟空 is pressed on the downbeat (190.885), then pressed again without re-inking on the echoes
+'(formed)' 191.51 and 192.37 (`echoes`); under each echo, for ~10 frames, a small head keyed as pale ink: Mama
+(from mama_B_expressions), then little Jade (lj_C_expressions_mouths). No chops fall inside J2: no mis-registration.
+"""
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import json
+
+import cv2
+import numpy as np
+
+from tools.ink import *
+from tools.ink.cliff import Cliff
+from _heaven import *
+
+T0, T1 = 190.875, 192.83333333333334
+REG = json.load(open('design/plates/D_heaven/D_heaven_registration.json'))
+CLOSE_POS = (786.0, 242.0)
+CLOSE_K = 1.0 / REG['close']['scale_close_per_mid_px']
+STONE = tuple(REG['huaguoshan_stone']['mid_px'])          # (1880, 452)
+START = (1878, 640, 2.05)                                  # mid px, zoom (2.05 mid -> ~0.97 close px per frame px)
+END = (2300, 1100, 0.55)
+POOL = (1880, 820, 560)                                    # torch on 花果山 (mid px, radius)
+HEADS = [('design/characters/mama/mama_B_expressions.jpg', (1390, 150, 2060, 860)),
+         ('design/characters/little_jade/lj_C_expressions_mouths.jpg', (160, 170, 480, 560))]
+
+
+def carved_close():
+    im = load_image('design/plates/D_heaven/D_heaven_close.png')
+    x0, y0, x1, y1 = 1750, 600, 3000, 2600
+    crop = im[y0:y1, x0:x1].copy()
+    lines = [l.strip() for l in open('design/text/qianziwen.txt', encoding='utf-8') if l.strip() and not l.startswith('#')]
+    text = ''.join(lines[:60])
+    c = Cliff(crop, text, SEALFONT, size=64, region=(120, 230, 1180, 1960), weather=0.25, moss=0.0,
+              presence='auto', seed=3)
+    out = c.render(light=(200, 10, 0.9), fill=0.55)
+    im[y0:y1, x0:x1] = out
+    return key_paper(im)
+
+
+def build_mid():
+    T = key_paper(load_image('design/plates/D_heaven/D_heaven_mid.png'))
+    P = Paper(T.shape[1], T.shape[0], 'aged', seed=19, scale=2.0)
+    return (P.rgb * T).astype(np.float32), P.rgb.astype(np.float32)
+
+
+def head(path, box, px):
+    im = load_image(path)
+    x0, y0, x1, y1 = box
+    c = im[y0:y1, x0:x1]
+    g = np.median(np.concatenate([c[:20].reshape(-1, 3), c[:, :20].reshape(-1, 3)]), 0)
+    d = np.clip(1 - luma(c) / luma(g[None, None]), 0, 1)
+    d = d * smoothstep(0.05, 0.2, d)
+    # soft oval vignette so the crop has no edge
+    h, w = d.shape
+    yy, xx = np.mgrid[0:h, 0:w]
+    r = np.hypot((xx - w / 2) / (w * 0.5), (yy - h * 0.47) / (h * 0.52))
+    d = d * smoothstep(1.0, 0.8, r)
+    s = px / h
+    return resize(d.astype(np.float32), int(w * s), int(h * s)) ** 1.4 * 0.30
+
+
+def setup(ctx):
+    global SC_, CAM, CLOSE_T, NAME, HITS, POSN, HEAD_D, PAPER_MID
+    Tc = ctx.cache('j2_close_carved', carved_close, deps=['design/plates/D_heaven/D_heaven_close.png'])
+    mid, PAPER_MID = ctx.cache('j2_mid_aged', build_mid, deps=['design/plates/D_heaven/D_heaven_mid.png'])
+
+    class _Sheet:
+        rgb = mid
+    SC_ = Scene(mid.shape[1], mid.shape[0], paper=_Sheet())
+    zc = lambda t: CAM.at(t)[2]
+    # the close plate over the mid, at its registered rect; it hands over while both are below 1:1
+    SC_.add(Tc, kind='ink', pos=CLOSE_POS, scale=CLOSE_K,
+            opacity=lambda t: float(smoothstep(1.05, 1.55, zc(t))))
+    CAM = Camera([(T0, *START), (T1 + 0.12, *END, 'sine')])
+    NAME = seal('悟空', SEALFONT, 150 * ctx.s, 'zhu', wear=0.3, seed=1)
+    tm = ctx.timing
+    kick = [h['t'] for h in tm.hits('kick', 190.80, 190.95)]
+    HITS = [kick[0] if kick else 190.885, 191.51, 192.37]
+    # in the bare sky right of 花果山, then left of it, then lower right: each press a little off the last
+    POSN = [(1440 * ctx.s, 250 * ctx.s), (1650 * ctx.s, 470 * ctx.s), (330 * ctx.s, 200 * ctx.s)]
+    HEAD_D = [head(p, b, 230 * ctx.s) for p, b in HEADS]
+    global WORDS
+    WORDS = line_words(ctx, 'Born', 190.0)
+
+
+def render(t, ctx):
+    st = CAM.at(t)
+    f = SC_.render(t, CAM, ctx.size)
+    cx, cy = SC_.to_frame(POOL[0], POOL[1], st, ctx.size)
+    L = light_field(ctx.W, ctx.H, (cx, cy), max(POOL[2] * st[2] * ctx.s, 160 * ctx.s), ambient=0.16, gain=1.3,
+                    stretch=1.35, tilt=90, seed=5)
+    f = lit(f, L)
+    # pale heads under the echo presses, ~10 frames each
+    for k in (1, 2):
+        dt = t - HITS[k]
+        if -1 / 48 <= dt < 10 / 24:
+            a = 1.0 - smoothstep(7 / 24, 10 / 24, dt)
+            d = HEAD_D[k - 1]
+            x, y = POSN[k]
+            lay_ink(f, ink_T(d * a), int(x - d.shape[1] / 2), int(y - d.shape[0] * 0.42))
+    echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.55, seed=4)
+    lyric(f, ctx, sung_words(WORDS, t, tail=0.0), y=0.955, px=28)
+    return f

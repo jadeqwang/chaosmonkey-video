@@ -600,3 +600,76 @@
 {"ts": "2026-11-17T07:52:38Z", "model": "minimax/h3", "tag": "vb_V2_h3_aplume", "job": "chaosmonkey/vb_V2_h3_aplume-7af42cfad0", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
 {"ts": "2026-11-17T07:52:39Z", "model": "minimax/h3", "tag": "vb_V2_h3_bplume", "job": "chaosmonkey/vb_V2_h3_bplume-784a2bd87d", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
 {"ts": "2026-11-17T07:52:45Z", "model": "google/nano-banana-pro", "tag": "kf_G3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:55:16Z", "model": "bytedance/seedance-2.5", "tag": "r26_I4", "job": "chaosmonkey/r26_I4-0c73641138", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:17Z", "model": "bytedance/seedance-2.5", "tag": "r26_I1", "job": "chaosmonkey/r26_I1-0068530c94", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:18Z", "model": "bytedance/seedance-2.5", "tag": "r26_K1", "job": "chaosmonkey/r26_K1-d6327b8779", "event": "submit", "ok": null, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T07:55:19Z", "model": "bytedance/seedance-2.5", "tag": "r26_F1", "job": "chaosmonkey/r26_F1-8fddbd590a", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:21Z", "model": "klingai/kling-v4", "tag": "r26_L1", "job": "chaosmonkey/r26_L1-d004183ee8", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:55:22Z", "model": "klingai/kling-v4", "tag": "r26_L2", "job": "chaosmonkey/r26_L2-0bf1197e6d", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:55:23Z", "model": "klingai/kling-v4", "tag": "r26_J1", "job": "chaosmonkey/r26_J1-bd845757bc", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:55:24Z", "model": "klingai/kling-v4", "tag": "r26_I2", "job": "chaosmonkey/r26_I2-75ef5f7c54", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:55:25Z", "model": "bytedance/seedance-2.5", "tag": "r26_F4a", "job": "chaosmonkey/r26_F4a-59c5edd75f", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:26Z", "model": "bytedance/seedance-2.5", "tag": "r26_F3a", "job": "chaosmonkey/r26_F3a-9b11d52ea3", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:27Z", "model": "klingai/kling-v4", "tag": "r26_I4b", "job": "chaosmonkey/r26_I4b-c8bf0de643", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:55:28Z", "model": "klingai/kling-v4", "tag": "r26_F6b", "job": "chaosmonkey/r26_F6b-f0e32a1a2e", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:55:29Z", "model": "bytedance/seedance-2.5", "tag": "r26_I4_t2", "job": "chaosmonkey/r26_I4_t2-3051610a59", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:30Z", "model": "bytedance/seedance-2.5", "tag": "r26_I1_t2", "job": "chaosmonkey/r26_I1_t2-2d9f1c562c", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:31Z", "model": "bytedance/seedance-2.5", "tag": "r26_K1_t2", "job": "chaosmonkey/r26_K1_t2-75d52d2c06", "event": "submit", "ok": null, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T07:55:32Z", "model": "bytedance/seedance-2.5", "tag": "r26_F1_t2", "job": "chaosmonkey/r26_F1_t2-ff27b7ffb5", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:33Z", "model": "bytedance/seedance-2.5", "tag": "r26_F4a_t2", "job": "chaosmonkey/r26_F4a_t2-2c28eb35fe", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:55:34Z", "model": "bytedance/seedance-2.5", "tag": "r26_F3a_t2", "job": "chaosmonkey/r26_F3a_t2-d5cc0c8a34", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:08Z", "model": "bytedance/seedance-2.5", "tag": "r88_B1_sd25_t1", "job": "chaosmonkey/r88_B1_sd25_t1-278049bc61", "event": "submit", "ok": null, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T07:56:09Z", "model": "bytedance/seedance-2.5", "tag": "r88_B1_sd25_t2", "job": "chaosmonkey/r88_B1_sd25_t2-549023f15d", "event": "submit", "ok": null, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T07:56:10Z", "model": "bytedance/seedance-2.5", "tag": "r88_B2_sd25_t1", "job": "chaosmonkey/r88_B2_sd25_t1-6cc417cf0f", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:11Z", "model": "bytedance/seedance-2.5", "tag": "r88_B2_sd25_t2", "job": "chaosmonkey/r88_B2_sd25_t2-e1e256e69b", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:12Z", "model": "klingai/kling-v4", "tag": "r88_C2_kling4_t1", "job": "chaosmonkey/r88_C2_kling4_t1-643e310d7b", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:14Z", "model": "bytedance/seedance-2.5", "tag": "r88_G5_sd25_t1", "job": "chaosmonkey/r88_G5_sd25_t1-e2105a73fa", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:15Z", "model": "bytedance/seedance-2.5", "tag": "r88_G5_sd25_t2", "job": "chaosmonkey/r88_G5_sd25_t2-0d99866ced", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:16Z", "model": "bytedance/seedance-2.5", "tag": "r88_D3b_sd25_t1", "job": "chaosmonkey/r88_D3b_sd25_t1-5839c644bf", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:17Z", "model": "bytedance/seedance-2.5", "tag": "r88_D3b_sd25_t2", "job": "chaosmonkey/r88_D3b_sd25_t2-bdec862997", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:18Z", "model": "klingai/kling-v4", "tag": "r88_E5_kling4_t1", "job": "chaosmonkey/r88_E5_kling4_t1-cf0d4da4d8", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:19Z", "model": "klingai/kling-v4", "tag": "r88_E6_kling4_t1", "job": "chaosmonkey/r88_E6_kling4_t1-2b136500b6", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:20Z", "model": "bytedance/seedance-2.5", "tag": "r88_C3_sd25_t1", "job": "chaosmonkey/r88_C3_sd25_t1-1cd34340c5", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:22Z", "model": "bytedance/seedance-2.5", "tag": "r88_C3_sd25_t2", "job": "chaosmonkey/r88_C3_sd25_t2-c13103589f", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:56:23Z", "model": "klingai/kling-v4", "tag": "r88_G4_kling4_t1", "job": "chaosmonkey/r88_G4_kling4_t1-23b5779c4b", "event": "submit", "ok": null, "est_usd": 0.942, "where": "box"}
+{"ts": "2026-11-17T07:56:25Z", "model": "bytedance/seedance-2.5", "tag": "r88_G1_sd25_t1", "job": "chaosmonkey/r88_G1_sd25_t1-28dfc49a11", "event": "submit", "ok": null, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T07:56:25Z", "model": "bytedance/seedance-2.5", "tag": "r88_G1_sd25_t2", "job": "chaosmonkey/r88_G1_sd25_t2-de1d2862e2", "event": "submit", "ok": null, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T07:56:27Z", "model": "bytedance/seedance-2.5", "tag": "r88_G3_sd25_t1", "job": "chaosmonkey/r88_G3_sd25_t1-845befb79f", "event": "submit", "ok": null, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T07:56:28Z", "model": "bytedance/seedance-2.5", "tag": "r88_G3_sd25_t2", "job": "chaosmonkey/r88_G3_sd25_t2-2d95f77a71", "event": "submit", "ok": null, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T07:56:29Z", "model": "klingai/kling-v4", "tag": "r88_A3_kling4_t1", "job": "chaosmonkey/r88_A3_kling4_t1-345562ae78", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:30Z", "model": "klingai/kling-v4", "tag": "r88_A4_kling4_t1", "job": "chaosmonkey/r88_A4_kling4_t1-6531d6f601", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:31Z", "model": "bytedance/seedance-2.5", "tag": "r88_E1_sd25_t1", "job": "chaosmonkey/r88_E1_sd25_t1-da7af8c229", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:56:33Z", "model": "bytedance/seedance-2.5", "tag": "r88_E1_sd25_t2", "job": "chaosmonkey/r88_E1_sd25_t2-acde6275f4", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:56:34Z", "model": "bytedance/seedance-2.5", "tag": "r88_E3_sd25_t1", "job": "chaosmonkey/r88_E3_sd25_t1-e09e50dc52", "event": "submit", "ok": null, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T07:56:36Z", "model": "bytedance/seedance-2.5", "tag": "r88_E3_sd25_t2", "job": "chaosmonkey/r88_E3_sd25_t2-6b2f92ddff", "event": "submit", "ok": null, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T07:56:37Z", "model": "klingai/kling-v4", "tag": "r88_D9_kling4_t1", "job": "chaosmonkey/r88_D9_kling4_t1-be94d20ded", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T07:56:38Z", "model": "klingai/kling-v4", "tag": "r88_C5a_kling4_t1", "job": "chaosmonkey/r88_C5a_kling4_t1-b5a7ed27ab", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:39Z", "model": "klingai/kling-v4", "tag": "r88_F3b_kling4_t1", "job": "chaosmonkey/r88_F3b_kling4_t1-eec91f3c6a", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T07:56:57Z", "model": "google/nano-banana-pro", "tag": "r26_kf_I3a", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:57:04Z", "model": "google/nano-banana-pro", "tag": "r26_kf_I3a", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:57:29Z", "model": "google/nano-banana-pro", "tag": "r26_kf_K2a", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:57:50Z", "model": "google/nano-banana-pro", "tag": "r88_kf_D2d_bow", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:57:51Z", "model": "google/nano-banana-pro", "tag": "r88_kf_D2d_stand", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:58:40Z", "model": "google/nano-banana-pro", "tag": "r26_kf_K2a", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:59:02Z", "model": "bytedance/seedance-2.5", "tag": "r26_I3a", "job": "chaosmonkey/r26_I3a-7e9745c98b", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:59:03Z", "model": "bytedance/seedance-2.5", "tag": "r26_K2a", "job": "chaosmonkey/r26_K2a-f0246a262d", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:59:04Z", "model": "bytedance/seedance-2.5", "tag": "r26_I3a_t2", "job": "chaosmonkey/r26_I3a_t2-a84de39498", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T07:59:05Z", "model": "bytedance/seedance-2.5", "tag": "r26_K2a_t2", "job": "chaosmonkey/r26_K2a_t2-abe5f9bff2", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:03:29Z", "model": "bytedance/seedance-2.5", "tag": "r26_I4", "job": "chaosmonkey/r26_I4-0c73641138", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:03:31Z", "model": "bytedance/seedance-2.5", "tag": "r26_F1", "job": "chaosmonkey/r26_F1-8fddbd590a", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:04:35Z", "model": "bytedance/seedance-2.5", "tag": "r26_K1", "job": "chaosmonkey/r26_K1-d6327b8779", "event": "result", "ok": true, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T08:05:37Z", "model": "bytedance/seedance-2.5", "tag": "r26_I1", "job": "chaosmonkey/r26_I1-0068530c94", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:05:39Z", "model": "bytedance/seedance-2.5", "tag": "r26_F4a", "job": "chaosmonkey/r26_F4a-59c5edd75f", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:06:44Z", "model": "bytedance/seedance-2.5", "tag": "r26_F3a", "job": "chaosmonkey/r26_F3a-9b11d52ea3", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:07:42Z", "model": "klingai/kling-v4", "tag": "r26_L1", "job": "chaosmonkey/r26_L1-d004183ee8", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T08:08:44Z", "model": "klingai/kling-v4", "tag": "r26_L2", "job": "chaosmonkey/r26_L2-0bf1197e6d", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:08:44Z", "model": "klingai/kling-v4", "tag": "r26_J1", "job": "chaosmonkey/r26_J1-bd845757bc", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:08:45Z", "model": "klingai/kling-v4", "tag": "r26_I2", "job": "chaosmonkey/r26_I2-75ef5f7c54", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:08:46Z", "model": "klingai/kling-v4", "tag": "r26_F6b", "job": "chaosmonkey/r26_F6b-f0e32a1a2e", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T08:08:46Z", "model": "bytedance/seedance-2.5", "tag": "r26_I4_t2", "job": "chaosmonkey/r26_I4_t2-3051610a59", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:08:47Z", "model": "bytedance/seedance-2.5", "tag": "r26_I1_t2", "job": "chaosmonkey/r26_I1_t2-2d9f1c562c", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:10:00Z", "model": "bytedance/seedance-2.5", "tag": "r26_K1_t2", "job": "chaosmonkey/r26_K1_t2-75d52d2c06", "event": "result", "ok": true, "est_usd": 1.8496, "where": "box"}
+{"ts": "2026-11-17T08:10:33Z", "model": "bytedance/seedance-2.5", "tag": "r26_F1_t2", "job": "chaosmonkey/r26_F1_t2-ff27b7ffb5", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:10:34Z", "model": "bytedance/seedance-2.5", "tag": "r26_F4a_t2", "job": "chaosmonkey/r26_F4a_t2-2c28eb35fe", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:10:35Z", "model": "bytedance/seedance-2.5", "tag": "r26_F3a_t2", "job": "chaosmonkey/r26_F3a_t2-d5cc0c8a34", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T08:10:51Z", "model": "klingai/kling-v4", "tag": "r26_I4b", "job": "chaosmonkey/r26_I4b-c8bf0de643", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
