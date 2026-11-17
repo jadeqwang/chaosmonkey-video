@@ -156,8 +156,13 @@ def _init_worker(threads):
 
 
 def code_sig(shot_path):
+    """Engine source + the shot file + the shared shot helpers (shots/_*.py, shots/*_lib.py, tools/stage/*.py): a
+    helper edit must invalidate the frame cache (the lyric pass found v1 comps encoded from caches older than their
+    helpers)."""
     h = hashlib.blake2b(digest_size=8)
-    for f in sorted(Path(__file__).parent.glob('*.py')) + [Path(shot_path)]:
+    helpers = sorted((ROOT / 'shots').glob('_*.py')) + sorted((ROOT / 'shots').glob('*_lib.py')) + \
+        sorted((ROOT / 'tools' / 'stage').glob('*.py'))
+    for f in sorted(Path(__file__).parent.glob('*.py')) + helpers + [Path(shot_path)]:
         h.update(f.read_bytes())
     return h.hexdigest()
 

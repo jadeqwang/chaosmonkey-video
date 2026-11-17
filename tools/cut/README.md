@@ -10,6 +10,7 @@ $PY tools/cut/contact.py --name animatic_v0
 $PY tools/cut/assemble.py --name sequence_test --profile preview --range A1:C6
 $PY tools/cut/assemble.py --name selected --profile preview --only A1,B2 --clean
 $PY tools/cut/assemble.py --name final --profile master --audio '/path/to/song.wav'
+$PY tools/cut/assemble.py --name preview_v2 --profile preview --audio media/sound/mix_v1.wav --lyrics on   # off = clean cut
 ```
 
 `build.py` validates times and ids before writing `docs/shots.json` and `docs/SHOTLIST.md`. Shot boundaries use Python `round(t*24)`; out frames are exclusive. The JSON object contains `fps`, `end`, `sequences`, and `shots`. Lyrics retain their original song-clock timestamps. `nearest_beat_in.offset_ms` is the snapped cut minus the nearest beat (positive means cut follows beat).
@@ -25,3 +26,11 @@ Animatic: 960×540 CRF 20, shot id, song timecode and timed lyrics. Preview: 960
 Renders are cached in `work/cut/NAME/ID_HASH/shot.mp4` using source mtime/size, shot metadata, render parameters, font mtime and renderer code. Delete that directory to force rebuilding. The final MP4 is in `media/cut/NAME.mp4`. Assembly counts decoded frames per render and verifies final decoded frame count, A/V durations, fps, pixel format and colour tags. `work/cut/NAME/manifest.json` records selected shots and output offsets for contact extraction. Reassemble before generating contacts after a shot-list change.
 
 `contact.py` decodes the finished MP4 and creates `work/cut/NAME/contact_SEQ.jpg` for each included sequence, with one row per shot and first/middle/last frames. Labels show both song and cut timecodes. Sheets are 2220 pixels wide.
+
+**Lyric layer** (`lyrics.py`, `--lyrics on|off`; default on for preview and master, off for animatic, which keeps its
+own burn-in). The film's one lyric layer is composited on each laid shot before the burn-ins, so `--lyrics off` gives a
+clean cut and the picture files never carry lyrics. Lines and word onsets come from `analysis/timing.json`; the look
+(fonts, sizes, position, ink/cream colours, wash, reveal and clear timing, ground thresholds) is a block of named
+constants at the top of `lyrics.py`, and per-shot placements are in its `OVERRIDES` table. The ground (ink on paper /
+cream with a wash on night) is decided once per shot from the luminance under the text (one extra decode pass), with
+hysteresis against the previous shot; the decision is stored in the render cache as `lyrics.json`.

@@ -213,7 +213,11 @@ $PY -m tools.ink.run SHOT.py [--t0 s --t1 s] [--size 960x540] [--out x.mp4|x.mov
   `assemble.py`, so the file drops in as a `video` pick (`{"kind": "video", "src": "media/comp/H03.mp4"}`).
   `.mov` gives ProRes 422 HQ. `--frames DIR` writes `f_<frame24>.png`. The encoded frame count is verified.
 - Workers (default 12, forked after `setup`) write PNGs to `work/ink/<shot>/<WxH>_<key>/`; an interrupted run
-  resumes. The key covers the shot file, the engine source, sizes, seed and the timing file.
+  resumes. The key covers the shot file, the shared shot helpers, the engine source, sizes, seed, the timing file
+  and `ctx.opts`.
+- `--opt key=value` (repeatable) fills `ctx.opts` (`tools/ink/opts.py`). `lyrics` is the one switch for per-shot
+  lyric text (env `INK_LYRICS`, **default off**: the film's lyric layer is drawn at assembly by `tools/cut/lyrics.py`).
+  Shots read it with `tools.ink.opts.lyrics_on(ctx)`. Art inscriptions (一通百通, seals, ledger, cliff) never use it.
 - `--audio` muxes the song slice (`inputs/*.wav`, or the script's `AUDIO`) for review.
 - As a function: `tools.ink.run.run(shot, t0, t1, size, out=..., jobs=...)` -> dict with `frames, fps, out`.
 
@@ -567,7 +571,9 @@ The light and margin figures were taken while the machine was loaded.
   worker holds the shot's globals copy-on-write; a 4400x2000 canvas with five layers needs about 1 GB in total.
 - `setup` runs single-threaded in the parent. Put anything slow (stand-in mountains, keying a clip, rock plates)
   through `ctx.cache` so `--still` and re-runs start quickly.
-- Editing any `tools/ink/*.py` or the shot file invalidates that shot's frame cache.
+- Editing any `tools/ink/*.py`, the shot file or a shared helper (`shots/_*.py`, `shots/*_lib.py`,
+  `tools/stage/*.py`) invalidates that shot's frame cache. Other inputs (keyframes, clip stores, `clips.json`) do
+  not: use `--fresh` after changing them.
 
 ## Known limits (whole engine)
 

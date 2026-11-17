@@ -207,8 +207,10 @@ def render(shot, source, args, work, width, height, crf, short, layer=None, stat
     filters = [base, f'trim=end_frame={n}', 'setpts=N/(24*TB)']
     temp = directory/'rendering.mp4'
     # FFmpeg handles source timing/geometry only; text never enters its filters.
+    # passthrough: the raw pipe must carry exactly the filtered frames. With the default (cfr) the muxer re-timed
+    # frames whose source PTS jitter (spliced files) and duplicated/dropped frames (the v1 splice "+2", QA fix 5).
     cmd += ['-filter_threads', '1', '-vf', ','.join(filters), '-an',
-            '-frames:v', str(n), '-pix_fmt', 'rgb24', '-f', 'rawvideo', 'pipe:1']
+            '-frames:v', str(n), '-fps_mode', 'passthrough', '-pix_fmt', 'rgb24', '-f', 'rawvideo', 'pipe:1']
     encode_cmd = [FFMPEG, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24',
                   '-s:v', f'{width}x{height}', '-r', str(FPS), '-i', 'pipe:0',
                   '-an', '-frames:v', str(n),
@@ -235,7 +237,7 @@ def render(shot, source, args, work, width, height, crf, short, layer=None, stat
     temp.replace(output)
     if look is not None:
         look_file.write_text(json.dumps({**look, 'state_in': state_in, 'place': plan['place'],
-                                         'lines': [l.text for l, s, a, b in plan['items']]}, ensure_ascii=False) + '\n')
+                                         'lines': [[l.text, u['id'], a, b] for l, s, a, b, u in plan['items']]}, ensure_ascii=False) + '\n')
     return output, state_out
 
 

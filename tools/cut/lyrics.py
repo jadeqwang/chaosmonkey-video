@@ -12,6 +12,7 @@ Every parameter of the look is a named constant below so the layer can be restyl
 overrides are in OVERRIDES. `assemble.py --lyrics on|off` switches the whole layer; the picture files never contain it.
 """
 import hashlib
+import itertools
 import json
 import math
 from pathlib import Path
@@ -60,7 +61,8 @@ BASELINE_Y = 0.86            # baseline of the LAST row, fraction of frame heigh
 WRAP_FRAC = 0.62             # wider than this fraction of the frame -> two balanced rows
 SAFE_ASPECT = 4 / 5          # the centred 4:5 safe area (vertical crop) ...
 SAFE_PAD = 0.03              # ... minus this fraction of its width on each side
-MIN_SCALE = 0.80             # if two rows still do not fit, shrink down to this, never below
+MAX_ROWS = 4                 # rows allowed (narrow placements in margins/corners need three or four)
+MIN_SCALE = 0.80             # if the rows still do not fit, shrink down to this, never below
 COMMA_BONUS = 0.06           # a row break after a comma/question mark is preferred up to 6 % of extra width
 
 # ------------------------------------------------------------------------------------------------ colour / ink
@@ -80,7 +82,9 @@ SUPERSAMPLE = 2
 # Ground per shot from the mean luminance under the text box (over the frames where text shows), with hysteresis
 # against the previous shot's ground. The look switches hard, and only at cuts (one decision per shot).
 PAPER_ON = 0.50                    # above this: paper (ink text)
-NIGHT_ON = 0.38                    # below this: night (cream text + wash); in between: keep the previous shot's ground
+NIGHT_ON = 0.38                    # below this: night (cream text + wash); in between: keep the previous ground
+MIN_RUN = 8                        # a ground must hold this many frames to switch (flashes and flips never switch it)
+MIST_RGB = (0.925, 0.900, 0.835)   # per-shot 'mist' (paper grounds over busy rock): bare paper laid behind the line
 
 # ------------------------------------------------------------------------------------------------ timing
 REVEAL = (0.70, 1.0)               # a word's opacity on its onset frame and the next (no fade longer than 2 frames)
@@ -92,8 +96,76 @@ ROOM_WORLDS = {'attic88', 'car26', 'bed26'}     # room <-> book/stage (book, sta
 # x: anchor (fraction of width), align: 'c' | 'l' | 'r', y: baseline of the last row, scale: size, maxw: max row width
 # (fraction of width; default: the 4:5 safe area), ground: force 'paper' | 'night'.
 DEFAULT = dict(x=0.5, align='c', y=BASELINE_Y, scale=1.0, maxw=None, ground=None)
+# Units: shots spliced from parts (tools/cut/splice.py) or cut internally are scheduled, placed and lit per part.
+# (id, first frame, world). A line never crosses a room <-> book/stage cut inside a shot either.
+PARTS = {
+    'C5': [('C5a', 1254, 'attic88'), ('C5b', 1311, 'book')],
+    'D2': [('D2', 1466, 'stage'), ('D2d', 1531, 'attic88')],
+    'D3': [('D3a', 1546, 'attic88'), ('D3b', 1568, 'attic88')],
+    'F3': [('F3a', 2665, 'car26'), ('F3b', 2694, 'attic88')],
+    'F4': [('F4a', 2706, 'car26'), ('F4b', 2744, 'car26')],
+    'F6': [('F6a', 2832, 'car26'), ('F6b', 2895, 'car26')],
+    'I3': [('I3a', 4391, 'bed26'), ('I3b', 4431, 'book')],
+    'K2': [('K2a', 5053, 'bed26'), ('K2b', 5091, 'book')],
+}
+# Per-unit placement overrides (unit id, or 'unit:line' with the timing.json line index for one line). Checked on
+# every lyric frame of preview_v2 (work/qa/v2/). Reasons are in docs/QA_PREVIEW_V2.md. Keys: x, align, y, scale,
+# maxw, ground ('paper'|'night'), mist (0..1 bare paper behind the line on busy paper grounds), delay (frames).
+R, L = 'r', 'l'
 OVERRIDES = {
-    # filled in by the lyric pass after checking every shot's sheet with lyrics on (docs/QA_PREVIEW_V2.md)
+    'B1':  dict(x=0.27),                                        # off the child, over Mama's dark blurred body
+    'B2':  dict(align=L, x=0.025, y=0.93, maxw=0.30),           # off the book in Mama's hands; stays dark through the push
+    'B3':  dict(x=0.72),                                        # bare page right of the mountain
+    'B4':  dict(mist=0.55),                                     # full-bleed carved rock: a band of mist under the line
+    'B5':  dict(mist=0.45),                                     # rides the mist band across the summit
+    'C1':  dict(x=0.86, y=0.78, maxw=0.22),                     # off the egg and its crack, bare paper right
+    'C2':  dict(x=0.82),                                        # off the hand and the shadow (dark floor right)
+    'C3':  dict(align=R, x=0.975, y=0.90, maxw=0.28),           # off the two hands, dark floor right
+    'C5a': dict(align=R, x=0.975, y=0.90, maxw=0.36),           # off Mama, the egg page and her hand
+    'C5b': dict(x=0.68),                                        # beside the fading egg
+    'C6':  dict(x=0.72, mist=0.35),                             # beside the cracking egg
+    'D1':  dict(x=0.76),                                        # off the splash and the monkey
+    'D2':  dict(x=0.83, maxw=0.30),                             # off the bowing monkey, right of the seals
+    'D2d': dict(align=L, x=0.025, maxw=0.28),                   # dark floor left; off Mama, child and the book
+    'D3b': dict(align=L, x=0.025, maxw=0.24),                   # off Mama and the child
+    'D5':  dict(x=0.82, maxw=0.30, mist=0.45),                  # off the mountain; below the 悟空 seal and 一通百通 column
+    'D6':  dict(x=0.82, maxw=0.30),
+    'E1':  dict(align=R, x=0.975, y=0.93, maxw=0.30),           # off the nose tap and the child
+    'E2':  dict(align=R, x=0.975, maxw=0.21),                   # bare paper under the book text, off the troop
+    'E3':  dict(x=0.27),                                        # the dark left half, off the child
+    'E6':  dict(align=R, x=0.975, y=0.90, maxw=0.30),           # dark floor right, off Mama and the child
+    'F1':  dict(align=L, x=0.025, maxw=0.36),                   # dark seats left, off the child's hands
+    'F2':  dict(align=L, x=0.025, y=0.90, maxw=0.38),           # door panel, off the child and the puppet pane
+    'F3a': dict(align=R, x=0.975, maxw=0.36),                   # dark seat back, off the blowing hand
+    'F3b': dict(align=L, x=0.03, y=0.60, maxw=0.30),            # 12 f: Mama's dark sweater; off the book, palm and face
+    'F5':  dict(x=0.62),                                        # the empty seat, off the child
+    'F6a': dict(x=0.56),                                        # the console, off the driver's arm
+    'F6b': dict(x=0.30, y=0.90),                                # under the reflection, off the waving child
+    'G1':  dict(x=0.70, maxw=0.24),                             # the dark wall right, off the centred face
+    # G2-G5: the picture strip is too narrow; the line sits in the bare-paper RIGHT margin, in ink
+    'G2:36': dict(align=L, x=0.828, y=0.88, maxw=0.16, ground='paper'),
+    'G2:38': dict(align=L, x=0.735, y=0.88, maxw=0.25, ground='paper'),
+    'G2':  dict(align=L, x=0.745, y=0.88, maxw=0.23, ground='paper'),
+    'G3':  dict(align=L, x=0.665, maxw=0.30, ground='paper'),
+    'G4':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),
+    'G5':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),  # beside the centred face, at chin height and below
+    'H3':  dict(y=0.90),                                        # under the faces' chins
+    'H4':  dict(y=0.965, scale=0.9, mist=0.5),                  # under the album's bottom row (pull-back)
+    'H5':  dict(x=0.635, maxw=0.19, mist=0.40),                 # the rock gap between carved columns
+    'H6':  dict(align=R, x=0.95, y=0.90, scale=0.8),            # the emptiest frame: small, lower right
+    'I1':  dict(align=L, x=0.025, y=0.88, maxw=0.30, delay=12), # after the white-in; off the lit book and lap
+    'I2':  dict(align=R, x=0.985, maxw=0.17),                   # off the hands and the page (dark right)
+    'I3a': dict(align=R, x=0.975, maxw=0.33),                   # off the child's face
+    'I3b': dict(align=L, x=0.025, y=0.90, maxw=0.25),           # off the banquet table and chairs
+    'I4':  dict(y=0.95, ground='night'),                        # centred face: below the chin, on the dark collar
+    'J1':  dict(align=L, x=0.025, y=0.90, maxw=0.32),           # dark bedspread left, off the pointing hand
+    'J3':  dict(x=0.80, maxw=0.30),                             # off the monkey's stance
+    'K1':  dict(align=L, x=0.02, y=0.88, maxw=0.24),            # dark nightstand left, off the book and lap
+    'K2a': dict(align=R, x=0.975, maxw=0.28),                   # off the reading face and the book
+    'K3':  dict(align=L, x=0.03, maxw=0.36),                    # the dark columns left, off the struck entry
+    'K4':  dict(align=R, x=0.985, y=0.88, maxw=0.16, scale=0.9),  # the dark right of the spread, off the pages
+    'K5':  dict(align=L, x=0.025, maxw=0.21, ground='night'),   # lower left in the dark: nothing over or under the bare column
+    'L1':  dict(align=L, x=0.025, maxw=0.21, ground='night'),   # continues K5's line from K5's last frame
 }
 
 
@@ -266,18 +338,22 @@ class Setting:
         segs, w = self._segments(text, tok_of, px, italic, 0, len(text))
         if w <= maxw:
             return [(segs, px, w)]
+        spaces = [i for i, ch in enumerate(text) if ch == ' ']
         best = None
-        for i, ch in enumerate(text):                     # two balanced rows, broken at a space
-            if ch != ' ':
-                continue
-            s1, w1 = self._segments(text, tok_of, px, italic, 0, i)
-            s2, w2 = self._segments(text, tok_of, px, italic, i + 1, len(text))
-            score = max(w1, w2) / max(w1 + w2, 1)
-            if text[i - 1] in ',?!;:，':
-                score -= COMMA_BONUS
-            if best is None or score < best[0]:
-                best = (score, [(s1, px, w1), (s2, px, w2)])
-        return best[1] if best else [(segs, px, w)]
+        for n in range(2, MAX_ROWS + 1):                   # balanced rows, broken at spaces; fewest rows that fit
+            for cut in itertools.combinations(spaces, n - 1):
+                bounds = [0] + [c + 1 for c in cut]
+                ends = list(cut) + [len(text)]
+                rows = [self._segments(text, tok_of, px, italic, a_, b_) for a_, b_ in zip(bounds, ends)]
+                ws = [r[1] for r in rows]
+                score = max(ws) / max(sum(ws) / n, 1)
+                score -= COMMA_BONUS * sum(1 for c in cut if text[c - 1] in ',?!;:，')
+                cand = (max(ws) > maxw, score, [(r[0], px, r[1]) for r in rows])
+                if best is None or cand[:2] < best[:2]:
+                    best = cand
+            if best is not None and not best[0]:
+                break
+        return best[2] if best else [(segs, px, w)]
 
     # -- raster
     def _render(self):
@@ -369,65 +445,77 @@ class Setting:
 
 # ================================================================================================ the layer
 class LyricLayer:
+    """Schedules the lines over the film's units (shots, and the parts of spliced/internally cut shots), sets them
+    per placement, and paints them on laid frames."""
+
     def __init__(self, shots, W, H, overrides=None, timing=TIMING):
         self.shots = shots
         self.W, self.H = W, H
         self.lines = load_lines(timing)
         self.over = OVERRIDES if overrides is None else overrides
         self._settings = {}
+        self.units = []                               # [{'id', 'shot', 'world', 'in_frame', 'out_frame'}]
+        for sh in shots:
+            parts = PARTS.get(sh['id'], [(sh['id'], sh['in_frame'], sh['world'])])
+            for k, (uid, f0, world) in enumerate(parts):
+                f1 = parts[k + 1][1] if k + 1 < len(parts) else sh['out_frame']
+                self.units.append({'id': uid, 'shot': sh['id'], 'world': world, 'in_frame': f0, 'out_frame': f1})
         self._fix_clears()
 
-    def place(self, sid):
+    def place(self, uid, line=None):
         p = dict(DEFAULT)
-        p.update(self.over.get(sid, {}))
+        p.update(self.over.get(uid, {}))
+        if line is not None:
+            p.update(self.over.get(f'{uid}:{line.idx}', {}))
         return p
 
-    def setting(self, line, sid):
-        p = self.place(sid)
+    def setting(self, line, uid):
+        p = self.place(uid, line)
         key = (line.idx, json.dumps(p, sort_keys=True))
         if key not in self._settings:
             self._settings[key] = Setting(line, p, self.W, self.H)
         return self._settings[key]
 
     # ---- schedule
+    def _unit_at(self, fr):
+        for i, u in enumerate(self.units):
+            if u['in_frame'] <= fr < u['out_frame']:
+                return i
+        return None
+
     def segments(self, line):
-        """[(shot_index, f_from, f_to)] where the line shows (absolute frames), after the cut rules."""
+        """[(unit_index, f_from, f_to)] where the line shows (absolute frames), after the cut rules."""
         segs = []
         f, end = line.first, line.clear
-        idx = {s['id']: i for i, s in enumerate(self.shots)}
-        order = self.shots
-        # shot containing f
-        def shot_at(fr):
-            for i, s in enumerate(order):
-                if s['in_frame'] <= fr < s['out_frame']:
-                    return i
-            return None
-        i = shot_at(f)
+        i = self._unit_at(f)
         while i is not None and f < end:
-            s = order[i]
-            to = min(end, s['out_frame'])
-            nxt = order[i + 1] if i + 1 < len(order) else None
-            if nxt is not None and to == s['out_frame'] and end > to and (to - f) < MIN_SEGMENT:
+            u = self.units[i]
+            f = max(f, u['in_frame'] + int(self.place(u['id']).get('delay', 0)))
+            if f >= min(end, u['out_frame']):                  # held back past this unit (delay)
+                if u['out_frame'] >= end:
+                    break
+                f, i = u['out_frame'], i + 1
+                continue
+            to = min(end, u['out_frame'])
+            nxt = self.units[i + 1] if i + 1 < len(self.units) else None
+            if nxt is not None and to == u['out_frame'] and end > to and (to - f) < MIN_SEGMENT:
                 f, i = to, i + 1                              # too short before the cut: start at the cut
                 continue
             segs.append((i, f, to))
             if nxt is None or to >= end:
                 break
-            if world_class(nxt['world']) != world_class(s['world']):
+            if world_class(nxt['world']) != world_class(u['world']):
                 later = [tk[2] for tk in line.tokens if tk[2] >= to]
                 if not later or later[0] >= end:
                     break                                     # nothing left to sing in the new world
                 f = later[0]                                  # re-appear on the next word in the new world
-                i = shot_at(f)
+                i = self._unit_at(f)
                 continue
             f, i = to, i + 1
         return segs
 
     def _fix_clears(self):
         """A line clears when the next line actually shows (after the cut rules), never later than its own end + 6."""
-        if getattr(self, '_fixed', False):
-            return
-        self._fixed = True
         starts = []
         for line in self.lines:
             segs = self.segments(line)
@@ -437,27 +525,32 @@ class LyricLayer:
             line.clear = min(own, max(line.clear, starts[k + 1]))
 
     def plan(self, shot):
-        """Items for one shot: [(line, setting, f_from, f_to)] in absolute frames; None if nothing shows."""
+        """Items for one shot: [(line, setting, f_from, f_to, unit)] in absolute frames; None if nothing shows."""
         items = []
         for line in self.lines:
             if line.clear <= shot['in_frame'] or line.first >= shot['out_frame'] + 48:
                 continue
             for i, a, b in self.segments(line):
-                if self.shots[i]['id'] == shot['id']:
-                    items.append((line, self.setting(line, shot['id']), a, b))
-        return {'shot': shot, 'items': items, 'place': self.place(shot['id'])} if items else None
+                u = self.units[i]
+                if u['shot'] == shot['id']:
+                    items.append((line, self.setting(line, u['id']), a, b, u))
+        if not items:
+            return None
+        units = [u for u in self.units if u['shot'] == shot['id']]
+        return {'shot': shot, 'items': items, 'units': units,
+                'place': {u['id']: self.place(u['id']) for u in units}}
 
     def signature(self, plan, state_in):
         if plan is None:
             return None
         return hashlib.sha256(json.dumps({
-            'items': [(l.idx, l.text, l.english, l.tokens, a, b) for l, s, a, b in plan['items']],
+            'items': [(l.idx, l.text, l.english, l.tokens, a, b, u['id'], s.place) for l, s, a, b, u in plan['items']],
             'place': plan['place'], 'state_in': state_in}, sort_keys=True).encode()).hexdigest()[:16]
 
     # ---- pass 1: measure
     def visible(self, plan, index):
         f = plan['shot']['in_frame'] + index
-        return [(l, s) for l, s, a, b in plan['items'] if a <= f < b]
+        return [(l, s, u) for l, s, a, b, u in plan['items'] if a <= f < b]
 
     def measure(self, plan, rgb, index):
         """rgb: HxWx3 uint8. Returns (mean luma, p90 luma) under the visible text's box, or None."""
@@ -465,7 +558,7 @@ class LyricLayer:
         if not vis:
             return None
         vals = []
-        for l, s in vis:
+        for l, s, u in vis:
             x0, y0, x1, y1 = s.ink_box
             pad = int(s.px * 0.3)
             x0, y0, x1, y1 = max(0, x0 - pad), max(0, y0 - pad), min(self.W, x1 + pad), min(self.H, y1 + pad)
@@ -478,33 +571,89 @@ class LyricLayer:
         return float(y.mean()), float(np.percentile(y, 90))
 
     def decide(self, plan, stats, state_in):
-        """One look per shot: ground with hysteresis against the previous shot; wash strength for night."""
-        stats = [s for s in stats if s is not None]
-        forced = plan['place'].get('ground')
-        mean = float(np.median([s[0] for s in stats])) if stats else 0.0
-        p90 = float(np.median([s[1] for s in stats])) if stats else 0.0
-        if forced:
-            ground = forced
-        elif mean >= PAPER_ON:
-            ground = 'paper'
-        elif mean <= NIGHT_ON:
-            ground = 'night'
-        else:
-            ground = state_in or ('paper' if mean >= (PAPER_ON + NIGHT_ON) / 2 else 'night')
-        wash = float(np.clip(WASH_MIN + WASH_GAIN * (p90 - WASH_FLOOR), WASH_MIN, WASH_MAX))
-        return {'ground': ground, 'wash': wash if ground == 'night' else 0.0, 'mean': mean, 'p90': p90}
+        """Ground per frame from the luminance under the text, with hysteresis (PAPER_ON / NIGHT_ON); runs shorter than
+        MIN_RUN frames (flashes, rubbing flips, mis-registration) are absorbed, so the look switches hard and only where
+        the picture itself jumps (cuts). Hysteresis carries across units of the same world class only.
+        Returns {'runs': [[f_from, f_to, ground, wash]], 'ground': state out, ...}."""
+        f0 = plan['shot']['in_frame']
+        raw = []                                         # (frame, ground, mean, p90)
+        state = state_in
+        prev_class = None
+        for u in plan['units']:
+            forced = plan['place'][u['id']].get('ground')
+            cls = world_class(u['world'])
+            if prev_class is not None and cls != prev_class:
+                state = None
+            prev_class = cls
+            for f in range(u['in_frame'], u['out_frame']):
+                st = stats[f - f0]
+                if st is None:
+                    continue
+                m, p90 = st
+                if forced:
+                    g = forced
+                elif m >= PAPER_ON:
+                    g = 'paper'
+                elif m <= NIGHT_ON:
+                    g = 'night'
+                else:
+                    g = state or ('paper' if m >= (PAPER_ON + NIGHT_ON) / 2 else 'night')
+                state = g
+                raw.append([f, g, m, p90, u['id']])
+        if not raw:
+            return {'runs': [], 'ground': state_in}
+        runs = []                                        # [f_from, f_to, ground, [p90...], [mean...], unit]
+        for f, g, m, p90, uid in raw:
+            if runs and runs[-1][2] == g and runs[-1][1] == f and runs[-1][5] == uid:
+                runs[-1][1] = f + 1
+                runs[-1][3].append(p90)
+                runs[-1][4].append(m)
+            else:
+                runs.append([f, f + 1, g, [p90], [m], uid])
+        changed = True
+        while changed and len(runs) > 1:                 # absorb short runs into their longer neighbour (same unit)
+            changed = False
+            for k, r in enumerate(runs):
+                if r[1] - r[0] >= MIN_RUN:
+                    continue
+                nb = [j for j in (k - 1, k + 1) if 0 <= j < len(runs) and runs[j][5] == r[5]]
+                if not nb:
+                    continue
+                j = max(nb, key=lambda j: runs[j][1] - runs[j][0])
+                a, b = sorted((k, j))
+                merged = [runs[a][0], runs[b][1], runs[j][2], runs[a][3] + runs[b][3], runs[a][4] + runs[b][4], r[5]]
+                runs[a:b + 1] = [merged]
+                changed = True
+                break
+        out = []
+        for a, b, g, p90s, ms, uid in runs:
+            wash = float(np.clip(WASH_MIN + WASH_GAIN * (float(np.median(p90s)) - WASH_FLOOR), WASH_MIN, WASH_MAX))
+            out.append([a, b, g, wash if g == 'night' else 0.0, round(float(np.median(ms)), 3)])
+        return {'runs': out, 'ground': out[-1][2]}
 
     # ---- pass 2: paint
     def painter(self, plan, look):
         W, H = self.W, self.H
         ink = 1 - np.float32(INK_RGB)
         cream = np.float32(CREAM_RGB)
+        mist_rgb = np.float32(MIST_RGB)
+        runs = look['runs']
+
+        def ground_at(f):
+            for a, b, g, wash, m in runs:
+                if a <= f < b:
+                    return g, wash
+            if runs:                                     # between runs (no text measured): nearest run
+                r = min(runs, key=lambda r: min(abs(f - r[0]), abs(f - r[1])))
+                return r[2], r[3]
+            return 'night', WASH_MIN
 
         def paint(im, index):
             f = plan['shot']['in_frame'] + index
-            vis = [(l, s) for l, s, a, b in plan['items'] if a <= f < b]
+            vis = [(l, s) for l, s, a, b, u in plan['items'] if a <= f < b]
             if not vis:
                 return im
+            g, wash = ground_at(f)
             arr = np.asarray(im, np.float32) / 255.0
             arr = arr.copy()
             for l, s in vis:
@@ -518,11 +667,15 @@ class LyricLayer:
                 sl = (slice(fy0 - y0, fy1 - y0), slice(fx0 - x0, fx1 - x0))
                 reg = arr[fy0:fy1, fx0:fx1]
                 a = a[sl]
-                if look['ground'] == 'paper':
+                if g == 'paper':
+                    mist = float(s.place.get('mist', 0.0))
+                    if mist > 0:                          # bare paper (mist) behind the line, feathered
+                        mk = (mist * s.wash[sl])[..., None]
+                        reg[:] = reg + (mist_rgb - reg) * mk
                     k = (a * INK_OPACITY * s.grain[sl])[..., None]
                     reg *= 1 - k * ink
                 else:
-                    wk = look['wash'] * s.wash[sl][..., None]
+                    wk = wash * s.wash[sl][..., None]
                     reg *= 1 - wk
                     k = (a * CREAM_OPACITY)[..., None]
                     reg[:] = reg * (1 - k) + cream * k
