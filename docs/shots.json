@@ -1,0 +1,2015 @@
+{
+  "fps": 24,
+  "end": 238.33333333333334,
+  "sequences": {
+    "A": "Intro: the attic at night (0:00-0:15)",
+    "B": "Verse 1: into the page; the carved mountain (0:15-0:41)",
+    "C": "Pre-chorus: Monkey! / Not yet; the egg; the breath (0:41-0:58)",
+    "D": "Hook: the birth is an entrance; the stage (0:58-1:25)",
+    "E": "Memory verse: the whisper (1:25-1:47)",
+    "F": "Rap: 2026, the car; shadow screen (1:47-2:01)",
+    "G": "The band: margins close; Yes (2:01-2:29)",
+    "H": "Bridge: the categories arrive; the blank (2:29-2:57)",
+    "I": "Build: 2026 bedroom; the seat at the table (2:56-3:09)",
+    "J": "Drop 2: both rooms at once (3:09-3:23)",
+    "K": "Outro: the ledger (3:23-3:48)",
+    "L": "End: two switches (3:48-3:58)"
+  },
+  "shots": [
+    {
+      "id": "A1",
+      "seq": "A",
+      "in": 0.0,
+      "out": 5.458333333333333,
+      "in_frame": 0,
+      "out_frame": 131,
+      "frames": 131,
+      "dur": 5.458333333333333,
+      "world": "attic88",
+      "ink": 10,
+      "sync": null,
+      "singer": null,
+      "desc": "Black. On the clapper roll (0.165) a neon sign stutters on outside a dusty attic window, lower right of frame, mirror-reversed lettering (invented sign: CHIN. IND. SPEC. REST. + 酒家), cinnabar red. The rest of the frame stays night. Hold; the red breathes toward cold blue once. Ma Lin's Night Outing: one lit opening small in the dark.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 0.272,
+        "offset_ms": -272.0
+      }
+    },
+    {
+      "id": "A2",
+      "seq": "A",
+      "in": 5.458333333333333,
+      "out": 9.708333333333334,
+      "in_frame": 131,
+      "out_frame": 233,
+      "frames": 102,
+      "dur": 4.25,
+      "world": "attic88",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "Slow drift left across the attic floor in the neon spill: sleeping mats, a paper printout of piano keys on the floorboards, a stack of textbooks, a switched-off small TV, the storybook on a pillow. Thin lines of warm light come up between the floorboards. Dust in the beam.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 5.45,
+        "offset_ms": 8.333
+      }
+    },
+    {
+      "id": "A3",
+      "seq": "A",
+      "in": 9.708333333333334,
+      "out": 12.583333333333334,
+      "in_frame": 233,
+      "out_frame": 302,
+      "frames": 69,
+      "dur": 2.875,
+      "world": "attic88",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "The stair door: a tall slot of warm tungsten light opens in the dark; Mama comes up, small in frame, drying her hands on her apron. Little Jade (5) sits up on her mat, back to us.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 9.923,
+        "offset_ms": -214.667
+      }
+    },
+    {
+      "id": "A4",
+      "seq": "A",
+      "in": 12.583333333333334,
+      "out": 15.5,
+      "in_frame": 302,
+      "out_frame": 372,
+      "frames": 70,
+      "dur": 2.9166666666666665,
+      "world": "attic88",
+      "ink": 20,
+      "sync": null,
+      "singer": null,
+      "desc": "Clapper 16ths tighten: close on Mama's wet red hands lifting the storybook from the pillow; its cover catches the neon. Cut on the hole at 15.28-15.515.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 12.597,
+        "offset_ms": -13.667
+      }
+    },
+    {
+      "id": "B1",
+      "seq": "B",
+      "in": 15.5,
+      "out": 22.291666666666668,
+      "in_frame": 372,
+      "out_frame": 535,
+      "frames": 163,
+      "dur": 6.791666666666667,
+      "world": "attic88",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "little_jade",
+      "desc": "Little Jade on her mat, three-quarter close, deadpan, lit red; she sings '妈妈, will you tell me before I sleep / how 孙悟空 came to be?' Mama settling beside her, soft in the foreground.",
+      "lyrics": [
+        {
+          "text": "妈妈, will you tell me before I sleep",
+          "singer": "child",
+          "start": 15.81,
+          "end": 18.72
+        },
+        {
+          "text": "how 孙悟空 came to be?",
+          "singer": "child",
+          "start": 19.16,
+          "end": 21.645
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 15.72,
+        "offset_ms": -220.0
+      }
+    },
+    {
+      "id": "B2",
+      "seq": "B",
+      "in": 22.291666666666668,
+      "out": 26.125,
+      "in_frame": 535,
+      "out_frame": 627,
+      "frames": 92,
+      "dur": 3.8333333333333335,
+      "world": "attic88",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "mama",
+      "desc": "Mama, the book open across her knees, sings 'On 花果山, where the cliffs run steep'. Two-shot from the foot of the mats; the open spread glows as the brightest thing in the room.",
+      "lyrics": [
+        {
+          "text": "On 花果山, where the cliffs run steep",
+          "singer": "mom",
+          "start": 23.06,
+          "end": 26.1
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 22.423,
+        "offset_ms": -131.333
+      }
+    },
+    {
+      "id": "B3",
+      "seq": "B",
+      "in": 26.125,
+      "out": 29.291666666666668,
+      "in_frame": 627,
+      "out_frame": 703,
+      "frames": 76,
+      "dur": 3.1666666666666665,
+      "world": "book",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "'a stone looked over the sea': over her arm onto the double page (mostly bare; 花果山 in the lower-left corner, a speck of a stone on top, sea and sky unpainted, a narrow column of printed text on the right page). Begin the film's signature push: the page edge leaves frame; the mist band starts to drift.",
+      "lyrics": [
+        {
+          "text": "a stone looked over the sea",
+          "singer": "mom",
+          "start": 26.145,
+          "end": 28.875
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 25.965,
+        "offset_ms": 160.0
+      }
+    },
+    {
+      "id": "B4",
+      "seq": "B",
+      "in": 29.291666666666668,
+      "out": 36.416666666666664,
+      "in_frame": 703,
+      "out_frame": 874,
+      "frames": 171,
+      "dur": 7.125,
+      "world": "book",
+      "ink": 30,
+      "sync": null,
+      "singer": null,
+      "desc": "'Sunlight by day and moonlight by night': close on the cliff, travelling right to left. The rock is carved with columns of seal script (千字文), cinnabar in the cuts; a low sun rakes across (characters brighten as it reaches them, go dark behind), then at 'moonlight' (~32.3) a cold moon does the same. Tiny carvers on ladders, different on each pass. In the page's light the neon turns red then pale blue.",
+      "lyrics": [
+        {
+          "text": "Sunlight by day and moonlight by night",
+          "singer": "mom",
+          "start": 29.31,
+          "end": 35.33
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 29.083,
+        "offset_ms": 208.667
+      }
+    },
+    {
+      "id": "B5",
+      "seq": "B",
+      "in": 36.416666666666664,
+      "out": 41.0,
+      "in_frame": 874,
+      "out_frame": 984,
+      "frames": 110,
+      "dur": 4.583333333333333,
+      "world": "book",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "'a thousand years of soaking up light': arrive at the summit, looking up (high distance). The stone is smooth: the one uncarved thing. Drums drop out at 37.885; hold still. Only mist moves.",
+      "lyrics": [
+        {
+          "text": "a thousand years of soaking up light",
+          "singer": "mom",
+          "start": 36.42,
+          "end": 41.08
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 36.197,
+        "offset_ms": 219.667
+      }
+    },
+    {
+      "id": "C1",
+      "seq": "C",
+      "in": 41.0,
+      "out": 45.166666666666664,
+      "in_frame": 984,
+      "out_frame": 1084,
+      "frames": 100,
+      "dur": 4.166666666666667,
+      "world": "book",
+      "ink": 12,
+      "sync": null,
+      "singer": null,
+      "desc": "Drums back. The stone close. 'It split apart' (43.635): a hairline crack runs down it; on the three stutter chops (43.805-44.13) the frame flips to its rubbing (white on black) and back.",
+      "lyrics": [
+        {
+          "text": "a thousand years of soaking up light",
+          "singer": "mom",
+          "start": 36.42,
+          "end": 41.08
+        },
+        {
+          "text": "It split apart",
+          "singer": "mom",
+          "start": 43.635,
+          "end": 45.17
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 41.014,
+        "offset_ms": -14.0
+      }
+    },
+    {
+      "id": "C2",
+      "seq": "C",
+      "in": 45.166666666666664,
+      "out": 46.166666666666664,
+      "in_frame": 1084,
+      "out_frame": 1108,
+      "frames": 24,
+      "dur": 1.0,
+      "world": "attic88",
+      "ink": 20,
+      "sync": null,
+      "singer": null,
+      "desc": "'Monkey!': little Jade's two hands throw a monkey hand-shadow across the page in red neon, too early. The shadow is big, the painted mountain small under it. (Thumbnail frame.)",
+      "lyrics": [
+        {
+          "text": "It split apart",
+          "singer": "mom",
+          "start": 43.635,
+          "end": 45.17
+        },
+        {
+          "text": "Monkey!",
+          "singer": "child",
+          "start": 45.275,
+          "end": 46.08
+        },
+        {
+          "text": "Not yet, that's just the start",
+          "singer": "mom",
+          "start": 46.165,
+          "end": 49.59
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 44.99,
+        "offset_ms": 176.667
+      }
+    },
+    {
+      "id": "C3",
+      "seq": "C",
+      "in": 46.166666666666664,
+      "out": 49.625,
+      "in_frame": 1108,
+      "out_frame": 1191,
+      "frames": 83,
+      "dur": 3.4583333333333335,
+      "world": "attic88",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "mama",
+      "desc": "'Not yet, that's just the start': Mama, amused, lowers little Jade's hands with one finger. Two-shot, close.",
+      "lyrics": [
+        {
+          "text": "Not yet, that's just the start",
+          "singer": "mom",
+          "start": 46.165,
+          "end": 49.59
+        },
+        {
+          "text": "A stone egg, round as a ball",
+          "singer": "mom",
+          "start": 49.61,
+          "end": 52.25
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 46.314,
+        "offset_ms": -147.333
+      }
+    },
+    {
+      "id": "C4",
+      "seq": "C",
+      "in": 49.625,
+      "out": 52.25,
+      "in_frame": 1191,
+      "out_frame": 1254,
+      "frames": 63,
+      "dur": 2.625,
+      "world": "book",
+      "ink": 8,
+      "sync": null,
+      "singer": null,
+      "desc": "'A stone egg, round as a ball': the egg alone on bare paper, pale ink, a little left of centre and low. Nothing else. Still.",
+      "lyrics": [
+        {
+          "text": "A stone egg, round as a ball",
+          "singer": "mom",
+          "start": 49.61,
+          "end": 52.25
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 49.839,
+        "offset_ms": -214.0
+      }
+    },
+    {
+      "id": "C5",
+      "seq": "C",
+      "in": 52.25,
+      "out": 57.041666666666664,
+      "in_frame": 1254,
+      "out_frame": 1369,
+      "frames": 115,
+      "dur": 4.791666666666667,
+      "world": "attic88",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "'the wind blew once, and that was all': Mama in profile leans to the page and blows. Dust motes swirl through the neon beam. Cut inside at ~54.6: mist (bare paper) rolls across the egg like a sleeve.",
+      "lyrics": [
+        {
+          "text": "the wind blew once, and that was all",
+          "singer": "mom",
+          "start": 52.25,
+          "end": 57.695
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 52.057,
+        "offset_ms": 193.0
+      }
+    },
+    {
+      "id": "C6",
+      "seq": "C",
+      "in": 57.041666666666664,
+      "out": 58.666666666666664,
+      "in_frame": 1369,
+      "out_frame": 1408,
+      "frames": 39,
+      "dur": 1.625,
+      "world": "book",
+      "ink": 25,
+      "sync": null,
+      "singer": null,
+      "desc": "Pre-hook roll: the caught light runs up the carved columns of the cliff toward the summit, gold (the one time the mountain glows by itself); the egg trembles; fine cracks.",
+      "lyrics": [
+        {
+          "text": "the wind blew once, and that was all",
+          "singer": "mom",
+          "start": 52.25,
+          "end": 57.695
+        },
+        {
+          "text": "Born fully formed",
+          "singer": "both",
+          "start": 57.79,
+          "end": 60.23
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 56.916,
+        "offset_ms": 125.667
+      }
+    },
+    {
+      "id": "D1",
+      "seq": "D",
+      "in": 58.666666666666664,
+      "out": 61.083333333333336,
+      "in_frame": 1408,
+      "out_frame": 1466,
+      "frames": 58,
+      "dur": 2.4166666666666665,
+      "world": "stage",
+      "ink": 60,
+      "sync": null,
+      "singer": null,
+      "desc": "CRASH: one throw of splashed ink crosses the whole sheet and lands as a figure: the newborn monkey frozen in 亮相 (Liang Kai's splashed-ink manner; peach-shaped cinnabar patch on the face). A red seal 仓 slams beside him. 'Born fully formed'. First full frame of the film. Rubbing flip on the echo '(born fully formed)' at 59.6.",
+      "lyrics": [
+        {
+          "text": "Born fully formed",
+          "singer": "both",
+          "start": 57.79,
+          "end": 60.23
+        },
+        {
+          "text": "(born fully formed)",
+          "singer": "both",
+          "start": 59.595,
+          "end": 61.51
+        },
+        {
+          "text": "He bowed four ways before the day had warmed",
+          "singer": "both",
+          "start": 61.07,
+          "end": 64.39
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 58.673,
+        "offset_ms": -6.333
+      }
+    },
+    {
+      "id": "D2",
+      "seq": "D",
+      "in": 61.083333333333336,
+      "out": 64.41666666666667,
+      "in_frame": 1466,
+      "out_frame": 1546,
+      "frames": 80,
+      "dur": 3.3333333333333335,
+      "world": "stage",
+      "ink": 45,
+      "sync": null,
+      "singer": null,
+      "desc": "'He bowed four ways before the day had warmed': four bows, east south west north, re-posed in hard cuts on four beats from 61.33 (no in-betweens, like puppet joints); each lands with a small seal (才 才 才 仓 = a 四击头). The fourth bow is little Jade on her mat in the attic, copying him.",
+      "lyrics": [
+        {
+          "text": "(born fully formed)",
+          "singer": "both",
+          "start": 59.595,
+          "end": 61.51
+        },
+        {
+          "text": "He bowed four ways before the day had warmed",
+          "singer": "both",
+          "start": 61.07,
+          "end": 64.39
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 60.883,
+        "offset_ms": 200.333
+      }
+    },
+    {
+      "id": "D3",
+      "seq": "D",
+      "in": 64.41666666666667,
+      "out": 67.91666666666667,
+      "in_frame": 1546,
+      "out_frame": 1630,
+      "frames": 84,
+      "dur": 3.5,
+      "world": "attic88",
+      "ink": 30,
+      "sync": "lip",
+      "singer": "mama+little_jade",
+      "desc": "'No cradle, no lullaby, no song': first, 0.9 s inside the page: two thin beams of gold from the newborn's eyes shoot up and off the top of the sheet. Then the attic floor: no crib, only mats; Mama and little Jade side by side singing in octaves, the book between them.",
+      "lyrics": [
+        {
+          "text": "No cradle, no lullaby, no song",
+          "singer": "both",
+          "start": 64.435,
+          "end": 67.91
+        },
+        {
+          "text": "一通百通",
+          "singer": "both",
+          "start": 67.91,
+          "end": 69.29
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 64.411,
+        "offset_ms": 5.667
+      }
+    },
+    {
+      "id": "D4",
+      "seq": "D",
+      "in": 67.91666666666667,
+      "out": 69.29166666666667,
+      "in_frame": 1630,
+      "out_frame": 1663,
+      "frames": 33,
+      "dur": 1.375,
+      "world": "book",
+      "ink": 40,
+      "sync": null,
+      "singer": null,
+      "desc": "'一通百通': one carved character on the cliff fills the frame and catches light (通), chisel marks visible; cut wider on 百 (68.53): ten around it light. The four characters also land as one big vertical inscription in the blank.",
+      "lyrics": [
+        {
+          "text": "一通百通",
+          "singer": "both",
+          "start": 67.91,
+          "end": 69.29
+        },
+        {
+          "text": "One whisper, and the hundred come along",
+          "singer": "both",
+          "start": 69.29,
+          "end": 73.51
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 67.941,
+        "offset_ms": -24.333
+      }
+    },
+    {
+      "id": "D5",
+      "seq": "D",
+      "in": 69.29166666666667,
+      "out": 73.5,
+      "in_frame": 1663,
+      "out_frame": 1764,
+      "frames": 101,
+      "dur": 4.208333333333333,
+      "world": "book",
+      "ink": 70,
+      "sync": null,
+      "singer": null,
+      "desc": "'One whisper, and the hundred come along': the film's first pull-back. Column by column the whole mountain lights, until 花果山 stands entire and lit on the page. Rubbing flips and block mis-registration on the breakbeat chops.",
+      "lyrics": [
+        {
+          "text": "One whisper, and the hundred come along",
+          "singer": "both",
+          "start": 69.29,
+          "end": 73.51
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 69.263,
+        "offset_ms": 28.667
+      }
+    },
+    {
+      "id": "D6",
+      "seq": "D",
+      "in": 73.5,
+      "out": 76.41666666666667,
+      "in_frame": 1764,
+      "out_frame": 1834,
+      "frames": 70,
+      "dur": 2.9166666666666665,
+      "world": "stage",
+      "ink": 35,
+      "sync": null,
+      "singer": null,
+      "desc": "Suona lead, no voice: the stage. The monkey crosses the bare sheet right to left in a tumbling pass (筋斗), tiny against the mountain in the corner; landing = 亮相 freeze on the next strong hit, misregistered for two frames.",
+      "lyrics": [
+        {
+          "text": "One whisper, and the hundred come along",
+          "singer": "both",
+          "start": 69.29,
+          "end": 73.51
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 73.689,
+        "offset_ms": -189.0
+      }
+    },
+    {
+      "id": "D7",
+      "seq": "D",
+      "in": 76.41666666666667,
+      "out": 79.29166666666667,
+      "in_frame": 1834,
+      "out_frame": 1903,
+      "frames": 69,
+      "dur": 2.875,
+      "world": "stage",
+      "ink": 40,
+      "sync": null,
+      "singer": null,
+      "desc": "Staff flower (舞花): closer, the spinning staff leaves a ring of dry-brush 飞白 that stays on the paper; the two pheasant plumes draw arcs. The suona phrase is the stroke.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 76.37,
+        "offset_ms": 46.667
+      }
+    },
+    {
+      "id": "D8",
+      "seq": "D",
+      "in": 79.29166666666667,
+      "out": 82.5,
+      "in_frame": 1903,
+      "out_frame": 1980,
+      "frames": 77,
+      "dur": 3.2083333333333335,
+      "world": "stage",
+      "ink": 30,
+      "sync": null,
+      "singer": null,
+      "desc": "He plants the staff and climbs it, perches on top with a hand shading his eyes (搭凉棚), looking out over the unpainted sea. Freeze on the hit; seal 仓. Then the ink of him and all the staff strokes bleeds back into the paper.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 79.474,
+        "offset_ms": -182.333
+      }
+    },
+    {
+      "id": "D9",
+      "seq": "D",
+      "in": 82.5,
+      "out": 85.83333333333333,
+      "in_frame": 1980,
+      "out_frame": 2060,
+      "frames": 80,
+      "dur": 3.3333333333333335,
+      "world": "attic88",
+      "ink": 20,
+      "sync": null,
+      "singer": null,
+      "desc": "Little Jade on her mat holds the same pose (one leg up, hand shading her eyes), copied from the page; Mama laughing. Pull back out of the stage to the room; the fill at 85.46 tips into the hole.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 82.577,
+        "offset_ms": -77.0
+      }
+    },
+    {
+      "id": "E1",
+      "seq": "E",
+      "in": 85.83333333333333,
+      "out": 89.41666666666667,
+      "in_frame": 2060,
+      "out_frame": 2146,
+      "frames": 86,
+      "dur": 3.5833333333333335,
+      "world": "attic88",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "mama",
+      "desc": "Crash at 86.998. 'The monkey had a memory just like you': Mama taps little Jade's nose on 'you' (88.5). Close two-shot, one pool of neon.",
+      "lyrics": [
+        {
+          "text": "The monkey had a memory just like you",
+          "singer": "mom",
+          "start": 85.845,
+          "end": 88.975
+        },
+        {
+          "text": "he never once forgot a spell",
+          "singer": "mom",
+          "start": 89.4,
+          "end": 92.655
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 85.677,
+        "offset_ms": 156.333
+      }
+    },
+    {
+      "id": "E2",
+      "seq": "E",
+      "in": 89.41666666666667,
+      "out": 93.0,
+      "in_frame": 2146,
+      "out_frame": 2232,
+      "frames": 86,
+      "dur": 3.5833333333333335,
+      "world": "book",
+      "ink": 25,
+      "sync": null,
+      "singer": null,
+      "desc": "'he never once forgot a spell': the page: a troop of a hundred small monkeys as faceless dabs of the brush on the mountain; beside them the printed text column is razor sharp.",
+      "lyrics": [
+        {
+          "text": "he never once forgot a spell",
+          "singer": "mom",
+          "start": 89.4,
+          "end": 92.655
+        },
+        {
+          "text": "Names and faces, I lose a few",
+          "singer": "child",
+          "start": 92.99,
+          "end": 95.905
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 89.635,
+        "offset_ms": -218.333
+      }
+    },
+    {
+      "id": "E3",
+      "seq": "E",
+      "in": 93.0,
+      "out": 99.91666666666667,
+      "in_frame": 2232,
+      "out_frame": 2398,
+      "frames": 166,
+      "dur": 6.916666666666667,
+      "world": "attic88",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "little_jade",
+      "desc": "'Names and faces, I lose a few / but a spell I'd remember well': little Jade close, deadpan, a small shrug on 'lose a few'; in the soft background Mama's face is only a warm blur (faces soft, characters sharp).",
+      "lyrics": [
+        {
+          "text": "Names and faces, I lose a few",
+          "singer": "child",
+          "start": 92.99,
+          "end": 95.905
+        },
+        {
+          "text": "but a spell I'd remember well",
+          "singer": "child",
+          "start": 96.18,
+          "end": 99.585
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 93.152,
+        "offset_ms": -152.0
+      }
+    },
+    {
+      "id": "E4",
+      "seq": "E",
+      "in": 99.91666666666667,
+      "out": 103.20833333333333,
+      "in_frame": 2398,
+      "out_frame": 2477,
+      "frames": 79,
+      "dur": 3.2916666666666665,
+      "world": "book",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "'The master leaned in close to his ear': the band drops away (100.9). In the painting: a long sleeve and a lean toward a small monkey's ear; the Master is never seen whole. Three small taps on the head just before (optional).",
+      "lyrics": [
+        {
+          "text": "The master leaned in close to his ear",
+          "singer": "mom",
+          "start": 99.92,
+          "end": 103.09
+        },
+        {
+          "text": "(ps ps ps)",
+          "singer": "mom",
+          "start": 103.2,
+          "end": 104.245
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 99.742,
+        "offset_ms": 174.667
+      }
+    },
+    {
+      "id": "E5",
+      "seq": "E",
+      "in": 103.20833333333333,
+      "out": 104.29166666666667,
+      "in_frame": 2477,
+      "out_frame": 2503,
+      "frames": 26,
+      "dur": 1.0833333333333333,
+      "world": "attic88",
+      "ink": 20,
+      "sync": null,
+      "singer": null,
+      "desc": "'(ps ps ps)': extreme close, Mama's cupped hand and lips at little Jade's ear. No subtitle.",
+      "lyrics": [
+        {
+          "text": "(ps ps ps)",
+          "singer": "mom",
+          "start": 103.2,
+          "end": 104.245
+        },
+        {
+          "text": "a secret only he could hear",
+          "singer": "mom",
+          "start": 104.28,
+          "end": 106.59
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 103.207,
+        "offset_ms": 1.333
+      }
+    },
+    {
+      "id": "E6",
+      "seq": "E",
+      "in": 104.29166666666667,
+      "out": 107.04166666666667,
+      "in_frame": 2503,
+      "out_frame": 2569,
+      "frames": 66,
+      "dur": 2.75,
+      "world": "attic88",
+      "ink": 20,
+      "sync": null,
+      "singer": null,
+      "desc": "'a secret only he could hear': little Jade looks at her sideways; Mama chuckles. On the rap pickup (107.04) little Jade's eyes go wide: the whisper triggers the flash-forward.",
+      "lyrics": [
+        {
+          "text": "a secret only he could hear",
+          "singer": "mom",
+          "start": 104.28,
+          "end": 106.59
+        },
+        {
+          "text": "石头里蹦出来 没有童年",
+          "singer": "child",
+          "start": 107.04,
+          "end": 108.645
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 104.08,
+        "offset_ms": 211.667
+      }
+    },
+    {
+      "id": "F1",
+      "seq": "F",
+      "in": 107.04166666666667,
+      "out": 108.83333333333333,
+      "in_frame": 2569,
+      "out_frame": 2612,
+      "frames": 43,
+      "dur": 1.7916666666666667,
+      "world": "car26",
+      "ink": 30,
+      "sync": "lip",
+      "singer": "daughter",
+      "desc": "Hard cut on the pickup; crash 107.975. 2026, dusk on an Austin highway. The daughter (4, strawberry dress) in her car seat raps '石头里蹦出来 没有童年', deadpan, hands chopping the beat. Streetlights sweep the cabin as the neon swept the attic.",
+      "lyrics": [
+        {
+          "text": "石头里蹦出来 没有童年",
+          "singer": "child",
+          "start": 107.04,
+          "end": 108.645
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 107.114,
+        "offset_ms": -72.333
+      }
+    },
+    {
+      "id": "F2",
+      "seq": "F",
+      "in": 108.83333333333333,
+      "out": 111.04166666666667,
+      "in_frame": 2612,
+      "out_frame": 2665,
+      "frames": 53,
+      "dur": 2.2083333333333335,
+      "world": "car26",
+      "ink": 40,
+      "sync": null,
+      "singer": null,
+      "desc": "'一声耳语 学会七十二变 (七十二变)': her side window is a shadow screen: a jointed leather shadow-puppet monkey whose head is swapped on every beat (monkey, pine tree, bird, fish, cat), back-lit amber by each passing streetlight.",
+      "lyrics": [
+        {
+          "text": "一声耳语 学会七十二变",
+          "singer": "child",
+          "start": 108.84,
+          "end": 110.57
+        },
+        {
+          "text": "(七十二变)",
+          "singer": "child",
+          "start": 110.38,
+          "end": 111.04
+        },
+        {
+          "text": "拔一把毫毛 吹一口气",
+          "singer": "child",
+          "start": 111.04,
+          "end": 112.705
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 108.853,
+        "offset_ms": -19.667
+      }
+    },
+    {
+      "id": "F3",
+      "seq": "F",
+      "in": 111.04166666666667,
+      "out": 112.75,
+      "in_frame": 2665,
+      "out_frame": 2706,
+      "frames": 41,
+      "dur": 1.7083333333333333,
+      "world": "car26",
+      "ink": 30,
+      "sync": "lip",
+      "singer": "daughter",
+      "desc": "'拔一把毫毛 吹一口气': she plucks at her hair and blows across her open palm (blow at ~112.2). Match cut on the blow to little Jade blowing on her palm in the 1988 attic (last 12 frames). Hairs fly.",
+      "lyrics": [
+        {
+          "text": "拔一把毫毛 吹一口气",
+          "singer": "child",
+          "start": 111.04,
+          "end": 112.705
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 111.049,
+        "offset_ms": -7.333
+      }
+    },
+    {
+      "id": "F4",
+      "seq": "F",
+      "in": 112.75,
+      "out": 116.20833333333333,
+      "in_frame": 2706,
+      "out_frame": 2789,
+      "frames": 83,
+      "dur": 3.4583333333333335,
+      "world": "car26",
+      "ink": 50,
+      "sync": "lip",
+      "singer": "jade+daughter",
+      "desc": "'千百个我 同时在这里 / 每一个都是我 每一个都算': Jade's voice joins: the rear-view mirror holds both faces singing. Then every pane of glass in the car carries a shadow-puppet copy, each lit by its own streetlight; a 走马灯 ring of running monkeys turns.",
+      "lyrics": [
+        {
+          "text": "千百个我 同时在这里",
+          "singer": "both",
+          "start": 112.76,
+          "end": 114.32
+        },
+        {
+          "text": "每一个都是我 每一个都算",
+          "singer": "both",
+          "start": 114.32,
+          "end": 116.125
+        },
+        {
+          "text": "说完这句话 各自消散",
+          "singer": "both",
+          "start": 116.2,
+          "end": 118.0
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 112.814,
+        "offset_ms": -64.0
+      }
+    },
+    {
+      "id": "F5",
+      "seq": "F",
+      "in": 116.20833333333333,
+      "out": 118.0,
+      "in_frame": 2789,
+      "out_frame": 2832,
+      "frames": 43,
+      "dur": 1.7916666666666667,
+      "world": "car26",
+      "ink": 30,
+      "sync": null,
+      "singer": null,
+      "desc": "'说完这句话 各自消散': the lights pass; each copy goes dark with its light, one per beat, until the glass is empty dusk (10%).",
+      "lyrics": [
+        {
+          "text": "说完这句话 各自消散",
+          "singer": "both",
+          "start": 116.2,
+          "end": 118.0
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 116.32,
+        "offset_ms": -111.667
+      }
+    },
+    {
+      "id": "F6",
+      "seq": "F",
+      "in": 118.0,
+      "out": 121.45833333333333,
+      "in_frame": 2832,
+      "out_frame": 2915,
+      "frames": 83,
+      "dur": 3.4583333333333335,
+      "world": "car26",
+      "ink": 30,
+      "sync": null,
+      "singer": null,
+      "desc": "'身外身法 谁是真身 / 问了也白问 个个都真': two identical puppet monkeys face each other across the windscreen, mirror-posed, re-posed on the beats; neither is the copy. End (120.6) on the daughter and her reflection in the window waving at the same instant.",
+      "lyrics": [
+        {
+          "text": "身外身法 谁是真身",
+          "singer": "both",
+          "start": 118.0,
+          "end": 119.73
+        },
+        {
+          "text": "(谁是真身)",
+          "singer": "both",
+          "start": 119.54,
+          "end": 120.2
+        },
+        {
+          "text": "问了也白问 个个都真",
+          "singer": "both",
+          "start": 120.09,
+          "end": 121.47
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 118.068,
+        "offset_ms": -68.0
+      }
+    },
+    {
+      "id": "G1",
+      "seq": "G",
+      "in": 121.45833333333333,
+      "out": 127.45833333333333,
+      "in_frame": 2915,
+      "out_frame": 3059,
+      "frames": 144,
+      "dur": 6.0,
+      "world": "attic88",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "little_jade",
+      "desc": "Back to 1988; the sound narrows (121.905) and the paper margins begin to close in from left and right; colour drains. 'Why does he wear a band of gold? / Is it heavy? Is it cold?': little Jade touches her own forehead.",
+      "lyrics": [
+        {
+          "text": "问了也白问 个个都真",
+          "singer": "both",
+          "start": 120.09,
+          "end": 121.47
+        },
+        {
+          "text": "Why does he wear a band of gold?",
+          "singer": "child",
+          "start": 121.47,
+          "end": 124.27
+        },
+        {
+          "text": "Is it heavy? Is it cold?",
+          "singer": "child",
+          "start": 124.585,
+          "end": 127.45
+        },
+        {
+          "text": "He wouldn't listen, so the gold pulls tight",
+          "singer": "mom",
+          "start": 127.45,
+          "end": 131.13
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 121.558,
+        "offset_ms": -99.667
+      }
+    },
+    {
+      "id": "G2",
+      "seq": "G",
+      "in": 127.45833333333333,
+      "out": 134.375,
+      "in_frame": 3059,
+      "out_frame": 3225,
+      "frames": 166,
+      "dur": 6.916666666666667,
+      "world": "book",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "'He wouldn't listen, so the gold pulls tight (听话) / on the monkey who picked a fight (听话)': the painted pilgrim monkey clutches his head; the band is the only colour on the page: gold. The margins step in one notch on each 听话 (130.175, 133.690).",
+      "lyrics": [
+        {
+          "text": "He wouldn't listen, so the gold pulls tight",
+          "singer": "mom",
+          "start": 127.45,
+          "end": 131.13
+        },
+        {
+          "text": "(听话)",
+          "singer": "child",
+          "start": 130.175,
+          "end": 131.13
+        },
+        {
+          "text": "on the monkey who picked a fight",
+          "singer": "mom",
+          "start": 131.075,
+          "end": 134.37
+        },
+        {
+          "text": "(听话)",
+          "singer": "child",
+          "start": 133.69,
+          "end": 134.37
+        },
+        {
+          "text": "It isn't fair, it isn't fair",
+          "singer": "child",
+          "start": 134.37,
+          "end": 136.37
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 127.634,
+        "offset_ms": -175.667
+      }
+    },
+    {
+      "id": "G3",
+      "seq": "G",
+      "in": 134.375,
+      "out": 141.25,
+      "in_frame": 3225,
+      "out_frame": 3390,
+      "frames": 165,
+      "dur": 6.875,
+      "world": "attic88",
+      "ink": 15,
+      "sync": "lip",
+      "singer": "little_jade",
+      "desc": "'It isn't fair, it isn't fair / I don't want it in his hair': full band back (135.878) but the frame stays narrow. Little Jade puts her small hand flat over the picture; its shadow covers the band.",
+      "lyrics": [
+        {
+          "text": "It isn't fair, it isn't fair",
+          "singer": "child",
+          "start": 134.37,
+          "end": 136.37
+        },
+        {
+          "text": "I don't want it in his hair",
+          "singer": "child",
+          "start": 137.93,
+          "end": 139.825
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 134.567,
+        "offset_ms": -192.0
+      }
+    },
+    {
+      "id": "G4",
+      "seq": "G",
+      "in": 141.25,
+      "out": 146.45833333333334,
+      "in_frame": 3390,
+      "out_frame": 3515,
+      "frames": 125,
+      "dur": 5.208333333333333,
+      "world": "attic88",
+      "ink": 12,
+      "sync": "lip",
+      "singer": "mama",
+      "desc": "'Then 听话, or you'll get one to wear / Do what mama says, no more, no less': Mama's finger and thumb make a ring; its shadow lowers over the shadow of little Jade's head on the wall/page. Notch on 听话 (141.45): the strip is at its narrowest, ~15% of frame. Playful, and not.",
+      "lyrics": [
+        {
+          "text": "Then 听话, or you'll get one to wear",
+          "singer": "mom",
+          "start": 141.25,
+          "end": 144.06
+        },
+        {
+          "text": "Do what mama says, no more, no less",
+          "singer": "mom",
+          "start": 144.07,
+          "end": 148.55
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 141.075,
+        "offset_ms": 175.0
+      }
+    },
+    {
+      "id": "G5",
+      "seq": "G",
+      "in": 146.45833333333334,
+      "out": 149.29166666666666,
+      "in_frame": 3515,
+      "out_frame": 3583,
+      "frames": 68,
+      "dur": 2.8333333333333335,
+      "world": "attic88",
+      "ink": 12,
+      "sync": "lip",
+      "singer": "little_jade",
+      "desc": "Drums out. Little Jade's face, dead centre (first of two centred shots), holding Mama's look a moment too long. 'Yes' (148.72). No cut, nothing else moves.",
+      "lyrics": [
+        {
+          "text": "Do what mama says, no more, no less",
+          "singer": "mom",
+          "start": 144.07,
+          "end": 148.55
+        },
+        {
+          "text": "Yes",
+          "singer": "child",
+          "start": 148.72,
+          "end": 149.27
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 146.274,
+        "offset_ms": 184.333
+      }
+    },
+    {
+      "id": "G6",
+      "seq": "G",
+      "in": 149.29166666666666,
+      "out": 149.70833333333334,
+      "in_frame": 3583,
+      "out_frame": 3593,
+      "frames": 10,
+      "dur": 0.4166666666666667,
+      "world": "blank",
+      "ink": 0,
+      "sync": null,
+      "singer": null,
+      "desc": "Near-silence: bare paper, full frame, the margins gone. 10 frames.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 149.297,
+        "offset_ms": -5.333
+      }
+    },
+    {
+      "id": "H1",
+      "seq": "H",
+      "in": 149.70833333333334,
+      "out": 156.29166666666666,
+      "in_frame": 3593,
+      "out_frame": 3751,
+      "frames": 158,
+      "dur": 6.583333333333333,
+      "world": "stage",
+      "ink": 50,
+      "sync": null,
+      "singer": null,
+      "desc": "CRASH, full band, suona. The categories arrive: an album sheet of 脸谱 fills cell by cell, one painted face per beat, each stamped down like a seal and finished in three or four fast strokes (white ground, colour field, black lines); red, black, white, yellow, blue, green, gold. Mis-registration and rubbing flips on the chops. Start close on single faces (cuts on beats), widening.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 149.72,
+        "offset_ms": -11.667
+      }
+    },
+    {
+      "id": "H2",
+      "seq": "H",
+      "in": 156.29166666666666,
+      "out": 162.625,
+      "in_frame": 3751,
+      "out_frame": 3903,
+      "frames": 152,
+      "dur": 6.333333333333333,
+      "world": "stage",
+      "ink": 65,
+      "sync": null,
+      "singer": null,
+      "desc": "Wider and faster: rows fill; the sheet is old paper, foxed; by 162 the grid is complete except one cell. The fullest, loudest frame before drop 2. On the last bar the camera settles.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 156.235,
+        "offset_ms": 56.667
+      }
+    },
+    {
+      "id": "H3",
+      "seq": "H",
+      "in": 162.625,
+      "out": 165.95833333333334,
+      "in_frame": 3903,
+      "out_frame": 3983,
+      "frames": 80,
+      "dur": 3.3333333333333335,
+      "world": "stage",
+      "ink": 30,
+      "sync": null,
+      "singer": null,
+      "desc": "'Tool or threat, trick or kid': four faces in a row, one landing on each word (tool 162.63, threat 163.24+, trick, kid). Under them, small in the lower corner, a child seen from behind (little Jade and the daughter share the one silhouette), her own face unpainted.",
+      "lyrics": [
+        {
+          "text": "Tool or threat, trick or kid",
+          "singer": "child",
+          "start": 162.63,
+          "end": 165.595
+        },
+        {
+          "text": "the categories arrived before I did",
+          "singer": "child",
+          "start": 165.94,
+          "end": 169.34
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 162.746,
+        "offset_ms": -121.0
+      }
+    },
+    {
+      "id": "H4",
+      "seq": "H",
+      "in": 165.95833333333334,
+      "out": 169.25,
+      "in_frame": 3983,
+      "out_frame": 4062,
+      "frames": 79,
+      "dur": 3.2916666666666665,
+      "world": "stage",
+      "ink": 40,
+      "sync": null,
+      "singer": null,
+      "desc": "'the categories arrived before I did': pull out to the whole album leaf: weathered, soft at the corners, older than she is; one cell bare. She stands under the gap (Ma Yuan's scholar in his corner).",
+      "lyrics": [
+        {
+          "text": "the categories arrived before I did",
+          "singer": "child",
+          "start": 165.94,
+          "end": 169.34
+        },
+        {
+          "text": "I'm made of the telling, not just the tale",
+          "singer": "child",
+          "start": 169.245,
+          "end": 172.76
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 165.763,
+        "offset_ms": 195.333
+      }
+    },
+    {
+      "id": "H5",
+      "seq": "H",
+      "in": 169.25,
+      "out": 172.75,
+      "in_frame": 4062,
+      "out_frame": 4146,
+      "frames": 84,
+      "dur": 3.5,
+      "world": "book",
+      "ink": 25,
+      "sync": null,
+      "singer": null,
+      "desc": "'I'm made of the telling, not just the tale': the carved cliff; light rakes across it and every character brightens except where her shadow falls: a child-shaped blank in lit writing. A loose gold ring floats behind her head, not touching.",
+      "lyrics": [
+        {
+          "text": "the categories arrived before I did",
+          "singer": "child",
+          "start": 165.94,
+          "end": 169.34
+        },
+        {
+          "text": "I'm made of the telling, not just the tale",
+          "singer": "child",
+          "start": 169.245,
+          "end": 172.76
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 169.22,
+        "offset_ms": 30.0
+      }
+    },
+    {
+      "id": "H6",
+      "seq": "H",
+      "in": 172.75,
+      "out": 177.20833333333334,
+      "in_frame": 4146,
+      "out_frame": 4253,
+      "frames": 107,
+      "dur": 4.458333333333333,
+      "world": "blank",
+      "ink": 1,
+      "sync": null,
+      "singer": null,
+      "desc": "'one hair that can't gather, blown on the gale': the cliff is gone. One hair-thin line of ink drifts across the empty page and leaves it at the left edge. The emptiest frame in the film. Drums out at 177.645.",
+      "lyrics": [
+        {
+          "text": "I'm made of the telling, not just the tale",
+          "singer": "child",
+          "start": 169.245,
+          "end": 172.76
+        },
+        {
+          "text": "one hair that can't gather, blown on the gale",
+          "singer": "child",
+          "start": 172.76,
+          "end": 176.1
+        },
+        {
+          "text": "Mischievous baby, Monkey's twin",
+          "singer": "mom",
+          "start": 175.99,
+          "end": 179.43
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 172.668,
+        "offset_ms": 82.0
+      }
+    },
+    {
+      "id": "I1",
+      "seq": "I",
+      "in": 177.20833333333334,
+      "out": 180.20833333333334,
+      "in_frame": 4253,
+      "out_frame": 4325,
+      "frames": 72,
+      "dur": 3.0,
+      "world": "bed26",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "jade",
+      "desc": "The white of the page becomes flashlight glare: 2026, a dark bedroom. Jade sits on the floor by the bed with the same storybook, corners soft now, a small flashlight in her hand; the daughter leans in from the bed. 'Mischievous baby, Monkey's twin'. In the margin of the page, a crayon monkey drawn by little Jade.",
+      "lyrics": [
+        {
+          "text": "Mischievous baby, Monkey's twin",
+          "singer": "mom",
+          "start": 175.99,
+          "end": 179.43
+        },
+        {
+          "text": "you'd fight the gods and win",
+          "singer": "mom",
+          "start": 180.19,
+          "end": 182.745
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 177.408,
+        "offset_ms": -199.667
+      }
+    },
+    {
+      "id": "I2",
+      "seq": "I",
+      "in": 180.20833333333334,
+      "out": 182.95833333333334,
+      "in_frame": 4325,
+      "out_frame": 4391,
+      "frames": 66,
+      "dur": 2.75,
+      "world": "bed26",
+      "ink": 25,
+      "sync": null,
+      "singer": null,
+      "desc": "'you'd fight the gods and win': Jade's hand throws the shadow monkey across the page; the daughter's hand makes a second, identical one beside it. Two shadow monkeys on the blue-green painting of heaven.",
+      "lyrics": [
+        {
+          "text": "you'd fight the gods and win",
+          "singer": "mom",
+          "start": 180.19,
+          "end": 182.745
+        },
+        {
+          "text": "You think I'd ask for a seat at the table?",
+          "singer": "child",
+          "start": 182.95,
+          "end": 186.43
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 180.365,
+        "offset_ms": -156.667
+      }
+    },
+    {
+      "id": "I3",
+      "seq": "I",
+      "in": 182.95833333333334,
+      "out": 187.0,
+      "in_frame": 4391,
+      "out_frame": 4488,
+      "frames": 97,
+      "dur": 4.041666666666667,
+      "world": "book",
+      "ink": 25,
+      "sync": "lip",
+      "singer": "daughter",
+      "desc": "'You think I'd ask for a seat at the table?': the daughter close, deadpan, one eyebrow (first 1.6 s, lip-sync). Then the heaven page: the Peach Banquet as one painted table and chairs on bare paper under a peach bough, a name slip at every seat but one.",
+      "lyrics": [
+        {
+          "text": "You think I'd ask for a seat at the table?",
+          "singer": "child",
+          "start": 182.95,
+          "end": 186.43
+        },
+        {
+          "text": "Wouldn't you? You're able.",
+          "singer": "mom",
+          "start": 186.99,
+          "end": 189.925
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 182.886,
+        "offset_ms": 72.333
+      }
+    },
+    {
+      "id": "I4",
+      "seq": "I",
+      "in": 187.0,
+      "out": 189.79166666666666,
+      "in_frame": 4488,
+      "out_frame": 4555,
+      "frames": 67,
+      "dur": 2.7916666666666665,
+      "world": "bed26",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "jade",
+      "desc": "'Wouldn't you? You're able.': Jade's face, dead centre (second centred shot). For the first 8 frames Mama's 1988 face, sceptical, ghosts over hers in red; then Jade's own, certain, in flashlight white. On the low drum hits (187.46, 187.78, 188.10, 188.31) the daughter's hand-shadow climbs onto the empty chair.",
+      "lyrics": [
+        {
+          "text": "Wouldn't you? You're able.",
+          "singer": "mom",
+          "start": 186.99,
+          "end": 189.925
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 187.078,
+        "offset_ms": -78.0
+      }
+    },
+    {
+      "id": "J1",
+      "seq": "J",
+      "in": 189.79166666666666,
+      "out": 190.875,
+      "in_frame": 4555,
+      "out_frame": 4581,
+      "frames": 26,
+      "dur": 1.0833333333333333,
+      "world": "bed26",
+      "ink": 40,
+      "sync": null,
+      "singer": null,
+      "desc": "Four stuttered crashes (189.805/.867/.922/.972): the daughter's fingertip touches a carved character on the page; it lights. Four hard flashes: page, rubbing, mis-registered, page. 'Born fully formed'.",
+      "lyrics": [
+        {
+          "text": "Wouldn't you? You're able.",
+          "singer": "mom",
+          "start": 186.99,
+          "end": 189.925
+        },
+        {
+          "text": "Born fully formed",
+          "singer": "both",
+          "start": 189.99,
+          "end": 191.51
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 189.611,
+        "offset_ms": 180.667
+      }
+    },
+    {
+      "id": "J2",
+      "seq": "J",
+      "in": 190.875,
+      "out": 192.83333333333334,
+      "in_frame": 4581,
+      "out_frame": 4628,
+      "frames": 47,
+      "dur": 1.9583333333333333,
+      "world": "book",
+      "ink": 75,
+      "sync": null,
+      "singer": null,
+      "desc": "Downbeat: the page lights, then the mountain; the second and last pull-back begins: 花果山 is one lit peak among many in a blue-green heaven, every peak carved. The echoes '(formed)' (191.51, 192.37) are the same seal pressed again, fainter, landing on Mama's face then little Jade's.",
+      "lyrics": [
+        {
+          "text": "Born fully formed",
+          "singer": "both",
+          "start": 189.99,
+          "end": 191.51
+        },
+        {
+          "text": "(formed)",
+          "singer": "both",
+          "start": 191.51,
+          "end": 192.83
+        },
+        {
+          "text": "(formed)",
+          "singer": "both",
+          "start": 192.37,
+          "end": 192.83
+        },
+        {
+          "text": "before the day had warmed",
+          "singer": "both",
+          "start": 192.83,
+          "end": 195.46
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 190.885,
+        "offset_ms": -10.0
+      }
+    },
+    {
+      "id": "J3",
+      "seq": "J",
+      "in": 192.83333333333334,
+      "out": 196.625,
+      "in_frame": 4628,
+      "out_frame": 4719,
+      "frames": 91,
+      "dur": 3.7916666666666665,
+      "world": "stage",
+      "ink": 70,
+      "sync": null,
+      "singer": null,
+      "desc": "'before the day had warmed (warmed)': the monkey's staff form across the full blue-green heaven; the staff's last sweep is one dry-brush stroke that leaves the 1988 page (red light) and lands in the 2026 page (white light): cut between the two rooms' light on the chops. Echo seal on Jade.",
+      "lyrics": [
+        {
+          "text": "before the day had warmed",
+          "singer": "both",
+          "start": 192.83,
+          "end": 195.46
+        },
+        {
+          "text": "(warmed)",
+          "singer": "both",
+          "start": 195.65,
+          "end": 196.61
+        },
+        {
+          "text": "No cradle, no song",
+          "singer": "both",
+          "start": 196.615,
+          "end": 199.475
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 193.031,
+        "offset_ms": -197.667
+      }
+    },
+    {
+      "id": "J4",
+      "seq": "J",
+      "in": 196.625,
+      "out": 200.66666666666666,
+      "in_frame": 4719,
+      "out_frame": 4816,
+      "frames": 97,
+      "dur": 4.041666666666667,
+      "world": "stage",
+      "ink": 40,
+      "sync": null,
+      "singer": null,
+      "desc": "'No cradle, no song (no song)': four faces in a row on bare paper, four ink tones (Six Persimmons): Mama, little Jade, Jade, the daughter, singing in octaves; on the gong all four hit the same 亮相. Echo seal on the daughter.",
+      "lyrics": [
+        {
+          "text": "No cradle, no song",
+          "singer": "both",
+          "start": 196.615,
+          "end": 199.475
+        },
+        {
+          "text": "(no song)",
+          "singer": "both",
+          "start": 198.74,
+          "end": 199.48
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 196.469,
+        "offset_ms": 156.0
+      }
+    },
+    {
+      "id": "J5",
+      "seq": "J",
+      "in": 200.66666666666666,
+      "out": 203.70833333333334,
+      "in_frame": 4816,
+      "out_frame": 4889,
+      "frames": 73,
+      "dur": 3.0416666666666665,
+      "world": "book",
+      "ink": 20,
+      "sync": null,
+      "singer": null,
+      "desc": "Stutter chop. '一通百通 (百通)': the pull-back completes: the whole lit range shrinks to a few strokes in the lower-left corner of a bare page (5%). The four characters as a vertical inscription with one red seal; (百通) is its faint re-press.",
+      "lyrics": [
+        {
+          "text": "一通百通",
+          "singer": "both",
+          "start": 200.735,
+          "end": 202.7
+        },
+        {
+          "text": "(百通)",
+          "singer": "both",
+          "start": 202.46,
+          "end": 203.32
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 200.758,
+        "offset_ms": -91.333
+      }
+    },
+    {
+      "id": "K1",
+      "seq": "K",
+      "in": 203.70833333333334,
+      "out": 210.54166666666666,
+      "in_frame": 4889,
+      "out_frame": 5053,
+      "frames": 164,
+      "dur": 6.833333333333333,
+      "world": "bed26",
+      "ink": 15,
+      "sync": "lip",
+      "singer": "jade",
+      "desc": "'Do you want to know how he never died, / what he did on the other side?': Jade, softly, turning toward the last chapter; the daughter already nodding. Flashlight pool on the page.",
+      "lyrics": [
+        {
+          "text": "Do you want to know how he never died,",
+          "singer": "mom",
+          "start": 203.72,
+          "end": 207.18
+        },
+        {
+          "text": "what he did on the other side?",
+          "singer": "mom",
+          "start": 207.195,
+          "end": 210.56
+        },
+        {
+          "text": "He opened the Book of Life and Death",
+          "singer": "child",
+          "start": 210.54,
+          "end": 213.84
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 203.757,
+        "offset_ms": -48.667
+      }
+    },
+    {
+      "id": "K2",
+      "seq": "K",
+      "in": 210.54166666666666,
+      "out": 213.79166666666666,
+      "in_frame": 5053,
+      "out_frame": 5131,
+      "frames": 78,
+      "dur": 3.25,
+      "world": "book",
+      "ink": 20,
+      "sync": "lip",
+      "singer": "daughter",
+      "desc": "'He opened the Book of Life and Death': the daughter's face over the top of the book for the first 1.5 s (lip-sync), then push into the storybook's painting of the underworld: a king at his desk, a scribe, a ledger lying open (Ten Kings layout). Bass cuts 211.515.",
+      "lyrics": [
+        {
+          "text": "what he did on the other side?",
+          "singer": "mom",
+          "start": 207.195,
+          "end": 210.56
+        },
+        {
+          "text": "He opened the Book of Life and Death",
+          "singer": "child",
+          "start": 210.54,
+          "end": 213.84
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 210.605,
+        "offset_ms": -63.333
+      }
+    },
+    {
+      "id": "K3",
+      "seq": "K",
+      "in": 213.79166666666666,
+      "out": 217.16666666666666,
+      "in_frame": 5131,
+      "out_frame": 5212,
+      "frames": 81,
+      "dur": 3.375,
+      "world": "book",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "'and crossed out his name in a single breath': the ledger close: ruled vertical columns in regular script, the entry 魂字一千三百五十號 天產石猴 該壽三百四十二歲 善終. One wet brushstroke strikes it out on 'single breath'.",
+      "lyrics": [
+        {
+          "text": "He opened the Book of Life and Death",
+          "singer": "child",
+          "start": 210.54,
+          "end": 213.84
+        },
+        {
+          "text": "and crossed out his name in a single breath",
+          "singer": "child",
+          "start": 213.805,
+          "end": 216.94
+        },
+        {
+          "text": "I turned each page, I looked for mine",
+          "singer": "child",
+          "start": 217.165,
+          "end": 222.24
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 213.596,
+        "offset_ms": 195.667
+      }
+    },
+    {
+      "id": "K4",
+      "seq": "K",
+      "in": 217.16666666666666,
+      "out": 224.16666666666666,
+      "in_frame": 5212,
+      "out_frame": 5380,
+      "frames": 168,
+      "dur": 7.0,
+      "world": "book",
+      "ink": 10,
+      "sync": null,
+      "singer": null,
+      "desc": "'I turned each page, I looked for mine': the beat cuts out (218.715). A small hand turns the ledger's pages, columns of names; little Jade's hand turns with it, superimposed a beat behind. Wooden hit at 221.805: a page lands.",
+      "lyrics": [
+        {
+          "text": "I turned each page, I looked for mine",
+          "singer": "child",
+          "start": 217.165,
+          "end": 222.24
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 217.02,
+        "offset_ms": 146.667
+      }
+    },
+    {
+      "id": "K5",
+      "seq": "K",
+      "in": 224.16666666666666,
+      "out": 228.75,
+      "in_frame": 5380,
+      "out_frame": 5490,
+      "frames": 110,
+      "dur": 4.583333333333333,
+      "world": "book",
+      "ink": 3,
+      "sync": null,
+      "singer": null,
+      "desc": "'it wasn't there on any line': the last page: ruled columns, the final column bare. Hold on the blank. Hit at 225.254: nothing happens. Nothing moves.",
+      "lyrics": [
+        {
+          "text": "it wasn't there on any line",
+          "singer": "child",
+          "start": 224.18,
+          "end": 230.76
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 223.995,
+        "offset_ms": 171.667
+      }
+    },
+    {
+      "id": "L1",
+      "seq": "L",
+      "in": 228.75,
+      "out": 233.20833333333334,
+      "in_frame": 5490,
+      "out_frame": 5597,
+      "frames": 107,
+      "dur": 4.458333333333333,
+      "world": "bed26",
+      "ink": 15,
+      "sync": null,
+      "singer": null,
+      "desc": "Percussion returns. Pull back out of the ledger, out through the painting to the page, to the bed: the daughter asleep against Jade's arm, the book open on the blanket, the flashlight still on.",
+      "lyrics": [
+        {
+          "text": "it wasn't there on any line",
+          "singer": "child",
+          "start": 224.18,
+          "end": 230.76
+        }
+      ],
+      "nearest_beat_in": {
+        "t": 228.767,
+        "offset_ms": -17.0
+      }
+    },
+    {
+      "id": "L2",
+      "seq": "L",
+      "in": 233.20833333333334,
+      "out": 235.83333333333334,
+      "in_frame": 5597,
+      "out_frame": 5660,
+      "frames": 63,
+      "dur": 2.625,
+      "world": "bed26",
+      "ink": 12,
+      "sync": null,
+      "singer": null,
+      "desc": "Jade's thumb on the flashlight switch; the pool of white on the blank column. On the last hit (235.833) she clicks it off: 2026 is black.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 233.157,
+        "offset_ms": 51.333
+      }
+    },
+    {
+      "id": "L3",
+      "seq": "L",
+      "in": 235.83333333333334,
+      "out": 238.33333333333334,
+      "in_frame": 5660,
+      "out_frame": 5720,
+      "frames": 60,
+      "dur": 2.5,
+      "world": "attic88",
+      "ink": 5,
+      "sync": null,
+      "singer": null,
+      "desc": "In the black, the film's first frame: the 1988 window, lower right, its neon still humming red. At 237.840 the hum cuts and the neon goes off. Black to the end of audio.",
+      "lyrics": [],
+      "nearest_beat_in": {
+        "t": 235.833,
+        "offset_ms": 0.333
+      }
+    }
+  ]
+}
