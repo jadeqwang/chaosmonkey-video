@@ -1,62 +1,61 @@
-"""F5 (116.208-118.000): '说完这句话 各自消散'. Four puppet copies on the rear glass (left side window, the rear
-window twice, right side window), each lit by its own passing streetlight; the lights pass and each copy goes dark
-with its light, one per measured beat, until the glass is empty dusk. Light travels from above (0.27, 0.96), as in
-the keyframe.
+"""F5 (116.208-118.000) '说完这句话 各自消散' (STAGE team, v3): the swarm finishes and goes home.
 
-Beats used (analysis/timing.json): 116.320, 116.736, 117.200, 117.628 (one copy dark on each); empty glass
-117.628-118.000. Each lamp has been crossing its pane since before the cut (its sweep started 1.1-1.5 s earlier), so
-the copies are at different points of their light. Room plate: media/kf/F5.jpg (fallback F5_lit.png).
+The same leaf as F4b. One copy per half-beat (the measured beats 116.320 116.736 117.200 117.628 and the points
+midway between them; eight copies in 1.8 s do not fit one per beat) finishes its job: a small red seal 讫 is pressed
+into its own cell, the copy is a hair again, and the hair flies home along its thread to the raised hand in the
+centre, the thread reeling in with it. Order: clockwise from the top left. The copies still working keep advancing a
+pose on every beat. Last frame: eight sealed, empty cells and the one monkey.
+v2 (copies going dark in the car panes): shots/_v2/F5.py, media/comp/_v2/F5.mp4.
 """
+import math
+
 from tools.ink import *
-from shots.puppet_lib import *
+from shots.swarm_lib import *
 
 T0, T1 = 2789 / 24, 2832 / 24
 BEATS = [116.32, 116.736, 117.2, 117.628]
-DIR = (0.27, 0.96)
-PANES = {
-    'right': [(1693, 253), (1920, 250), (1920, 590), (1720, 560)],
-    'rear':  [(540, 250), (1593, 250), (1560, 402), (553, 402)],
-    'left':  [(0, 240), (190, 247), (200, 580), (0, 600)],
-}
-# (pane, x as share of the pane width, pose, flip, beat it goes dark on, sweep start offset)
-COPIES = [('right', 0.52, 'guard', True, 0, 1.15),
-          ('rear', 0.86, 'strike', True, 1, 1.40),
-          ('rear', 0.56, 'shade', False, 2, 1.25),
-          ('left', 0.50, 'crouch', False, 3, 1.50)]
+FIN = [116.32, 116.528, 116.736, 116.968, 117.2, 117.414, 117.628, 117.84]
+ORDER = [0, 1, 2, 5, 8, 7, 6, 3]
+OFFS = [0, 1, 2, 3, 0, 1, 2, 3, 0]
+FLY = 4                                    # frames a hair takes to fly home
 
 
 def setup(ctx):
-    global PLATE, PN, PUP, INS
-    PLATE, _ = room_plate('F5', ctx.W, ctx.H)
-    PN = {k: Pane(ctx, PLATE, q, lw=900) for k, q in PANES.items()}
-    rig = ctx.cache('puppet_rig_v1', build_rig, deps=[f'{MK}/puppet_parts_colour.jpg', f'{MK}/puppet_heads_swap.jpg'])
-    PUP = make_puppet(rig)
-    INS = lyric(ctx, '说完这句话 各自消散', (1305, 470, 70, 440), max_px=42)
+    global P, LEAFS, SEAL, TF
+    P = Paper(ctx.W, ctx.H, 'aged', seed=61)
+    LEAFS = Leaf(ctx, load_rig(ctx), P)
+    SEAL = done_seal(ctx.s)
+    TF = {cell: on_frame(tf) for cell, tf in zip(ORDER, FIN)}
 
 
 def render(t, ctx):
-    f = PLATE.copy()
-    for name, pane in PN.items():
-        T = None
-        L = None
-        lxy = None
-        for pn, xs, pose, flip, bi, off in COPIES:
-            if pn != name:
-                continue
-            t_off = BEATS[bi]
-            sw = sweep(t, t_off - off, t_off, pane.lw, pane.lh, DIR, radius_k=1.6, travel=0.6)
-            if not sw:
-                continue
-            lx, ly, inten, rad = sw
-            Li = pane.light(lx, ly, rad, inten)
-            h = min(pane.lh * 0.80, pane.lw * 0.9)
-            Ti = puppet_local(PUP, P[pose], pane, (pane.lw * xs, pane.lh * 0.45), h, flip=flip)
-            # this copy is lit only by its own lamp: mix where its lamp dominates
-            T = Ti if T is None else T * Ti
-            L = Li if L is None else np.maximum(L, Li)
-            lxy = (lx, ly)
-        if T is not None:
-            pane.lay(f, T, L, lift=0.03, light_xy=lxy)
-    if INS is not None:
-        INS.draw(f, t)
-    return f
+    s = ctx.s
+    k = 4 + sum(1 for b in BEATS if t >= on_frame(b) - 1e-6)
+    fr = lambda x: int(math.floor(x * 24 + 1e-6))
+    present, threads, flying = [], [], []
+    home = 0
+    for i in range(9):
+        if i not in TF:
+            present.append(True); threads.append(1.0); continue
+        n = fr(t) - fr(TF[i])
+        if n < 0:
+            present.append(True); threads.append(1.0)
+        else:
+            present.append(False)
+            u = min(1.0, (n + 1) / FLY)
+            threads.append(max(0.0, 1 - u))
+            if n < FLY - 1:
+                flying.append((i, u))
+            if n >= FLY - 1:
+                home += 1
+    f = P.frame(t)
+    LEAFS.draw(f, [k + o for o in OFFS], present=present, threads=threads, hand_k=home)
+    h = LEAFS.hand(home)
+    for i, u in flying:
+        a = LEAFS.anchor(i)
+        pos = (a[0] + (h[0] - a[0]) * u, a[1] + (h[1] - a[1]) * u)
+        f *= hair_T(ctx.W, ctx.H, s, pos, math.atan2(h[1] - a[1], h[0] - a[0]), seed=i)
+    for i, tf in TF.items():
+        fx, fy = LEAFS.floor(i)
+        strike(f, SEAL, t, tf, (fx * s, (fy - 100) * s), overshoot=0.12)
+    return np.clip(f * lamp_light(ctx.W, ctx.H, s, t), 0, 0.985)

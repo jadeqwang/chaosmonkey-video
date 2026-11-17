@@ -1,0 +1,52 @@
+# Chinese inscriptions for the book pages (preview_v3). PROOFREAD v2 by Jade, 2026-11-17. Replaces the lead's draft.
+# Jade's parents will recheck; expect small changes. Rule from Jade: where the novel has the line, use the novel's words.
+# Simplified characters. key | shot(s) | English lyric | inscription (columns separated by " / ")
+# Lines starting with # are comments (parsers must skip them). Source tags are NOT part of the inscription:
+#   [novel ch.N]          = verbatim from 西游记 (100-chapter edition). Do not change any characters.
+#   [novel ch.N, adapted] = novel wording, trimmed or lightly changed to fit the lyric
+#   [original]            = no matching line in the novel; newly written
+
+B3 | B3 | On 花果山, where the cliffs run steep / a stone looked over the sea | 花果山削壁奇峰 / 正当顶上有一块仙石
+# [novel ch.1, adapted] 削壁奇峰 from the 花果山 verse; 正当顶上，有一块仙石 from the prose. "Looked over the sea" is not in the novel and is dropped.
+B4 | B4 | Sunlight by day and moonlight by night | 日沐天光 / 夜浴月光
+# [original] The novel has no day/night line. 月华 changed to 月光 so it doesn't repeat B5.
+B5 | B5 | a thousand years of soaking up light | 每受日精月华 / 感之既久
+# [novel ch.1, adapted] from 每受天真地秀，日精月华，感之既久
+C1 | C1 | It split apart | 一日迸裂
+# [novel ch.1]
+C4 | C4 | A stone egg, round as a ball | 产一石卵 / 似圆球样大
+# [novel ch.1]
+C5 | C5b | the wind blew once, and that was all | 因见风 / 化作一个石猴
+# [novel ch.1]
+D1 | D1 | Born fully formed | 五官俱备 / 四肢皆全
+# [novel ch.1]
+D2 | D2 | He bowed four ways before the day had warmed | 便就学爬学走 / 拜了四方
+# [novel ch.1] 便就 ("right away") carries "before the day had warmed"
+D5 | D5 | One whisper, and the hundred come along | 一窍通时 / 百窍通
+# [novel ch.2]
+E2 | E2 | he never once forgot a spell | 切切记了口诀
+# [novel ch.2] = "carefully committed the incantation to memory". If Jade prefers the literal "never forgot": 口诀过耳 / 一字不忘 [original]
+E4 | E4 | The master leaned in close to his ear | 祖师附耳 / 低言妙法
+# [novel ch.2, adapted] from 遂附耳低言，不知说了些什么妙法
+G2a | G2 | He wouldn't listen, so the gold pulls tight | 若不伏使唤 / 金箍便收紧
+# col 1 [novel ch.8, adapted] from Guanyin's 他若不伏使唤 ("if he won't obey"); col 2 [original]
+G2b | G2 | on the monkey who picked a fight | 惹事的猴儿 / 眼胀头痛
+# col 1 [original]; col 2 [novel ch.8] 眼胀头痛 (the band's effect)
+H5 | H5 | I'm made of the telling, not just the tale | 我由讲述而成 / 不只是那故事
+# [original]
+H6 | H6 | one hair that can't gather, blown on the gale | 一根毫毛 / 被狂风刮在半空 / 如何拢得身
+# [novel ch.21, adapted] from the passage where a demon's wind blows Wukong's hair-clones around: 刮得在那半空中……如何拢得身 ("how could they gather")
+I2 | I2 | you'd fight the gods and win | 强者为尊该让我 / 英雄只此敢争先
+# [novel ch.7] LEAD'S PROPOSAL, pending Jade and her parents: Wukong's own verse to the Buddha claiming heaven's seat
+# (灵霄宝殿非他久，历代人王有分传。强者为尊该让我，英雄只此敢争先). Verify the characters against the 100-chapter text.
+# Fallback if rejected (Opus 5.5's line, [original]): 敢战天兵 / 战必胜
+I3 | I3b | a seat at the table | 蟠桃会上 / 可请我么
+# col 2 [novel ch.5] Wukong asks the fairies "Was I invited?"; they answer 不曾听得说
+K2 | K2b | He opened the Book of Life and Death | 拿过生死簿
+# [novel ch.3, adapted] from 悟空拿过簿子
+K3 | K3 | and crossed out his name in a single breath | 一笔勾之
+# [novel ch.3, adapted] from 一概勾之; also echoes the idiom 一笔勾销
+K4 | K4 | I turned each page, I looked for mine | 逐页检阅 / 寻我名
+# [novel ch.3, adapted] from 悟空亲自检阅
+K5 | K5 | it wasn't there on any line | 簿上尽除名
+# [novel ch.3 chapter title, adapted] from 九幽十类尽除名. If Jade prefers the literal: 行行皆不见 [original]

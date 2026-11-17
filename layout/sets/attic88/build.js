@@ -4,6 +4,10 @@ import { mk, box, cyl, ball, quad, slab, tag, V, rad, UP, textTexture, limb } fr
 import { stage, casterMeshes, projectShadow, solveCamera, hideParts, namedPoint } from '../../engine/stage.js';
 import { aim } from '../../engine/aim.js';
 import { ROOM, roofY, WINDOW, SIGN, DOOR, STAIRWELL, MATS, PILLOW, PROPS, KITCHEN, LIGHTS } from './layout.js';
+import { signV3, signSpec, neonSource, hooksV3, hookPoint, bookStack } from './v3.js';
+import { coverBlanket, cardOverPage, handShadows } from '../../engine/props.js';
+import { projectOutline, spreadUV, hull } from '../../engine/stage.js';
+import { pushEnd, levelRoll } from '../../engine/lap.js';
 
 const WOOD = { grey: 0.45, col: 0x5a3f2a }, WOOD_D = { grey: 0.32, col: 0x3d2a1c }, FLOOR = { grey: 0.55, col: 0x6a4a30 };
 const PLASTER = { grey: 0.7, col: 0x8a7f72 }, ROOF = { grey: 0.38, col: 0x4a3a2c };
@@ -87,6 +91,8 @@ function room(shot) {
     for (let k = 1; k < 7; k++) g.add(tag(box(0.24, 0.03, S.z1 - S.z0 - 0.04, { grey: 0.5, col: 0x6a4a30 }, [lx0 - 0.12 - 0.22 * (k - 1), -0.19 * k, 0]), 'stairs down'));
     g.add(tag(ball(0.05, { grey: 1, col: 0xfff0d0, emit: 0xffe0a0, emitI: open > 0 ? 3 : 0.1 }, S.bulb), 'stairwell bulb'));
   }
+  let signInfo = null;
+  if (shot.v3) { signInfo = signV3(g, shot); hooksV3(g, shot); } else
   // the neon sign outside: bracket frame + lettering box (lettering itself only in label mode)
   { const S = SIGN, on = shot.light?.neon !== 'off'; const col = shot.light?.neon === 'blue' ? S.blue : S.red;
     const sx = S.x;
@@ -113,7 +119,7 @@ function room(shot) {
     panes.window_BL = [P(za, ym), P(W2.z, ym), P(W2.z, y0), P(za, y0)]; panes.window_BR = [P(W2.z, ym), P(zb, ym), P(zb, y0), P(W2.z, y0)];
     for (const c of Object.values(panes)) { const m = quad(c, { glass: true, col: 0x9a9080, opacity: 0.18, noCast: true }); g.add(tag(m, 'window glass (dusty)')); }
   }
-  return { g, panes };
+  return { g, panes, signInfo };
 }
 
 function props(shot) {
@@ -125,6 +131,7 @@ function props(shot) {
     const p = box(PILLOW.w, PILLOW.t, PILLOW.d, FABRIC(0.9, 0xd8d0c0), [cx + (pil.dx || 0), M.t + PILLOW.t / 2, M.z0 + 0.22 + (pil.dz || 0)]); p.rotation.y = rad(pil.yaw ?? (who === 'mama' ? 4 : -6)); p.scale.set(1, 1, 1);
     g.add(tag(p, 'pillow'));
   }
+  if (shot.textbooks) bookStack(g, shot.textbooks); else
   // textbooks
   { const [x, z] = PROPS.textbooks.at; let y = 0;
     for (let k = 0; k < PROPS.textbooks.n; k++) { const t = 0.022 + (k % 3) * 0.008, w = 0.19 + (k % 2) * 0.03, d = 0.26 - (k % 3) * 0.02;
@@ -166,6 +173,9 @@ function blanket(spec, figs) {
     return tag(new THREE.Group().add(m, fall), 'blanket');
   }
   const cx = (M.x0 + M.x1) / 2;
+  if (spec.mode === 'pull' && figs[spec.who]) return coverBlanket(figs[spec.who].userData.P, M.t, BL, { upTo: spec.upTo ?? 0.8 }).group;   // v3
+  if (spec.mode === 'aside') { const m = box(M.x1 - M.x0 - 0.12, 0.13, 0.24, BL, [cx - 0.02, M.t + 0.065, M.z0 + 0.52]); m.rotation.y = rad(-6); return tag(m, 'blanket (pushed back)'); }   // v3
+  if (spec.mode === 'heap') { const m = box(M.x1 - M.x0 - 0.16, 0.12, 0.2, BL, [cx + 0.02, M.t + 0.06, M.z1 - 0.13]); m.rotation.y = rad(5); return tag(m, 'blanket (pushed to the foot)'); }   // v3
   if (spec.mode === 'cover' && figs[spec.who]) { // over a lying body, chest to feet, draped to the mat
     const P = figs[spec.who].userData.P; const a = P.chest.clone(), b = P.ankleL.clone().add(P.ankleR).multiplyScalar(0.5);
     const top = Math.max(P.chest.y, P.hip.y, P.kneeL.y, P.kneeR.y, P.footL.y) + 0.06; a.y = b.y = top; const d = b.clone().sub(a); const len = d.length() + 0.25;
@@ -183,7 +193,8 @@ function blanket(spec, figs) {
   return tag(g, 'blanket');
 }
 
-export function build(shot, { makeCam }) {
+export function build(shot, ctx) { return shot.v3 ? buildV3(shot, ctx) : buildV1(shot, ctx); }
+function buildV1(shot, { makeCam }) {
   const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
   const { g: roomG, panes } = room(shot); root.add(roomG); root.add(props(shot));
   const neonP = V(LIGHTS.neon.pos);
@@ -246,4 +257,84 @@ export function build(shot, { makeCam }) {
   }
   return { set: 'attic88', scene, root, cam, rig, near: shot.near ?? 0.3, far: shot.far ?? 8, figs, book, panes, lights: lightList,
     header: shot.header || '', shadowLine: !!shot.shadow, shadowPolys, subject: shot.subject ? V(shot.subject) : (book ? book.at : null), litBg: 0x020204 };
+}
+
+// ---------------------------------------------------------------- v3
+// Differences from v1: the blade sign (its effective light point is computed per shot from what the subject can see of
+// it through the window), hooks, cut-out cards for the hand-shadow monkey, push-end cameras, richer sidecar.
+function buildV3(shot, { makeCam }) {
+  const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
+  const { g: roomG, panes, signInfo } = room(shot); root.add(roomG); root.add(props(shot));
+  const S = signSpec(shot);
+  let src = neonSource(S, V(shot.light?.neonAim || [2.4, 0.35, -1.55])), neonP = src.pos; let cards = [];
+  const extra = (t, figs, book) => {
+    if (t === 'neon') return neonP.clone();
+    if (t.startsWith('hook:')) return hookPoint(+t.slice(5));
+    if (t.startsWith('card:')) { const [, i, part] = t.split(':'); const c = cards[+i]; if (!c) return V(2.4, 0.5, -1.5); return (part === 'centre' ? c.centre : c.base).clone(); }
+    if (t.startsWith('ray:')) { const parts = t.split(':'); const d = Number(parts.pop()); const name = parts.slice(1).join(':');
+      let p; try { p = namedPoint(name, figs, book); } catch (e) { return null; }
+      return p.clone().addScaledVector(neonP.clone().sub(p).normalize(), d); }
+    if (t.startsWith('lift:')) { // 'lift:<book anchor>:<h>': h metres above the page (perpendicular), on the ray to the neon: its shadow lands on the anchor
+      const parts = t.split(':'); const hgt = Number(parts.pop()); if (!book || !book.pages) return null;
+      const p = parts[1] === 'page' ? book.pageAt(parts[2], Number(parts[3]), Number(parts[4])) : book.anchors[parts[1]].clone(); const dir = neonP.clone().sub(p).normalize();   // 'lift:page:L:<0 gutter..1 outer>:<0 bottom..1 top>:<h>'
+      return p.addScaledVector(dir, hgt / Math.max(dir.dot(book.n), 0.05)); }
+    return null;
+  };
+  let { figs, book } = stage(shot.figs, shot.book, extra);
+  const mkCards = () => (shot.cards || []).map((c) => cardOverPage(c, book, neonP));
+  if (book && book.pages) { src = neonSource(S, book.at); neonP = src.pos; cards = mkCards(); ({ figs, book } = stage(shot.figs, shot.book, extra)); src = neonSource(S, book.at); neonP = src.pos; cards = mkCards(); ({ figs, book } = stage(shot.figs, shot.book, extra)); }
+  if (shot.hide) root.traverse((o) => { if (o.isMesh && shot.hide.includes(o.userData.label)) o.visible = false; });
+  for (const f of Object.values(figs)) root.add(f);
+  if (book) root.add(book.group);
+  for (const c of cards) root.add(c.mesh);
+  for (const b of shot.blankets || [{ who: 'mama', mode: 'folded' }, { who: 'littleJade', mode: 'aside' }]) { const m = blanket(b, figs); if (m) root.add(m); }
+  if (shot.push) { const from = { ...shot.push.fromShot }; Object.assign(from, solveCamera(from, figs, book, aim)); const pe = pushEnd(from.pos, book, shot.lens, shot.push.fill); shot.pos = pe.pos; shot.target = pe.target; shot.pushInfo = { start_position: from.pos, start_target: from.target, start_distance_to_gutter_m: +pe.startDist.toFixed(3), end_distance_to_gutter_m: +pe.dist.toFixed(3), swing_onto_page_normal_deg: +pe.swing.toFixed(1) }; }
+  else Object.assign(shot, solveCamera(shot, figs, book, aim));
+  if (shot.push) shot.roll = levelRoll(shot.pos, shot.target, book, 1); else if (shot.levelBook && book) shot.roll = levelRoll(shot.pos, shot.target, book, shot.levelBook);
+  hideParts(shot.hideParts, figs);
+  const cam = makeCam(shot);
+  const neonState = shot.light?.neon ?? 'red'; const neonCol = neonState === 'blue' ? S.blue : S.red;
+  const neonAim = V(shot.light?.neonAim || (book ? book.at.toArray() : [2.4, 0.3, -1.6]));
+  const door = shot.light?.door ?? 0; const floorOn = shot.light?.floor ?? true;
+  const lightList = [
+    { name: 'neon', kind: 'blade sign through the window (effective point = centroid of the part of the blade the subject sees)', pos: neonP, aim: neonAim, color: '#' + neonCol.toString(16).padStart(6, '0'), on: neonState !== 'off' },
+    { name: 'stair_door', kind: 'spot (tungsten through door)', pos: V(STAIRWELL.bulb), aim: V([0.5, 0, 0]), color: '#ffb468', on: door > 0 },
+    { name: 'floor_cracks', kind: 'lines of tungsten from below', pos: V([(KITCHEN.x0 + KITCHEN.x1) / 2, 0, (KITCHEN.z0 + KITCHEN.z1) / 2]), color: '#ffa24a', on: floorOn },
+  ];
+  const rig = (mode) => {
+    const L = []; if (mode === 'none') return L; const white = mode !== 'lit';
+    if (neonState !== 'off') {
+      const s = new THREE.SpotLight(white ? 0xffffff : neonCol, mode === 'lit' ? (shot.light?.neonI ?? 16) : mode === 'mask' ? 6 : 2.6, 0, rad(shot.light?.neonCone ?? 50), mode === 'lit' ? 0.3 : 0.15, mode === 'lit' ? 1.3 : 0);
+      s.position.copy(neonP); s.target.position.copy(neonAim); s.castShadow = true; s.shadow.camera.near = 0.25; s.shadow.camera.far = 12; s.shadow.radius = mode === 'lit' ? 5 : 1; L.push(s);
+      if (mode === 'lit') { // the lower lettering throws its light up through the window onto the roof boards
+        const u = new THREE.SpotLight(neonCol, 9, 0, rad(50), 0.4, 1.3); u.position.set((S.x0 + S.x1) / 2, -0.2, S.z + Math.sign(neonP.z - S.z) * (S.t / 2 + 0.02)); u.target.position.set(2.2, 2.3, -1.0); u.castShadow = true; u.shadow.camera.near = 0.25; u.shadow.camera.far = 12; L.push(u);
+        const p = new THREE.PointLight(neonCol, 0.5, 4, 1.5); p.position.set(WINDOW.x - 0.3, WINDOW.sill + 0.3, WINDOW.z); L.push(p);
+        if (book && book.pages) { const b = new THREE.PointLight(neonCol, 0.22, 1.4, 1.5); b.position.copy(book.at).addScaledVector(book.n, 0.1); L.push(b); } }   // the lit page bounces up into the faces
+    }
+    if (mode === 'mask') return L;
+    if (door > 0) { const s = new THREE.SpotLight(white ? 0xffffff : 0xffb468, mode === 'lit' ? 22 : 1.6, 0, rad(60), 0.3, mode === 'lit' ? 1.4 : 0);
+      s.position.set(STAIRWELL.bulb[0] - 0.2, STAIRWELL.bulb[1], STAIRWELL.bulb[2]); s.target.position.set(0.5, 0, 0); s.castShadow = true; s.shadow.camera.near = 0.2; s.shadow.camera.far = 12; L.push(s); }
+    if (floorOn) for (const [x, z] of [[-1.5, 0.6], [0.2, 1.2], [1.4, 0.0], [2.4, 0.9]]) { const p = new THREE.PointLight(white ? 0xffffff : 0xffa24a, mode === 'lit' ? 0.25 : 0.06, 1.4, 1.2); p.position.set(x, 0.35, z); L.push(p); }
+    L.push(new THREE.AmbientLight(white ? 0xffffff : 0x2a3560, mode === 'lit' ? (shot.light?.amb ?? 0.5) : 1.7));
+    if (white) { const d = new THREE.DirectionalLight(0xffffff, 1.1); d.position.set(1, 3, 2); L.push(d); }
+    return L;
+  };
+  const toPx = (v) => { const p = v.clone().project(cam); return [+((p.x + 1) / 2 * 1920).toFixed(1), +((1 - p.y) / 2 * 1080).toFixed(1)]; };
+  const shadow = handShadows({ shot, figs, book, cards, lightPos: neonP, lightName: 'neon blade sign', toPx, srcExt: src.ext });
+  const extraOut = (c, P) => {
+    const out = { layout_version: 3 };
+    if (signInfo) { const sees = c.position.z > S.z ? 'face_plus_z' : 'face_minus_z'; const F = (cs) => ({ px: cs.map(P), world: cs.map((v) => v.toArray().map((x) => +x.toFixed(4))), behind_camera: cs.map((v) => v.clone().applyMatrix4(c.matrixWorldInverse).z > 0) });
+      out.sign = { model: 'vertical blade sign on brackets, perpendicular to the facade, lettering on both faces', ...signInfo.spec, camera_sees: sees, state: neonState,
+        corner_order: 'TL,TR,BR,BL as that face is read from its own side (map the lettering straight on; it is NOT mirror-reversed)',
+        faces: Object.fromEntries(Object.entries(signInfo.faces).map(([k, cs]) => [k, F(cs)])),
+        letter_blocks: signInfo.blocks.filter((b) => b.face === sees).map((b) => ({ text: b.text, face: b.face, ...F(b.world) })),
+        light: { effective_point_world: neonP.toArray().map((x) => +x.toFixed(3)), effective_point_px: P(neonP), visible_fraction_of_face: src.visible, visible_extent: src.ext, aimed_at_world: neonAim.toArray().map((x) => +x.toFixed(3)) } }; }
+    out.hooks = { state: shot.hooks || 'empty', px: [0, 1, 2, 3].map((i) => P(hookPoint(i))), world: [0, 1, 2, 3].map((i) => hookPoint(i).toArray().map((x) => +x.toFixed(3))), note: 'hook 1 = apron, hook 2 = towel (after A3)' };
+    if (shadow) out.hand_shadow = shadow.sidecar;
+    if (shot.pushInfo) out.push = { ...shot.pushInfo, note: 'end of the push that starts at v3_LAP_ots: same line toward the gutter; book.spread px here is the target of the move' };
+    if (shot.serves) out.serves = shot.serves;
+    return out;
+  };
+  return { set: 'attic88', scene, root, cam, rig, near: shot.near ?? 0.3, far: shot.far ?? 9, figs, book, panes, lights: lightList,
+    header: shot.header || '', shadowLine: !!shadow, shadowPolys: shadow ? shadow.polys : null, subject: shot.subject ? V(shot.subject) : (book ? book.at : null), litBg: 0x020204, extra: extraOut };
 }

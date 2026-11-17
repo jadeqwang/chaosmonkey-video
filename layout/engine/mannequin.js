@@ -97,6 +97,8 @@ function legPreset(name, s, D, o = {}) {
     case 'side': { const py = 0.085 * H; const k = s > 0 ? 0.05 : -0.02; // both feet tucked to the figure's right
       return { py, ankle: [-0.42 * L + k * L, -py + ankleH, (s > 0 ? 0.1 : -0.12) * L], pole: [-0.3, 0.1, 1], foot: [-1, -0.1, -0.3] }; }
     case 'long': { const py = 0.08 * H; return { py, ankle: [sx(hipW + 0.02 * H), -py + ankleH + 0.02 * H, (thigh + shin) * 0.985], pole: [0, 1, 0], foot: [0, 1, 0.25] }; }
+    case 'lapV': { const py = 0.08 * H; // legs out in a V, knees a little raised and splayed: room for a child between them
+      return { py, ankle: [sx(0.55 * L), -py + ankleH + 0.01 * H, 0.79 * L], pole: [s * 0.7, 1, 0], foot: [s * 0.35, 1, 0.3] }; }
     case 'knees': { const py = 0.08 * H; return { py, ankle: [sx(hipW + 0.025 * H), -py + ankleH, 0.6 * (thigh + shin)], pole: [0, 1, 0.15], foot: [0, -0.05, 1] }; }
     case 'seat': { const py = o.seatH ?? 0.45; const fz = o.footFwd ?? thigh * 0.95; return { py, ankle: [sx(hipW + 0.012 * H), -py + ankleH, fz], pole: [0, 0.6, 1], foot: [0, -0.1, 1] }; }
     case 'oneLegUp': { const up = (o.upLeg || 'L') === (s > 0 ? 'L' : 'R'); const py = thigh + shin + ankleH;
@@ -145,7 +147,7 @@ export function buildFigure(spec, ctx) {
   if (c.band) { // the jacket's orange band, round the chest
     const bm = mk(new THREE.CylinderGeometry(1, 1, 0.035 * H, 24, 1, true), LK.band); bm.position.copy(waist.clone().addScaledVector(cy, torsoLen * 0.2)); bm.quaternion.copy(qC);
     bm.scale.set(pr.chestW * H * 0.5 + 0.004, 1, pr.chestD * H * 0.5 + 0.004); bm.userData.double = true; add(bm); }
-  if (c.apron) add(slab(waist.clone().addScaledVector(cz, pr.chestD * H * 0.5 + 0.004).addScaledVector(cy, torsoLen * 0.12), waist.clone().addScaledVector(cz, pr.chestD * H * 0.55 + 0.004).addScaledVector(ay, -0.1 * H), 0.17 * H, 0.008, cx, LK.apron));
+  if (c.apron && !spec.noApron) add(slab(waist.clone().addScaledVector(cz, pr.chestD * H * 0.5 + 0.004).addScaledVector(cy, torsoLen * 0.12), waist.clone().addScaledVector(cz, pr.chestD * H * 0.55 + 0.004).addScaledVector(ay, -0.1 * H), 0.17 * H, 0.008, cx, LK.apron));
   if (c.dress) { // a short skirt
     const sk = mk(new THREE.CylinderGeometry(0.075 * H, 0.16 * H, 0.17 * H, 20, 1, true), LK.top); sk.userData.double = true;
     sk.position.copy(hip.clone().addScaledVector(by, -0.04 * H)); sk.quaternion.copy(qB); add(sk); }

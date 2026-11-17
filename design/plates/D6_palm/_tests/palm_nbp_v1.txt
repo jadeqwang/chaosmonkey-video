@@ -1,0 +1,11 @@
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "2K", "output_format": "jpg", "image_input": ["file:refs/paintings/v3/02_buddha_palm_wuxingshan/ehon_saiyuki_1806_wukong_in_buddhas_palm_five_finger_pillars.jpg"]}
+refs: ['refs/paintings/v3/02_buddha_palm_wuxingshan/ehon_saiyuki_1806_wukong_in_buddhas_palm_five_finger_pillars.jpg']
+secs: 27
+
+PROMPT:
+A Chinese ink painting on cream xuan paper, wide format, mostly bare paper: the Buddha's palm as a landscape, after the old woodblock illustrations of Journey to the West in which the five pillars at the edge of the sky are the Buddha's fingers.
+A colossal open right hand lies across the lower part of the sheet, palm upward, seen from the side and slightly above: the broad flat palm stretches across the bottom of the sheet like a pale plain, its creases drawn as a few long fine lines; at the left end the five fingers stand up vertically, close together, like five tall round-topped stone pillars at the edge of the sky, the middle finger tallest, the thumb shortest and a little apart; each finger has fine knuckle creases and a fingernail. At the right the wrist fades into cloud well inside the frame. A low sea of cloud in small scalloped fine-line curls laps around the bases of the fingers and along the near edge of the palm.
+Painted with the brush in fine baimiao ink line of varying weight with a very pale warm ochre-grey wash on the skin, a little darker ink on the finger pillars so that at first glance they read as rock pillars in mist. The upper two thirds of the sheet are empty bare paper. The whole hand, all five fingertips and the whole palm are inside the frame with a generous bare margin on every side; nothing is cropped.
+No figure, no monkey, no person, no face, no rays of light, no sun, no mountains, no text, no calligraphy, no seal, no border, no frame, no page gutter, no worm holes or stains. Flat even scan of the painting on plain unsized cream xuan paper.
+The attached old woodblock print is the traditional composition to follow for the five finger pillars standing in cloud; repaint it in this ink-and-wash hand, as a single wide sheet, with the palm added beneath.

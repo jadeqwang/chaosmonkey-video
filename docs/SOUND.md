@@ -18,6 +18,7 @@ hits (`analysis/timing.json`), never on a constant grid.
 - [x] Level pass: caps relaxed so margins decide (layer -42.4 -> -36.6 LUFS, like Hold Fire / HALYS); beds muted in the
       song's chops/silences; neon hums HP 120 Hz and car cabin HP 140 Hz + band-follow (they were filling the song's bass
       drop-outs); attic room tone without creaks; rap streetlights thinned to one per bar; ending C cuts the song at 237.840.
+- [x] v2 (2026-11-17): layer raised by measurement, new-action cues, ending B default; see the section "v2" at the end of this file.
 - [ ] Next (after the picture exists): re-time the `picture_dependent` cues on contact strips (HALYS `picture_sync.py`
       method), then rebuild. Then a real listening pass by Jade.
 
@@ -247,3 +248,231 @@ Levels: *gain* is applied to the source as rendered (after its per-event gains);
 Spectrograms with cues overlaid: 
 
 <!-- AUTO:END -->
+
+## v2
+
+Mix v2, 2026-11-17 (director: "too quiet, I barely heard it"; she chose ending B). Files: `media/sound/mix_v2.wav` (song + layer, ending B,
+241.920 s, 24-bit) and `media/sound/layer_v2.wav` (layer alone, same length). Rebuild: `$PY tools/audio/sfx/build_v2.py`. Cue sheet:
+`docs/sound_cues.json` (v2; every cue has a `v2` block with its targets); v1 is kept as `docs/sound_cues_v1.json`
+(`build_layer.py` still builds v1 from it; `mix_v1*.wav` untouched). The song is untouched: mix_v2 minus the song (with the 25 ms end fade
+that ending B has always had) equals layer_v2 to 1.2e-7.
+
+**How much it came up.** Layer alone -36.6 -> **-30.4 LUFS** (+6.2 LU), peak -8.0 -> -5.0 dBFS.
+Median cue peak -20.1 -> -16.0 dBFS; cues whose band margin was over the brief's 12 dB: **30 of 44 -> 9** (median of the per-cue band margins 14.1 -> 7.4 dB;
+the quiet-section hums and rooms +10 to +20 dB, hair_air +15, stamps +11, mat_rustle +11, chisel +10, staff_plant +7).
+The mix's loudness moves -15.87 -> -15.84 LUFS (song -15.88); true peak -3.1 -> **-1.37 dBTP** (limit -1.0).
+
+**Method (by measurement, per cue; build_v2.py).**
+1. *Spectral placement.* Each cue gets a static, power-preserving EQ (+-7 dB) that moves its energy into the 1/3-octave bands where the song is weakest in
+   the cue's own window, discounts the bands laptop speakers and earbuds do not reproduce (< 150 Hz, > 6.3 kHz) and takes 3 dB out of 1-4 kHz (the speech region).
+   Where it helped most: the neon ticks (-10 dB band margin from +15), the egg, the hair and the book (they moved into holes in the song's spectrum).
+2. *Level by band margin.* Events: gain until the median band margin (song minus cue in the cue's own bands) reaches its target (6 dB; v1 had 9-25), limited by
+   the cue alone staying >= 3 dB under the song's 400 ms loudness (v1: 6) and a -5 dBFS peak cap (v1: -8 to -30), never below v1, and a peak floor of -18 dBFS (before the vocal ride) so that
+   nothing is left near the noise floor. Beds (neon hums, room tones, breath, wind, hair, whisper, car) are *ridden*: the bed follows the song in its own band at 2-8 dB under it,
+   frame by frame (200 ms hold), so the room tones come up in the sparse sections (intro, band verse, build, end) and stay out of the song's holes.
+3. *Vocal sidechain on the layer bus.* Where a word sounds in the vocal stem (`work/stems/vocals.wav`; 50 ms, >= -40 LUFS, within 12 dB of its local peak; +-20 ms dilated) the summed layer is
+   reduced band by band (< 250, 250-4000, > 4000 Hz, K-weighted) to stay >= 6.5 dB under the vocal's same band, then >= 6 dB broadband, then a K-weighted polish on two interleaved
+   frame grids. v1 lowered a whole event cue to its worst word; v2 rides frame by frame and acts on the summed layer, so overlapping cues share the headroom.
+   Result on the final file: the layer is >= **6.1 dB** under the vocal stem in every word frame (rule 6; 5th percentile 8.5 dB).
+4. *Peak guard.* A layer-only gain guard (never the song) keeps the mix under -1.6 dBFS sample peak: 29 ms of the layer touched, at most 0.72 dB. Clipped samples: 0.
+
+**What I could not make audible without breaking the vocal rule.** All of these are inside sung or rapped passages, where the layer is held to the stem.
+They stay above v1 (or equal) but their band margin is still over 12 dB, so on a blind listen expect them to be felt more than heard:
+`seal_echoes` (drop 2: 20.8 dB; sits under held words 'formed', 'warmed', 'no', and the drop's own drums), `puffs_f3` (18.4; the puff is under 口/气),
+`margins_close` (16.5), `ink_throw` (14.2) and `seal_d1` (15.0; under the held 'formed' over the hook crash), `c5_hair_lift` / `c5_scrunch` (14.0 / 13.0; Mama sings
+through all of C5, the gaps are 80-240 ms), `abacus_f4b` and `seals_f5` (13.7 / 12.2; a syllable on every beat of the rap), `streetlights`, `sleeve_wind`. Their most prominent frames (p10) are
+mostly under 9 dB, i.e. the transient is there; the table has both. If any of these must be heard, the options are the same as in v1: move the picture event into a gap, or
+accept a cue that is at the vocal limit. The hook's accents (`land_d6`, `staff_*`, `seal_d8`, `stamps_h`, `drybrush_*`) are in instrumental stretches and are clearly up.
+Beyond the table's model (band margins, not ears) everything still needs a listening pass; `apron_hook` is a 10 kHz clink and may read thin on laptop speakers.
+
+**Ending B is the default.** The last sung note 'line' rings 12 dB under itself through a 2.6 s room, and the final D drone goes through a 3 s hall from its cut at 237.840 (unchanged
+from v1 B: made from the song's own material, no new notes). Length 241.920 s. The neon relay tick stays on 237.840 (peak -14.7 dBFS in the layer over 237.84-238.32; only its room tail, -38.4 dBFS, after 237.94).
+The flashlight clicks are gone (no flashlight ending); the L2 blankets replace the last-hit accent.
+
+**Removed in v2:** `flashlight_on` (I1, 177.193), `flashlight_off` (L2, 235.833), `room_tail_C` (ending C is no longer built). There was never a v1 cue for the G4 hand-shadow ring
+(`margin_notches` is the paper margins, still on screen in G2-G4), so nothing to remove there. **Changed:** `fingertip_j1` is now a firm fingertip press on paper (generated take `paper_press`).
+`neon_hum_end` kept (235.833-237.840).
+
+**New cues (generated: 9 takes of `elevenlabs/music-v2` through the project's gen tool, "Foley:" prompts with no names or project terms in them, $0.155 at list price, ceiling $15; 6 kept,
+3 unusable (`body_thump`: silent; `apron_hook` and `apron_cloth`: one event / silent) and replaced by a retake (`thump_mat`, `hook_clink`) and a synthesised `cloth_swish`; `puff` is synthesised).**
+Prompts are in `media/sound/sfx/gen/*.txt`, sources in `media/sound/sfx/` (`books`, `abacus`, `blanket`, `thump`, `hook`, `apron_hit`, `paper_press`, `cloth_swish`, `puff`). No human voices anywhere
+(the child's giggle and thump are cloth, paper, breath-like air and a body on a mat). Times below are placed on shot in-points and on the song's measured hits/beats; picture teams should hit them.
+
+D9 (shot 82.500-85.833, no voice in it): proposed exact times for the fall, all on measured hits so they sit on the drum break: **step up onto the stack 83.244; wobble creak 83.475; the stack starts to topple 83.798
+(= 1.298 s after the in-point; spill runs about 0.8 s); the child lands (small thump) 84.127; Mama's catch lands 84.351; last books settle 84.570.** If the fall must be later, shift the whole D9 group to the next strong hits
+(84.351 -> 85.014 are hits 0.70 and 1.00); the cue times are `events[].at` in `docs/sound_cues.json` and a rebuild takes 45 s. The strongest hit in the shot is 83.022 (1.0) and the build's fill starts 85.46.
+
+Other new times: A3 apron peak 11.922 (lifted off over the head, swish 11.68-12.04), apron on the hook 12.220, towel draped 12.400; C5 hair lifts in the blow 53.220, child scrunches 53.950 (cloth only);
+F3 the daughter's puff 112.146, little Jade's puff on the match cut 112.372; F4b abacus clicks on the beats 113.688, 114.135, 114.567, 115.002, 115.445, 115.882;
+F5 seals one per beat 116.320, 116.736, 117.200, 117.628; J1 fingertip press 189.620 (chop hole 189.505-189.585; the crashes start 189.790);
+L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last hit 235.833); 1988: pull from about 235.88, tuck on the beat 236.276; neon relay tick 237.840 unchanged.
+
+<!-- AUTO_V2:BEGIN (written by tools/audio/sfx/build_v2.py; edit docs/sound_cues.json) -->
+
+### Per-cue before / after (v1 -> v2)
+
+*under song* = song's 400 ms momentary loudness minus the cue (median over its live frames; smaller = louder). *band margin* = song minus cue in the cue's own 1/3-octave bands (v1 and v2 measured the same way; the 12 dB line is the brief's; p10 = the cue's most prominent frames). *audible* = band margin median <= 12 dB or p10 <= 6 dB (a model, not ears). New cues show 'new'.
+
+| # | cue | shot | time(s) | peak dBFS v1 -> v2 | under song (400 ms LUFS) v1 -> v2 | main band: band margin median / p10 v1 -> v2 | under vocal worst (50 ms) | audible | how |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | **neon_on** | A1 | 0.165, 0.220, 0.272, 0.316, 0.381 | -24.4 -> -18.0 | 14.7 -> 7.4 (summed worst 3.3) | 198 Hz: +15 / -0 -> -14 / -24 | - | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); EQ 62:+1, 78:+2, 99:+3, 125:+5, 157:+5, 198:+4, 250:+1, 396:-2, 500:-2, 629:-2, 793:-4, 1000:-8, 1259:-10, 1587:-10, 2000:-8, 2519:-7, 3174:-5, 4000:-3, 5039:-2 |
+| 2 | **neon_hum_intro** | A1-A4 | 0.17-15.44 | -34.8 -> -13.9 | 26.9 -> 18.4 (summed worst 3.4) | 158 Hz: +11 / -10 -> +6 / -4 | 6.2 | yes | follows the song in 63-389 Hz at 3 dB (median ride -19.8 dB); bus ride; EQ 62:-2, 78:-2 |
+| 3 | **dishes_below** | A2 | 6.351, 7.248, 7.470, 8.581 | -18.0 -> -13.4 | 24.2 -> 19.9 (summed worst 3.2) | 1000 Hz: +13 / -6 -> +8 / -11 | - | yes | floor; trimmed in the sum; EQ 198:-3, 250:-4, 314:-3, 396:-4, 500:-3, 629:-1, 1259:-2, 1587:-4, 2000:-5, 2519:-4 |
+| 4 | **stairs** | A3 | 10.374, 10.796, 11.273, 11.715, 12.164 | -16.0 -> -14.4 | 20.3 -> 18.6 (summed worst 4.0) | 315 Hz: +12 / -1 -> +6 / -6 | - | yes | band target; bus ride; EQ 49:-4, 62:-5, 78:-5, 99:-4, 125:-4, 157:-1, 250:+3, 314:+2, 396:+2, 629:-1, 793:-4, 1000:-5, 1259:-6, 1587:-5, 2000:-4, 2519:-5, 3174:-4 |
+| 5 | **mat_rustle** | A3 | 11.050 | -22.3 -> -11.3 | 18.0 -> 7.5 (summed worst 4.0) | 630 Hz: +18 / +10 -> +6 / -1 | - | yes | band target; EQ 99:-5, 125:-7, 157:-6, 198:-4, 250:-2, 314:-2, 396:-1, 500:-1, 629:+2, 1259:-2, 1587:-2, 2000:-1, 2519:-1, 4000:+1, 5039:+2, 6349:+2 |
+| 6 | **book_lift** | A4 | 12.950 | -18.0 -> -18.0 | 30.2 -> 25.8 (summed worst 5.2) | 198 Hz: +15 / +2 -> +1 / -20 | - | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit peak cap); bus ride; EQ 125:+3, 157:+3, 198:+3, 314:-1, 396:-4, 500:-6, 629:-6, 793:-7, 1000:-7, 1259:-8, 1587:-7, 2000:-6, 2519:-4, 3174:-3, 4000:-3, 5039:-3, 6349:-3 |
+| 7 | **book_open** | B2 | 22.300 | -18.0 -> -13.4 | 24.3 -> 19.3 (summed worst 18.6) | 2520 Hz: +18 / +10 -> +6 / -3 | - | yes | band target; EQ 157:-7, 198:-9, 250:-7, 314:-6, 396:-5, 500:-4, 629:-5, 793:-5, 1000:-6, 1259:-3, 1587:-1, 4000:+1, 5039:+1, 8000:-2 |
+| 8 | **chisel_far** | B4 | 30.869, 31.307, 31.748, 32.201, 35.755 | -20.0 -> -10.8 | 28.4 -> 19.7 (summed worst 16.6) | 3175 Hz: +17 / +10 -> +10 / +2 | 6.7 | yes | band target; bus ride; EQ 500:-4, 629:-6, 793:-5, 1000:-4, 1259:-4, 1587:-2, 6349:-1, 8000:-2 |
+| 9 | **stone_crack** | C1 | 43.700, 44.150 | -17.2 -> -9.8 | 22.0 -> 19.9 (summed worst 9.8) | 1000 Hz: +21 / -5 -> +14 / -13 | 6.6 | yes | peak cap; bus ride; EQ 49:-5, 62:-5, 78:-4, 99:-5, 125:-6, 157:-4, 198:-2, 250:-2, 500:+1, 629:+2, 793:+2, 1000:+2, 1587:-4, 2000:-5, 2519:-6, 3174:-4 |
+| 10 | **flips_c1** | C1 | 43.805, 44.040, 44.385 | -20.6 -> -18.9 | 21.6 -> 28.3 (summed worst 9.7) | 2520 Hz: +0 / -16 -> +1 / -6 | 8.2 | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); bus ride; EQ 250:-4, 314:-6, 396:-4, 500:-4, 629:-3, 793:-2, 2519:+1, 3174:+1, 4000:+2, 6349:-2, 8000:-5, 10079:-7, 12699:-4 |
+| 11 | **breath** | C5 | 52.55-54.45 | -20.0 -> -18.6 | 18.1 -> 14.2 (summed worst 10.7) | 315 Hz: +14 / +8 -> +9 / +4 | 6.4 | yes | follows the song in 159-1556 Hz at 6 dB (median ride -10.2 dB); bus ride; EQ 125:-5, 157:-5, 198:-2, 1259:-2, 1587:-4, 2000:-3, 2519:-2, 3174:-3, 4000:-3 |
+| 12 | **sleeve_wind** | C5 | 54.60-57.20 | -20.0 -> -17.8 | 20.8 -> 15.3 (summed worst 13.4) | 315 Hz: +18 / +12 -> +13 / +9 | 6.7 | weak | follows the song in 25-980 Hz at 6 dB (median ride -7.8 dB); bus ride; EQ 31:+6, 39:+4, 62:-3, 78:-6, 99:-6, 125:-6, 157:-4, 198:-2, 629:-2, 793:-3, 1000:-4, 1259:-4, 1587:-4, 2000:-4, 2519:-6, 3174:-5 |
+| 13 | **egg_tremble** | C6 | 57.035 | -18.0 -> -17.5 | 23.5 -> 23.3 (summed worst 16.1) | 5040 Hz: +19 / -3 -> +5 / -9 | 9.2 | yes | kept at v1 gain (band target met); bus ride; EQ 198:-8, 250:-10, 314:-8, 396:-7, 500:-6, 629:-6, 793:-7, 1000:-8, 1259:-7, 1587:-6, 2000:-3, 2519:-2, 3174:-1, 5039:+1, 8000:-3, 10079:-5 |
+| 14 | **ink_throw** | D1 | 58.673 | -23.7 -> -15.1 | 27.1 -> 18.5 (summed worst 13.4) | 630 Hz: +24 / +15 -> +14 / +7 | 7.0 | weak | band target; bus ride; EQ 39:-4, 49:-6, 62:-6, 78:-6, 99:-6, 125:-6, 157:-4, 250:+1, 314:+2, 396:+2, 500:+2, 629:+1, 1000:-1, 1259:-2, 5039:+2, 6349:+1, 8000:-2, 10079:-4, 12699:-4 |
+| 15 | **seal_d1** | D1 | 59.126 | -11.7 -> -14.1 | 18.2 -> 21.0 (summed worst 13.6) | 315 Hz: +15 / +1 -> +15 / -0 | 7.0 | yes | band target; bus ride; EQ 62:-8, 78:-8, 99:-8, 125:-7, 157:-5, 250:+2, 314:+2, 396:+2, 500:+1, 793:-4, 1000:-8, 1259:-12, 1587:-10 |
+| 16 | **seals_d2** | D2 | 61.321, 62.205, 63.090, 63.980 | -14.6 -> -16.0 | 25.2 -> 24.5 (summed worst 18.3) | 158 Hz: +12 / +1 -> +15 / +6 | 7.4 | yes | band target; bus ride; EQ 78:-4, 99:-6, 125:-4, 157:-2, 198:+1, 250:+2, 314:+3, 396:+2, 500:+1, 793:-3, 1000:-7, 1259:-7 |
+| 17 | **land_d6** | D6 | 75.025 | -10.0 -> -10.4 | 15.5 -> 14.6 (summed worst 11.2) | 315 Hz: +11 / +6 -> +4 / -6 | - | yes | kept at v1 gain (band target met); EQ 49:-9, 62:-11, 78:-10, 99:-9, 125:-7, 157:-4, 198:-1, 250:+2, 314:+2, 396:+2, 629:-2, 793:-4, 1000:-6, 1259:-7, 1587:-8, 2000:-9, 2519:-8 |
+| 18 | **staff_d7** | D7 | 76.811 | -14.0 -> -12.9 | 11.9 -> 10.9 (summed worst 8.6) | 1260 Hz: +7 / +2 -> +6 / -1 | - | yes | band target; EQ 198:-2, 250:-2, 629:+1, 793:+1, 1587:-1, 3174:-1, 4000:-2, 5039:-1 |
+| 19 | **drybrush_d7** | D7 | 77.697, 78.586 | -16.0 -> -8.4 | 24.4 -> 16.3 (summed worst 9.0) | 5040 Hz: +18 / +12 -> +6 / -0 | - | yes | band target; EQ 314:-7, 396:-8, 500:-7, 629:-6, 793:-6, 1000:-6, 1259:-6, 1587:-5, 2000:-4, 2519:-3, 4000:+2, 5039:+3, 6349:+3, 10079:-3, 12699:-4 |
+| 20 | **staff_plant_d8** | D8 | 79.252 | -12.0 -> -5.0 | 17.8 -> 9.9 (summed worst 8.5) | 315 Hz: +18 / +10 -> +7 / -0 | - | yes | peak cap; EQ 78:-3, 125:-5, 157:-5, 198:-1, 250:+2, 314:+3, 396:+2, 629:-1, 793:-2, 1000:-3, 1259:-2, 1587:-2, 2000:-3, 2519:-4, 3174:-5, 4000:-4 |
+| 21 | **seal_d8** | D8 | 79.930 | -8.0 -> -5.9 | 17.4 -> 15.3 (summed worst 10.9) | 315 Hz: +14 / +8 -> +6 / +3 | - | yes | band target; EQ 62:-9, 78:-9, 99:-7, 125:-6, 157:-3, 250:+2, 314:+2, 396:+2, 793:-4, 1000:-7, 1259:-9, 1587:-8 |
+| 22 | **neon_hum_e5** | E5-E6 | 103.20-107.04 | -30.6 -> -23.2 | 18.6 -> 19.0 (summed worst 11.7) | 158 Hz: +3 / -4 -> +3 / -2 | 8.0 | yes | follows the song in 63-389 Hz at 3 dB (median ride -26.5 dB); bus ride; EQ 62:-6, 78:-6, 157:+1, 314:-3, 396:-2 |
+| 23 | **whisper** | E5 | 103.20-104.28 | -24.6 -> -28.7 | 17.9 -> 26.8 (summed worst 16.3) | 397 Hz: +8 / -0 -> +7 / +2 | 10.9 | yes | follows the song in 253-2469 Hz at 5 dB (median ride -24.6 dB); bus ride; EQ 198:-4, 250:-2, 396:+2, 500:+2, 793:-2, 1000:-4, 1259:-2, 1587:-2, 2000:-4, 2519:-7, 3174:-8, 4000:-8, 5039:-8, 6349:-9, 8000:-10, 10079:-9 |
+| 24 | **car_cabin** | F1-F6 | 107.04-121.47 | -21.9 -> -18.3 | 19.5 -> 17.7 (summed worst 9.7) | 158 Hz: +14 / +7 -> +12 / +2 | 6.1 | yes | follows the song in 63-490 Hz at 8 dB (median ride -8.4 dB); bus ride; EQ 39:-5, 49:-6, 62:-6, 78:-4, 99:-2, 198:+1, 250:+2, 314:+2, 396:+1, 629:-2, 793:-4, 1000:-6, 1259:-5 |
+| 25 | **streetlights** | F1-F6 | 108.425, 110.175, 111.935, 113.688, 115.445, 116.320, 116.736, 117.200, 117.628, 118.938, 119.812, 120.687 | -30.3 -> -17.3 | 31.3 -> 21.1 (summed worst 12.6) | 198 Hz: +26 / +19 -> +14 / +6 | 6.3 | yes | band target; bus ride; EQ 31:+2, 49:-2, 62:-3, 78:-3, 99:-3, 125:-2, 198:+1, 250:+2, 314:+2, 396:+2, 500:+2, 629:+2, 793:+1, 1587:-2, 2000:-3, 2519:-2 |
+| 26 | **margins_close** | G1 | 122.430, 122.460 | -18.5 -> -15.9 | 23.7 -> 19.6 (summed worst 13.7) | 500 Hz: +20 / +7 -> +16 / +7 | 7.5 | weak | floor; bus ride; EQ 125:-2, 157:-2, 629:-2, 793:-3, 1000:-3, 1259:-2, 1587:-1, 2000:-1, 3174:+1, 4000:+3 |
+| 27 | **margin_notches** | G2-G4 | 130.175, 133.690, 141.450 | -20.2 -> -15.7 | 22.6 -> 17.4 (summed worst 12.5) | 397 Hz: +16 / +0 -> +12 / -5 | 6.4 | yes | band target; bus ride; EQ 125:-5, 157:-5, 198:-2, 500:+1, 793:-2, 1000:-3, 1259:-2, 1587:-2, 2000:-2, 2519:-3, 3174:-4, 4000:-4 |
+| 28 | **room_yes** | G5 | 146.46-149.28 | -32.7 -> -19.3 | 18.1 -> 10.7 (summed worst 3.6) | 198 Hz: +14 / -7 -> +8 / -5 | 6.2 | yes | follows the song in 25-980 Hz at 2 dB (median ride -14.2 dB); bus ride; EQ 31:+5, 39:+5, 49:+5, 62:+4, 78:+2, 125:-2, 157:-1, 250:-2, 314:-4, 396:-3, 500:-3, 629:-3, 793:-6, 1000:-7, 1259:-9, 1587:-6 |
+| 29 | **neon_hum_yes** | G5 | 146.46-149.28 | -34.8 -> -23.6 | 20.1 -> 15.2 (summed worst 3.6) | 158 Hz: +13 / -16 -> -0 / -29 | 6.2 | yes | follows the song in 63-389 Hz at 3 dB (median ride -18.1 dB); bus ride; EQ 62:+2, 78:+2, 198:-2, 250:-4, 314:-6, 396:-4 |
+| 30 | **stamps_h** | H1-H2 | 150.588, 151.463, 152.325, 153.195, 154.061, 154.930, 155.810, 156.668, 157.104, 157.537, 157.972, 158.850, 159.277, 159.711, 160.143, 160.583, 161.025, 161.447 | -16.0 -> -5.1 | 28.0 -> 16.3 (summed worst 9.6) | 630 Hz: +19 / +12 -> +6 / -3 | - | yes | band target; EQ 78:-5, 99:-7, 125:-7, 157:-5, 198:-1, 250:+2, 314:+2, 396:+1, 2000:-2, 2519:-3, 3174:-3, 4000:-3, 5039:-4, 6349:-2 |
+| 31 | **paint_strokes_h1** | H1 | 150.800, 152.540, 154.280 | -18.0 -> -14.6 | 17.1 -> 13.1 (summed worst 9.8) | 3175 Hz: +10 / +6 -> +6 / +2 | - | yes | band target; EQ 314:-4, 396:-5, 500:-4, 629:-2, 793:-2, 1000:-2, 1259:-2, 1587:-1, 3174:+1, 4000:+2, 5039:+2, 8000:-1 |
+| 32 | **hair_air** | H6 | 172.90-177.10 | -30.0 -> -14.8 | 33.8 -> 17.2 (summed worst 12.6) | 565 Hz: +25 / +16 -> +10 / +5 | 6.5 | yes | follows the song in 200-1960 Hz at 6 dB (median ride -5.8 dB); bus ride; EQ 78:-4, 99:-7, 125:-7, 157:-6, 198:-3, 629:+1, 1259:-1, 1587:-2, 2000:-4, 2519:-4 |
+| 33 | **room_build** | I1-I4 | 177.65-189.79 | -32.4 -> -18.0 | 20.5 -> 12.9 (summed worst 3.2) | 250 Hz: +18 / +7 -> +10 / +4 | 6.3 | yes | follows the song in 32-2469 Hz at 2 dB (median ride -14.5 dB); bus ride; EQ 31:+2, 49:-3, 62:-5, 78:-4, 99:-4, 125:-3, 629:+1, 793:+1, 1000:+2, 1259:+2, 1587:+2, 2519:-2, 3174:-2 |
+| 34 | **page_turn_i** | I1 | 179.750 | -20.8 -> -19.0 | 14.0 -> 12.5 (summed worst 3.2) | 1587 Hz: -3 / -10 -> -7 / -12 | - | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); bus ride; EQ 198:-2, 314:-4, 396:-6, 500:-4, 629:-4, 1259:+1, 3174:-2, 4000:-1, 5039:-2, 6349:-3, 8000:-6, 10079:-4 |
+| 35 | **fingertip_j1** | J1 | 189.620 | -23.8 -> -24.9 | 16.7 -> 22.7 (summed worst 10.9) | 2000 Hz: -6 / -17 -> +7 / -0 | 6.5 | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); bus ride; EQ 198:-7, 250:-9, 314:-9, 396:-9, 500:-9, 629:-7, 793:-6, 1000:-4, 1259:-3, 2000:+1, 2519:+2, 3174:+1, 4000:+2, 6349:-2, 8000:-4 |
+| 36 | **seal_echoes** | J2-J5 | 191.526, 192.383, 195.607, 198.740, 202.468 | -20.8 -> -20.0 | 29.7 -> 27.6 (summed worst 15.2) | 158 Hz: +19 / +13 -> +21 / +14 | 6.8 | weak | band target; bus ride; EQ 78:-3, 99:-3, 125:-1, 157:+1, 198:+2, 250:+3, 314:+2, 396:+2, 629:-1, 793:-2 |
+| 37 | **staff_j3** | J3 | 195.200 | -18.1 -> -16.5 | 17.7 -> 16.7 (summed worst 13.4) | 2000 Hz: +14 / +8 -> +12 / +6 | 6.5 | yes | band target; bus ride; EQ 198:-2, 250:-3, 314:-1, 2000:+1, 2519:+1, 3174:-2, 4000:-3, 5039:-3 |
+| 38 | **drybrush_j3** | J3 | 195.360 | -16.0 -> -11.8 | 24.3 -> 20.0 (summed worst 13.5) | 4000 Hz: +19 / +8 -> +9 / -1 | 6.5 | yes | band target; bus ride; EQ 314:-6, 396:-7, 500:-5, 629:-3, 793:-4, 1000:-4, 1259:-4, 1587:-1, 5039:+2, 6349:+2, 8000:-1, 10079:-5, 12699:-5 |
+| 39 | **flips_j5** | J5 | 200.675, 201.030 | -22.0 -> -33.7 | 22.0 -> 32.2 (summed worst 30.8) | 2794 Hz: -3 / -15 -> +14 / +0 | 19.8 | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); bus ride; EQ 250:-5, 314:-4, 396:-1, 500:+1, 793:-2, 1000:-3, 1259:-2, 1587:-2, 2000:-1, 2519:-2, 4000:+1, 5039:+3, 6349:+3, 10079:-4, 12699:-4 |
+| 40 | **brush_strike** | K3 | 216.060 | -27.1 -> -20.5 | 18.5 -> 13.1 (summed worst 11.0) | 3175 Hz: +9 / +2 -> +1 / -15 | 6.4 | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); bus ride; EQ 314:-5, 396:-7, 500:-7, 629:-6, 793:-5, 1000:-4, 1259:-2, 1587:-1, 2519:+1, 3174:+2, 4000:+3, 5039:+2, 6349:-1, 8000:-3 |
+| 41 | **ledger_pages** | K4 | 218.750, 219.800, 220.230 | -18.2 -> -25.3 | 27.7 -> 31.0 (summed worst 14.7) | 2520 Hz: +3 / -25 -> +10 / -17 | 17.9 | yes | kept at v1 gain (band target met) (raised to the peak floor, hard limit floor); bus ride; EQ 157:+1, 198:-1, 250:-5, 314:-6, 396:-6, 500:-3, 629:-2, 793:-2, 1000:-3, 1259:-3, 1587:-1, 4000:+2, 5039:+4, 6349:+1 |
+| 42 | **page_land** | K4 | 221.805 | -22.0 -> -23.2 | 21.7 -> 22.5 (summed worst 22.3) | 250 Hz: +14 / -6 -> +11 / -9 | 8.0 | yes | band target; bus ride; EQ 62:-7, 78:-7, 99:-7, 125:-6, 157:-5, 250:+2, 396:-2, 500:-3, 629:-4, 793:-4, 1000:-6, 1259:-5, 1587:-5, 2000:-3, 2519:-2, 3174:-1, 4000:-1 |
+| 43 | **neon_hum_end** | L3 | 235.83-237.84 | -27.1 -> -14.3 | 16.0 -> 5.7 (summed worst 3.1) | 315 Hz: +12 / +10 -> +1 / -1 | - | yes | follows the song in 63-490 Hz at 3 dB (median ride -5.5 dB); EQ 78:-3, 198:-1, 314:+2, 396:+2, 629:-2, 793:-2 |
+| 44 | **neon_off** | L3 | 237.840 | -22.0 -> -14.7 | 20.7 -> 14.6 (summed worst 2.9) | 630 Hz: +14 / +7 -> +8 / +2 | - | yes | floor; EQ 78:-2, 99:-4, 125:-4, 198:+2, 250:+2, 396:-1, 629:+2, 1000:-3, 1259:-2, 2000:+2, 2519:+3, 3174:+5, 4000:+7, 5039:+7, 6349:+6 |
+| 45 | **apron_off** (new) | A3 | 11.922 | - -> -14.0 | - -> 9.3 (summed worst 5.8) | 3175 Hz: new +4 / -5 | - | yes | band target (raised to the peak floor, hard limit floor); EQ 157:-6, 198:-7, 250:-5, 314:-4, 396:-4, 500:-4, 629:-4, 793:-5, 1000:-4, 1259:-3, 3174:+1, 4000:+2, 5039:+3, 8000:-2 |
+| 46 | **apron_hook** (new) | A3 | 12.220 | - -> -14.0 | - -> 27.3 (summed worst 4.3) | 10079 Hz: new -14 / -19 | - | yes | band target (raised to the peak floor, hard limit peak cap); bus ride; EQ 396:-8, 629:-8, 1000:-9, 2000:-11, 2519:-12, 3174:-10, 4000:-7, 5039:-3, 12699:-1 |
+| 47 | **towel_drape** (new) | A3 | 12.400 | - -> -5.0 | - -> 7.3 (summed worst 4.3) | 3175 Hz: new +7 / -5 | - | yes | peak cap; bus ride; EQ 157:-3, 198:-2, 250:-3, 314:-4, 396:-4, 500:-4, 629:-4, 793:-5, 1000:-4, 1259:-3, 1587:-2, 3174:+1, 4000:+3, 5039:+3, 6349:+1, 8000:-3, 10079:-4 |
+| 48 | **c5_hair_lift** (new) | C5 | 53.220 | - -> -23.4 | - -> 20.3 (summed worst 10.9) | 3175 Hz: new +14 / +5 | 7.3 | yes | band target (raised to the peak floor, hard limit floor); bus ride; EQ 314:-6, 396:-7, 500:-6, 629:-5, 793:-4, 1000:-4, 1259:-3, 1587:-3, 3174:+1, 4000:+2, 5039:+1, 6349:-2, 8000:-3 |
+| 49 | **c5_scrunch** (new) | C5 | 53.950 | - -> -23.5 | - -> 20.3 (summed worst 12.2) | 712 Hz: new +13 / +9 | 6.4 | weak | band target (raised to the peak floor, hard limit floor); bus ride; EQ 99:-6, 125:-8, 157:-8, 198:-6, 250:-5, 314:-3, 396:-3, 1259:-2, 1587:-2, 2000:-2, 2519:-2, 3174:-3, 4000:-2, 5039:-3, 6349:-2 |
+| 50 | **puffs_f3** (new) | F3 | 112.146, 112.372 | - -> -26.3 | - -> 25.0 (summed worst 14.5) | 4000 Hz: new +18 / +13 | 7.4 | weak | band target; bus ride; EQ 314:-4, 396:-7, 500:-6, 629:-4, 793:-3, 1000:-2, 1259:-2, 4000:+1, 5039:+2, 8000:-4, 10079:-4 |
+| 51 | **abacus_f4b** (new) | F4 | 113.688, 114.135, 114.567, 115.002, 115.445, 115.882 | - -> -14.4 | - -> 29.4 (summed worst 13.9) | 6350 Hz: new +14 / +1 | 6.4 | yes | band target; bus ride; EQ 2000:-6, 2519:-6, 3174:-4, 5039:+1, 6349:+1, 8000:-2, 10079:-5, 12699:-5 |
+| 52 | **seals_f5** (new) | F5 | 116.320, 116.736, 117.200, 117.628 | - -> -20.8 | - -> 29.5 (summed worst 12.6) | 198 Hz: new +12 / +8 | 8.6 | weak | band target; bus ride; EQ 99:-6, 125:-6, 157:-2, 250:+2, 629:-1, 793:-4, 1000:-4 |
+| 53 | **climb_d9** (new) | D9 | 83.244 | - -> -6.3 | - -> 10.9 (summed worst 7.1) | 282 Hz: new +6 / -4 | - | yes | band target; EQ 49:-7, 62:-9, 78:-8, 99:-5, 125:-5, 157:-2, 250:+4, 314:+4, 396:+2, 629:-2, 793:-5, 1000:-6, 1259:-5, 1587:-4, 2000:-4, 2519:-4 |
+| 54 | **books_d9** (new) | D9 | 83.475, 83.798, 84.570 | - -> -11.2 | - -> 21.0 (summed worst 6.1) | 1587 Hz: new +6 / -6 | - | yes | band target; EQ 78:-8, 99:-10, 125:-10, 157:-9, 198:-6, 250:-5, 314:-5, 396:-5, 500:-5, 629:-4, 793:-4, 1000:-3, 4000:+2, 5039:+2, 8000:-4, 10079:-5 |
+| 55 | **thump_d9** (new) | D9 | 84.127, 84.351 | - -> -6.7 | - -> 8.7 (summed worst 6.1) | 158 Hz: new +6 / -3 | - | yes | band target; EQ 49:-4, 62:-5, 78:-4, 99:-2, 125:-2, 198:+2, 250:+3, 314:+3, 396:+2, 500:+1, 629:-1, 793:-3, 1000:-4, 1259:-4, 1587:-5, 2000:-5, 2519:-6, 3174:-7, 4000:-6 |
+| 56 | **blanket_2026** (new) | L2 | 235.780 | - -> -14.0 | - -> 15.6 (summed worst 7.7) | 315 Hz: new +5 / -5 | - | yes | band target (raised to the peak floor, hard limit peak cap); EQ 78:-5, 99:-7, 125:-6, 157:-5, 198:-2, 250:+1, 314:+3, 396:+2, 793:-2, 1000:-3, 1259:-3, 1587:-3, 2000:-3, 2519:-3, 3174:-2 |
+| 57 | **blanket_1988** (new) | L2 | 236.276 | - -> -13.6 | - -> 9.5 (summed worst 3.1) | 315 Hz: new +6 / -2 | - | yes | band target; EQ 78:-3, 99:-3, 125:-3, 157:-2, 198:-1, 314:+2, 396:+2, 500:+2, 629:+1, 1259:+1, 3174:+2 |
+
+### New-action cues: exact times (s) for the picture teams
+
+| cue | shot | exact times (s) | on | what the picture should hit |
+|---|---|---|---|---|
+| apron_off | A3 | 11.922 | hit:11.922 | A3: Mama lifts the apron off over her head: one soft cloth swish whose peak is the hit 11.922 (starts ~11.68 on the beat 11.715, after the third step). |
+| apron_hook | A3 | 12.220 | t:12.22 | A3: the apron is hung on the hook by the door: one small metal clink at 12.22, just after the fifth step (12.164). |
+| towel_drape | A3 | 12.400 | t:12.40 | A3: the hand towel is draped over the hook after the apron: a soft cloth flop at 12.40 (before the cut to A4 at 12.583). |
+| c5_hair_lift | C5 | 53.220 | t:53.22 | C5: Mama's blow lifts the child's hair: one soft unvoiced puff of air in the 240 ms gap between 'blew' and 'once' (53.19-53.43). No voice. |
+| c5_scrunch | C5 | 53.950 | t:53.95 | C5: the child scrunches up at the blow: a quilt/cloth rustle in the gap 53.91-54.03 (the giggle is NOT sounded: cloth only). |
+| puffs_f3 | F3 | 112.146, 112.372 | hit:112.146, beat:112.372 | F3: the daughter puffs the hair off her palm (112.146, the hit under 口) and, on the match cut, little Jade does the same (112.372). |
+| abacus_f4b | F4 | 113.688, 114.135, 114.567, 115.002, 115.445, 115.882 | beat:113.688, beat:114.135, beat:114.567, beat:115.002, beat:115.445, beat:115.882 | F4b swarm: the abacus worker's beads click on the beats 113.688 .. 115.882 (every cell re-poses on the beat): a 2-3 click flick per beat, alternating sides. |
+| seals_f5 | F5 | 116.320, 116.736, 117.200, 117.628 | beat:116.320, beat:116.736, beat:117.200, beat:117.628 | F5: each worker finishes and presses a small red seal (讫): one small seal press per beat on 116.320, 116.736, 117.200, 117.628, as the copies go dark; lowpassed at 1.8 kHz under the words they share beats with. |
+| climb_d9 | D9 | 83.244 | hit:83.244 | D9: little Jade steps up onto the stack of textbooks (83.244, a light step, after her 1 s of the pose). |
+| books_d9 | D9 | 83.475, 83.798, 84.570 | hit:83.475, hit:83.798, hit:84.570 | D9: the stack of textbooks: a wobble creak (83.475), the topple starting at the hit 83.798 (propose the picture's first tip of the stack here, 1.30 s after the shot's in-point 82.5) with the slide and spill running ~0.8 s, the last books settling at 84.570. |
+| thump_d9 | D9 | 84.127, 84.351 | hit:84.127, hit:84.351 | D9: the child's small thump on the floor (84.127) and Mama's catch (84.351: a cloth grab running into a soft body-on-arms thud). Body and cloth only: no voice. |
+| blanket_2026 | L2 | 235.780 | t:235.78 | L2: Jade pulls the blanket up over her daughter: the pull runs ~235.33-235.78, the tuck just before the last hit (235.833). |
+| blanket_1988 | L2 | 236.276 | beat:236.276 | L2: the 1988 match: Mama pulls the blanket up over little Jade: the pull starts ~235.88 (just after the cut on 235.833), the tuck on the beat 236.276. |
+
+### Cues within 150 ms of a word onset (v2)
+
+| cue | cue time | word | dt (ms) |
+|---|---|---|---|
+| stone_crack | 43.700 | It | +65 |
+| stone_crack | 43.700 | split | -115 |
+| flips_c1 | 43.805 | split | -10 |
+| flips_c1 | 44.385 | apart | +15 |
+| breath | 52.550 | wind | +80 |
+| sleeve_wind | 54.600 | was | -45 |
+| seals_d2 | 61.321 | bowed | -9 |
+| seals_d2 | 62.205 | ways | +35 |
+| seals_d2 | 63.090 | day | +40 |
+| seals_d2 | 63.980 | warmed | +110 |
+| neon_hum_e5 | 103.200 | ps | +0 |
+| whisper | 103.200 | ps | +0 |
+| car_cabin | 107.040 | 石 | +0 |
+| car_cabin | 107.040 | 头 | -140 |
+| streetlights | 108.425 | 年 | +85 |
+| streetlights | 110.175 | 变 | +35 |
+| streetlights | 111.935 | 吹 | +35 |
+| streetlights | 111.935 | 一 | -125 |
+| streetlights | 113.688 | 时 | +28 |
+| streetlights | 113.688 | 在 | -72 |
+| streetlights | 115.445 | 一 | +5 |
+| streetlights | 115.445 | 个 | -95 |
+| streetlights | 116.320 | 说 | +120 |
+| streetlights | 116.320 | 完 | -80 |
+| streetlights | 116.736 | 句 | +136 |
+| streetlights | 116.736 | 话 | +16 |
+| streetlights | 117.200 | 各 | +140 |
+| streetlights | 117.200 | 自 | -60 |
+| streetlights | 117.628 | 散 | +48 |
+| streetlights | 118.938 | 谁 | +78 |
+| streetlights | 118.938 | 是 | -62 |
+| streetlights | 119.812 | 真 | +52 |
+| streetlights | 120.687 | 白 | +147 |
+| streetlights | 120.687 | 问 | +27 |
+| margin_notches | 130.175 | 听 | +0 |
+| margin_notches | 133.690 | 听 | +0 |
+| margin_notches | 141.450 | 听 | +0 |
+| hair_air | 172.900 | one | +140 |
+| hair_air | 172.900 | hair | -140 |
+| seal_echoes | 191.526 | formed | +16 |
+| seal_echoes | 192.383 | formed | +13 |
+| seal_echoes | 195.607 | warmed | -43 |
+| seal_echoes | 198.740 | no | +0 |
+| seal_echoes | 202.468 | 百 | +8 |
+| flips_j5 | 200.675 | 一 | -60 |
+| flips_j5 | 201.030 | 通 | -60 |
+| c5_scrunch | 53.950 | and | -80 |
+| puffs_f3 | 112.146 | 一 | +86 |
+| puffs_f3 | 112.146 | 口 | +6 |
+| puffs_f3 | 112.372 | 气 | +12 |
+| abacus_f4b | 113.688 | 时 | +28 |
+| abacus_f4b | 113.688 | 在 | -72 |
+| abacus_f4b | 114.135 | 里 | +15 |
+| abacus_f4b | 114.567 | 一 | +7 |
+| abacus_f4b | 114.567 | 个 | -93 |
+| abacus_f4b | 115.002 | 是 | +122 |
+| abacus_f4b | 115.002 | 我 | +2 |
+| abacus_f4b | 115.445 | 一 | +5 |
+| abacus_f4b | 115.445 | 个 | -95 |
+| abacus_f4b | 115.882 | 算 | +62 |
+| seals_f5 | 116.320 | 说 | +120 |
+| seals_f5 | 116.320 | 完 | -80 |
+| seals_f5 | 116.736 | 句 | +136 |
+| seals_f5 | 116.736 | 话 | +16 |
+| seals_f5 | 117.200 | 各 | +140 |
+| seals_f5 | 117.200 | 自 | -60 |
+| seals_f5 | 117.628 | 散 | +48 |
+
+### Verification (v2)
+
+| check | result |
+|---|---|
+| integrated loudness | song **-15.88 LUFS**; mix v1 (end B) -15.87; **mix v2 -15.84 LUFS** (+0.04 LU over the song); ffmpeg ebur128 song -15.9 / mix v2 -15.8 |
+| layer alone | v1 -36.6 LUFS (peak -8.0 dBFS) -> **v2 -30.4 LUFS** (peak -5.0 dBFS) |
+| layer under song, 400 ms, where the layer sounds | median v1 22.3 dB -> **v2 17.3 dB**; v2 5th percentile 6.8 dB, closest frame 2.9 dB |
+| true peak | song -3.47 dBTP; mix v1 -3.1; **mix v2 -1.37 dBTP** (limit -1.0); clipped samples 0; layer-only peak guard: threshold -1.6 dBFS, 29 ms of layer affected, max reduction -0.72 dB |
+| vocal | in every 50 ms frame where a word sounds the whole layer is >= **6.1 dB** under the vocal stem (rule: 6; 5th percentile 8.5 dB) |
+| song untouched | mix_v2 - song(end B edit only) = layer_v2 to 1.2e-07; layer non-zero outside cue windows: 0 samples; holes 15.440-15.515 and 149.285-149.525 exactly 0 |
+| ending B | length 241.920 s; layer peak after 237.94: -38.4 dBFS (the tick's room tail only); the song's own tails (last note 'line' and the D drone, same as v1 B) |
+
+<!-- AUTO_V2:END -->

@@ -1,99 +1,102 @@
-"""B3 'a stone looked over the sea' (26.125-29.292, 76 frames). Team MOUNTAIN.
+"""B3 'a stone looked over the sea' (26.125-29.292, 76 frames). BOOK team, v3 (REVISION_V3 §2.1, §13).
 
-FLAT PAGE-SPACE move (the room team maps this onto the book in perspective): the whole double-page spread in
-frame as flat paper, B_master painted across it (花果山 in the lower-left corner, the stone a speck on top, sea and
-sky bare paper) and a narrow column on the right page. No ch.1 stone wording exists in design/text/, so per the
-director the column is faint ruled lines (界行) with no characters. Then the film's signature push in toward the
-mountain until the page edges have left frame; only once we are inside does the mist band (bare paper) begin to
-drift. Outside the pages: flat faded-indigo cloth (to be replaced by the room team's book).
-
-Polish-1: the indigo cloth is gone. Around the spread is what B2 ends on: the book's faded red cloth cover rim and the
-dark attic (warm ink-dark, Mama's trousers / the floor in shadow), and the paper carries the attic's cinnabar neon cast
-for the first ~1 s; the cast fades out of the page as the push crosses the page edges (T_IN), so inside the painting
-the paper is neutral cream as in B4.
+STEPPING INTO THE PAINTING. Frame 0 is the flat spread exactly as the attic's over-shoulder push ends
+(v3_LAP_ots_push_end: spread u 0.031..0.969, v 0.105..0.895; see LOG_v3_book.md) with the inscription on the right
+page. Then the camera crosses the page surface and the picture opens into depth: every element of the flat picture
+lives on its own plane (far ridges over the sea, the summit, a band of mist, the near cliff, two foreground pines),
+registered at frame 0 so the page is FLAT there; as the push goes in they separate with true parallax, the pines
+slide past the lens, the ridges hang back, the mist (bare paper) flows between summit and cliff.
+Page art for the room team: `python shots/B3.py` -> media/comp/pages/B3_page.png (the flat spread, unlit).
 """
 import numpy as np
 
 from shots._mountain import *
+from tools.ink.inscription import inscription
 
 T0, T1 = 627 / 24, 703 / 24
-SW, SH = 4585, 2420                       # the spread (two pages, A_open_book proportions)
-MX, MY = 260, 230                         # canvas margin around the spread
-CW, CH = SW + 2 * MX, SH + 2 * MY
-PS = SH / 1920.0                          # B_master scale onto the spread
-START = (MX + SW / 2, MY + SH / 2, 1920 / (SW + 330))
-END = (MX + 1220, MY + 1480, 1920 / 2250)      # fix2: was (1060, 1500, 2350): the left page edge stayed in frame at the cut
-T_PUSH0, T_PUSH1 = 26.32, T1 + 0.25       # the push is still moving on the cut
-ATTIC = np.array([0.105, 0.078, 0.068], np.float32)        # the dark attic around the book (warm ink-dark)
-COVER = np.array([0.43, 0.16, 0.12], np.float32)           # the storybook's faded red cloth cover (B2)
-RIM = 46                                                   # cover rim around the spread, canvas px
-NEON = np.array([1.0, 0.875, 0.825], np.float32) * 0.96     # cinnabar neon cast on the page (multiply)
-NEON_HOLD = 0.9                                            # s of full cast after the cut
+SW, SH = 3072, 2048                        # the spread, at the layout's 1.5:1
+C0 = (SW / 2.0, SH / 2.0)
+Z0 = 1920.0 / (0.938 * SW)                 # frame 0: u 0.031..0.969 of the spread across the frame
+END = (790.0, 800.0, 1.36)
+T_PUSH0 = T0 + 0.12
+MS = SW / 3392.0                           # B_master scale onto the spread
+MY = 150                                   # B_master's top edge on the spread
+PX = 60.0 / Z0                             # inscription size on the page so it is 60 px at frame 0
+
+
+def layers():
+    """[(name, ink layer, depth, (x, y) canvas pos)] registered on the flat page."""
+    def master(name):
+        T = key_paper(load_image(B + name), lo=0.03)
+        return cv2.resize(T, (SW, int(round(T.shape[0] * MS))), interpolation=cv2.INTER_AREA)
+    out = []
+    for i, (x, y, w, g, d) in {2: (1250, 1040, 1700, 0.55, 4.5), 1: (1900, 1150, 1300, 0.45, 3.4)}.items():
+        T = key_paper(load_image(f'design/plates/C_elements/ridges/C_ridge_{i:02d}.png'), lo=0.02, gain=g)
+        T = cv2.resize(T, (w, int(T.shape[0] * w / T.shape[1])), interpolation=cv2.INTER_AREA)
+        out.append((f'ridge{i}', T, d, (x, y)))
+    out.append(('summit', master('B_master_L_summit.png'), 1.9, (0, MY)))
+    out.append(('near', master('B_master_L_near.png'), 1.0, (0, MY)))
+    out.append(('pine_a', element('design/plates/C_elements/pines/C_pine_02.png', 520), 0.6, (150, 1260)))
+    out.append(('pine_b', element('design/plates/C_elements/pines/C_pine_04.png', 330, flip=True), 0.74, (1235, 1455)))
+    return out
+
+
+def gutter():
+    T = np.ones((SH, 80, 3), np.float32)
+    x = np.abs(np.arange(80, dtype=np.float32) - 40) / 40
+    T *= (1 - 0.07 * np.exp(-(x / 0.35) ** 2))[None, :, None]
+    return T
+
+
+def page_art(paper, ins):
+    f = paper.rgb.copy()
+    for name, T, d, (x, y) in layers():
+        lay_ink(f, T, x, y)
+    lay_ink(f, gutter(), SW // 2 - 40, 0)
+    ins.draw(f)
+    return f
+
+
+def aligned(d, pos):
+    """Scale and position that register a depth-d layer with the flat page at the START camera."""
+    dz0 = 1.0 - 1.0 / Z0
+    s = Z0 * (d - dz0) / d
+    return s, (C0[0] + s * (pos[0] - C0[0]), C0[1] + s * (pos[1] - C0[1]))
 
 
 def setup(ctx):
-    global PAGE, BARE, MIST, CAM, T_IN
+    global SC, CAM
     paper = Paper(SW, SH, 'new', seed=BOOK_PAPER_SEED)
-    T = key_paper(load_image(B + 'B_master.png'), lo=0.03)
-    T = cv2.resize(T, (int(round(T.shape[1] * PS)), SH), interpolation=cv2.INTER_AREA)
-    page = paper.rgb.copy()
-    lay_ink(page, T, 0, 0)
-    # the ruled column on the right page: five printed rules, a woodblock's broken line, pale
-    rules = np.ones((SH, SW, 3), np.float32)
-    x1, y0, y1, n, pitch = SW - 300, 300, 1720, 5, 52
-    br = fbm(SH, 8, 9.0, 3, 'rule', octaves=3)
-    for k in range(n + 1):
-        x = x1 - k * pitch
-        a = 0.16 * (0.75 + 0.5 * smoothstep(0.3, 0.6, br[y0:y1, k % 8]))
-        rules[y0:y1, x:x + 3] *= (1 - a)[:, None, None] * np.ones((1, 3, 3), np.float32) + 0
-    for y in (y0, y1):
-        rules[y:y + 3, x1 - n * pitch:x1 + 3] *= 0.86
-    page *= blur(rules, 0.7)
-    PAGE = np.empty((CH, CW, 3), np.float32)
-    yy, xx = np.mgrid[0:CH, 0:CW].astype(np.float32)
-    dx = np.maximum(np.maximum(MX - xx, xx - (MX + SW)), 0)
-    dy = np.maximum(np.maximum(MY - yy, yy - (MY + SH)), 0)
-    dout = np.hypot(dx, dy)                                     # distance outside the spread
-    tex = fbm(CH, CW, 90.0, 2, 'attic')[..., None]
-    PAGE[:] = ATTIC * (0.85 + 0.3 * tex)
-    glow = np.exp(-np.maximum(dout - RIM, 0) / 140.0)[..., None]   # the lit book spills a little red on the dark
-    PAGE += np.array([0.10, 0.025, 0.02], np.float32) * glow
-    rim = blur((dout <= RIM).astype(np.float32), 2.0)[..., None]
-    cov = COVER * (0.9 + 0.2 * fbm(CH, CW, 14.0, 4, 'cover')[..., None]) * (1 - 0.35 * np.clip(dout / RIM, 0, 1))[..., None]
-    PAGE = PAGE * (1 - rim) + cov * rim
-    PAGE[MY:MY + SH, MX:MX + SW] = page
-    BARE = PAGE.copy()
-    BARE[MY:MY + SH, MX:MX + SW] = paper.rgb
-    # the mist band, as painted across the mountain's waist (bare paper): drifts only once we are inside
-    m = np.zeros((CH, CW), np.float32)
-    band_ = wavy_band(mist_band(SW + 1200, 460, 110, 350, seed=5, softness=0.5, wisp=0.75), 60, 800, seed=5)   # fix2
-    MIST = (band_, MX - 600, MY + int(1000 * PS) - 110)
-    CAM = Camera.push_in(T_PUSH0, T_PUSH1, START, END, 'in')
-    # when have the page edges left the frame? (left edge and bottom edge)
-    T_IN = T1
-    for t in np.arange(T0, T1, 1 / 48):
-        cx, cy, z = CAM.at(t)[:3]
-        if cx - 960 / z > MX and cy + 540 / z < MY + SH:
-            T_IN = float(t)
-            break
+    SC = Scene(SW, SH, paper=paper)
+    ins = inscription((SW, SH), 'B3', (2560, 300, 330, 1100), px=PX, paper=paper)
+    for name, T, d, pos in layers():
+        s, p = aligned(d, pos)
+        SC.add(T, depth=d, pos=p, scale=s, name=name, occlude=(name in ('near', 'summit')))
+        if name == 'summit':                                    # mist lies between the summit and the near cliff
+            SC.mist(985, 1275, depth=1.45, drift=-34, opacity=lambda t: 0.25 + 0.65 * ramp(t, T_PUSH0, T_PUSH0 + 1.6, 'sine'),
+                    seed=5, softness=0.7, wisp=0.75)
+    SC.add(gutter(), depth=1.0, pos=(SW // 2 - 40, 0), opacity=lambda t: 1 - ramp(t, T_PUSH0, T_PUSH0 + 1.0, 'sine'))
+    SC.add(ins.T, depth=1.0)
+    SC.add(place_rgba(ins), depth=1.0, kind='rgba')
+    CAM = Camera([(T0, C0[0], C0[1], Z0), (T_PUSH0, C0[0], C0[1], Z0), (T1 + 0.3, END[0], END[1], END[2], 'inout')])
+
+
+def place_rgba(ins):
+    out = np.zeros((SH, SW, 4), np.float32)
+    s = ins.seal
+    x, y = ins.seal_pos
+    out[y:y + s.shape[0], x:x + s.shape[1]] = s
+    return out
 
 
 def render(t, ctx):
-    cx, cy, z = CAM.at(t)[:3]
-    f = view(PAGE, cx, cy, z, ctx.W, ctx.H)
-    bm, mx, my = MIST
-    drift = -26.0 * max(0.0, t - T_IN) - 9.0 * max(0.0, t - T_IN) ** 2      # eases from still into a slow drift
-    a = np.zeros((CH, CW), np.float32)
-    x0 = int(round(mx + drift))
-    a0, a1 = max(0, x0), min(CW, x0 + bm.shape[1])
-    a[my:my + bm.shape[0], a0:a1] = bm[:, a0 - x0:a1 - x0]
-    a[:MY], a[MY + SH:], a[:, :MX], a[:, MX + SW:] = 0, 0, 0, 0
-    am = view(a, cx, cy, z, ctx.W, ctx.H)
-    bv = view(BARE, cx, cy, z, ctx.W, ctx.H)
-    f += (bv - f) * np.clip(am, 0, 1)[..., None] * 0.8
-    # the attic's neon cast on the paper, fading out as the push crosses the page edges
-    t_a, t_b = T0 + NEON_HOLD, max(T0 + NEON_HOLD + 0.3, T_IN)
-    n = 1.0 - smoothstep(t_a, t_b, t)
-    if n > 0:
-        f = f * (1.0 + n * (NEON - 1.0))[None, None]
-    return f
+    return SC.render(t, CAM, ctx.size)
+
+
+if __name__ == '__main__':
+    import os
+    os.makedirs('media/comp/pages', exist_ok=True)
+    paper = Paper(SW, SH, 'new', seed=BOOK_PAPER_SEED)
+    save_image('media/comp/pages/B3_page.png', page_art(paper, inscription((SW, SH), 'B3', (2560, 300, 330, 1100),
+                                                                            px=PX, paper=paper)))
+    print('wrote media/comp/pages/B3_page.png')

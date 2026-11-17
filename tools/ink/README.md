@@ -588,3 +588,42 @@ The light and margin figures were taken while the machine was loaded.
 - Subtitles set a mixed Chinese and English line in one font (the CJK one).
 - `qa coverage` reads low on full-bleed frames whose border is mostly marks.
 - Colour is display-referred sRGB throughout; light is multiplied in that space, which is a look, not photometry.
+
+## 15. v3: static inscription (`inscription.py`) and the medium switch (`medium.py`)
+
+Both are shared by every team from preview_v3 on (docs/REVISION_V3.md §2.4, §2.5, §4). They replace per-shot animated
+Chinese inscriptions and ALL block mis-registration (`woodblock.misregister`) and 1-2 frame rubbing flickers.
+
+### Inscription (题跋): `from tools.ink.inscription import inscription`
+```python
+INS = inscription(ctx, 'B5', box=(1500, 110, 300, 620), paper=P)     # setup(); key = first column of design/text/lyrics_zh_v3.txt
+INS.draw(frame)                                                      # render(); static, from the first frame
+```
+- `box` = the blank (x, y, w, h) in 1920x1080 authoring px. Columns top to bottom, right to left, from the box's
+  top-right corner; one 悟空 seal under the last column. Characters are 60 px at 1080p in every shot (do not pass
+  `px`; a box that is too small shrinks the text and prints a warning).
+- `text='一通百通'` overrides the file (columns split on `/`). `ground='dark'` lays pale gouache for night/stone.
+  `seal=None` drops the seal. On a page canvas larger than the frame: `inscription((W, H), key, box, px=60 / zoom)`,
+  then lay `INS.T` (transmittance) and `INS.seal` at `INS.seal_pos` yourself, or `INS.draw(canvas)`.
+- Font: Ma Shan Zheng (OFL; simplified only). Proof: `python -m tools.ink.inscription` ->
+  `work/review/comp_v3/_inscription_proof.jpg`.
+
+### Medium switch: `from tools.ink.medium import Mediums, pick_chops, medium_at`
+```python
+MED = Mediums(ctx.W, ctx.H, seed=3)                                  # setup()
+CHOPS = pick_chops(ctx.timing, ctx.t0, ctx.t1)                       # measured chops, <= 2 per bar, >= 8 frames apart
+frame = MED.switch(frame, t, CHOPS, paper=P.rgb)                     # render(), LAST step
+frame = MED.switch(frame, t, [(43.805, 'rubbing'), (44.385, 'papercut')], paper=P.rgb, hold=5)
+```
+- On each chop the finished frame is shown as red paper-cut 剪纸 -> stone rubbing 拓片 (its un-inked paper edge in
+  frame) -> leather shadow puppet 皮影 (amber back-light), cycling in that order, for `hold` frames (default 4, never
+  fewer than 3), starting on the frame that contains the chop; hard cut in and out. One registered image per medium:
+  no offset doubles, nothing flickers.
+- `paper` = the bare sheet as the camera sees it (`Paper.rgb`, or the same camera view of the bare paper). For frames
+  that are not ink on paper (carved rock, lit rooms) pass `mask=` (HxW, 1 = mark), e.g. the Cliff's cut mask.
+- Single media: `MED.papercut(frame, paper)`, `MED.rubbing(frame, paper)`, `MED.shadow(frame, paper)`;
+  `medium_at(t, chops, hold)` -> name or None (to freeze motion while a switch is held: hold the pose, e.g.
+  `t_pose = on_frame(chop)` while `medium_at` is not None, so the SAME pose is shown).
+- Seals: a cinnabar seal becomes part of the cut sheet / a bare mark / dark hide. If a seal must stay red, draw it
+  after `switch`.
+- Proof: `work/review/comp_v3/_medium_switch_proof.jpg` (ink, paper-cut / rubbing, shadow).

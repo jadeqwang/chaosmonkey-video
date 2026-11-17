@@ -1,5 +1,5 @@
 // Render the layout guides for one set.
-//   node layout/render.mjs --set attic88 [--shots A1,B2] [--modes line,flat,depth,label,lit] [--w 1920 --h 1080] [--nojson]
+//   node layout/render.mjs --set attic88 [--shots A1,B2 | --prefix v3_] [--modes line,flat,depth,label,lit] [--w 1920 --h 1080] [--nojson]
 // Output: media/layout/<set>/<SHOT>_<mode>.png and media/layout/<set>/<SHOT>.json (sidecar)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,7 +31,7 @@ try {
   const err = await page.evaluate(async () => { try { await window.__ready; return window.__error || null; } catch (e) { return window.__error || String(e); } });
   if (err) throw new Error(err);
   const all = await page.evaluate(() => window.shotList());
-  const ids = args.shots ? String(args.shots).split(',') : all;
+  const ids = args.shots ? String(args.shots).split(',') : args.prefix ? all.filter((i) => i.startsWith(String(args.prefix))) : all;   // --prefix v3_ renders only the v3 setups
   for (const id of ids) {
     try {
       for (const m of modes) {

@@ -1,4 +1,11 @@
-"""E2 'he never once forgot a spell' (89.417-93.000, 86 frames). Team MOUNTAIN.
+"""E2 'he never once forgot a spell' (89.417-93.000, 86 frames). BOOK team, v3.
+
+v3: THE TROOP IS ALIVE. The painting the director likes (C_troop_plate on the book paper) was given to a video model
+as the first frame (minimax/h3 2K, take 1: media/gen/bk3_E2_h3_t1_*.mp4; prompt in media/gen/specs/bk3_E2_h3_t1.json):
+pairs groom, two swing in the pines, some walk the slope, each doing its own thing; rocks and pines locked (drift 0).
+The clip is keyed back onto OUR paper (Clip.prepare, 1080 store), played from 0.3 s at speed 1; a slow push (1.0 ->
+1.10) toward the troop. The printed column stays razor sharp; the static inscription 切切记了口诀 sits beside it.
+(v2 text below.)
 
 The page: the troop of faceless brush-dab monkeys swarming the slope (C_troop_plate keyed onto the book paper);
 beside them, in the bare upper right, the storybook's printed text column, razor sharp (匯文明朝體, typeset, never
@@ -9,6 +16,10 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from shots._mountain import *
+from tools.ink.video import Clip, Retime
+from tools.ink.inscription import inscription
+
+CLIP_SRC = 'media/gen/bk3_E2_h3_t1_158c37e912.mp4'
 
 T0, T1 = 2146 / 24, 2232 / 24
 COLUMNS = ['這猴王也是他一竅通時百竅通', '當時習了口訣自修自煉', '將七十二般變化都學成了']
@@ -34,34 +45,21 @@ def typeset(W, H, s):
 
 
 def setup(ctx):
-    global P, PLATE, TEXT, DABS
-    s = ctx.s
+    global P, CLIP, RT, TEXT, INS
     P = Paper(ctx.W, ctx.H, 'new', seed=BOOK_PAPER_SEED, breathe=1.0)
-    PLATE = key_paper(load_image('design/plates/C_elements/C_troop_plate.png', size=(ctx.W, ctx.H)), lo=0.04)
-    TEXT = typeset(ctx.W, ctx.H, s)
-    DABS = []
-    for k, x, y, t_on, per in HOPPERS:
-        T = element(f'design/plates/C_elements/dabs/C_dab_{k:02d}.png', 84 * s)
-        DABS.append((T, x * s, y * s, t_on, per))
-    # fix round 2 (QA: hops invisible at 540p): bigger dabs, higher hops, each dab takes every third beat in turn and
-    # leaves the ground ON the frame containing its beat
-    global HOPS
-    bs = [on_frame(b) for b in ctx.timing.beats_in(T0, T1)]
-    HOPS = [[b for j, b in enumerate(bs) if j % 3 == i and b >= DABS[i][3] - 0.5] for i in range(len(DABS))]
+    CLIP = Clip.prepare(CLIP_SRC, ground='light', height=1080, stabilise=False, smooth=0.4, lo=0.04, hi=0.14)
+    RT = Retime(t0=T0, src0=0.3, duration=CLIP.duration)
+    for w in RT.check(ctx.t0, ctx.t1):
+        print('retime:', w)
+    TEXT = typeset(ctx.W, ctx.H, ctx.s)
+    INS = inscription(ctx, 'E2', box=(1480, 120, 80, 640), paper=P)
 
 
 def render(t, ctx):
     f = P.frame(t)
-    f *= PLATE
+    lay_ink(f, CLIP.layer(t, RT, scale=ctx.H / CLIP.h), 0, 0)
     f *= TEXT
-    for i, (T, x, y, t_on, per) in enumerate(DABS):
-        h = 0.0
-        past = [b for b in HOPS[i] if b <= t + 1e-9]
-        if past:
-            n = int(round((t - past[-1]) * 24))            # frames since take-off, drawn on twos after the first
-            n = n if n < 1 else n - (n % 2) + 1
-            u = (0.5 + n) / 9.0                            # a hop lasts 9 frames
-            if u < 1:
-                h = 64 * ctx.s * 4 * u * (1 - u) + 10 * ctx.s
-        lay_at(f, T, x - T.shape[1] / 2, y - T.shape[0] - h)
-    return f
+    INS.draw(f)
+    z = 1.0 + 0.10 * ramp(t, T0, T1, 'sine')
+    tx, ty = 800 * ctx.s, 600 * ctx.s
+    return view(f, tx + (ctx.W / 2 - tx) / z, ty + (ctx.H / 2 - ty) / z, z, ctx.W, ctx.H)

@@ -62,6 +62,14 @@ GEN_SOURCES = {
     "drybrush":   ("drybrush", 300, 15000, None, 1.0, "dry brush on rough paper: scratchy strokes 0.9-4.1 s (1.765 and 3.74 strongest)"),
     "stone_crack": ("stone_crack", 50, 12000, None, 1.0, "boulder cracking: grinding 0.2-3 s, sharp cracks at 3.155 3.895 4.17 4.39 s"),
     "rustle":     ("rustle_r2", 120, 12000, None, 1.0, "child under a quilt on a mat: rustles at 0.77 2.67 3.0 3.715 6.04 s"),
+    # v2 (round 3 takes, gen_sources.py): new action
+    "books":      ("books_topple", 50, 12000, -45, 1.0, "hardback textbook stack: wobble/slides 0.76 0.98-1.24, one slide 2.63, the topple cascade 3.94 4.21 4.41 4.51 4.59 4.72, settling 6.02 6.28 s"),
+    "abacus":     ("abacus", 700, 14000, -42, 1.0, "wooden abacus beads: dry clicks every ~80-100 ms from 0.5 to 5.1 s"),
+    "blanket":    ("blanket_pull", 100, 9000, -42, 1.0, "blanket pulled over a sleeper: swishes 1.8-3.9 s and 6.1-6.8 s"),
+    "thump":      ("thump_mat", 40, 8000, -45, 1.0, "soft body on a padded mat: thumps at 0.53 (then rustle to 0.75) and 4.39 s (rustle from ~2.8 s: cloth grab)"),
+    "hook":       ("hook_clink", 400, 14000, -42, 1.0, "metal hook clinks at 1.2 1.3 and 3.99 s (strongest)"),
+    "apron_hit":  ("apron_hook", 200, 12000, -42, 1.0, "apron take: one cloth/hook event at 4.56 s"),
+    "paper_press": ("paper_press", 100, 12000, -45, 1.0, "fingertip pressed on thick paper: presses 0.2-1.2 s, strongest ~3.3 s"),
     "car_cabin":  ("car_cabin", 25, 6000, None, 1.0, "car interior on a highway: steady tyre roar and cabin rumble (12 s; the 2.9 s tick is avoided)"),
 }
 REJECTED = {
@@ -311,7 +319,31 @@ def s_egg(rng):
     return norm(pan(y, -0.1), db2a(-3)), "synth: rattle of LP 2.5 kHz noise grains every 25-45 ms (tau 4 ms), crescendo 0.4 s, plus three hairline crack ticks (BP 3-9 kHz) at 0.55/0.9/1.2 s; 1.5 s"
 
 
+def s_cloth_swish(rng):
+    """Apron lifted off over a head / blanket pulled: 0.6 s soft cloth swish (BP 300-3800 Hz noise, swell + release, sparse fibre grain)."""
+    d = 0.6
+    n = N(d)
+    t = np.arange(n) / SR
+    x = t / d
+    w = white(n, rng)
+    body = bp(w, 300, 3800, 2) * np.sin(np.pi * x ** 0.7) ** 2
+    grain = hp(white(n, rng), 2500, 2) * (rng.random(n) < 0.03) * 1.5 * np.sin(np.pi * x)
+    y = lp(body + grain * 0.4, 7000, 2)
+    return norm(pan(y, np.linspace(-0.3, 0.3, n)), db2a(-3)), "synth: cloth swish: BP 300-3800 Hz noise under a sin^2 swell (0.6 s) + sparse HP 2.5 kHz fibre grains"
+
+
+def s_puff(rng):
+    """A small puff of air blown off the palm (unvoiced): 0.35 s, BP 600-6000 Hz noise, 15 ms attack, exponential decay."""
+    d = 0.35
+    n = N(d)
+    t = np.arange(n) / SR
+    env = np.minimum(t / 0.015, 1) * np.exp(-t / 0.09)
+    y = bp(white(n, rng), 600, 6000, 2) * env + lp(white(n, rng), 300, 2) * env * 0.3
+    return norm(pan(y, 0.0), db2a(-3)), "synth: puff of air: BP 0.6-6 kHz noise (attack 15 ms, tau 90 ms) + LP 300 Hz air body; unvoiced, 0.35 s"
+
+
 SYNTH = {
+    "cloth_swish": s_cloth_swish, "puff": s_puff,
     "neon_hum": s_neon_hum, "relay_tick": s_relay_tick, "room_attic": s_room_attic, "room_bed": s_room_bed,
     "breath": s_breath, "sleeve_wind": s_sleeve_wind, "whisper": s_whisper, "staff_whoosh": s_staff_whoosh,
     "streetlight": s_streetlight, "hair_air": s_hair_air, "dab": s_dab, "flip": s_flip, "brush_wet": s_brush_wet,

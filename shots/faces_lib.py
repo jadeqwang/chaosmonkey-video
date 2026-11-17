@@ -18,7 +18,7 @@ from tools.ink.core import F32
 
 FL = 'design/plates/F_lianpu'
 GRID = json.load(open(f'{FL}/F_album_grid.json'))
-FACES = json.load(open(f'{FL}/F_faces.json'))['faces']
+FACES = json.load(open(f'{FL}/F_faces_v3.json'))['faces']     # v3: named, real 脸谱 (docs/logs/LOG_v3_faces.md)
 CELLS = GRID['cells_row_major_xywh']
 BARE = GRID['bare_cell']['index']                      # 15: row 3, col 4
 LW, LH = GRID['size']                                  # 3600 x 2400
@@ -28,6 +28,14 @@ FACE_SCALE = 0.80 * GRID['grid']['cell_h'] / 1120.0    # ~0.34: face box = 0.8 o
 MX, MY = 1000, 700
 CW, CH = LW + 2 * MX, LH + 2 * MY
 GROUND = np.array([0.935, 0.915, 0.865], F32)          # the white ground (lighter than the paper: gouache)
+
+
+# v3: the album, cell (row-major, 6 x 4) -> face id. Every face is a named character whose 脸谱 is a recognised
+# type; the sheet as a whole follows the colour code (docs/logs/LOG_v3_faces.md). Cell 15 stays bare.
+ALBUM = {0: 'ZHANGFEI', 1: 'BAOZHENG', 2: 'DIANWEI', 3: 'CAOCAO', 4: 'XUYANZHAO', 5: 'HUANGGAI',
+         6: 'CHENGYAOJIN', 7: 'JIANGWEI', 8: 'DOUERDUN', 9: 'GAODENG', 10: 'GUANYU', 11: 'ZHENGEN',
+         12: 'LUZHISHEN', 13: 'TANGQIN', 14: 'KID', 16: 'SHIQIAN', 17: 'LIUJIN',
+         18: 'ZHOUCANG', 19: 'ERLANG', 20: 'JINQIANBAO', 21: 'ZHONGKUI', 22: 'XIAHOUDUN', 23: 'MUZHA'}
 
 
 def cell_centre(i):
@@ -115,6 +123,22 @@ def _paint_surface(fin, c, g, m, fid, seed):
 
     cp = pigment(c)
     gp = pigment(g, 0.7)
+    # v3: what survives the full-leaf framings (face 60-90 px): broad brush passes of uneven loading across the
+    # whole face, and age: rubbed patches where the pigment has thinned and the paper tone comes through
+    ang = float(r.uniform(-0.6, 0.6)) + (math.pi / 2 if r.random() < 0.5 else 0.0)
+    yy, xx = np.mgrid[0:h, 0:w].astype(F32)
+    q = xx * math.sin(ang) + yy * math.cos(ang) + 60 * (fbm(h, w, 220, seed, fid, 'bw') - 0.5) * 2
+    band = value_noise(1, 2048, 90, seed, fid, 'pass')[0]
+    passes = band[np.clip(q / (h + w) * 2047, 0, 2047).astype(int)] - 0.5            # ~130 px bands along the stroke
+    big = fbm(h, w, 330, seed, fid, 'big', octaves=2) - 0.5
+    lit = smoothstep(0.10, 0.35, luma(cp))[..., None]
+    cp = np.clip(cp, 1e-3, 1) ** (1.0 + lit * (0.34 * passes + 0.42 * big)[..., None])
+    gp = np.clip(gp, 1e-3, 1) ** (1.0 + 0.5 * (0.34 * passes + 0.42 * big)[..., None])
+    wear = smoothstep(0.60, 0.78, 0.6 * fbm(h, w, 120, seed, fid, 'w1', octaves=3) + 0.4 * fbm(h, w, 34, seed, fid, 'w2'))
+    wear = (wear * (0.30 + 0.25 * fbm(h, w, 9, seed, fid, 'w3')))[..., None]
+    ptone = np.array([0.80, 0.74, 0.60], F32)[None, None]                             # aged paper under the paint
+    cp = cp * (1 - wear) + (0.5 * cp + 0.5 * ptone) * wear
+    WEAR = wear[..., 0]
     # the black lines: dry-brush break-up where the brush ran out along the stroke, and a slight wet bleed
     sw_ = max(8, w // 7)                                              # bristle streaks: noise stretched along x
     streak = cv2.resize(fbm(h, sw_, 2.2, seed, fid, 'dry', octaves=2), (w, h), interpolation=cv2.INTER_CUBIC)
@@ -130,6 +154,7 @@ def _paint_surface(fin, c, g, m, fid, seed):
     M = np.float32([[1, 0, dx], [0, 1, dy]])
     lb = cv2.warpAffine(lb, M, (w, h), flags=cv2.INTER_LINEAR, borderValue=0) * m
     ink = np.array([0.105, 0.095, 0.085], F32)[None, None] * (0.85 + 0.3 * fib[..., None])
+    lb = lb * (1 - 0.8 * WEAR)                                         # lines rub off with the paint
     fp = cp * (1 - lb[..., None]) + ink * lb[..., None]
     return fp.astype(F32), cp.astype(F32), gp.astype(F32), lb.astype(F32)
 
@@ -140,15 +165,6 @@ def _build_face(fid, seed):
     info = FACES[fid]
     fin = load_image(f'{FL}/{info["file"]}')
     m = load_mask(f'{FL}/{info["mask"]}')
-    if m.mean() > 0.5:
-        # F21 was not normalised (its mask is the whole square sheet; the head inside is 0.78 of the shared head,
-        # 8 px high, fitted by edge search): scale it up to the shared head and use F01's silhouette
-        k = 1 / 0.78
-        M = np.float32([[k, 0, 700 - 700 * k], [0, k, 700 - 692 * k]])
-        fin = cv2.warpAffine(fin, M, (1400, 1400), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
-        m = load_mask(f'{FL}/{FACES["F01"]["mask"]}')
-    if fid == 'F14':
-        fin = _tofu_f14(fin, m)
     h, w = m.shape
     bx, by, bw, bh = info['face_box_xywh']
     yy, xx = np.mgrid[0:h, 0:w].astype(F32)
@@ -209,7 +225,7 @@ class Face:
     """One painted face with its build. state(t) is closed-form."""
 
     def __init__(self, ctx, fid, seed=7, levels=3):
-        d = ctx.cache(('face8', fid, seed), lambda: _build_face(fid, seed),
+        d = ctx.cache(('face9', fid, seed), lambda: _build_face(fid, seed),
                       deps=[f'{FL}/{FACES[fid]["file"]}', 'shots/faces_lib.py'])
         self.id, self.mips = fid, _mips(d, levels)
 
@@ -274,15 +290,18 @@ class Album:
         for _ in range(4):
             p = self.canvas[-1]
             self.canvas.append(cv2.resize(p, (p.shape[1] // 2, p.shape[0] // 2), interpolation=cv2.INTER_AREA))
-        self.plan = sorted(plan, key=lambda e: e['t'])
-        ids = need or sorted({e['id'] for e in plan})
+        miss = sorted({e['id'] for e in plan if e['id'] not in FACES})
+        if miss:
+            print('faces_lib: no plate yet for', miss)
+        self.plan = sorted((e for e in plan if e['id'] in FACES), key=lambda e: e['t'])
+        ids = need or sorted({e['id'] for e in self.plan})
         self.faces = {fid: Face(ctx, fid, levels=face_levels) for fid in ids}
         for e in self.plan:
             r = rng(seed, e['id'], e['cell'])
-            e.setdefault('rot', float(r.uniform(-1.2, 1.2)))
+            e.setdefault('rot', float(r.uniform(-2.4, 2.4)))
             e.setdefault('off', (float(r.uniform(-7, 7)), float(r.uniform(-5, 5))))
             e.setdefault('k', 1.0)
-            e.setdefault('scale', FACE_SCALE)
+            e.setdefault('scale', FACE_SCALE * float(r.uniform(0.955, 1.04)))
             if 'pos' not in e:
                 cx, cy = cell_centre(e['cell'])
                 e['pos'] = (cx + e['off'][0], cy + e['off'][1])
@@ -328,7 +347,7 @@ class Album:
         p_lin = clamp((dt * 24 - 2 * k) / (4.5 * k))
         return ('face', sm, p_col, p_lin)
 
-    def draw_faces(self, f, cam, t, only=None, tex=None, mis=None):
+    def draw_faces(self, f, cam, t, only=None, tex=None, mis=None, acc=None):
         W, H, s = self.ctx.W, self.ctx.H, self.ctx.s
         cx, cy, z = cam
         dent = np.zeros((H, W), F32)
@@ -385,6 +404,8 @@ class Album:
                 sub[:] = sub * (1 - a) + pig
                 amax = a if amax is None else np.maximum(amax, a)
             a = amax
+            if acc is not None:
+                acc[y0:y1, x0:x1] = np.maximum(acc[y0:y1, x0:x1], a[..., 0])
             # the pressed paper around a freshly stamped face
             dtt = t - on_frame(e['t'])
             if dtt < 0.5 and e.get('big', True):
@@ -395,43 +416,42 @@ class Album:
             f *= (1 - np.clip(dent, 0, 0.6))[..., None]
         return f
 
-    def render(self, t, cam, tex_amt=0.5, only=None, mis=None):
+    def render(self, t, cam, tex_amt=0.5, only=None, mis=None, acc=None):
         bg = self.bg(cam)
         tex = None
         if tex_amt > 0:
             lum = luma(bg)
             tex = np.clip(lum / (blur(lum, 5.0 * self.ctx.s) + 1e-4), 0.85, 1.12) ** tex_amt
+            # v3: the leaf's foxing and tide lines run on across the paint (the faces are ON the old sheet)
+            tex = tex * np.clip(blur(lum, 3.0 * self.ctx.s) / (blur(lum, 90.0 * self.ctx.s) + 1e-4), 0.86, 1.06) ** 1.6
             tex = tex[..., None]
         f = bg.copy()
-        self.draw_faces(f, cam, t, only=only, tex=tex, mis=mis)
+        self.draw_faces(f, cam, t, only=only, tex=tex, mis=mis, acc=acc)
         return f, bg
 
 
 # ------------------------------------------------------------------------------------------------ the child
 
+CHILD_SRC = f'{FL}/v3/child/child_back_a.png'
+
+
 def child_figure(ctx, height_px, strength=1.0):
-    """little_jade back view as a pale-ink figure (transmittance HxWx3), `height_px` tall. Desaturated, the
-    jacket's blue disc and orange stripes taken out, so it could be either child."""
+    """v3: the child from behind as a pale-ink figure (transmittance HxWx3), `height_px` tall. Source: a monochrome
+    back view drawn with little Jade's v3 hair (small high half-ponytail, hair to the shoulders); no jacket marks, so
+    from behind it reads as either girl. The body below the shoulders is shortened to a five-year-old's proportions."""
     def build():
-        img = load_image('design/characters/little_jade/lj_A_turnaround.jpg')
-        crop = img[150:1450, 1600:2120]
-        T = key_paper(crop, lo=0.03, hi=0.12)
+        img = load_image(CHILD_SRC)
+        T = key_paper(img, lo=0.03, hi=0.12)
         d = density_of(T)
         d = d.mean(axis=2) if d.ndim == 3 else d
-        hsv = cv2.cvtColor((crop * 255).astype(np.uint8), cv2.COLOR_RGB2HSV).astype(F32)
-        sat = np.clip((hsv[..., 1] / 255.0 - 0.07) / 0.10, 0, 1) * (hsv[..., 2] > 90)
-        blue = ((hsv[..., 0] > 88) & (hsv[..., 0] < 128) & (hsv[..., 1] > 12) & (hsv[..., 2] > 150)).astype(np.uint8)
-        blue = cv2.morphologyEx(blue, cv2.MORPH_CLOSE, np.ones((15, 15), np.uint8))
-        blue = cv2.dilate(blue, np.ones((9, 9), np.uint8)).astype(F32)
-        sat = blur(np.maximum(sat, blue), 3.0)
-        d = d * (1 - 0.92 * sat)                       # disc and stripes gone
-        return d.astype(F32)
-    d = ctx.cache('child_back_v3', build, deps=['design/characters/little_jade/lj_A_turnaround.jpg'])
-    ys, xs = np.where(d > 0.03)
-    d = d[max(0, ys.min() - 6):ys.max() + 6, max(0, xs.min() - 6):xs.max() + 6]
+        ys, xs = np.where(d > 0.06)
+        d = d[max(0, ys.min() - 6):ys.max() + 6, max(0, xs.min() - 6):xs.max() + 6]
+        cut = int(d.shape[0] * 0.27)                    # shoulders
+        low = cv2.resize(d[cut:], (d.shape[1], int((d.shape[0] - cut) * 0.80)), interpolation=cv2.INTER_AREA)
+        return np.vstack([d[:cut], low]).astype(F32)
+    d = ctx.cache('child_back_v4', build, deps=[CHILD_SRC])
     sc = height_px / d.shape[0]
     d = cv2.resize(d, (max(2, int(d.shape[1] * sc)), max(2, int(height_px))), interpolation=cv2.INTER_AREA)
-    # pale ink: compress the range so hair is mid-grey and the jacket a breath; slight warm-grey ink
     d = np.clip(d, 0, 1.4)
     d = strength * 0.55 * d / (1 + 0.35 * d)
     return ink_T(d, tint=np.array([0.42, 0.40, 0.38], F32)).astype(F32)
@@ -449,16 +469,75 @@ def cams_frame_face(cell, frac_h, anchor, zoom_extra=1.0, s=None):
     return (ccx, ccy, z)
 
 
-def mis_at(t, times, hold=0.16, amount=10.0, seed=0):
-    """woodblock mis-registration offsets (colour dx, dy, line dx, dy) in frame px while within `hold` s after a
-    time in `times`; the same event always gives the same slip. None otherwise."""
-    for i, m in enumerate(times):
-        if 0 <= t - on_frame(m) + 1e-9 < hold:
-            r = rng(seed, 'mis', i)
-            a = r.uniform(0, 2 * math.pi)
-            d = amount * r.uniform(0.7, 1.0)
-            return (d * math.cos(a) * 0.45, d * math.sin(a) * 0.45, -d * math.cos(a) * 0.55, -d * math.sin(a) * 0.55)
-    return None
+# ------------------------------------------------------------------------------------------------ medium switch (v3)
+
+from tools.ink.medium import Mediums, medium_at          # noqa: E402  (shared helper, BOOK team)
+
+
+class FaceMediums:
+    """The medium switch (REVISION_V3 2.4) for the album. tools.ink.medium reads marks as ink DARKER than the paper;
+    the faces are opaque gouache, some lighter than the sheet (水白, the clowns' patches), so each medium gets a mark
+    map built from the faces' own alpha and colour classes instead:
+      paper-cut : the face is one sheet of red paper; white fields are cut away, black lines on colour are knife cuts
+      rubbing   : the face as incised line: silhouette, black line/fields and the borders between colour fields
+                  rub white, the ground black; the sheet's un-inked edge in frame
+      shadow    : translucent dyed hide: colour fields keep their hue, black is thick hide, white fields are openwork
+    One clean registered image per medium, no doubles; the bare leaf (rules, mount) is the `paper`."""
+
+    def __init__(self, ctx, seed=0):
+        self.ctx = ctx
+        self.M = Mediums(ctx.W, ctx.H, seed=seed)
+
+    def classes(self, f, a):
+        s = self.ctx.s
+        L = luma(f)
+        sat = f.max(axis=2) - f.min(axis=2)
+        white = smoothstep(0.60, 0.78, L) * (1 - smoothstep(0.16, 0.34, sat)) * a
+        black = (1 - smoothstep(0.20, 0.38, L)) * (1 - smoothstep(0.25, 0.45, sat)) * a      # deep red is not black
+        ae = cv2.erode(a, np.ones((3, 3), np.uint8), iterations=max(1, int(round(2.5 * s))))
+        rim = np.clip(a - ae, 0, 1)
+        return white, black, rim
+
+    def switch(self, album, t, cam, chops, hold=4):
+        name = medium_at(t, chops, hold)
+        ctx, s = self.ctx, self.ctx.s
+        acc = np.zeros((ctx.H, ctx.W), F32)
+        f, bg = album.render(t, cam, acc=acc)
+        if name is None:
+            return f
+        a = smoothstep(0.35, 0.65, acc)
+        white, black, rim = self.classes(f, a)
+        if name == 'papercut':
+            # black on a COLOURED face is a knife cut (brows, sockets open to the page); on a black or a white face
+            # the black is the sheet itself
+            R = max(3.0, 0.16 * 1120 * FACE_SCALE * cam[2] * s)
+            col = a * (1 - white) * (1 - black)
+            cl = blur(col, R) / (blur(a, R) + 1e-3)
+            cutb = smoothstep(0.38, 0.55, cl) * smoothstep(0.35, 0.65, blur(black, 1.2 * s))
+            d = a * (1 - white) * (1 - cutb)
+            d = np.maximum(d, rim)
+            return self.M.papercut(f, bg, mask=np.clip(d, 0, 1) * 0.9, lo=0.45)
+        if name == 'rubbing':
+            sm = blur(f, 1.2 * s)
+            gx = cv2.Sobel(sm, cv2.CV_32F, 1, 0, ksize=3)
+            gy = cv2.Sobel(sm, cv2.CV_32F, 0, 1, ksize=3)
+            e = np.sqrt((gx ** 2 + gy ** 2).sum(axis=2)) * a
+            edge = smoothstep(0.10, 0.30, e)
+            d = np.clip(np.maximum(np.maximum(black, edge), rim), 0, 1)
+            lb = luma(bg)                                                   # the leaf's ruled lines are cut in the stone too
+            rules = smoothstep(0.05, 0.14, 1 - lb / (blur(lb, 6.0 * s) + 1e-4)) * (1 - a)
+            return self.M.rubbing(f, bg, mask=np.maximum(d, 0.9 * rules))
+        # shadow: hide = the face; white fields open, black thick, colours dyed
+        scr = self.M.screen
+        hue = np.clip(blur(f, 1.5 * s), 0.02, 1)
+        hue = hue / hue.max(axis=2, keepdims=True)
+        dye = hue ** 1.6 * (0.66 + 0.34 * luma(blur(f, 3.0 * s))[..., None] ** 0.5)       # translucent dyed hide
+        thick = np.array([0.13, 0.065, 0.03], F32)[None, None]
+        T = dye * (1 - black[..., None]) + thick * black[..., None]
+        k = (a * (1 - 0.92 * white))[..., None]
+        T = 1 - k * (1 - T)
+        T = T * (1 - 0.75 * (rim * a)[..., None])                           # the hide's cut edge is darkest
+        return np.clip(scr * T, 0, 0.985).astype(F32)
 
 
 # ------------------------------------------------------------------------------------------------ category seals (H3, H4)

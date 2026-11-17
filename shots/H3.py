@@ -5,8 +5,11 @@ holds the bare cell; the child from behind (pale ink, unpainted) stands at its f
 H4's opening framing, so the cut into H4's pull-out is continuous.
 
 Measured word onsets (analysis/timing.json): Tool 162.630, threat 163.480, trick 164.360, kid 165.240.
-Faces (existing cells): tool = F04 blue (cell 10), threat = F02 black (cell 3), trick = F21 water-white (cell 13),
-kid = F14 clown (cell 14, beside the bare cell 15). Widen 165.54 -> 165.958 (ease out) to H4.CAM0.
+v3 faces (each a real 脸谱 type whose traditional meaning answers its word; table in docs/logs/LOG_v3_faces.md):
+tool = 关羽 red 整脸 (cell 10): red = loyal and brave, the model servant; threat = 曹操 水白整脸 (cell 3): white =
+treacherous, the face the audience is taught to fear; trick = 汤勤, 丑 with the square 豆腐块 (cell 13): the clown's
+patch, the schemer; kid = the 娃娃生 face (哪吒's): the one type tradition leaves unpainted, a red dot between the
+brows (cell 14), beside the bare cell 15 where the child herself stands. Widen 165.54 -> 165.958 (ease out) to H4.CAM0.
 """
 from tools.ink import *
 from tools.ink.text import Inscription

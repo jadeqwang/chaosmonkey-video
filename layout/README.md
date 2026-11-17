@@ -103,3 +103,28 @@ throws its shadow onto that point); bedroom `'flash:grip|switch|lens|front'` and
 | `streetlights`, `pane_backlight`, `streetlight_t` | (car26) lamp positions at the shot's t, and per pane the screen direction of the nearest lamp's light |
 | `camera_move` | (A2) end of the move |
 | `intent`, `desc`, `warnings`, `figure_report` | staging notes; arm/leg reach (>1 = over-reach, clamped) |
+
+## v3 setups (director's review; see docs/LAYOUT_V3.md)
+
+```sh
+node layout/render.mjs --set attic88 --prefix v3_          # only the v3 setups (v1 files are never touched)
+node layout/render.mjs --set bed26 --prefix v3_ ; node layout/render.mjs --set car26 --prefix v3_
+sh layout/sheets_v3.sh                                     # v3 sheets, neon options, lap parallel, hand shadows, J4 split
+```
+
+`sets/<set>/shots_v3.js` holds the v3 camera tables (ids `v3_*`, `v3: true`); `build.js` takes the v3 path for them.
+
+```
+engine/lap.js         the lap storytime pose (lapPose) and the eight shared setups (lapCameras), pushEnd, levelRoll
+engine/props.js       coverBlanket (blanket pulled over a sleeper), monkeyCard / cardOverPage, handShadows (sidecar)
+assets/monkey_silhouette.json   design/characters/monkey/handshadow_silhouette.jpg traced to a polygon (unit = its height)
+sets/attic88/v3.js    blade sign, neonSource (effective light point), hook rail, the D9 book stack
+```
+
+New shot fields: `sign {z, x0, x1, ...}` (override the blade), `hooks: 'empty'|'hung'`, `textbooks {at, n, mode:
+'stack'|'topple'|'scatter', dir}`, `cards [{on: book anchor, h, lift, who}]`, `push {fromShot, fill}`, `levelBook: k`,
+`orbit.relBody`, `orbit.off`, blankets `pull` (with `upTo`) / `aside` / `heap`, bed26 `pull {who, upTo}` and
+`bedBlanket: false`, figure `noApron`, legs `lapV`. New targets: `hook:<i>`, `card:<i>:base|centre`,
+`lift:<book anchor>:<h>` and `lift:page:<L|R>:<a>:<b>:<h>` (h metres above the page on the ray to the light).
+New sidecar keys: `sign`, `hooks`, `push`, `seating`, `blanket`, `serves`, and a richer `hand_shadow`
+(`casters[]` with hand, foot, polygon, offset, elevation, magnification, soft edge).

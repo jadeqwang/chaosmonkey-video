@@ -1,0 +1,5 @@
+Ma Shan Zheng 马善政毛笔楷书 (brush kai), MaShanZheng-Regular.ttf
+Source: https://github.com/google/fonts/tree/main/ofl/mashanzheng (downloaded 2026-11-17)
+Licence: SIL Open Font License 1.1 (OFL.txt beside this file). No attribution required in rendered output;
+keep OFL.txt if the font file is redistributed; do not sell the font alone.
+Use: the static Chinese inscriptions (tools/ink/inscription.py), preview_v3 onward.

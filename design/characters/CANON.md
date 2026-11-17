@@ -4,6 +4,177 @@ Character designer pass, 2026-11-17. Look = rendering hand (a) (`docs/LOOK_BAKEO
 faces and hands with light colour wash on cream xuan paper; rooms are paintings of night with one pool of coloured light.
 Overview: `design/characters/_overview.jpg`. Spend for this pass: see the end.
 
+## 00. v3 canon (accepted by Jade 2026-11-17). Overrides everything below
+
+Jade accepted new likeness heads for all four people (`*_H_heads_v3.jpg`, `*_H2_heads_v3.jpg`). Every other v3 sheet here was
+built from those heads and has NOT been seen by her yet. Overview: `_overview_v3.jpg` (the old `_overview.jpg` is kept).
+Generator and every prompt: `_prompts/canon.py` + `_prompts/canon_extra.py` (also `work/sheets_v3/`); each image has its `.txt`.
+Rejects: `_rejects/v3/`. Spend for this pass: $5.35 (27 calls: 20 gpt-image-2, 7 nbp).
+
+### Superseded sheets (rule)
+**All v1 and v2 sheets, crops, twins sheets and proofs of the four people are superseded for FACES. Never pass one as a face
+reference again**: no `refs/*_heads.jpg`, `*_heads_v2.jpg`, `lj_full*`, `jade_upper*`, `twins_*`, `mama_A/B/C`, `*_v2.jpg`,
+`proofs/p1`-`p8`. An old sheet may be passed only for clothing or body, and only with the words "use image N only for the
+clothes"; prefer the headless crops `refs/jade_clothes_v2.jpg` (Jade's outfit, neck down) and `refs/daughter_dress_ref.jpg`
+(dress and braid from every side; it has small old faces, so say "dress and hair only"). Never send a real photo to any service
+(`_src/jade_face_photo.jpg` and any other).
+Never write deadpan / unsmiling / neutral / flat / expressionless / unimpressed. Give a playable action (`docs/HANDOFF.md`, Acting).
+
+### Files
+
+| Who | Accepted heads (H primary, H2 second) | A turnaround + seated | C seven acted expressions + four mouths | B poses |
+|---|---|---|---|---|
+| Little Jade | `little_jade/lj_H_heads_v3.jpg` (LJ-1: face proportions, eye size), `lj_H2_heads_v3.jpg` (LJ-2: the film's hand) | `little_jade/lj_A_turnaround_v3.jpg` | `little_jade/lj_C_expressions_mouths_v3.jpg` | `little_jade/lj_B_poses_v3.jpg` (7) |
+| Daughter | `daughter/daughter_H_heads_v3.jpg` (D-1: eye size), `daughter_H2_heads_v3.jpg` (D-2: hand) | `daughter/daughter_A_turnaround_v3.jpg` | `daughter/daughter_C_expressions_mouths_v3.jpg` | `daughter/daughter_B_poses_v3.jpg` (5); alt `daughter_B2_poses_v3.jpg` |
+| Mama | `mama/mama_H_heads_v3.jpg` (M-1), `mama_H2_heads_v3.jpg` (M-2) | `mama/mama_A_turnaround_v3.jpg` (no apron; ONE small extra figure in the apron, far right) | `mama/mama_C_expressions_mouths_v3.jpg` | (none) |
+| Jade | `jade/jade_H_heads_v3.jpg` (J-1), `jade_H2_heads_v3.jpg` (J-3) | `jade/jade_A_turnaround_v3.jpg` | `jade/jade_C_expressions_mouths_v3.jpg` (7th cell = rear-view mirror eyes) | (none) |
+
+Pairs (front, three-quarter, over-the-shoulder onto the book): `pairs/lap_attic_v3.jpg` (Mama + little Jade, floor mat),
+`pairs/lap_bed_v3.jpg` (Jade + daughter, against the bed, flashlight).
+Proofs: `proofs/v3_attic_lap_gpt.jpg` (take 1 kept as `v3_attic_lap_gpt_take1.jpg`), `proofs/v3_bed_lap_gpt.jpg`.
+
+Crops for prompting (`refs/`, 1100 px high):
+
+| File | Content |
+|---|---|
+| `lj_heads_v3.jpg` / `lj_face_v3.jpg` | LJ-1 front + 3/4 + grin / front head alone (face proportions and eye size) |
+| `lj_heads_v3_hand.jpg` | LJ-2 front + 3/4 + grin (the fine-line hand) |
+| `daughter_heads_v3.jpg` / `daughter_face_v3.jpg` | D-1 front + 3/4 + laugh / front head alone |
+| `daughter_heads_v3_hand.jpg` | D-2 front + 3/4 + laugh (the fine-line hand) |
+| `mama_heads_v3.jpg` / `mama_face_v3.jpg` | M-1 front + 3/4 + laughing / front head alone |
+| `jade_heads_v3.jpg` / `jade_face_v3.jpg` | J-1 front + 3/4 + "you're able" / front head alone |
+| `jade_clothes_v2.jpg`, `daughter_dress_ref.jpg` | clothes only (see rule above) |
+
+Order of expressions on the C sheets (top row 1-6, bottom-left 7, then mouths: closed hum with slight smile, ah, oh, ee):
+- Little Jade: rapt listening; bargaining, hopeful and sly; delighted grin; "it isn't fair" near tears; sceptical sideways look,
+  one eyebrow; the "Yes" face (eyes flicked up and away, lip held in, mischief kept back); sleepy yawn.
+- Daughter: rapping with self-belief (one hand up); huge laugh; unsure, looking up for reassurance; cheeky, one eyebrow; cheeks
+  puffed blowing on her palm; eager nod; asleep, mouth open.
+- Mama: storyteller's relish; laughing head back; blowing across a page (puff of breath, no finger); mock-stern with lifted
+  finger; alarm turning to relief, hand on chest; tired and glad; whispering behind a cupped hand.
+- Jade: reading aloud, fond; a dare, eyebrows up; certain "you're able"; laughing; singing softly; tender, looking down;
+  rear-view mirror with smiling eyes.
+- Little Jade poses: on her back awake; reaching to touch Mama's forearm; one leg on a stack of books, hand shading eyes;
+  mid-fall; blowing across her palm; two fingertips to her forehead; hand spread over a book page.
+- Daughter poses: car seat, hands apart; pinching one hair and squinting; puffing it off her palm; fingertip on the page; asleep.
+
+### Model
+**Use `openai/gpt-image-2` for anything with these four faces** (`size=3072x1728, quality=high`, refs in `images`, up to 16).
+It drew every promoted v3 sheet and both proofs on the first or second try, in the hand of the accepted H/H2 sheets.
+`google/nano-banana-pro` lost on every side-by-side this pass: little Jade's and the daughter's eyes shrink, Jade is idealised
+into a generic beauty with lighter eyes, Mama's lap partner got orange trousers, the book got printed pictures, and two of
+seven calls came back 1K. Keep nbp for rooms without faces, or as a last resort with the 3-slot sets below.
+
+### Which refs to pass
+
+| Shot type | gpt-image-2 (up to 16; 3-5 is plenty) | nbp (max 3) |
+|---|---|---|
+| Close-up, one child | `<kid>_heads_v3.jpg`, `<kid>_heads_v3_hand.jpg`, the C sheet for the wanted expression | heads_v3, heads_v3_hand, C sheet |
+| Close-up, one adult | `<adult>_heads_v3.jpg`, `<adult>_face_v3.jpg`, the C sheet | heads_v3, C sheet |
+| Lip-sync start frame | as close-up + C sheet, name the mouth ("mouth (b) 'ah' of image 3") | same |
+| Full figure / medium / wide | `<who>_heads_v3.jpg`, `<who>_A_turnaround_v3.jpg` (+ B pose sheet for a pose; + `_heads_v3_hand` for a child) | heads_v3, A, B |
+| Lap two-shot, close | adult heads_v3, child heads_v3, `pairs/lap_*_v3.jpg`, child heads_v3_hand, adult face_v3 (exactly the proof set, in this order) | adult heads_v3, child heads_v3, pair sheet |
+| Lap two-shot, medium / over-shoulder | the same five + both A turnarounds | pair sheet, adult heads_v3, child heads_v3 |
+| Mama with apron (shot A3 only) | `mama_heads_v3.jpg`, `mama_A_turnaround_v3.jpg` ("the small figure at the far right shows the apron") | same |
+| Car, Jade in mirror | `jade_heads_v3.jpg`, `jade_C_expressions_mouths_v3.jpg` ("the mirror at bottom left") | same |
+
+Always name what each image is for ("image 2 is little Jade's accepted face sheet: her face and eye size") and end with
+"Use them for likeness only; repaint in this painting." Do not pass a room frame in a close-up (it leaks its contents).
+For the children always pass BOTH crops: `_heads_v3` sets the face (big eyes, highlights, blush) and `_heads_v3_hand` sets
+the thin line and pale wash. With only the first the drawing goes kawaii; with only the second the eyes shrink.
+
+### Prompt blocks (paste verbatim)
+
+**Little Jade (v3)**
+> Little Jade, 1988, age 5: a small Chinese girl with a big round head and a short round face, very full soft cheeks with a
+> wide warm pink blush, a tiny button nose, a tiny soft mouth, and LARGE round dark eyes set wide apart, each with thick dark
+> upper lashes and a bright clear highlight; distinct, fairly strong, straight dark eyebrows. Glossy jet-black hair: a light
+> fringe of a few soft parted strands with the forehead showing between them, long side locks in front of the ears, a small
+> half-ponytail tied high at the back of the crown, the rest straight to just past her shoulders. A cropped white zip jacket
+> with a stand collar, one straight horizontal orange band across the chest and around both upper arms, a small pale-blue dot
+> on her left chest; loose dark navy trousers; bare feet. No headphones. Small child proportions: a big head, about four and a
+> half heads tall, short limbs, a round tummy.
+
+**The daughter (v3)**
+> The daughter, 2026, age 4: a small girl of mixed Chinese and European descent with a big round head and a short round face,
+> very full soft cheeks with a wide warm pink blush, a tiny button nose, a tiny soft mouth, LARGE round dark-brown eyes each
+> with a bright clear highlight and soft lashes, soft light-brown eyebrows. Warm brown curly hair (brown, never black):
+> centre-parted, a braid running along each side of her head from the temple to behind the ear, into two low curly pigtails
+> tied with pink bands, loose curly wisps at the temples and forehead. A pink short-sleeved dress with small puffed sleeves,
+> printed all over with red strawberries with green tops; white socks, no shoes. Small child proportions: a big head, about
+> four and a half heads tall, short limbs.
+
+**Mama (v3)** (35; no apron after shot A3)
+> Mama, 1988: a Chinese woman aged 35, young and attractive, smooth unlined warm skin; a soft oval face with a gently pointed
+> chin, long almond dark eyes, clearly drawn dark straight-ish eyebrows that read behind her glasses, a straight nose, a full
+> smiling mouth; glossy jet-black hair in a soft late-1980s perm of loose springy curls, side-parted, ending at the jaw (never
+> longer); thin round wire-rim glasses; a plain cream cotton collarless blouse with a small notched neckline, sleeves pushed up
+> above the elbows; dark loose trousers; white socks; forearms and hands pink from hot dishwater. NO apron. No wrinkles, no
+> sagging, no grey hair: 35, not 45.
+
+For A3 only, replace "NO apron." with: "a damp grey-beige canvas restaurant apron with darker wet patches, tied at the waist,
+which she unties and hangs on a hook."
+
+**Jade (v3)**
+> Jade, 2026: a Chinese woman who looks about 30; an oval face with a softly pointed chin, almond eyes with deep near-black
+> irises (almost as dark as her hair), dark, fairly strong, slightly asymmetric eyebrows (the eyebrow on the LEFT of the picture
+> is straight; the eyebrow on the RIGHT of the picture runs straight and then lifts into a soft arch), a straight nose, full
+> lips; thin dark rectangular half-rim glasses; long black hair with NO fringe: an open forehead, parted slightly off-centre,
+> swept to both sides in long soft face-framing layers with a loose wave, past the shoulders. A cropped white racer jacket
+> ending above the navel, stand collar with two snap tabs, worn open over a black mock-neck top; one orange band across the
+> chest and one around each upper arm at the same height; a small pale-blue dot on her left chest; wide navy cargo trousers
+> with orange straps; white sneakers, grey socks. Her jacket is plain white apart from the band and the dot: no logos, no
+> lettering, white cuffs.
+
+Full figure only, add: "On the back of the jacket a large pale-blue circle; a small round blank patch with a black ring on her
+left sleeve."
+
+### Guard sentences for known drift (v3)
+
+| Drift seen | Guard that fixed it |
+|---|---|
+| Children's eyes shrink / face lengthens when only the fine-line sheet is passed, or on nbp | "Image 1 is her accepted face sheet: reproduce THAT child's face exactly, with eyes as LARGE relative to the face as in image 1, the same highlights, lashes, blush. Image 2 is the same child in the film's painting hand: draw with image 2's thin ink line and pale wash, but keep image 1's bigger eyes, rounder shorter face and stronger blush." |
+| Child's head shrinks on full figures | "The big cute head must not shrink on the full figures: the head is nearly a quarter of her height." |
+| Mama plainer and older in two-shots: thin brows, squarer jaw, faint lines by the mouth (`_rejects/v3/lap_attic_gpt_a.jpg`, `proofs/v3_attic_lap_gpt_take1.jpg`) | Add `refs/mama_face_v3.jpg` as an extra image and: "Mama is 35, pretty, with a soft oval face and gently pointed chin (not a square jaw), smooth unlined skin, and clearly drawn DARK, fairly thick eyebrows that read strongly behind the glasses." In a lit room also: "draw Mama's face with as few lines as on her face sheet: no lines from nose to mouth, no lines under the eyes, no hollow cheeks; a smooth young cheek with a little warm blush; her curls stop at the jaw line and do not reach the shoulders." |
+| Mama's forearms not pink (`_rejects/v3/ma_A_gpt_a.jpg`) | "her bare forearms and hands are washed a clear pink-red (hot dishwater), distinctly pinker than her face and neck." |
+| Mama blowing reads as "shh" | "cheeks filled round with air, lips pursed forward into a small 'o', a visible soft puff of breath leaving her lips, both hands out of the picture (NO finger anywhere near her mouth; this is blowing, not hushing)." |
+| Jade's brows thin out, eyes go lighter, face idealised | Add `refs/jade_face_v3.jpg` and: "eyebrows drawn in dark ink, fairly strong, clearly visible above the glasses frame (the left-of-picture brow straight, the right-of-picture brow straight then arched); irises deep black-brown; keep her natural, real face, do not idealise her into a generic beauty." |
+| Daughter's hair turns black beside a black-haired person | "her hair is warm brown, never black" (held in both lap frames with Jade). |
+| Printed pictures appear in the book | "open picture book (blank cream pages, nothing printed)". In a room frame the model may still sketch faint ink trees on the page (attic proof): acceptable, or paint out. |
+
+### Likeness under coloured night light (from the two proofs)
+What kept the faces (`_prompts/proofs/v3_attic_lap.txt`, `v3_bed_lap.txt`):
+> LIGHT AND SKIN (most important): the coloured light is a thin transparent glaze laid OVER normally painted faces. Under it
+> both faces keep their own warm, rosy flesh wash and pink blush on the cheeks; the lit side is tinted, the shadow side is warm
+> umber, never grey, never blue-grey, never ashen. The eyes stay as large as on the face sheets, with dark irises and a bright
+> clear highlight in each eye. Hair stays glossy jet-black ink with a coloured sheen only at its edge.
+
+- Describe the light as a glaze over a normally painted face, not as the colour of the face ("lit red" greys or reddens skin).
+- Keep the neon window out of frame and say where the glow falls ("washes the right side of both figures, the mat and the page
+  in transparent cinnabar red, while their faces stay warm and rosy underneath"). Without that sentence the red pool was weak
+  (take 1); with it the room is clearly red and the faces still hold.
+- Repeat the eye sentence inside the light paragraph; it is what kept highlights in both children.
+- Attic result: little Jade on model (big eyes, highlights, blush); Mama reads about 35 with perm, glasses, dark brows.
+  Bedroom result: Jade's glasses, brows, dark eyes and open forehead hold; the daughter is on model and looking up at her.
+
+### Drift not fixed (v3)
+- **Little Jade's crown and ponytail pick up a red-brown tint under the neon** in the attic proof (the sheen is not only at the
+  edge). Faces unaffected. Re-roll, or add "the top of her head stays black".
+- **Little Jade looks at the viewer instead of the page** in both attic takes although the prompt says rapt at the page.
+- **Mama under room light reads 35 to 38**, a touch older than her flat-paper sheet; take 2 is the best of two. Her curls reach
+  just below the jaw in the proofs.
+- **The daughter's rap hands** are apart on both pose sheets but read as a shrug (B) or a point (B2), not karate chops. Direct
+  the chop in the video prompt; do not rely on the sheet.
+- The daughter's pose sheets draw her about 4 heads tall (B) and 3.5 (B2, reads age 2-3): use A for proportions.
+- Little Jade's "it isn't fair" on sheet C reads tearful more than indignant; the accepted head sheet H (bottom right) has the
+  angrier version. Her fringe on C is a little fuller than on H.
+- Little Jade's jacket on the turnaround is hip-length, not clearly cropped; trousers have elastic cuffs.
+- Jade's eyes are downcast in every lap-sheet view (she is reading); use `jade_heads_v3.jpg` for her open eyes. On the
+  over-shoulder view the arm band sits low on the sleeve.
+- Jacket lettering/patches stay blank on purpose (comp).
+
+---
+
 ## How to use this file
 
 1. Pick the shot's characters. Paste each one's **Prompt block** into the prompt verbatim.
@@ -342,3 +513,65 @@ after this pass (all agents): $78.89 of $600.
 - Done (status: COMPLETE for this pass). Open items: Jade's jacket trim in medium shots (comp fix); Mama's small hand
   gestures; daughter "ee" mouth; Jade to check Mama's likeness (sheet A was built from her mother's face at 30 by
   instruction, nobody who knew her then has seen it).
+
+---
+
+## Monkey v3 (yellow) (STAGE team, 2026-11-17, for preview_v3; REVISION_V3 §3.4)
+
+Jade: "most of my recollection of Sun Wukong is where he's in his traditional yellow outfit, like in Peking opera; can we
+try how that looks?" The stage monkey of every stage shot (D1 D2 D6 D7 D8 J3) is now the Peking-opera Sun Wukong in
+OUR hand: quick ink line and splashed ink with a 藤黄 gamboge wash on cream xuan. **The dark-ink monkey of section 5a is
+kept untouched** (files, singles, v2 comps in `media/comp/_v2/`, scripts in `shots/_v2/`): restoring it is a file copy.
+
+| Sheet | File | Model |
+|---|---|---|
+| Model sheet: front / side / back + head close-up | `monkey/v3/monkey_v3_model_sheet.jpg` (2560x1440) | sd5, refs: old model sheet + `media/look/L3/sd5_v2.jpg` |
+| Pose sheet A (8): 亮相, bow west (profile left), bow south (to us), bow east (profile right), bow north (away), crouch-scratch, upright salute, look-out perch on the staff | `monkey/v3/monkey_v3_poses_A_bows.jpg` | sd5, refs: v3 model sheet + OLD pose sheet A (poses/layout only) |
+| Pose sheet B (6): staff flower a/b, overhead sweep, thrust, cartwheel a/b | `monkey/v3/monkey_v3_poses_B_staff.jpg` | sd5, refs: v3 model sheet + OLD pose sheet B |
+| Pose sheet C (6): running launch, tucked somersault, laid-out somersault, landing crouch, seated giving the word, newborn crouch | `monkey/v3/monkey_v3_poses_C_tumble.jpg` | sd5, ref: v3 model sheet |
+| 20 single poses on blank 16:9 paper | `monkey/v3/singles/01_liangxiang.jpg` … `20_newborn_crouch.jpg` | `tools/gen/sheet_cut.py` |
+| Proof on our paper (Paper 'new', seed 58, with the 倉 seal) | `monkey/v3/proof_v3_on_paper.jpg` | `tools.ink` |
+| Prompts, tests and rejects | `monkey/v3/_prompts/`, `monkey/v3/_tests/` | |
+
+**Design (all sheets agree)**: lean, wiry, long arms. Costume = one wet transparent wash of gamboge yellow, pooling at
+the edges, with small dark comma-shaped swirl marks (the 猴衣's fur pattern) flicked in; a soft round **yellow cap with
+one row of pompoms** across the brow (yellow, two or three cinnabar) and a tuft on top; a **yellow scarf** knotted at
+the throat, two loose ends (they fly: they do the job the plumes did); black sash; a short dark-ochre flap skirt;
+**black boots**. Black-ink fur shows only round the face, at the wrists and hands. Face unchanged from 5a: the
+peach-shaped cinnabar field on a white (bare paper) face, small gold eyes, beaked down-turned mouth. Staff unchanged:
+dark, a gold band at each end. **No plumes, no feathers, no crown, no circlet, no armour.** Gold stays reserved (eyes,
+staff bands); the yellow is a plant-yellow WASH, matte, never metallic, never satin.
+
+**Refs for new work**: `monkey/v3/monkey_v3_model_sheet.jpg` + the pose sheet nearest the action. sd5 (most ink-like;
+nbp makes a clean costume doll: `_tests/model_nbp_ref_v1.jpg`). Passing an OLD pose sheet as "poses and layout only" next
+to the v3 model sheet carries poses over one to one.
+**Storybook miniature** (the small painted monkey on book pages, BOOK team): use `monkey/v3/monkey_v3_model_sheet.jpg`
+as the design reference (and `monkey/v3/singles/01_liangxiang.jpg` for the pose); at thumbnail size it is: a yellow dab
+of wash for the body, a dot of cinnabar for the face, black boots, a dark line for the staff, the yellow scarf flick.
+Never an opera photograph as a model reference (reference-only rule); none was used for these sheets.
+
+**Prompt block** (`monkey/v3/_prompts/desc_v3.txt`)
+> The monkey (one fixed design): Sun Wukong as a Peking-opera martial performer in his traditional yellow stage costume,
+> lean and wiry with long arms, painted in ink and light colour on xuan paper in a free, fast, splashed-ink hand. Line:
+> quick calligraphic black ink line of changing weight, broken and dry in places. Colour: the whole costume is one wet
+> transparent wash of gamboge yellow (matte, pooling darker at the edges, leaving flecks of bare paper, bleeding a
+> little past the ink line), never metallic gold, never shiny satin. Costume: a close-fitting yellow jacket and yellow
+> trousers scattered with small dark ink comma-shaped swirl marks; a soft round yellow cap with one row of small
+> pompoms across the brow (yellow and two or three cinnabar-red) and a small tuft on top; a yellow silk scarf knotted
+> at the throat, its two loose ends flying; a black sash over a short flap skirt with a dark ink edge; black cloth
+> boots. No plumes, no feathers, no crown, no gold circlet, no armour. Face: one peach-shaped field of cinnabar red
+> around the eyes running to a point down the nose, on a white face; small gold eyes; a beaked down-turned mouth line;
+> small round ears. A long thin dark ink staff with a short gold band at each end. […full text in the file]
+
+**Video guard sentence** (`tools/stage/submit_v3.py`): "He stays a painting on paper: quick black ink line and a wet
+gamboge-yellow wash scattered with small dark swirl marks, his round yellow cap with its row of pompoms, the yellow scarf
+knotted at his throat, black sash, dark ochre flap skirt, black boots, the small red patch around his eyes, and the long
+dark staff with a gold band at each end. The cream paper around him stays bare. Locked-off camera. No ground, no shadow,
+no background, no tail, no feathers, nothing new appears."
+
+**Known drift**
+- The flap skirt comes out as a dark-ochre fur/tiger skirt (a carry-over from the old kilt); accepted (虎皮裙 is canon
+  in the opera too). Back view shows a short tail-like sash end on some poses.
+- Keying: `key_paper(lo=0.025)` keeps the pale yellow; at the default `lo=0.035` the lightest wash thins.
+- Seated pose 19 holds up two fingers like a "V": read as 捏诀 only at small size.
+- Sheets are 2560 px: a single figure is ~650 px tall; soft when laid above ~75 % of a 1080p frame.

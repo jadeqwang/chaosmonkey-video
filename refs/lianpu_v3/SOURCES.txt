@@ -1,0 +1,24 @@
+Reference images of Qing-dynasty Peking-opera character paintings. Downloaded 2026-11-17. Untrusted downloads, images only.
+Character identifications are read from the Chinese name label painted on each leaf.
+
+== Met Museum, "One hundred portraits of Peking opera characters" (清末 京劇一百人物像), acc. 30.76.299a-xx, late 19th-early 20th c. ==
+Object page: https://www.metmuseum.org/art/collection/search/51581
+Licence: Met Open Access, Public Domain / CC0 (API field isPublicDomain=true; https://www.metmuseum.org/about-the-met/policies-and-documents/open-access)
+met_DP280091_baozheng.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280091.jpg | CC0 | 包拯 (label: 三俠五義 包文正) - black face, white brows, white crescent
+met_DP280111_caocao.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280111.jpg | CC0 | 曹操 (label: 陽平關 曹操) - water-white face
+met_DP280075_erlangshen_gold.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280075.jpg | CC0 | 二郎神 (杨戬) - gold face
+met_DP280080_nezha_child.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280080.jpg | CC0 | 哪吒 - child role, unpainted (俊扮) face, holding 乾坤圈
+met_DP280134_chengyaojin.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280134.jpg | CC0 | 程咬金 (the Qing design here is blue/white/red, not the modern green)
+met_DP280121_xiahoudun.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280121.jpg | CC0 | 夏侯惇
+met_DP280132_shanxiongxin.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280132.jpg | CC0 | 单雄信 - blue 碎脸
+met_DP280157_zhuguangzu_wuchou.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280157.jpg | CC0 | 朱光祖 - 武丑 (martial clown) white patch
+met_DP280175_qipai_chou.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280175.jpg | CC0 | 旗牌 (a herald) - 丑 with white nose patch
+met_DP280176_yangzheng_chou.jpg | https://images.metmuseum.org/CRDImages/as/original/DP280176.jpg | CC0 | 丑 with white patch, holding fan (label read as 楊正?, reading uncertain)
+
+== "Office of Great Peace Album of Opera Faces" (昇平署臉譜), Qing court painter, c. 1851-1911; National Library of China via World Digital Library (WDL 3023) ==
+Commons category: https://commons.wikimedia.org/wiki/Category:Office_of_Great_Peace_Album_of_Opera_Faces
+Licence as tagged on Wikimedia Commons: CC0 / Public Domain Dedication (work itself is pre-1912, author died >100 years ago)
+ogp_1-12_sunwukong.jpg | https://commons.wikimedia.org/wiki/File:Office_of_Great_Peace_Album_of_Opera_Faces_1-12.jpg | CC0 (Commons) | 孙悟空 - monkey face (red peach/heart patch)
+ogp_1-28_masu.jpg | https://commons.wikimedia.org/wiki/File:Office_of_Great_Peace_Album_of_Opera_Faces_1-28.jpg | CC0 (Commons) | 马谡 (Qing design: red/pink 三块瓦, differs from modern 油白)
+
+NOT FOUND in either album (no PD Qing image downloaded): 关羽, 张飞, 窦尔敦, 典韦.

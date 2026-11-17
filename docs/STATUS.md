@@ -167,3 +167,9 @@ notes page `review/preview_v2_notes.html` (built by `tools/review/notes_page.py`
 (`design/characters/*/…_v2.jpg`, crops `refs/*_v2.jpg`, not yet approved); `design/characters/CANON.md` section 0;
 `docs/HANDOFF.md` (what her notes will look like, acting direction per shot, which shots need new keyframes).
 No shots regenerated. Uncommitted. Spend: $176.20 of $600. Next: wait for her pasted notes; start from `docs/HANDOFF.md`.
+
+## Checkpoint 16 — 2026-11-17 evening — preview_v3 reshoot running
+Jade's notes on preview_v2 are in; brief: `docs/REVISION_V3.md`; team roster, scopes, logs and resume procedure:
+`docs/TEAMS_V3.md`. Likeness pass done with Jade (v3 canon accepted). Done: characters, 3D blocking, sound mix v2.
+Running: research, book, faces, stage, lip-sync, attic, bedroom+car. Cap raised to $1,500 on Jade's word.
+Spend: TOTAL $229.14 of $1500 cap  (647 billed items; list-price estimates)

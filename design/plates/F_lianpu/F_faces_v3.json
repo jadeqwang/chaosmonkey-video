@@ -1,0 +1,372 @@
+{
+ "faces": {
+  "GUANYU": {
+   "name": "Guan Yu (the red whole-face, zheng lian)",
+   "file": "v3/faces/GUANYU.png",
+   "mask": "v3/faces/GUANYU_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    273,
+    140,
+    853,
+    1118
+   ],
+   "take": "a"
+  },
+  "CAOCAO": {
+   "name": "Cao Cao (the water-white whole-face, shui bai lian)",
+   "file": "v3/faces/CAOCAO.png",
+   "mask": "v3/faces/CAOCAO_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    269,
+    140,
+    862,
+    1119
+   ],
+   "take": "a"
+  },
+  "ZHANGFEI": {
+   "name": "Zhang Fei (the black cross-gate 'butterfly' face, hei shizimen)",
+   "file": "v3/faces/ZHANGFEI.png",
+   "mask": "v3/faces/ZHANGFEI_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    272,
+    141,
+    855,
+    1118
+   ],
+   "take": "a"
+  },
+  "BAOZHENG": {
+   "name": "Bao Zheng (the black whole-face, hei zheng lian)",
+   "file": "v3/faces/BAOZHENG.png",
+   "mask": "v3/faces/BAOZHENG_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    272,
+    140,
+    855,
+    1119
+   ],
+   "take": "a"
+  },
+  "DIANWEI": {
+   "name": "Dian Wei (the yellow flowered three-tile face, huang hua san kuai wa)",
+   "file": "v3/faces/DIANWEI.png",
+   "mask": "v3/faces/DIANWEI_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    140,
+    863,
+    1119
+   ],
+   "take": "a"
+  },
+  "XUYANZHAO": {
+   "name": "Xu Yanzhao (the purple six-tenths face, zi liu fen lian, an old loyal minister)",
+   "file": "v3/faces/XUYANZHAO.png",
+   "mask": "v3/faces/XUYANZHAO_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    269,
+    141,
+    861,
+    1117
+   ],
+   "take": "a"
+  },
+  "HUANGGAI": {
+   "name": "Huang Gai (the old-red six-tenths face, lao hong liu fen lian, an old loyal general)",
+   "file": "v3/faces/HUANGGAI.png",
+   "mask": "v3/faces/HUANGGAI_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    269,
+    141,
+    861,
+    1118
+   ],
+   "take": "a"
+  },
+  "CHENGYAOJIN": {
+   "name": "Cheng Yaojin (the green fragmented face, lv sui lian)",
+   "file": "v3/faces/CHENGYAOJIN.png",
+   "mask": "v3/faces/CHENGYAOJIN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    263,
+    140,
+    873,
+    1119
+   ],
+   "take": "a"
+  },
+  "JIANGWEI": {
+   "name": "Jiang Wei (the red three-tile face, hong san kuai wa)",
+   "file": "v3/faces/JIANGWEI.png",
+   "mask": "v3/faces/JIANGWEI_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    262,
+    141,
+    875,
+    1118
+   ],
+   "take": "a"
+  },
+  "DOUERDUN": {
+   "name": "Dou Erdun (the blue flowered three-tile face, lan hua san kuai wa)",
+   "file": "v3/faces/DOUERDUN.png",
+   "mask": "v3/faces/DOUERDUN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    266,
+    141,
+    867,
+    1118
+   ],
+   "take": "a"
+  },
+  "GAODENG": {
+   "name": "Gao Deng (the oil-white three-tile face, you bai san kuai wa)",
+   "file": "v3/faces/GAODENG.png",
+   "mask": "v3/faces/GAODENG_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    275,
+    140,
+    849,
+    1119
+   ],
+   "take": "a"
+  },
+  "ZHENGEN": {
+   "name": "Zheng En, also called Zheng Ziming (the black crooked face, wai lian)",
+   "file": "v3/faces/ZHENGEN.png",
+   "mask": "v3/faces/ZHENGEN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    272,
+    141,
+    855,
+    1118
+   ],
+   "take": "a"
+  },
+  "LUZHISHEN": {
+   "name": "Lu Zhishen (the white monk face, seng lian)",
+   "file": "v3/faces/LUZHISHEN.png",
+   "mask": "v3/faces/LUZHISHEN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    271,
+    140,
+    857,
+    1119
+   ],
+   "take": "a"
+  },
+  "TANGQIN": {
+   "name": "Tang Qin (a civil clown, chou, with the square 'tofu block' white patch)",
+   "file": "v3/faces/TANGQIN.png",
+   "mask": "v3/faces/TANGQIN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    274,
+    140,
+    851,
+    1118
+   ],
+   "take": "b"
+  },
+  "KID": {
+   "name": "a child role (wawa sheng, like the boy Nezha): the face that is NOT painted with a pattern",
+   "file": "v3/faces/KID.png",
+   "mask": "v3/faces/KID_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    238,
+    140,
+    923,
+    1119
+   ],
+   "take": "a"
+  },
+  "SHIQIAN": {
+   "name": "Shi Qian (a martial clown, wu chou, with the small date-pit white patch)",
+   "file": "v3/faces/SHIQIAN.png",
+   "mask": "v3/faces/SHIQIAN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    141,
+    863,
+    1118
+   ],
+   "take": "a"
+  },
+  "LIUJIN": {
+   "name": "Liu Jin (the red eunuch face, taijian lian)",
+   "file": "v3/faces/LIUJIN.png",
+   "mask": "v3/faces/LIUJIN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    273,
+    140,
+    853,
+    1119
+   ],
+   "take": "a"
+  },
+  "ZHOUCANG": {
+   "name": "Zhou Cang (the flowered ingot face, hua yuanbao lian)",
+   "file": "v3/faces/ZHOUCANG.png",
+   "mask": "v3/faces/ZHOUCANG_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    269,
+    140,
+    861,
+    1119
+   ],
+   "take": "a"
+  },
+  "ERLANG": {
+   "name": "Erlang Shen, Yang Jian (the gold three-tile god face)",
+   "file": "v3/faces/ERLANG.png",
+   "mask": "v3/faces/ERLANG_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    292,
+    141,
+    815,
+    1117
+   ],
+   "take": "a"
+  },
+  "JINQIANBAO": {
+   "name": "Jinqian Bao, the Gold-Coin Leopard (a gold pictographic spirit face)",
+   "file": "v3/faces/JINQIANBAO.png",
+   "mask": "v3/faces/JINQIANBAO_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    266,
+    140,
+    867,
+    1119
+   ],
+   "take": "a"
+  },
+  "ZHONGKUI": {
+   "name": "Zhong Kui the demon-queller (the flowered ingot face, hua yuanbao lian)",
+   "file": "v3/faces/ZHONGKUI.png",
+   "mask": "v3/faces/ZHONGKUI_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    269,
+    141,
+    861,
+    1118
+   ],
+   "take": "a"
+  },
+  "XIAHOUDUN": {
+   "name": "Xiahou Dun (the blue three-tile face, lan san kuai wa)",
+   "file": "v3/faces/XIAHOUDUN.png",
+   "mask": "v3/faces/XIAHOUDUN_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    866,
+    1119
+   ],
+   "take": "a"
+  },
+  "MUZHA": {
+   "name": "Muzha, a celestial warrior (a silver god face)",
+   "file": "v3/faces/MUZHA.png",
+   "mask": "v3/faces/MUZHA_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    255,
+    140,
+    889,
+    1118
+   ],
+   "take": "a"
+  }
+ }
+}

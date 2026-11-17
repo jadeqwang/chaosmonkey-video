@@ -73,7 +73,7 @@ export function casterMeshes(name, figs) {
   throw new Error('caster ' + name);
 }
 
-function hull(pts) { // monotone chain, pts [[x,y]]
+export function hull(pts) { // monotone chain, pts [[x,y]]
   const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]); if (p.length < 3) return p;
   const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
   const lo = [], up = [];
@@ -121,8 +121,10 @@ export function solveCamera(shot, figs, book, aimFn) {
   if (shot.orbit) {
     const o = shot.orbit, c = namedPoint(o.at, figs, book);
     let base = 0; if (o.rel) { const f = figs[o.rel].userData.P.headFwd; base = Math.atan2(f.x, f.z) * 180 / Math.PI; }
+    if (o.relBody) { const f = figs[o.relBody].userData.P.fwd; base = Math.atan2(f.x, f.z) * 180 / Math.PI; }   // v3: measured from the body's facing (stable when the head turns)
     const az = rad(base + (o.az || 0)), el = rad(o.el || 0);
     pos = c.clone().add(new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)).multiplyScalar(o.dist));
+    if (o.off) pos.add(V(o.off));
   }
   let target = shot.target ? V(shot.target) : null;
   if (shot.aim) { const p = namedPoint(shot.aim[0], figs, book); target = V(aimFn(pos.toArray(), p.toArray(), shot.aim[1], shot.aim[2], shot.lens)); }
@@ -133,3 +135,15 @@ export function solveCamera(shot, figs, book, aimFn) {
 export function hideParts(spec, figs) {
   for (const [who, parts] of Object.entries(spec || {})) for (const p of parts) casterMeshes(`${who}.${p}`, figs).forEach((m) => { m.visible = false; m.userData.baseVisible = false; });
 }
+
+// v3: project an ordered outline (world points, e.g. a cut-out card) from a point light onto the open book's spread
+// plane: the true (non-convex) shadow polygon in spread uv and world space.
+export function projectOutline(lightPos, pts, book) {
+  const at = book.at, n = book.n, u = book.u, w = book.w, pw = 0.206, ph = 0.274; const uv = [], world = [];
+  for (const v of pts) { const d = v.clone().sub(lightPos); const den = d.dot(n); if (Math.abs(den) < 1e-9) continue;
+    const t = at.clone().sub(lightPos).dot(n) / den; if (t <= 1) continue; const q = lightPos.clone().addScaledVector(d, t); world.push(q);
+    const p = q.clone().sub(at); uv.push([+((p.dot(u) + pw) / (2 * pw)).toFixed(4), +(1 - (p.dot(w) + ph / 2) / ph).toFixed(4)]); }
+  return { uv, world };
+}
+// v3: world point -> spread uv (u 0..1 left->right across both pages, v 0..1 top->bottom), plus height above the spread plane
+export function spreadUV(p, book) { const q = p.clone().sub(book.at); return { uv: [+((q.dot(book.u) + 0.206) / 0.412).toFixed(4), +(1 - (q.dot(book.w) + 0.137) / 0.274).toFixed(4)], height: +q.dot(book.n).toFixed(4) }; }

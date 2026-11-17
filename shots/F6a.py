@@ -1,56 +1,83 @@
-"""F6a (118.000-120.625; F6 = F6a + F6b, split at frame 2895 = 120.625 s, just after the 120.6 wave cue): '身外身法
-谁是真身 / 问了也白问 个个都真'. Two identical puppet monkeys face each other across the windscreen's centre line,
-mirror-posed, re-posed together (hard, no in-betweens) on the measured beats; both lit by the same passing lamp, so
-neither is the copy. Light travels from the upper left (0.44, 0.9), as painted in the keyframe.
+"""F6a (118.000-120.625) '身外身法 谁是真身 / 问了也白问 个个都真' (STAGE team, v3).
 
-Cues: 118.000 (身, line onset), 118.500, 118.938, 119.374, 119.812, 120.249 (beats). Each pose lives in its own
-streetlight sweep; one frame of dusk glass between sweeps. Room plate: media/kf/F6a.jpg (fallback F6a_lit.png).
+The leaf is now two cells. Two identical monkeys face each other, mirror-posed, re-posed together (hard, no
+in-betweens) on the measured beats 118.500 118.938 119.374 119.812 120.249. Each holds a hair-thin cinnabar thread in
+its raised hand, and each thread runs to the OTHER's chest: either could be the copy. Both name slips read 真.
+On 真 of '谁是真身' (119.12) a seal 真 is pressed into the left cell; on the last beat (120.249, '问了也白问') the
+same seal into the right cell: 个个都真.
+v2 (two puppets on the windscreen): shots/_v2/F6a.py, media/comp/_v2/F6a.mp4.
 """
 import math
 
 from tools.ink import *
-from shots.puppet_lib import *
+from shots.swarm_lib import *
 
 T0, T1 = 2832 / 24, 2895 / 24
-CUES = [118.0, 118.5, 118.938, 119.374, 119.812, 120.249]
-POSESEQ = ['guard', 'strike', 'salute', 'shade', 'crouch', 'leap']
-QUAD = [(460, 247), (1493, 247), (1387, 567), (560, 567)]
-def _rrect(x0, y0, x1, y1, r, n=6):
-    pts = []
-    for cx, cy, a0 in ((x1 - r, y0 + r, -90), (x1 - r, y1 - r, 0), (x0 + r, y1 - r, 90), (x0 + r, y0 + r, 180)):
-        for i in range(n + 1):
-            a = math.radians(a0 + 90 * i / n)
-            pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
-    return pts
-
-
-MIRROR = _rrect(841, 277, 1085, 349, 22)          # the mirror's own outline (glass inside it is the reflection)
-STEM = [(948, 238), (975, 238), (975, 274), (948, 274)]
-DIR = (0.44, 0.9)
+CUES = [118.5, 118.938, 119.374, 119.812, 120.249]
+T_SEAL = [119.12, 120.249]
+FIG_H = 520
+POSES = [
+    dict(STAND, head=-4, arm_f=100, forearm_f=8, arm_b=-14, forearm_b=30),                       # points at the other
+    dict(RIGP['shade']),                                                                         # peers at him
+    dict(SIT, head=10, arm_f=168, forearm_f=64, arm_b=44, forearm_b=70),                         # scratches his head
+    dict(RIGP['leap'], arm_f=120, forearm_f=10),                                                 # jumps at him
+    dict(STAND, head=6, arm_f=112, forearm_f=4, arm_b=-70, forearm_b=-20, _rot=14, thigh_f=40, shin_f=-30,
+         thigh_b=-34),                                                                           # lunges, finger out
+    dict(STAND, head=0, arm_f=96, forearm_f=118, arm_b=96, forearm_b=122),                       # both salute
+]
+LEAF2 = (150, 150, 1770, 950)
 
 
 def setup(ctx):
-    global PLATE, PANE, PUP, INS
-    PLATE, _ = room_plate('F6a', ctx.W, ctx.H)
-    PANE = Pane(ctx, PLATE, QUAD, exclude=[MIRROR, STEM])
-    rig = ctx.cache('puppet_rig_v1', build_rig, deps=[f'{MK}/puppet_parts_colour.jpg', f'{MK}/puppet_heads_swap.jpg'])
-    PUP = make_puppet(rig)
-    INS = lyric(ctx, ['身外身法 谁是真身', '问了也白问 个个都真'], (1290, 590, 100, 440), max_px=40)
+    global P, RIG, RULES, SLIPS, SEAL, FIGS
+    s = ctx.s
+    P = Paper(ctx.W, ctx.H, 'aged', seed=61)
+    RIG = load_rig(ctx)
+    RULES = rules_T(ctx.W, ctx.H, s, LEAF2, cols=2, rows=1)
+    SLIPS = []
+    for i in range(2):
+        x0, y0, x1, y1 = cell_box(i, LEAF2, 2, 1)
+        T, w, h = slip_T('真', s, px=84)
+        SLIPS.append((T, int((x1 if i == 1 else x0) * s + (-w - 20 * s if i == 1 else 20 * s)), int(y0 * s + 18 * s)))
+    SEAL = done_seal(s, '真', px=150, seed=9)
+    FIGS = {}
+
+
+def figs(k, ctx):
+    """(T of both monkeys, hand L, hand R, chest L, chest R) for pose k."""
+    if k not in FIGS:
+        s = ctx.s
+        kk = FIG_H / RIG_H
+        T = np.ones((ctx.H, ctx.W, 3), np.float32)
+        pts = []
+        for i in range(2):
+            x0, y0, x1, y1 = cell_box(i, LEAF2, 2, 1)
+            pose = dict(POSES[k])
+            if i == 1:
+                pose['_flip'] = True
+            floor = ((x0 + x1) / 2 + (-60 if i == 0 else 60), y1 - 60)
+            air = 90 if k == 3 else 0
+            c = chest_on_floor(RIG, 'none', POSES[k], floor, kk, air)
+            T *= RIG.puppet('none').render(pose, pos=(c[0] * s, c[1] * s), scale=kk * s, size=(ctx.W, ctx.H))
+            pts.append((RIG.grip_xy('none', pose, c, kk), c))
+        FIGS[k] = (T, pts)
+    return FIGS[k]
 
 
 def render(t, ctx):
-    f = PLATE.copy()
-    k = cue_index(t, CUES) - 1
-    if k >= 0:
-        nxt = CUES[k + 1] if k + 1 < len(CUES) else T1 + 0.3
-        sw = sweep(t, CUES[k], nxt - 1 / 24, PANE.lw, PANE.lh, DIR)
-        if sw:
-            lx, ly, inten, rad = sw
-            pose = P[POSESEQ[k]]
-            h = PANE.lh * 0.78
-            T = puppet_local(PUP, pose, PANE, (PANE.lw * 0.27, PANE.lh * 0.50), h)
-            T = T * puppet_local(PUP, pose, PANE, (PANE.lw * 0.73, PANE.lh * 0.50), h, flip=True)
-            PANE.lay(f, T, PANE.light(lx, ly, rad, inten), lift=0.03, light_xy=(lx, ly))
-    if INS is not None:
-        INS.draw(f, t)
-    return f
+    s = ctx.s
+    k = sum(1 for c in CUES if t >= on_frame(c) - 1e-6)
+    f = P.frame(t)
+    f *= RULES
+    for T, x, y in SLIPS:
+        lay_ink(f, T, x, y)
+    T, pts = figs(k, ctx)
+    (hl, cl), (hr, cr) = pts
+    f *= thread_T(ctx.W, ctx.H, s, hl, (cr[0], cr[1] + 20), sag=26, wd=3.0)
+    f *= thread_T(ctx.W, ctx.H, s, hr, (cl[0], cl[1] + 20), sag=26, wd=3.0)
+    f *= T
+    for i, ts in enumerate(T_SEAL):
+        x0, y0, x1, y1 = cell_box(i, LEAF2, 2, 1)
+        x = (x0 + 150) if i == 0 else (x1 - 150)
+        strike(f, SEAL, t, ts, (x * s, (y1 - 150) * s), overshoot=0.14)
+    return np.clip(f * lamp_light(ctx.W, ctx.H, s, t), 0, 0.985)

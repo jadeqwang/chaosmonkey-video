@@ -47,3 +47,23 @@ export const LIGHTS = {
   stair: { kind: 'tungsten bulb in the stairwell, through the door', pos: STAIRWELL.bulb, color: 0xffb468 },
   night: { kind: 'ambient night', color: 0x1a2240 },
 };
+
+// ---------------------------------------------------------------- v3 (director's review)
+// The neon sign is a vertical BLADE (projecting sign): mounted on brackets on the outside of the gable, perpendicular
+// to the wall, lettering on both faces (read from the street, along the facade). It hangs in front of the far (-z)
+// third of the attic window, so from inside it is seen at a steep oblique: a foreshortened wedge of red. (Through a
+// 0.8 m window from 5 m back you only see what hangs almost straight out from the glass: a blade beside the window,
+// clear of the glass, cannot be seen from the door end at all. See docs/LAYOUT_V3.md, neon options.)
+//   plane z = SIGN_V3.z; x0..x1 = distance out from the wall (outer wall face at x = 3.62); y0..y1 (attic floor = 0:
+//   the blade starts a storey below and its top passes the attic window, sill 0.45 .. head 1.25).
+// blocks: [text, yBottom, yTop, width]: the lettering areas on each face, top to bottom.
+export const SIGN_V3 = { z: -1.0, x0: 3.80, x1: 4.50, y0: -1.1, y1: 1.5, t: 0.12, red: 0xff2a14, blue: 0x3f6dff,
+  blocks: [['酒', 0.93, 1.43, 0.5], ['家', 0.38, 0.88, 0.5], ['CHIN.', 0.08, 0.28, 0.6], ['IND.', -0.19, 0.01, 0.6], ['SPEC.', -0.46, -0.26, 0.6], ['REST.', -0.73, -0.53, 0.6]] };
+// a rail of four hooks on the door gable, on the mats' side of the stair door (door opening z -0.38..0.38)
+export const HOOKS = { x: -3.5, y: 1.42, z: [-0.64, -0.78, -0.92, -1.06] };
+// the lap storytime place: Mama sits on little Jade's mat, turned a little away from the window so the page catches the neon
+export const LAP = { base: [2.6, -1.5], yaw: -18, floor: 0.06 };
+// D9: the stack of textbooks little Jade climbs, on the floorboards off the foot of her mat, in the neon beam
+export const D9_STACK = { at: [2.5, -0.38], n: 9 };
+export const bookT = (k) => 0.032 + (k % 3) * 0.006;
+export const stackH = (n) => { let h = 0; for (let k = 0; k < n; k++) h += bookT(k); return h; };

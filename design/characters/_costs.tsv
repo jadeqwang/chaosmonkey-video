@@ -60,3 +60,6 @@ x	design/characters/monkey/handshadow_hands_all4.jpg	pruna-up	0.01	ok
 01:12:10	proofs/p5b_bed_asleep_nbp.jpg	nbp	0.134	ok
 01:13:11	proofs/p1_attic_twoshot_nbp_v4.jpg	nbp	0.134	ok
 01:16:08	proofs/p5c_bed_asleep_nbp.jpg	nbp	0.134	ok
+14:30:49	monkey/v3/_tests/model_nbp_ref_v1.jpg	nbp	0.134	ok
+14:32:08	monkey/v3/_tests/model_sd5_noref_v1.jpg	sd5	0.045	ok
+14:32:14	monkey/v3/_tests/model_sd5_ref_v1.jpg	sd5	0.105	ok

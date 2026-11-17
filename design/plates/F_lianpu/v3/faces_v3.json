@@ -1,0 +1,97 @@
+{
+ "GUANYU": {
+  "name": "Guan Yu (the red whole-face, zheng lian)",
+  "pattern": "the whole face one field of deep cinnabar red. Long black 'sleeping silkworm' eyebrows, thick and gently arched, rising toward the temples. Long narrow black 'phoenix' eye sockets slanting up to the temples, the eyes inside narrow with small white. A slim black nose socket around the nostrils. A few fine black lines: one short vertical crease between the brows and thin curved lines under the eyes. One small black mole dot beside the nose bridge. The mouth plain, closed, drawn in thin black line. No white areas except inside the eyes."
+ },
+ "CAOCAO": {
+  "name": "Cao Cao (the water-white whole-face, shui bai lian)",
+  "pattern": "the whole face one field of matte chalk white, slightly cool against the cream paper. Long, thin, narrow black triangular eye sockets like slits slanting slightly upward, the eyes inside nearly closed and sly. Fine thin black eyebrows, slightly knotted, with small hooked inner ends. Thin fine black lines only: two or three short frown creases between the brows, fine curved crease lines under each eye and beside the nose, thin lines at the corners of the mouth, one small black mole dot above one brow. No red, no colour at all besides white and thin black line; the lines are few and delicate."
+ },
+ "ZHANGFEI": {
+  "name": "Zhang Fei (the black cross-gate 'butterfly' face, hei shizimen)",
+  "pattern": "white ground. A broad black pillar runs from the hairline straight down the middle of the forehead and the nose bridge to the nose tip. It is crossed by two large black round eye sockets whose outer tails sweep upward to the temples, so that the sockets together read like the two wings of a butterfly. Above them short black brows shaped like small bats, curling up at the outer ends. A black nose socket that curves upward at both sides into a laughing shape, and a laughing upturned mouth. The cheeks are tinted soft pink, with a small red dot under each brow. A merry, rough, laughing face: black, white and a little pink only."
+ },
+ "BAOZHENG": {
+  "name": "Bao Zheng (the black whole-face, hei zheng lian)",
+  "ref": "refs/lianpu_v3/crops/baozheng.jpg",
+  "pattern": "the whole face one field of deep matte black. On the middle of the forehead a clear white crescent moon, lying with its horns pointing upward. Two large white eyebrows, broad, knitted toward the centre in a worried frown, with curled inner ends. Thin white rims around the eyes. The cheeks faintly rubbed with a dull red-bronze under the black. Nothing else: black, the white crescent, the white brows."
+ },
+ "DIANWEI": {
+  "name": "Dian Wei (the yellow flowered three-tile face, huang hua san kuai wa)",
+  "pattern": "ground of warm ochre yellow in three 'tiles': the forehead and the two cheeks, separated by large black eye sockets and a black nose socket. The eyebrows are broad white shapes edged in black, and inside each white brow is drawn a small black halberd (a short pole weapon with a crescent side-blade), pointing outward and up: his pair of halberds. Black pointed eye sockets slanting up; a black nose socket with flared wings; a few black curling lines on the cheeks; a thin red line down the centre of the forehead. Fierce and bold."
+ },
+ "XUYANZHAO": {
+  "name": "Xu Yanzhao (the purple six-tenths face, zi liu fen lian, an old loyal minister)",
+  "pattern": "the lower six tenths of the face (cheeks, nose, chin) one field of dull purple. The upper part is dominated by two very large white eyebrows that cover most of the forehead, shaded with soft grey strokes like an old man's bushy brows, leaving only a narrow vertical strip of purple down the centre of the forehead between them. Drooping black old-age eye sockets with down-turned outer corners; fine black wrinkle lines; plain closed mouth. Dignified, old, loyal."
+ },
+ "HUANGGAI": {
+  "name": "Huang Gai (the old-red six-tenths face, lao hong liu fen lian, an old loyal general)",
+  "pattern": "the lower six tenths of the face (cheeks, nose, chin) one field of dull pinkish 'old red' (a faded rose red, not bright cinnabar). The upper part is taken by two very large white eyebrows shaded with grey strokes, which leave only a narrow vertical strip of the same old red down the centre of the forehead. Drooping black old-age eye sockets with down-turned outer tails, fine black wrinkle lines at the eyes, plain closed mouth."
+ },
+ "CHENGYAOJIN": {
+  "name": "Cheng Yaojin (the green fragmented face, lv sui lian)",
+  "pattern": "ground of mid green, broken into many small fields by patterning: black eye sockets with curling tails, white brows broken into two or three curled lobes edged in black, a white and black patterned nose socket, small red accents at the brow centre and beside the nostrils, curling black and white scroll lines on the cheeks and forehead. Symmetrical, busy, comic and impetuous rather than fierce. Green dominant; white, black and a little red."
+ },
+ "JIANGWEI": {
+  "name": "Jiang Wei (the red three-tile face, hong san kuai wa)",
+  "pattern": "ground of cinnabar red in three tiles: forehead and both cheeks, divided by black upward-slanting eye sockets, black straight brows and a black nose socket. In the centre of the forehead a round black-and-white taiji (yin-yang) disc, clearly drawn. A white edge line along the brows. Plain closed mouth."
+ },
+ "DOUERDUN": {
+  "name": "Dou Erdun (the blue flowered three-tile face, lan hua san kuai wa)",
+  "pattern": "ground of strong blue in three tiles: the forehead and both cheeks. The brow area is his emblem: on each side a brow patch with a red ground on which a yellow hooked weapon shape (the 'tiger-head hook', a blade with a curled hook at the tip) is drawn, edged in black and white, sweeping up to the temple. Semi-circular black eye sockets beneath, edged with a white line. A white and black nose socket with flared wings; a white line pattern at the centre of the forehead; black curling lines on the blue cheeks. Bold, staunch, fierce."
+ },
+ "GAODENG": {
+  "name": "Gao Deng (the oil-white three-tile face, you bai san kuai wa)",
+  "pattern": "ground of white with a slightly shiny, creamy 'oil white' in three tiles: forehead and both cheeks. Black pointed brows rising steeply, large black eye sockets with sharp upward tails, a black nose socket with flared wings, a few thin black lines at the corners of the mouth. Only white and black. Arrogant, overbearing."
+ },
+ "ZHENGEN": {
+  "name": "Zheng En, also called Zheng Ziming (the black crooked face, wai lian)",
+  "pattern": "a deliberately ASYMMETRIC black-and-white face: black ground on forehead and cheeks with white patterning. The two eyes do not match ('male and female eyes'): the left eye socket is large, round and white-rimmed, the right eye socket is small, narrow and set a little lower; the brows also differ, one arched high and one low; the nose socket and the mouth are pulled slightly to one side. On the forehead a small white coiled curling motif. Black, white, a little grey. Rough and blunt, comic-crooked."
+ },
+ "LUZHISHEN": {
+  "name": "Lu Zhishen (the white monk face, seng lian)",
+  "pattern": "ground of white with a faint flesh-pink blush on the cheeks. Kidney-shaped black eye sockets. Black 'mantis' brows: each brow a short thick stroke ending in a hooked barb. A patterned black nose socket with curled wings and a patterned mouth outline. In the centre of the forehead one round red relic disc. A few curved black lines on the cheeks. No hair at all at the top: a shaved monk's head, the cap replaced by a bare shaven crown in a pale grey-blue tone."
+ },
+ "TANGQIN": {
+  "name": "Tang Qin (a civil clown, chou, with the square 'tofu block' white patch)",
+  "pattern": "an ordinary unpainted warm flesh-coloured face. In the middle of it ONE small white patch of chalk-white paint, the 'tofu block': a soft-cornered square brushed directly on the skin with NO outline around it, about one third of the face width, sitting on the bridge of the nose: it reaches from just under the brows down to the nostrils and sideways only to the INNER corners of the eyes, so both eyes stay outside it, on plain skin, fully visible. Its brushed edges are slightly uneven. On the white patch a few fine black lines. Short thin black brows sloping down outward, small sly black eyes, a small rouge-red dot on each cheek, small pursed mouth. Sly, ingratiating, comic. Everything except the small patch is plain skin.",
+  "ref": "refs/lianpu_v3/crops/qipai_chou.jpg"
+ },
+ "KID": {
+  "name": "a child role (wawa sheng, like the boy Nezha): the face that is NOT painted with a pattern",
+  "pattern": "a five-year-old child's round, chubby face left unpainted: plain pale powdered skin with a soft rouge-pink blush on the cheeks and around the eyes, natural thin black brows, bright open eyes, small red lips. One small round red dot in the middle of the forehead between the brows. No pattern, no coloured fields, no lines. Instead of the adult black cap: a child's black hair with a short soft fringe across the top of the forehead. Open, lively, sweet."
+ },
+ "SHIQIAN": {
+  "name": "Shi Qian (a martial clown, wu chou, with the small date-pit white patch)",
+  "pattern": "an ordinary unpainted flesh-coloured face. On the bridge of the nose ONE small white patch shaped like a date pit: a narrow vertical pointed oval, running from between the brows to the tip of the nose, no wider than the nose. Lively black eyes with short upturned black brows, a few tiny black whisker strokes at the corners of the mouth, a light rouge on the cheeks. Quick, sly, nimble. Everything outside the small patch is plain skin."
+ },
+ "LIUJIN": {
+  "name": "Liu Jin (the red eunuch face, taijian lian)",
+  "pattern": "the whole face a rubbed, fleshy pinkish red (a satirical well-fed flesh red, not heroic cinnabar). Short pointed black brows shaped like willow leaves. Black eye sockets shaped like small cleavers, drooping at the outer corner. A round red-edged disc mark in the centre of the forehead. Curved black fat-fold lines on the cheeks and beside the nose. A beardless down-turned mouth with an exaggerated white lower lip. Smug, soft, sinister."
+ },
+ "ZHOUCANG": {
+  "name": "Zhou Cang (the flowered ingot face, hua yuanbao lian)",
+  "pattern": "the forehead is a separate field in the shape of a Chinese ingot (a broad boat shape with raised ends), coloured pale blue-green, sitting above the brows. Below it the lower face is black and white: a black ground broken by white curling patterns, large black eye sockets with white rims, bushy black-and-white brows, a patterned white nose socket and curling white lines on the cheeks. Rough, loyal, fierce."
+ },
+ "ERLANG": {
+  "name": "Erlang Shen, Yang Jian (the gold three-tile god face)",
+  "ref": "refs/lianpu_v3/crops/erlangshen_gold.jpg",
+  "pattern": "ground of gold (painted as warm metallic ochre-gold pigment, slightly worn) in three tiles: forehead and both cheeks. Black upward-slanting eye sockets and long black brows sweeping to the temples, a black nose socket. In the centre of the forehead a third eye set VERTICALLY: a small upright almond eye with a black pupil, outlined in black. Calm, august. Gold and black only, with white in the eyes."
+ },
+ "JINQIANBAO": {
+  "name": "Jinqian Bao, the Gold-Coin Leopard (a gold pictographic spirit face)",
+  "pattern": "ground of gold (warm metallic ochre-gold pigment). Black fierce eye sockets with long upswept tails; on the forehead a stylised small leopard mask in black line; on each cheek two or three round coin motifs: black rings with a small empty square hole in the centre and no writing on them. A black nose socket with flared wings and a wide mouth outline with small fangs. Gold, black and a little red."
+ },
+ "ZHONGKUI": {
+  "name": "Zhong Kui the demon-queller (the flowered ingot face, hua yuanbao lian)",
+  "pattern": "the forehead is a separate ingot-shaped field of red, above the brows; in its centre a small gold bat with spread wings. Below, the lower face is black and white with a flattened broad nose: bushy black brows, round black eye sockets rimmed in white, a white patterned nose socket, white curling lines on black cheeks, and a broad laughing mouth. Ugly, kindly, comic-fierce."
+ },
+ "XIAHOUDUN": {
+  "name": "Xiahou Dun (the blue three-tile face, lan san kuai wa)",
+  "pattern": "ground of blue in three tiles: forehead and both cheeks, divided by black eye sockets with upswept tails, black brows edged with white, and a black nose socket. A white curling pattern at the centre of the forehead. Under the LEFT eye only, a short red mark like a drop: the arrow wound. Fierce, staunch."
+ },
+ "MUZHA": {
+  "name": "Muzha, a celestial warrior (a silver god face)",
+  "pattern": "ground of silver (painted as pale cool grey-white metallic pigment with a soft sheen, slightly tarnished) in three tiles: forehead and both cheeks. Black upward-slanting eye sockets, long black brows, a black nose socket, and a small red flame-shaped mark at the centre of the forehead. Calm, otherworldly. Silver-grey and black, one red mark."
+ }
+}

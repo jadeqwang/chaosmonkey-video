@@ -5,18 +5,20 @@ hard cuts, off-centre placement alternating corners; each face is stamped as a p
 Measured events used (analysis/timing.json):
   landings = beats 149.720 150.162 150.588 151.024 151.463 151.894 152.325 152.762 153.195 153.628 (10 faces)
   widening cuts = beats 154.061 154.496 154.930 155.364 155.810
-  rubbing flips (2 frames) = 151.675 (kick 1.0), 155.147 (perc 1.0)   [no breakbeat chops are measured in the bridge]
-  woodblock mis-registration (colour block vs line block, 0.16 s) = 151.241 (perc .94), 152.978 (kick .93),
-    154.714 (snare), 155.810 (snare 1.0)
+  v3 MEDIUM SWITCH (REVISION_V3 2.4; replaces the 2-frame rubbing flips and the woodblock mis-registration): the same
+  frame shown clean as another medium, held 4 frames, on the strongest measured off-beat hits (no breakbeat chops are
+  measured in the bridge), at most two per bar: 151.675 (kick 1.0) paper-cut, 152.978 (kick .93) rubbing,
+  154.714 (snare) shadow puppet, 155.810 (snare 1.0, the last widening cut) paper-cut.
+v3 faces: every face is a named, real 脸谱 (docs/logs/LOG_v3_faces.md; cells in shots/faces_lib.ALBUM).
 """
 from tools.ink import *
 from shots.faces_lib import *
 
 T0, T1 = 149.70833, 156.29167
 
-# face -> cell for the ten H1 faces (all six real 3-stage builds land here, close)
-H1_FACES = [('F01', 8), ('F02', 3), ('F21', 13), ('F06', 19), ('F04', 10), ('F23', 1), ('F16', 20), ('F08', 6),
-            ('F09', 17), ('F11', 22)]
+# face -> cell for the ten H1 faces (cells as v2; the face in each cell is faces_lib.ALBUM[cell])
+H1_CELLS = [8, 3, 13, 19, 10, 1, 20, 6, 17, 22]
+H1_FACES = [(ALBUM[c], c) for c in H1_CELLS]
 # close framing per landing: (face height as share of frame, anchor) - alternating corners, varied scale
 H1_FRAMES = [(0.86, (0.36, 0.47)), (0.64, (0.67, 0.56)), (0.74, (0.33, 0.58)), (0.94, (0.64, 0.44)),
              (0.70, (0.31, 0.44)), (0.60, (0.69, 0.58)), (0.90, (0.38, 0.55)), (0.66, (0.66, 0.43)),
@@ -24,7 +26,7 @@ H1_FRAMES = [(0.86, (0.36, 0.47)), (0.64, (0.67, 0.56)), (0.74, (0.33, 0.58)), (
 
 
 def setup(ctx):
-    global AL, CUTS, FLIPS, MIS, LAND, RB
+    global AL, CUTS, SWITCH, LAND, MED
     tm = ctx.timing
     beats = [b for b in tm.beats_in(149.6, 156.3)]
     LAND = beats[:10]
@@ -42,9 +44,8 @@ def setup(ctx):
              (wide[2], (*mid(13, 20), 0.92)),
              (wide[3], (*mid(1, 10), 0.80)),
              (wide[4], (mid(8, 20)[0] + 120, mid(8, 20)[1] - 60, 0.68))]
-    FLIPS = [151.675, 155.147]
-    MIS = [151.241, 152.978, 154.714, 155.810]
-    RB = Rubbing(ctx.W, ctx.H, seed=21)
+    SWITCH = [(151.675, 'papercut'), (152.978, 'rubbing'), (154.714, 'shadow'), (155.810, 'papercut')]
+    MED = FaceMediums(ctx, seed=21)
 
 
 def cam_at(t):
@@ -57,10 +58,10 @@ def cam_at(t):
 
 def render(t, ctx):
     cam = cam_at(t)
-    f, bg = AL.render(t, cam, mis=mis_at(t, MIS, hold=0.16, amount=16 * ctx.s * cam[2], seed=5))
-    if flip_on(t, FLIPS, hold=2 / 24):
-        f = RB.apply(f, bg)
+    f, bg = AL.render(t, cam)
     dx, dy = shake_offset(t, LAND[:1], amp=10 * ctx.s, dur=0.25)
     if not (dx or dy):
         dx, dy = shake_offset(t, LAND[1:], amp=4 * ctx.s, dur=0.14)
+    if medium_at(t, SWITCH, hold=4):
+        return MED.switch(AL, t, cam, SWITCH, hold=4)        # the medium is one clean registered image: no shake
     return shaken(f, dx, dy) if (dx or dy) else f

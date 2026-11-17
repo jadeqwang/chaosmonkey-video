@@ -28,7 +28,7 @@ VSPEND = os.path.join(ROOT, "media", "gen", "spend.jsonl")
 # ============================================================================================================
 # PROJECT SPEND CAP (USD, list-price estimates). PLACEHOLDER VALUE: the lead / Jade must confirm it before any paid run.
 # (halys-video used $400, raised to $500 by Jade on 2026-11-14.) Override per shell with CHAOSMONKEY_CAP=<usd>.
-DEFAULT_CAP_USD = 600.0  # confirmed by Jade 2026-11-16
+DEFAULT_CAP_USD = 1500.0  # raised 2026-11-17: Jade "do not worry about budget" for the v3 reshoot (was 600)
 # ============================================================================================================
 CAP_USD = float(os.environ.get("CHAOSMONKEY_CAP", DEFAULT_CAP_USD))
 

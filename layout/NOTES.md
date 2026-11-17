@@ -34,3 +34,22 @@
 - Docs: layout/README.md (how-to + sidecar schema), docs/LAYOUT.md (one line per shot).
 - Open: hands are mitts (shape only); G4 ring/head-shadow scale (physics); G4 hides Mama's head (lip-sync face
   off-screen in that framing); POV inserts show the reader's body edge; lit preview is a mood check only.
+
+## checkpoint 4 (v3: re-blocking after the director's review; docs/LAYOUT_V3.md)
+- v1 guides untouched (B2, A1, I1, F1 line renders re-rendered and compared: 0 px difference). v3 setups are separate
+  shot tables `sets/<set>/shots_v3.js` (ids `v3_*`, flag `v3: true`), loaded after shots.js; build.js branches on `shot.v3`.
+- Neon: blade sign (`SIGN_V3`), five placements compared. A blade clear of the glass is invisible from the door end;
+  the one in front of the far third of the window (z -1.0) is both visible in A1 and lights the lower mats. The light
+  for a shot = centroid of the blade area its subject sees through the window (`neonSource`), about 1.8 m from the page.
+- Storytime place moved into that beam: lap base (2.6, -1.5), yaw -18. Turning the pair away from the window raised
+  the light on the tipped page from 15 to 35 degrees; holding the window-side corner from underneath keeps Mama's
+  forearm from shadowing the page.
+- Lap pose + eight cameras in `engine/lap.js`, shared by attic88 and bed26 (cameras in the mother's body frame:
+  `orbit.relBody`). Push end = on the spread normal, `levelRoll` squares the page; it ends inside the child's head
+  (heads hidden in that guide).
+- Hand shadows: cut-out card of the traced silhouette (`assets/monkey_silhouette.json`, `engine/props.js`), held
+  parallel to the page; `handShadows()` writes hand / light / polygon per caster. Offsets and soft edges in LAYOUT_V3.
+- Car: two child seats. A child behind the front passenger seat cannot be seen from a low centreline camera forward
+  of the seatbacks; F1 / F3a / F5 sit under the headliner.
+- Open: G4 ring shadow is not physical at that height; v1 L1 no longer follows from the lap blocking; E5 not staged;
+  `docs/shots.yaml` A1 still says the lettering is mirror-reversed.

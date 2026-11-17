@@ -37,7 +37,7 @@ import sounds
 P = lambda *a: os.path.join(ROOT, *a)  # noqa
 SONG = P("inputs", "Chaos Monkey - reformatted for duet.wav")
 VOCALS = P("work", "stems", "vocals.wav")
-CUES = P("docs", "sound_cues.json")
+CUES = P("docs", "sound_cues_v1.json")
 OUTD = P("media", "sound")
 WORK = P("work", "sound")
 PLOTS = P("analysis", "plots")

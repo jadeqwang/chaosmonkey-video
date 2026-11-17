@@ -15,7 +15,7 @@ function mirrorPose() { // the rear-view mirror is angled so the driver sees the
   return { c, n };
 }
 
-function cabin() {
+function cabin(shot = {}) {
   const g = new THREE.Group(); const C = CAR, W = C.halfW, panes = {};
   g.add(tag(box(2 * W, 0.04, 2.75, { grey: 0.3, col: 0x26262a }, [0, C.floorY - 0.02, 0.32]), 'cabin floor'));
   g.add(tag(box(2 * W - 0.1, 0.03, 1.85, HEADLINER, [0, C.roofY + 0.015, 0.7]), 'headliner (roof)'));
@@ -62,13 +62,18 @@ function cabin() {
     return grp; };
   g.add(tag(seat(-C.frontSeatX, C.frontHp, true), "driver's seat")); g.add(tag(seat(C.frontSeatX, C.frontHp, true), 'passenger seat'));
   g.add(tag(seat(0, C.rearHp, false), 'rear bench'));
-  // child car seat, forward-facing, behind the passenger
-  { const K = C.carSeat, grp = new THREE.Group(), SH = { grey: 0.55, col: 0x6a6a78 };
-    grp.add(box(K.w, 0.14, 0.46, SH, [K.x, C.rearHp.y + 0.03, K.z - 0.06]));
-    grp.add(slab(V(K.x, K.cushionY, K.z + 0.2), V(K.x, K.backTop, K.z + 0.27), K.w, 0.06, V(1, 0, 0), SH));
-    for (const s of [-1, 1]) { grp.add(box(0.04, 0.42, 0.34, SH, [K.x + s * K.w / 2, K.cushionY + 0.2, K.z + 0.06]));
-      grp.add(box(0.05, 0.2, 0.2, SH, [K.x + s * 0.15, K.backTop - 0.13, K.z + 0.14])); }
-    g.add(tag(grp, 'child car seat')); }
+  // child car seat(s), forward-facing. v1: one, behind the passenger. v3: TWO, outboard left and right; the daughter
+  // rides in the right one (behind the passenger), the left one (behind the driver) is empty.
+  for (const sx of (shot.v3 ? [1, -1] : [1])) { const K = C.carSeat, x = sx * K.x, grp = new THREE.Group(), SH = { grey: sx > 0 ? 0.55 : 0.62, col: sx > 0 ? 0x6a6a78 : 0x74747f };
+    grp.add(box(K.w, 0.14, 0.46, SH, [x, C.rearHp.y + 0.03, K.z - 0.06]));
+    grp.add(slab(V(x, K.cushionY, K.z + 0.2), V(x, K.backTop, K.z + 0.27), K.w, 0.06, V(1, 0, 0), SH));
+    for (const s of [-1, 1]) { grp.add(box(0.04, 0.42, 0.34, SH, [x + s * K.w / 2, K.cushionY + 0.2, K.z + 0.06]));
+      grp.add(box(0.05, 0.2, 0.2, SH, [x + s * 0.15, K.backTop - 0.13, K.z + 0.14])); }
+    if (shot.v3 && sx < 0) { // the empty one: its harness hangs open against the shell, buckle on the cushion
+      const ST = { grey: 0.2, col: 0x1c1c22 };
+      for (const s of [-1, 1]) grp.add(slab(V(x + s * 0.07, K.backTop - 0.16, K.z + 0.215), V(x + s * 0.09, K.cushionY + 0.02, K.z + 0.165), 0.035, 0.008, V(1, 0, 0), ST));
+      grp.add(box(0.06, 0.03, 0.08, ST, [x, K.cushionY + 0.085, K.z - 0.02])); }
+    g.add(tag(grp, shot.v3 ? (sx > 0 ? 'child car seat (hers, rear right)' : 'EMPTY child car seat (rear left)') : 'child car seat')); }
   // rear-view mirror: housing + glass
   { const { c, n } = mirrorPose(); const M = C.mirror; let x = new THREE.Vector3().crossVectors(UP, n).normalize(); const y = new THREE.Vector3().crossVectors(n, x).normalize();
     const hous = mk(new THREE.BoxGeometry(M.w + 0.016, M.h + 0.016, 0.035), { grey: 0.2, col: 0x1a1a1c }); hous.position.copy(c).addScaledVector(n, -0.02); hous.quaternion.copy(basisQ(x, y, n)); g.add(tag(hous, 'rear-view mirror'));
@@ -102,7 +107,7 @@ function outside(t) {
 export function build(shot, { makeCam }) {
   const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
   const t = shot.street?.t ?? 0;
-  const { g: cab, panes } = cabin(); root.add(cab); root.add(outside(t));
+  const { g: cab, panes } = cabin(shot); root.add(cab); root.add(outside(t));
   const { figs, book } = stage(shot.figs, null, () => null);
   for (const f of Object.values(figs)) root.add(f);
   hideParts(shot.hideParts, figs);
@@ -147,7 +152,8 @@ export function build(shot, { makeCam }) {
     return L;
   };
   const extraOut = (c, P) => {
-    const out = { streetlight_t: t, streetlights: lamps.map((L) => ({ side: L.side, lamp_world: L.lamp.map((v) => +v.toFixed(2)), lamp_px: P(V(L.lamp)) })) };
+    const out = { ...(shot.v3 ? { layout_version: 3, seating: { daughter: 'rear right (behind the front passenger seat), forward-facing child seat', empty_child_seat: 'rear left (behind the driver)', driver: 'Jade, front left (left-hand drive)', front_passenger_seat: 'empty',
+      daughter_seat_px: P(V(CAR.carSeat.x, 1.05, CAR.carSeat.z + 0.2)), empty_seat_px: P(V(-CAR.carSeat.x, 1.05, CAR.carSeat.z + 0.2)), passenger_headrest_px: P(V(CAR.frontSeatX, CAR.frontHp.y + 0.72, CAR.frontHp.z + 0.37)), driver_headrest_px: P(V(-CAR.frontSeatX, CAR.frontHp.y + 0.72, CAR.frontHp.z + 0.37)) }, serves: shot.serves } : {}), streetlight_t: t, streetlights: lamps.map((L) => ({ side: L.side, lamp_world: L.lamp.map((v) => +v.toFixed(2)), lamp_px: P(V(L.lamp)) })) };
     // where each lamp's light falls through each pane: the direction from lamp to pane centre, in screen space
     out.pane_backlight = Object.fromEntries(Object.entries(panes).filter(([k]) => k !== 'mirror').map(([k, cs]) => { const cen = cs.reduce((a, v) => a.add(v), V(0, 0, 0)).multiplyScalar(0.25);
       const L0 = V(lamps[0].lamp); const a = P(cen), b = P(cen.clone().addScaledVector(cen.clone().sub(L0).normalize(), 0.1)); const dx = b[0] - a[0], dy = b[1] - a[1], n = Math.hypot(dx, dy) || 1;

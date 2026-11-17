@@ -70,6 +70,26 @@ JOBS = {
                   "metallic taps on stone, slow and regular, with small stone chips falling. Outdoors, natural recording."),
     "rustle_r2": (8000, "Foley: a child turning over under a thick cotton quilt on a straw tatami mat: loud fabric rustles and "
                   "swishes, the mat creaking, then quiet. Close microphone."),
+    # round 3 (2026-11-17, mix v2): new action (apron, book stack, abacus, blanket). "Foley:" wording with concrete counts, as round 2.
+    "apron_hook": (8000, "Foley: a cotton kitchen apron pulled off over someone's head with a soft cloth swish and rustle, then hung "
+                   "on a small metal wall hook with a tiny metallic clink, then a hand towel flapped and draped over the hook. Close microphone, quiet room."),
+    "books_topple": (8000, "Foley: a tall stack of heavy hardback textbooks toppling over on a wooden floor: a wobble and creak, "
+                     "then the books slide and fall one after another, thud, thud, thud, thud, flapping covers, a final settling thump. Close microphone."),
+    "body_thump": (6000, "Foley: a small light person tumbling down onto a thick floor mat with a soft padded thump, a fabric rustle, "
+                   "then someone catching them with a cloth grab and a soft squeeze: a muffled bump and rustling clothes. No voices. Close microphone."),
+    "abacus": (8000, "Foley: a wooden abacus, the small round wooden beads slid and flicked along their rods: click, click, click, "
+               "click, click, a quick run of dry wooden clicks, then a pause, then single clicks. Close microphone, dry."),
+    "blanket_pull": (8000, "Foley: a heavy cotton blanket pulled up smoothly over a sleeping person on a bed and tucked: a soft long "
+                     "cloth swish, a pause, then one more soft swish and a final tuck. Close microphone, quiet bedroom."),
+    "paper_press": (6000, "Foley: a fingertip pressing down firmly on a sheet of thick paper on a wooden table: a small soft press, "
+                    "a tiny paper creak, a pause, another press. Very close microphone, quiet room."),
+    # round 3b: apron_hook (one event only) and body_thump (silent) retaken with more physical wording
+    "apron_cloth": (6000, "Foley: someone pulling a stiff cotton apron up and off over their head: loud rustling of fabric, a long "
+                    "cloth swish and flap, then shaking it out once. Close microphone, natural recording, quiet room."),
+    "hook_clink": (6000, "Foley: hanging a metal keychain ring onto a metal wall hook: clink, jingle, clink, small metallic taps "
+                   "and then a soft flop of a cloth towel draped over the hook. Close microphone, quiet room."),
+    "thump_mat": (6000, "Foley: a bag of laundry dropped onto a soft padded gym mat: thump, then another heavier thump, then a "
+                  "rustle of cloth being grabbed and squeezed, thud, rustle. Close microphone."),
 }
 
 

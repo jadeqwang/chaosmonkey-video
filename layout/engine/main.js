@@ -6,8 +6,10 @@ import { ModeRenderer } from './render.js';
 const q = new URLSearchParams(location.search);
 const W = Number(q.get('w') || 1920), H = Number(q.get('h') || 1080), SET = q.get('set') || 'attic88';
 const R = new ModeRenderer(W, H);
-const { build } = await import(`../sets/${SET}/build.js`);
-const { SHOTS } = await import(`../sets/${SET}/shots.js`);
+const { build, buildV3 } = await import(`../sets/${SET}/build.js`);
+const { SHOTS: SHOTS_V1 } = await import(`../sets/${SET}/shots.js`);
+let SHOTS = SHOTS_V1;
+try { const m = await import(`../sets/${SET}/shots_v3.js`); SHOTS = SHOTS_V1.concat(m.SHOTS); } catch (e) { if (!/Failed to fetch|404|not found/i.test(String(e))) throw e; }   // v3 setups (ids prefixed v3_)
 const SHOT = Object.fromEntries(SHOTS.map((s) => [s.id, s]));
 
 // 35 mm still-camera convention: lens in mm across a 36 mm wide frame
@@ -23,7 +25,7 @@ const cache = new Map();
 function get(id) {
   if (cache.has(id)) return cache.get(id);
   const shot = SHOT[id]; if (!shot) throw new Error('no shot ' + id);
-  const b = build(shot, { makeCam, W, H });
+  const b = (shot.v3 && buildV3 ? buildV3 : build)(shot, { makeCam, W, H });
   b.scene.updateMatrixWorld(true);
   cache.clear(); cache.set(id, b); return b;
 }

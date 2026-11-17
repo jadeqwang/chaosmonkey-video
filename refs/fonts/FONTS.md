@@ -92,3 +92,18 @@ median bitmap IoU against LXGW regular-script glyphs is 0.20 (max 0.35), i.e. no
 - System: `fc-list :lang=zh` shows only Droid Sans Fallback (DroidSansFallbackFull.ttf). Nothing else; use the files here.
 - holdfire (`/home/jade/Documents/1-music-shipped/holdfire/render/assets/fonts/`): Cormorant Garamond (VF + italic; poems/human voice), IM Fell English (Nrm/It, lyric "ink" scenes), Ma Shan Zheng subsets (brush Latin/CJK), LXGW WenKai TC Bold (subset), Noto Sans SC Black (subset), Instrument Serif, Anton, Archivo, Big Shoulders Display, Michroma, Open Sans, IBM Plex Mono, JetBrains Mono, VT323, Reenie Beanie, Bodoni Moda, Noto Sans Cuneiform. Docs: `docs/take1/STYLE_BIBLE.md`, `docs/take2/LYRICS.md`, `docs/RENDERER.md`.
 - To stay consistent: English lyrics in Cormorant Garamond (+ italic) or IM Fell English; Chinese brush/kai from Ma Shan Zheng or LXGW WenKai - the latter is the kai pick here.
+
+## v3 addition (2026-11-17, BOOK team): the inscription hand
+
+REVISION_V3 §4 asks for a brush kai / 行楷 for the static Chinese inscriptions (题跋) on book and stage pages.
+
+| Font | Style | Licence + URL | File | Coverage of `design/text/lyrics_zh_v3.txt` (draft: 133 distinct; proofread v2 re-checked 2026-11-17: all present) | Verdict |
+|---|---|---|---|---|---|
+| **Ma Shan Zheng 马善政毛笔楷书** | brush kai, firm, upright | SIL OFL 1.1, https://github.com/google/fonts/tree/main/ofl/mashanzheng | `mashanzheng/MaShanZheng-Regular.ttf` | 133/133 (+ 一通百通 悟空 讫; GB2312, 7015 codepoints, SIMPLIFIED only) | **PICK**: reads as a painter's 题跋, legible at 30 px (540p) |
+| Long Cang 龙藏体 | running hand, thin | OFL 1.1, .../ofl/longcang | `longcang/LongCang-Regular.ttf` | 133/133 | too thin at 540p; kept as candidate |
+| Zhi Mang Xing 志莽行书 | bold running/cursive | OFL 1.1, .../ofl/zhimangxing | `zhimangxing/ZhiMangXing-Regular.ttf` | 133/133 | joined strokes hard to read small |
+| Liu Jian Mao Cao 流江毛草 | cursive | OFL 1.1, .../ofl/liujianmaocao | `liujianmaocao/LiuJianMaoCao-Regular.ttf` | 133/133 | cursive: rejected for legibility |
+
+Ma Shan Zheng is GB2312 (simplified) only: the inscription file is simplified, which matches. Traditional forms (竅, 華)
+are NOT in it; keep traditional text in LXGW WenKai / 館閣楷. Helper: `tools/ink/inscription.py`; proof sheet
+`work/review/comp_v3/_inscription_proof.jpg`. OFL: no credit required in the film; keep `OFL.txt` with the file.

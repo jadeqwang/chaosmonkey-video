@@ -4,10 +4,12 @@ import { mk, box, cyl, ball, quad, slab, tag, V, rad, UP, basisQ } from '../../e
 import { stage, casterMeshes, projectShadow, solveCamera, hideParts, namedPoint } from '../../engine/stage.js';
 import { aim } from '../../engine/aim.js';
 import { ROOM, BED, BED_TOP, RUG, WINDOW, SHELF, NIGHTSTAND, LIGHTS } from './layout.js';
+import { coverBlanket, cardOverPage, handShadows } from '../../engine/props.js';
+import { pushEnd, levelRoll } from '../../engine/lap.js';
 
 const WALL = { grey: 0.72, col: 0x5a5c70 }, FLOOR = { grey: 0.5, col: 0x4a3c34 }, WOOD = { grey: 0.6, col: 0x9a8a78 };
 
-function room() {
+function room(shot = {}) {
   const g = new THREE.Group(); const { x0, x1, z0, z1, h } = ROOM;
   g.add(tag(box(x1 - x0, 0.02, z1 - z0, FLOOR, [0, -0.01, 0]), 'floor'));
   g.add(tag(box(x1 - x0, 0.02, z1 - z0, { grey: 0.8, col: 0x5a5c70 }, [0, h + 0.01, 0]), 'ceiling'));
@@ -32,9 +34,11 @@ function room() {
     g.add(tag(box(Wd, B.headH, 0.04, WOOD, [cx, B.headH / 2, B.z0 - 0.02]), 'child bed (headboard)'));
     g.add(tag(box(Wd, B.footH, 0.04, WOOD, [cx, B.footH / 2, B.z1 + 0.02]), 'child bed (footboard)'));
     g.add(tag(box(Wd - 0.03, B.mattress, L - 0.02, { grey: 0.9, col: 0xd8d4cc }, [cx, B.frameH + B.mattress / 2, cz]), 'mattress'));
+    if (shot.bedBlanket !== false) {
     g.add(tag(box(Wd + 0.04, 0.03, L * 0.62, { grey: 0.78, col: 0x8fa2c0 }, [cx - 0.01, BED_TOP + 0.012, B.z1 - L * 0.31]), 'blanket'));
     g.add(tag(box(Wd + 0.02, 0.25, 0.012, { grey: 0.78, col: 0x8fa2c0 }, [cx - 0.01, BED_TOP - 0.11, B.z1 - L * 0.31]), 'blanket'));
     g.add(tag(box(0.012, 0.22, L * 0.62, { grey: 0.78, col: 0x8fa2c0 }, [B.x0 - 0.008, BED_TOP - 0.1, B.z1 - L * 0.31]), 'blanket'));
+    }
     const p = box(0.45, 0.1, 0.3, { grey: 0.95, col: 0xe8e0e8 }, [cx, BED_TOP + 0.05, B.z0 + 0.2]); g.add(tag(p, 'pillow'));
     g.add(tag(ball(0.09, { grey: 0.55, col: 0x9a6a4a }, [cx + 0.18, BED_TOP + 0.16, B.z0 + 0.12], [1, 1.1, 0.9]), 'stuffed toy'));
   }
@@ -72,7 +76,8 @@ function flashlightFor(spec, figs, book) {
   return { group: g, lens, axis, body, grip: body.clone().addScaledVector(axis, -0.01), switchAt: body.clone().addScaledVector(axis, -0.025).addScaledVector(topDir, 0.015), on: spec.on !== false };
 }
 
-export function build(shot, { makeCam }) {
+export function build(shot, ctx) { return shot.v3 ? buildV3(shot, ctx) : buildV1(shot, ctx); }
+function buildV1(shot, { makeCam }) {
   const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
   root.add(room());
   // targets: 'flash:grip', 'flash:switch', 'flash:lens', 'flash:axis' need the flashlight, which needs the book
@@ -121,4 +126,67 @@ export function build(shot, { makeCam }) {
   const extraOut = (c, P) => flash ? { flashlight: { lens_px: P(flash.lens), switch_px: P(flash.switchAt), tail_px: P(flash.body.clone().addScaledVector(flash.axis, -0.055)), on } } : {};
   return { set: 'bed26', scene, root, cam, rig, near: shot.near ?? 0.2, far: shot.far ?? 5, figs, book, panes: { window: (() => { const W = WINDOW, z = ROOM.z0 + 0.04; return [V(W.x - W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill, z), V(W.x - W.w / 2, W.sill, z)]; })() }, lights,
     header: shot.header || '', shadowLine: !!shot.shadow && on, shadowPolys, subject: book ? book.at : null, litBg: 0x020204, extra: extraOut };
+}
+
+// ---------------------------------------------------------------- v3
+// Lap storytime, hand-shadow cards lit by the real flashlight, push-end camera, the blanket being pulled up, richer sidecar.
+function buildV3(shot, { makeCam }) {
+  const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
+  root.add(room(shot));
+  let flash = null, cards = [];
+  const extra = (t, figs, book) => {
+    if (t.startsWith('flash:')) { if (!flash) return V(0.4, 0.6, 0.1); return ({ grip: flash.grip, switch: flash.switchAt, lens: flash.lens, front: flash.lens.clone().addScaledVector(flash.axis, 0.2) })[t.slice(6)]?.clone() || null; }
+    if (t.startsWith('card:')) { const [, i, part] = t.split(':'); const c = cards[+i]; if (!c) return V(0.4, 0.5, 0); return (part === 'centre' ? c.centre : c.base).clone(); }
+    if (t.startsWith('ray:')) { if (!flash) return V(0.4, 0.5, 0); const parts = t.split(':'); const d = Number(parts.pop()); const name = parts.slice(1).join(':');
+      let p; try { p = namedPoint(name, figs, book); } catch (e) { return null; } return p.clone().addScaledVector(flash.lens.clone().sub(p).normalize(), d); }
+    if (t.startsWith('lift:')) { if (!flash || !book || !book.pages) return V(0.4, 0.5, 0); const parts = t.split(':'); const hgt = Number(parts.pop());
+      const p = parts[1] === 'page' ? book.pageAt(parts[2], Number(parts[3]), Number(parts[4])) : book.anchors[parts[1]].clone(); const dir = flash.lens.clone().sub(p).normalize();
+      return p.addScaledVector(dir, hgt / Math.max(dir.dot(book.n), 0.05)); }
+    return null;
+  };
+  let { figs, book } = stage(shot.figs, shot.book, extra);
+  for (let k = 0; k < 2; k++) { flash = shot.flashlight ? flashlightFor(shot.flashlight, figs, book) : null;
+    cards = flash && book && book.pages ? (shot.cards || []).map((c) => cardOverPage(c, book, flash.lens)) : [];
+    ({ figs, book } = stage(shot.figs, shot.book, extra)); }
+  if (shot.flashlight) flash = flashlightFor(shot.flashlight, figs, book);
+  if (flash && book && book.pages) cards = (shot.cards || []).map((c) => cardOverPage(c, book, flash.lens));
+  if (shot.hide) root.traverse((o) => { if (o.isMesh && shot.hide.includes(o.userData.label)) o.visible = false; });
+  for (const f of Object.values(figs)) root.add(f);
+  if (book) root.add(book.group);
+  if (flash) root.add(flash.group);
+  for (const c of cards) root.add(c.mesh);
+  let blanketInfo = null;
+  if (shot.pull && figs[shot.pull.who]) { blanketInfo = coverBlanket(figs[shot.pull.who].userData.P, BED_TOP, { grey: 0.78, col: 0x8fa2c0 }, { upTo: shot.pull.upTo ?? 0.8, halfW: 0.3 }); root.add(blanketInfo.group); }
+  if (shot.push) { const from = { ...shot.push.fromShot }; Object.assign(from, solveCamera(from, figs, book, aim)); const pe = pushEnd(from.pos, book, shot.lens, shot.push.fill); shot.pos = pe.pos; shot.target = pe.target;
+    shot.pushInfo = { start_position: from.pos, start_target: from.target, start_distance_to_gutter_m: +pe.startDist.toFixed(3), end_distance_to_gutter_m: +pe.dist.toFixed(3), swing_onto_page_normal_deg: +pe.swing.toFixed(1) }; }
+  else Object.assign(shot, solveCamera(shot, figs, book, aim));
+  if (shot.push) shot.roll = levelRoll(shot.pos, shot.target, book, 1); else if (shot.levelBook && book) shot.roll = levelRoll(shot.pos, shot.target, book, shot.levelBook);
+  hideParts(shot.hideParts, figs);
+  const cam = makeCam(shot);
+  const on = !!(flash && flash.on);
+  const lights = [];
+  if (flash) lights.push({ name: 'flashlight', kind: 'spot (small handheld LED)', pos: flash.lens, aim: flash.lens.clone().addScaledVector(flash.axis, 1), color: '#fff4e6', on });
+  lights.push({ name: 'window_blind', kind: 'blue night glow through slats', pos: V(LIGHTS.moon.pos), color: '#6070a0', on: true });
+  const rig = (mode) => {
+    const L = []; if (mode === 'none') return L; const white = mode !== 'lit';
+    if (on) { const s = new THREE.SpotLight(white ? 0xffffff : LIGHTS.flashlight.color, mode === 'lit' ? 9 : mode === 'mask' ? 6 : 2.4, 0, rad(shot.flashCone ?? 24), 0.35, mode === 'lit' ? 1.6 : 0);
+      s.position.copy(flash.lens).addScaledVector(flash.axis, 0.012); s.target.position.copy(flash.lens).addScaledVector(flash.axis, 1); s.castShadow = true; s.shadow.camera.near = 0.02; s.shadow.camera.far = 6; s.shadow.bias = -0.0002; L.push(s);
+      if (mode === 'lit' && book) { const b = new THREE.PointLight(0xfff0dc, 0.22, 1.6, 1.5); b.position.copy(book.at).addScaledVector(book.n, 0.1); L.push(b); } }
+    if (mode === 'mask') return L;
+    if (mode === 'lit') { const m = new THREE.SpotLight(0x5868a0, 1.2, 0, rad(40), 0.8, 1.2); m.position.set(...LIGHTS.moon.pos); m.target.position.set(0.4, 0.3, 0.2); L.push(m); }
+    L.push(new THREE.AmbientLight(white ? 0xffffff : 0x1a2238, mode === 'lit' ? (shot.amb ?? 0.35) : (on ? 1.5 : 1.9)));
+    if (white) { const d = new THREE.DirectionalLight(0xffffff, 1.0); d.position.set(-1, 3, 2); L.push(d); }
+    return L;
+  };
+  const toPx = (v) => { const p = v.clone().project(cam); return [+((p.x + 1) / 2 * 1920).toFixed(1), +((1 - p.y) / 2 * 1080).toFixed(1)]; };
+  const shadow = on ? handShadows({ shot, figs, book, cards, lightPos: flash.lens, lightName: 'flashlight (lens)', toPx, lightSize: 0.02 }) : null;
+  const extraOut = (c, P) => { const out = { layout_version: 3 };
+    if (flash) out.flashlight = { lens_px: P(flash.lens), lens_world: flash.lens.toArray().map((x) => +x.toFixed(4)), axis: flash.axis.toArray().map((x) => +x.toFixed(3)), switch_px: P(flash.switchAt), tail_px: P(flash.body.clone().addScaledVector(flash.axis, -0.055)), on, cone_half_angle_deg: shot.flashCone ?? 24 };
+    if (shadow) out.hand_shadow = shadow.sidecar;
+    if (blanketInfo) out.blanket = { edge_centre_px: P(blanketInfo.edge), edge_centre_world: blanketInfo.edge.toArray().map((x) => +x.toFixed(3)), note: 'top edge of the blanket (where the hands grip); it travels toward the child\'s chin' };
+    if (shot.pushInfo) out.push = { ...shot.pushInfo, note: 'end of the push that starts at v3_LAP_ots; book.spread px here is the target of the move' };
+    if (shot.serves) out.serves = shot.serves;
+    return out; };
+  return { set: 'bed26', scene, root, cam, rig, near: shot.near ?? 0.2, far: shot.far ?? 6, figs, book, panes: { window: (() => { const W = WINDOW, z = ROOM.z0 + 0.04; return [V(W.x - W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill, z), V(W.x - W.w / 2, W.sill, z)]; })() }, lights,
+    header: shot.header || '', shadowLine: !!shadow, shadowPolys: shadow ? shadow.polys : null, subject: book ? book.at : null, litBg: 0x020204, extra: extraOut };
 }

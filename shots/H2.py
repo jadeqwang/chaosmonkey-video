@@ -6,7 +6,8 @@ Measured events used (analysis/timing.json):
   pairs on beats 156.668 157.104 157.537 157.972; four on the fast roll 158.255 158.310 158.365 158.420
   (roll 158.191-158.420); last face on the downbeat 161.886, then hold 161.886-162.625
   cuts: 156.29 (in), 157.104, 157.537, 157.972, 158.191, 158.850, 160.143
-  woodblock mis-registration: snares 159.277 159.711 160.583; rubbing flip (2 frames): kick 160.143 (strength 1.0)
+  v3 MEDIUM SWITCH (replaces mis-registration and the 2-frame flip), held 4 frames, <= 2 per bar: snare 159.277
+  paper-cut, kick 160.143 (the cut to the full leaf) rubbing, snare 160.583 shadow puppet.
 """
 from tools.ink import *
 from shots.faces_lib import *
@@ -14,10 +15,10 @@ from shots.H1 import H1_FACES
 
 T0, T1 = 156.29167, 162.625
 
-H2_LAND = [(156.668, [('F07', 0), ('F05', 2)]), (157.104, [('F03', 4), ('F22', 5)]),
-           (157.537, [('F10', 7), ('F12', 9)]), (157.972, [('F18', 11), ('F19', 12)]),
-           (158.255, [('F20', 16)]), (158.310, [('F13', 18)]), (158.365, [('F15', 21)]), (158.420, [('F17', 23)]),
-           (161.886, [('F14', 14)])]
+_L = lambda *cells: [(ALBUM[c], c) for c in cells]
+H2_LAND = [(156.668, _L(0, 2)), (157.104, _L(4, 5)), (157.537, _L(7, 9)), (157.972, _L(11, 12)),
+           (158.255, _L(16)), (158.310, _L(18)), (158.365, _L(21)), (158.420, _L(23)),
+           (161.886, _L(14))]
 
 
 def album_plan(tm):
@@ -31,7 +32,7 @@ def album_plan(tm):
 
 
 def setup(ctx):
-    global AL, CUTS, FLIPS, MIS, BIG, RB
+    global AL, CUTS, SWITCH, BIG, MED
     AL = Album(ctx, album_plan(ctx.timing))
     c = cell_centre
     mid = lambda *ii: (sum(c(i)[0] for i in ii) / len(ii), sum(c(i)[1] for i in ii) / len(ii))
@@ -43,10 +44,9 @@ def setup(ctx):
             (158.191 - e, (*mid(16, 23, 18, 21), 0.70)),
             (158.850 - e, (mid(0, 23)[0] - 90, mid(0, 23)[1] + 40, 0.60)),
             (160.143 - e, (*mid(0, 23), 0.555))]
-    MIS = [159.277, 159.711, 160.583]
-    FLIPS = [160.143]
+    SWITCH = [(159.277, 'papercut'), (160.143, 'rubbing'), (160.583, 'shadow')]
     BIG = [156.668, 157.104, 157.537, 157.972, 161.886]
-    RB = Rubbing(ctx.W, ctx.H, seed=22)
+    MED = FaceMediums(ctx, seed=22)
 
 
 def cam_at(t):
@@ -59,9 +59,9 @@ def cam_at(t):
 
 def render(t, ctx):
     cam = cam_at(t)
-    f, bg = AL.render(t, cam, mis=mis_at(t, MIS, hold=0.16, amount=26 * ctx.s * cam[2], seed=6))
-    if flip_on(t, FLIPS, hold=2 / 24):
-        f = RB.apply(f, bg)
+    if medium_at(t, SWITCH, hold=4):
+        return MED.switch(AL, t, cam, SWITCH, hold=4)
+    f, bg = AL.render(t, cam)
     dx, dy = shake_offset(t, BIG[-1:], amp=9 * ctx.s, dur=0.25)
     if not (dx or dy):
         dx, dy = shake_offset(t, BIG[:-1], amp=4 * ctx.s, dur=0.14)

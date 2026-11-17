@@ -720,3 +720,186 @@
 {"ts": "2026-11-17T19:08:17Z", "model": "openai/gpt-image-2", "tag": "sheets_v2", "ok": true, "est_usd": 0.2128, "where": "box"}
 {"ts": "2026-11-17T19:08:25Z", "model": "google/nano-banana-pro", "tag": "sheets_v2", "ok": true, "est_usd": 0.24, "where": "box"}
 {"ts": "2026-11-17T19:09:20Z", "model": "google/nano-banana-pro", "tag": "sheets_v2", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T20:13:56Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:13:57Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:14:00Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:14:04Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:14:33Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:14:34Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:14:34Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:14:35Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:15:40Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:15:51Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:16:18Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:16:21Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:20Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:21Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:21Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:21Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:22Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:27:23Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:24Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:27:24Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:24Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:24Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:27:53Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:27:53Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:28:02Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:28:09Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:28:11Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:28:29Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:28:33Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:28:41Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:28:45Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_body_thump", "ok": true, "est_usd": 0.015, "where": "box"}
+{"ts": "2026-11-17T20:28:45Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_books_topple", "ok": true, "est_usd": 0.02, "where": "box"}
+{"ts": "2026-11-17T20:28:47Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_apron_hook", "ok": true, "est_usd": 0.02, "where": "box"}
+{"ts": "2026-11-17T20:28:51Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_paper_press", "ok": true, "est_usd": 0.015, "where": "box"}
+{"ts": "2026-11-17T20:28:53Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_blanket_pull", "ok": true, "est_usd": 0.02, "where": "box"}
+{"ts": "2026-11-17T20:28:54Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_abacus", "ok": true, "est_usd": 0.02, "where": "box"}
+{"ts": "2026-11-17T20:29:13Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_thump_mat", "ok": true, "est_usd": 0.015, "where": "box"}
+{"ts": "2026-11-17T20:29:14Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_apron_cloth", "ok": true, "est_usd": 0.015, "where": "box"}
+{"ts": "2026-11-17T20:29:15Z", "model": "elevenlabs/music-v2", "tag": "cm_sfx_hook_clink", "ok": true, "est_usd": 0.015, "where": "box"}
+{"ts": "2026-11-17T20:30:49Z", "model": "google/nano-banana-pro", "tag": "char_model_nbp_ref_v1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:31:30Z", "model": "google/nano-banana-pro", "tag": "stg3_palm_nbp_v1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:31:34Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:31:38Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T20:31:38Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T20:31:38Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:31:49Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_GUANYU_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:31:50Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_CAOCAO_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:32:08Z", "model": "bytedance/seedream-5-pro", "tag": "char_model_sd5_noref_v1", "ok": true, "est_usd": 0.045, "where": "box"}
+{"ts": "2026-11-17T20:32:14Z", "model": "bytedance/seedream-5-pro", "tag": "char_model_sd5_ref_v1", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T20:32:38Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:33:01Z", "model": "google/nano-banana-pro", "tag": "sheets_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:33:02Z", "model": "bytedance/seedream-5-pro", "tag": "stg3_palm_sd5_v1", "ok": true, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T20:33:23Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:33:23Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:33:34Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_child_back_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:34:13Z", "model": "google/nano-banana-pro", "tag": "stg3_palm_nbp_v2", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T20:35:00Z", "model": "bytedance/seedream-5-pro", "tag": "stg3_poses_B_sd5_v1", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T20:35:08Z", "model": "openai/gpt-image-2", "tag": "sheets_v3", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:35:22Z", "model": "bytedance/seedream-5-pro", "tag": "stg3_palm_sd5_v2", "ok": true, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T20:36:58Z", "model": "bytedance/seedream-5-pro", "tag": "stg3_poses_A_sd5_v1", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T20:37:55Z", "model": "minimax/h3", "tag": "bk3_E2_h3_t1", "job": "chaosmonkey/bk3_E2_h3_t1-158c37e912", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:37:56Z", "model": "minimax/h3", "tag": "bk3_E2_h3_t2", "job": "chaosmonkey/bk3_E2_h3_t2-ebcca6af65", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:37:57Z", "model": "klingai/kling-v4", "tag": "bk3_E2_kling4_t1", "job": "chaosmonkey/bk3_E2_kling4_t1-78597abf44", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:37:58Z", "model": "minimax/h3", "tag": "bk3_G2_h3_t1", "job": "chaosmonkey/bk3_G2_h3_t1-fafb4a5efb", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:37:59Z", "model": "klingai/kling-v4", "tag": "bk3_G2_kling4_t1", "job": "chaosmonkey/bk3_G2_kling4_t1-0f0c8d5083", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:39:13Z", "model": "google/nano-banana-pro", "tag": "bk3_E4_hand", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T20:39:13Z", "model": "google/nano-banana-pro", "tag": "bk3_E4_hand", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T20:40:15Z", "model": "google/nano-banana-pro", "tag": "bk3_cliffmid", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T20:40:47Z", "model": "bytedance/seedance-2.0", "tag": "s3_d1_sd20", "job": "chaosmonkey/s3_d1_sd20-a3fa7ed01f", "event": "submit", "ok": null, "est_usd": 1.85, "where": "box"}
+{"ts": "2026-11-17T20:40:48Z", "model": "bytedance/seedance-2.0", "tag": "s3_d1_sd20b", "job": "chaosmonkey/s3_d1_sd20b-79d30dceaf", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:40:50Z", "model": "klingai/kling-v4", "tag": "s3_d2_kling4", "job": "chaosmonkey/s3_d2_kling4-617433394a", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:40:51Z", "model": "klingai/kling-v4", "tag": "s3_d2_kling4ff", "job": "chaosmonkey/s3_d2_kling4ff-e771f54a0f", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:40:52Z", "model": "bytedance/seedance-2.0", "tag": "s3_d2_sd20", "job": "chaosmonkey/s3_d2_sd20-ab5277f7a2", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:40:53Z", "model": "klingai/kling-v4", "tag": "s3_d6_kling4", "job": "chaosmonkey/s3_d6_kling4-38ffb4a930", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:40:54Z", "model": "bytedance/seedance-2.0", "tag": "s3_d6_sd20", "job": "chaosmonkey/s3_d6_sd20-ebc817759b", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:40:55Z", "model": "bytedance/seedance-2.0", "tag": "s3_d7_sd20", "job": "chaosmonkey/s3_d7_sd20-82672892af", "event": "submit", "ok": null, "est_usd": 1.85, "where": "box"}
+{"ts": "2026-11-17T20:40:56Z", "model": "klingai/kling-v4", "tag": "s3_d7_kling4", "job": "chaosmonkey/s3_d7_kling4-68a95854d6", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:40:58Z", "model": "klingai/kling-v4", "tag": "s3_d8_kling4", "job": "chaosmonkey/s3_d8_kling4-10bd063fe0", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:40:59Z", "model": "bytedance/seedance-2.0", "tag": "s3_d8_sd20", "job": "chaosmonkey/s3_d8_sd20-79a12b4cdd", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:41:00Z", "model": "klingai/kling-v4", "tag": "s3_j3_kling4", "job": "chaosmonkey/s3_j3_kling4-017980bbaa", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:41:01Z", "model": "bytedance/seedance-2.0", "tag": "s3_j3_sd20", "job": "chaosmonkey/s3_j3_sd20-7b5751a2ad", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:41:28Z", "model": "openai/gpt-image-2", "tag": "ls3_frame", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:41:30Z", "model": "openai/gpt-image-2", "tag": "ls3_frame", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:41:30Z", "model": "openai/gpt-image-2", "tag": "ls3_frame", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:41:33Z", "model": "openai/gpt-image-2", "tag": "ls3_frame", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T20:43:03Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavN_1", "job": "chaosmonkey/ls3_b_pavN_1-4defcb6849", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:04Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavN_1", "job": "chaosmonkey/ls3_c_pavN_1-6fb0ca6493", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:05Z", "model": "pruna/p-video-avatar", "tag": "ls3_a_pavN_1", "job": "chaosmonkey/ls3_a_pavN_1-ec779425b6", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:07Z", "model": "klingai/kling-v4", "tag": "ls3_b_kling_1", "job": "chaosmonkey/ls3_b_kling_1-6ea369c9e7", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T20:43:08Z", "model": "klingai/kling-v4", "tag": "ls3_c_kling_1", "job": "chaosmonkey/ls3_c_kling_1-990fcaa385", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T20:43:09Z", "model": "klingai/kling-v4", "tag": "ls3_a_kling_1", "job": "chaosmonkey/ls3_a_kling_1-315c490bfb", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T20:43:10Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavA_1", "job": "chaosmonkey/ls3_b_pavA_1-0b0c4a6cf4", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:11Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavA_1", "job": "chaosmonkey/ls3_c_pavA_1-e127f66d35", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:12Z", "model": "pruna/p-video-avatar", "tag": "ls3_a_pavA_1", "job": "chaosmonkey/ls3_a_pavA_1-58f61aab33", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:14Z", "model": "google/gemini-omni-1.2-flash", "tag": "ls3_b_omni_1", "job": "chaosmonkey/ls3_b_omni_1-ba0861596b", "event": "submit", "ok": null, "est_usd": null, "where": "box"}
+{"ts": "2026-11-17T20:43:15Z", "model": "veed/fabric-1.0", "tag": "ls3_b_fabric_1", "job": "chaosmonkey/ls3_b_fabric_1-c542da3e13", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:43:17Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_1", "job": "chaosmonkey/ls3_b_sd25pre_1-83fd33272b", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:18Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25f0_1", "job": "chaosmonkey/ls3_b_sd25f0_1-e043a7e3b7", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:19Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_1", "job": "chaosmonkey/ls3_c_sd25pre_1-e938b097da", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:20Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25f0_1", "job": "chaosmonkey/ls3_c_sd25f0_1-711d3c2ca8", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:21Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25pre_1", "job": "chaosmonkey/ls3_a_sd25pre_1-c598df150e", "event": "submit", "ok": null, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T20:43:23Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25f0_1", "job": "chaosmonkey/ls3_a_sd25f0_1-73d1b9aa2a", "event": "submit", "ok": null, "est_usd": 1.3872, "where": "box"}
+{"ts": "2026-11-17T20:43:24Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_1", "job": "chaosmonkey/ls3_a_sd25short_1-85d76db4c1", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:25Z", "model": "bytedance/seedance-2.0-mini", "tag": "ls3_b_sd20mini_1", "job": "chaosmonkey/ls3_b_sd20mini_1-a630cff44e", "event": "submit", "ok": null, "est_usd": 0.36, "where": "box"}
+{"ts": "2026-11-17T20:43:26Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavD_1", "job": "chaosmonkey/ls3_b_pavD_1-e70102357b", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:28Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavD_1", "job": "chaosmonkey/ls3_c_pavD_1-014516cd9a", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T20:43:29Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_2", "job": "chaosmonkey/ls3_b_sd25pre_2-3f436d6db0", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:30Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25f0_2", "job": "chaosmonkey/ls3_b_sd25f0_2-30b32880c7", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:32Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_2", "job": "chaosmonkey/ls3_c_sd25pre_2-4a1a271cb8", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:33Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25f0_2", "job": "chaosmonkey/ls3_c_sd25f0_2-f3b85acc3a", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:34Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25pre_2", "job": "chaosmonkey/ls3_a_sd25pre_2-a85a49d7f4", "event": "submit", "ok": null, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T20:43:36Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25f0_2", "job": "chaosmonkey/ls3_a_sd25f0_2-644d638117", "event": "submit", "ok": null, "est_usd": 1.3872, "where": "box"}
+{"ts": "2026-11-17T20:43:37Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_2", "job": "chaosmonkey/ls3_a_sd25short_2-6252b9dcd3", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:43:43Z", "model": "minimax/h3", "tag": "bk3_E2_h3_t2", "job": "chaosmonkey/bk3_E2_h3_t2-ebcca6af65", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:44:00Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_DIANWEI_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:44:01Z", "model": "minimax/h3", "tag": "bk3_E2_h3_t1", "job": "chaosmonkey/bk3_E2_h3_t1-158c37e912", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:44:06Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHANGFEI_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:44:07Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_XUYANZHAO_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:44:14Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_BAOZHENG_a", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:45:19Z", "model": "bytedance/seedream-5-pro", "tag": "stg3_poses_C_sd5_v1", "ok": true, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T20:45:20Z", "model": "bytedance/seedance-2.0", "tag": "s3_d1_sd20b", "job": "chaosmonkey/s3_d1_sd20b-79d30dceaf", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:45:32Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_HUANGGAI_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:45:33Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_CHENGYAOJIN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:45:42Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_JIANGWEI_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:45:51Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_DOUERDUN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:46:30Z", "model": "klingai/kling-v4", "tag": "bk3_E2_kling4_t1", "job": "chaosmonkey/bk3_E2_kling4_t1-78597abf44", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:46:31Z", "model": "minimax/h3", "tag": "bk3_G2_h3_t1", "job": "chaosmonkey/bk3_G2_h3_t1-fafb4a5efb", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:47:07Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHENGEN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:47:09Z", "model": "klingai/kling-v4", "tag": "s3_d2_kling4", "job": "chaosmonkey/s3_d2_kling4-617433394a", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:47:09Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_GAODENG_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:47:18Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_LUZHISHEN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:47:25Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_TANGQIN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:48:05Z", "model": "klingai/kling-v4", "tag": "bk3_G2_kling4_t1", "job": "chaosmonkey/bk3_G2_kling4_t1-0f0c8d5083", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:48:10Z", "model": "bytedance/seedance-2.0", "tag": "s3_d1_sd20", "job": "chaosmonkey/s3_d1_sd20-a3fa7ed01f", "event": "result", "ok": true, "est_usd": 1.85, "where": "box"}
+{"ts": "2026-11-17T20:48:12Z", "model": "klingai/kling-v4", "tag": "s3_d6_kling4", "job": "chaosmonkey/s3_d6_kling4-38ffb4a930", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:48:33Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_KID_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:48:47Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_SHIQIAN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:48:52Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_LIUJIN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:49:00Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHOUCANG_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:49:12Z", "model": "bytedance/seedance-2.0", "tag": "s3_d6_sd20", "job": "chaosmonkey/s3_d6_sd20-ebc817759b", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:49:39Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavN_1", "job": "chaosmonkey/ls3_b_pavN_1-4defcb6849", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T20:50:10Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ERLANG_a", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:50:17Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_JINQIANBAO_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:50:27Z", "model": "bytedance/seedance-2.0", "tag": "s3_d2_sd20", "job": "chaosmonkey/s3_d2_sd20-ab5277f7a2", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:50:32Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHONGKUI_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:50:35Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_XIAHOUDUN_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:50:45Z", "model": "klingai/kling-v4", "tag": "s3_d2_kling4ff", "job": "chaosmonkey/s3_d2_kling4ff-e771f54a0f", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:50:53Z", "model": "minimax/h3", "tag": "s3_d6pl_h3", "job": "chaosmonkey/s3_d6pl_h3-fe23e651da", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T20:50:54Z", "model": "klingai/kling-v4", "tag": "s3_d6pl_kling4", "job": "chaosmonkey/s3_d6pl_kling4-a44ed461a3", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:51:05Z", "model": "klingai/kling-v4", "tag": "s3_d7_kling4", "job": "chaosmonkey/s3_d7_kling4-68a95854d6", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:51:06Z", "model": "klingai/kling-v4", "tag": "s3_d8_kling4", "job": "chaosmonkey/s3_d8_kling4-10bd063fe0", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:51:07Z", "model": "klingai/kling-v4", "tag": "s3_j3_kling4", "job": "chaosmonkey/s3_j3_kling4-017980bbaa", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T20:51:23Z", "model": "bytedance/seedance-2.0", "tag": "s3_d7_sd20", "job": "chaosmonkey/s3_d7_sd20-82672892af", "event": "result", "ok": true, "est_usd": 1.85, "where": "box"}
+{"ts": "2026-11-17T20:51:25Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavN_1", "job": "chaosmonkey/ls3_c_pavN_1-6fb0ca6493", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T20:51:26Z", "model": "pruna/p-video-avatar", "tag": "ls3_a_pavN_1", "job": "chaosmonkey/ls3_a_pavN_1-ec779425b6", "event": "result", "ok": true, "est_usd": 0.1761, "where": "box"}
+{"ts": "2026-11-17T20:51:48Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_MUZHA_a", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:51:54Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavA_1", "job": "chaosmonkey/ls3_b_pavA_1-0b0c4a6cf4", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T20:51:56Z", "model": "bytedance/seedance-2.0", "tag": "s3_d8_sd20", "job": "chaosmonkey/s3_d8_sd20-79a12b4cdd", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:51:56Z", "model": "bytedance/seedance-2.0", "tag": "s3_j3_sd20", "job": "chaosmonkey/s3_j3_sd20-7b5751a2ad", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T20:53:57Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavA_1", "job": "chaosmonkey/ls3_c_pavA_1-e127f66d35", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T20:53:58Z", "model": "pruna/p-video-avatar", "tag": "ls3_a_pavA_1", "job": "chaosmonkey/ls3_a_pavA_1-58f61aab33", "event": "result", "ok": true, "est_usd": 0.1761, "where": "box"}
+{"ts": "2026-11-17T20:53:58Z", "model": "google/gemini-omni-1.2-flash", "tag": "ls3_b_omni_1", "job": "chaosmonkey/ls3_b_omni_1-ba0861596b", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T20:53:58Z", "model": "veed/fabric-1.0", "tag": "ls3_b_fabric_1", "job": "chaosmonkey/ls3_b_fabric_1-c542da3e13", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T20:54:34Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_TANGQIN_b", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T20:54:44Z", "model": "klingai/kling-v4", "tag": "ls3_c_kling_1", "job": "chaosmonkey/ls3_c_kling_1-990fcaa385", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T20:55:53Z", "model": "klingai/kling-v4", "tag": "ls3_b_kling_1", "job": "chaosmonkey/ls3_b_kling_1-6ea369c9e7", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T20:56:57Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I3a", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T20:56:57Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F3a", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:56:58Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I4_jade", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:57:00Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I1", "ok": true, "est_usd": 0.2896, "where": "box"}
+{"ts": "2026-11-17T20:57:05Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F1", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:58:19Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25v2v_1", "job": "chaosmonkey/ls3_b_sd25v2v_1-7a22fb8076", "event": "submit", "ok": null, "est_usd": 6.456, "where": "box"}
+{"ts": "2026-11-17T20:58:19Z", "model": "klingai/kling-v4", "tag": "ls3_a_kling_1", "job": "chaosmonkey/ls3_a_kling_1-315c490bfb", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T20:58:22Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25v2v_1", "job": "chaosmonkey/ls3_c_sd25v2v_1-19a69ffbc2", "event": "submit", "ok": null, "est_usd": 6.456, "where": "box"}
+{"ts": "2026-11-17T20:58:22Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25f0_1", "job": "chaosmonkey/ls3_b_sd25f0_1-e043a7e3b7", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:58:50Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T20:58:54Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2896, "where": "box"}
+{"ts": "2026-11-17T20:58:58Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T20:58:58Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T20:59:15Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_1", "job": "chaosmonkey/ls3_c_sd25pre_1-e938b097da", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:59:17Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25f0_1", "job": "chaosmonkey/ls3_c_sd25f0_1-711d3c2ca8", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:59:20Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavD_1", "job": "chaosmonkey/ls3_b_pavD_1-e70102357b", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T20:59:21Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavD_1", "job": "chaosmonkey/ls3_c_pavD_1-014516cd9a", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
