@@ -1,0 +1,175 @@
+{
+ "words_vs_vocal_onsets": {
+  "high": {
+   "n": 247,
+   "median_ms": 15.0,
+   "median_abs_ms": 20.0,
+   "p90_abs_ms": 50.0,
+   "max_abs_ms": 80.0,
+   "frac_within_42ms": 0.854
+  },
+  "medium": {
+   "n": 92,
+   "median_ms": 10.0,
+   "median_abs_ms": 15.0,
+   "p90_abs_ms": 60.0,
+   "max_abs_ms": 75.0,
+   "frac_within_42ms": 0.783
+  },
+  "low": {
+   "n": 66,
+   "median_ms": 5.0,
+   "median_abs_ms": 20.0,
+   "p90_abs_ms": 47.5,
+   "max_abs_ms": 65.0,
+   "frac_within_42ms": 0.848
+  },
+  "note": "sign: + = onset peak after the word start. Unmatched (no onset peak within 80 ms) words excluded: 12 of 417"
+ },
+ "energy_onset_refinement": {
+  "n_words_moved": 63,
+  "median_shift_ms": -70.0,
+  "max_shift_ms": -130.0,
+  "note": "MMS word starts lag the vocal-energy rise after a gap by ~50-130 ms (nasal/voiced consonants); such words were moved to the rise (cap 130 ms)."
+ },
+ "words_vs_whisper": {
+  "n": 224,
+  "median_ms": -245.0,
+  "median_abs_ms": 245.0,
+  "p90_abs_ms": 420.0,
+  "max_abs_ms": 500.0,
+  "frac_within_42ms": 0.0,
+  "note": "whisper - ours; whisper word times are coarse (often early), an independent sanity check only"
+ },
+ "words_rf_vs_demucs": {
+  "n": 417,
+  "median_ms": 0.0,
+  "median_abs_ms": 0.0,
+  "p90_abs_ms": 20.0,
+  "max_abs_ms": 1160.0,
+  "frac_within_42ms": 0.923
+ },
+ "beats_vs_drum_onsets": {
+  "n": 401,
+  "median_ms": 0.0,
+  "median_abs_ms": 0.2,
+  "p90_abs_ms": 0.5,
+  "max_abs_ms": 97.9,
+  "frac_within_42ms": 0.963,
+  "snapped_fraction": 0.795
+ },
+ "beats_vs_beat_this_raw": {
+  "n": 546,
+  "median_ms": -5.0,
+  "median_abs_ms": 8.0,
+  "p90_abs_ms": 18.5,
+  "max_abs_ms": 44.0,
+  "frac_within_42ms": 0.998
+ },
+ "crash_vs_mix_attack": {
+  "n": 16,
+  "median_ms": 12.5,
+  "median_abs_ms": 12.5,
+  "p90_abs_ms": 27.5,
+  "max_abs_ms": 35.0,
+  "frac_within_42ms": 1.0
+ },
+ "sync_hits_vs_mix_attack": [
+  {
+   "name": "Low hand-drum pulse enters",
+   "t": 2.031,
+   "mix_attack": 2.025,
+   "resid_ms": -6.0
+  },
+  {
+   "name": "Drums back, pre-chorus downbeat",
+   "t": 41.014,
+   "mix_attack": 41.03,
+   "resid_ms": 16.0
+  },
+  {
+   "name": "Pre-hook roll start (16ths)",
+   "t": 57.035,
+   "mix_attack": 57.025,
+   "resid_ms": -10.0
+  },
+  {
+   "name": "Hook 1 crash: the stone bursts",
+   "t": 58.673,
+   "mix_attack": 58.675,
+   "resid_ms": 2.0
+  },
+  {
+   "name": "Verse-2 fill start (IOI shrinks 219->44 ms)",
+   "t": 85.458,
+   "mix_attack": 85.46,
+   "resid_ms": 2.0
+  },
+  {
+   "name": "Verse-2 crash / band back",
+   "t": 86.998,
+   "mix_attack": 86.995,
+   "resid_ms": -3.0
+  },
+  {
+   "name": "Rap crash / breakbeat in",
+   "t": 107.975,
+   "mix_attack": 108.02,
+   "resid_ms": 45.0
+  },
+  {
+   "name": "Full band back (downbeat) / width reopens",
+   "t": 135.878,
+   "mix_attack": 135.875,
+   "resid_ms": -3.0
+  },
+  {
+   "name": "Bridge entry: crash + sub, full band",
+   "t": 149.72,
+   "mix_attack": 149.755,
+   "resid_ms": 35.0
+  },
+  {
+   "name": "Build low drum hits",
+   "t": 179.094,
+   "mix_attack": 179.095,
+   "resid_ms": 1.0
+  },
+  {
+   "name": "Drop 2: stuttered crash (4 hits, 189.805-189.972)",
+   "t": 189.805,
+   "mix_attack": 189.865,
+   "resid_ms": 60.0
+  },
+  {
+   "name": "Drop 2 downbeat: kick + bass in",
+   "t": 190.86,
+   "mix_attack": 190.91,
+   "resid_ms": 50.0
+  },
+  {
+   "name": "Single wooden/low hit 1",
+   "t": 221.805,
+   "mix_attack": 221.83,
+   "resid_ms": 25.0
+  },
+  {
+   "name": "Single wooden/low hit 2",
+   "t": 225.254,
+   "mix_attack": 225.275,
+   "resid_ms": 21.0
+  },
+  {
+   "name": "Percussion returns (end)",
+   "t": 228.767,
+   "mix_attack": 228.785,
+   "resid_ms": 18.0
+  },
+  {
+   "name": "Last percussive hit",
+   "t": 235.833,
+   "mix_attack": 235.835,
+   "resid_ms": 2.0
+  }
+ ]
+}

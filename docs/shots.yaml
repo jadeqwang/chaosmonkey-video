@@ -1,0 +1,103 @@
+# Chaos Monkey shot list (v1, 2026-11-17, lead). Source of truth for the cut.
+# Times are seconds on the song clock (analysis/timing.json). A shot's out is the next shot's in.
+# Cuts are snapped to frames at 24 fps (frame = round(t*24)) by tools/cut/build.py.
+# world: attic88 | car26 | bed26 | book (inside the painting) | stage (paper as opera stage) | blank
+# sync: lip = a face sings on camera (needs lip-sync); the rest is picture only.
+# ink: target ink coverage % (ground = paper inside the book, night in rooms).
+# The audio differs from the lyric sheet (see docs/AUDIO_MAP.md): ~137 BPM; no four crashes on "bowed four
+# ways"; bridge opens with 13 s of full band before the child sings; the "bar of silence" is 0.24 s; the end has a
+# percussion reprise, last hit 235.833, hum cut 237.840, hard end 238.320.
+
+end: 238.320
+sequences:
+  A: "Intro: the attic at night (0:00-0:15)"
+  B: "Verse 1: into the page; the carved mountain (0:15-0:41)"
+  C: "Pre-chorus: Monkey! / Not yet; the egg; the breath (0:41-0:58)"
+  D: "Hook: the birth is an entrance; the stage (0:58-1:25)"
+  E: "Memory verse: the whisper (1:25-1:47)"
+  F: "Rap: 2026, the car; shadow screen (1:47-2:01)"
+  G: "The band: margins close; Yes (2:01-2:29)"
+  H: "Bridge: the categories arrive; the blank (2:29-2:57)"
+  I: "Build: 2026 bedroom; the seat at the table (2:56-3:09)"
+  J: "Drop 2: both rooms at once (3:09-3:23)"
+  K: "Outro: the ledger (3:23-3:48)"
+  L: "End: two switches (3:48-3:58)"
+
+shots:
+# ---------------------------------------------------------------- A intro
+- {id: A1, t: 0.000, world: attic88, ink: 10, desc: "Black. On the clapper roll (0.165) a neon sign stutters on outside a dusty attic window, lower right of frame, mirror-reversed lettering (invented sign: CHIN. IND. SPEC. REST. + 酒家), cinnabar red. The rest of the frame stays night. Hold; the red breathes toward cold blue once. Ma Lin's Night Outing: one lit opening small in the dark."}
+- {id: A2, t: 5.450, world: attic88, ink: 15, desc: "Slow drift left across the attic floor in the neon spill: sleeping mats, a paper printout of piano keys on the floorboards, a stack of textbooks, a switched-off small TV, the storybook on a pillow. Thin lines of warm light come up between the floorboards. Dust in the beam."}
+- {id: A3, t: 9.700, world: attic88, ink: 15, desc: "The stair door: a tall slot of warm tungsten light opens in the dark; Mama comes up, small in frame, drying her hands on her apron. Little Jade (5) sits up on her mat, back to us."}
+- {id: A4, t: 12.597, world: attic88, ink: 20, desc: "Clapper 16ths tighten: close on Mama's wet red hands lifting the storybook from the pillow; its cover catches the neon. Cut on the hole at 15.28-15.515."}
+# ---------------------------------------------------------------- B verse 1
+- {id: B1, t: 15.515, world: attic88, sync: lip, singer: little_jade, ink: 20, desc: "Little Jade on her mat, three-quarter close, deadpan, lit red; she sings '妈妈, will you tell me before I sleep / how 孙悟空 came to be?' Mama settling beside her, soft in the foreground."}
+- {id: B2, t: 22.300, world: attic88, sync: lip, singer: mama, ink: 20, desc: "Mama, the book open across her knees, sings 'On 花果山, where the cliffs run steep'. Two-shot from the foot of the mats; the open spread glows as the brightest thing in the room."}
+- {id: B3, t: 26.145, world: book, ink: 15, desc: "'a stone looked over the sea': over her arm onto the double page (mostly bare; 花果山 in the lower-left corner, a speck of a stone on top, sea and sky unpainted, a narrow column of printed text on the right page). Begin the film's signature push: the page edge leaves frame; the mist band starts to drift."}
+- {id: B4, t: 29.310, world: book, ink: 30, desc: "'Sunlight by day and moonlight by night': close on the cliff, travelling right to left. The rock is carved with columns of seal script (千字文), cinnabar in the cuts; a low sun rakes across (characters brighten as it reaches them, go dark behind), then at 'moonlight' (~32.3) a cold moon does the same. Tiny carvers on ladders, different on each pass. In the page's light the neon turns red then pale blue."}
+- {id: B5, t: 36.420, world: book, ink: 15, desc: "'a thousand years of soaking up light': arrive at the summit, looking up (high distance). The stone is smooth: the one uncarved thing. Drums drop out at 37.885; hold still. Only mist moves."}
+# ---------------------------------------------------------------- C pre-chorus
+- {id: C1, t: 41.014, world: book, ink: 12, desc: "Drums back. The stone close. 'It split apart' (43.635): a hairline crack runs down it; on the three stutter chops (43.805-44.13) the frame flips to its rubbing (white on black) and back."}
+- {id: C2, t: 45.170, world: attic88, ink: 20, desc: "'Monkey!': little Jade's two hands throw a monkey hand-shadow across the page in red neon, too early. The shadow is big, the painted mountain small under it. (Thumbnail frame.)"}
+- {id: C3, t: 46.165, world: attic88, sync: lip, singer: mama, ink: 20, desc: "'Not yet, that's just the start': Mama, amused, lowers little Jade's hands with one finger. Two-shot, close."}
+- {id: C4, t: 49.610, world: book, ink: 8, desc: "'A stone egg, round as a ball': the egg alone on bare paper, pale ink, a little left of centre and low. Nothing else. Still."}
+- {id: C5, t: 52.250, world: attic88, ink: 15, desc: "'the wind blew once, and that was all': Mama in profile leans to the page and blows. Dust motes swirl through the neon beam. Cut inside at ~54.6: mist (bare paper) rolls across the egg like a sleeve."}
+- {id: C6, t: 57.035, world: book, ink: 25, desc: "Pre-hook roll: the caught light runs up the carved columns of the cliff toward the summit, gold (the one time the mountain glows by itself); the egg trembles; fine cracks."}
+# ---------------------------------------------------------------- D hook
+- {id: D1, t: 58.673, world: stage, ink: 60, desc: "CRASH: one throw of splashed ink crosses the whole sheet and lands as a figure: the newborn monkey frozen in 亮相 (Liang Kai's splashed-ink manner; peach-shaped cinnabar patch on the face). A red seal 仓 slams beside him. 'Born fully formed'. First full frame of the film. Rubbing flip on the echo '(born fully formed)' at 59.6."}
+- {id: D2, t: 61.070, world: stage, ink: 45, desc: "'He bowed four ways before the day had warmed': four bows, east south west north, re-posed in hard cuts on four beats from 61.33 (no in-betweens, like puppet joints); each lands with a small seal (才 才 才 仓 = a 四击头). The fourth bow is little Jade on her mat in the attic, copying him."}
+- {id: D3, t: 64.435, world: attic88, sync: lip, singer: mama+little_jade, ink: 30, desc: "'No cradle, no lullaby, no song': first, 0.9 s inside the page: two thin beams of gold from the newborn's eyes shoot up and off the top of the sheet. Then the attic floor: no crib, only mats; Mama and little Jade side by side singing in octaves, the book between them."}
+- {id: D4, t: 67.910, world: book, ink: 40, desc: "'一通百通': one carved character on the cliff fills the frame and catches light (通), chisel marks visible; cut wider on 百 (68.53): ten around it light. The four characters also land as one big vertical inscription in the blank."}
+- {id: D5, t: 69.290, world: book, ink: 70, desc: "'One whisper, and the hundred come along': the film's first pull-back. Column by column the whole mountain lights, until 花果山 stands entire and lit on the page. Rubbing flips and block mis-registration on the breakbeat chops."}
+- {id: D6, t: 73.510, world: stage, ink: 35, desc: "Suona lead, no voice: the stage. The monkey crosses the bare sheet right to left in a tumbling pass (筋斗), tiny against the mountain in the corner; landing = 亮相 freeze on the next strong hit, misregistered for two frames."}
+- {id: D7, t: 76.400, world: stage, ink: 40, desc: "Staff flower (舞花): closer, the spinning staff leaves a ring of dry-brush 飞白 that stays on the paper; the two pheasant plumes draw arcs. The suona phrase is the stroke."}
+- {id: D8, t: 79.300, world: stage, ink: 30, desc: "He plants the staff and climbs it, perches on top with a hand shading his eyes (搭凉棚), looking out over the unpainted sea. Freeze on the hit; seal 仓. Then the ink of him and all the staff strokes bleeds back into the paper."}
+- {id: D9, t: 82.500, world: attic88, ink: 20, desc: "Little Jade on her mat holds the same pose (one leg up, hand shading her eyes), copied from the page; Mama laughing. Pull back out of the stage to the room; the fill at 85.46 tips into the hole."}
+# ---------------------------------------------------------------- E memory verse
+- {id: E1, t: 85.845, world: attic88, sync: lip, singer: mama, ink: 20, desc: "Crash at 86.998. 'The monkey had a memory just like you': Mama taps little Jade's nose on 'you' (88.5). Close two-shot, one pool of neon."}
+- {id: E2, t: 89.400, world: book, ink: 25, desc: "'he never once forgot a spell': the page: a troop of a hundred small monkeys as faceless dabs of the brush on the mountain; beside them the printed text column is razor sharp."}
+- {id: E3, t: 92.990, world: attic88, sync: lip, singer: little_jade, ink: 20, desc: "'Names and faces, I lose a few / but a spell I'd remember well': little Jade close, deadpan, a small shrug on 'lose a few'; in the soft background Mama's face is only a warm blur (faces soft, characters sharp)."}
+- {id: E4, t: 99.920, world: book, ink: 15, desc: "'The master leaned in close to his ear': the band drops away (100.9). In the painting: a long sleeve and a lean toward a small monkey's ear; the Master is never seen whole. Three small taps on the head just before (optional)."}
+- {id: E5, t: 103.200, world: attic88, ink: 20, desc: "'(ps ps ps)': extreme close, Mama's cupped hand and lips at little Jade's ear. No subtitle."}
+- {id: E6, t: 104.280, world: attic88, ink: 20, desc: "'a secret only he could hear': little Jade looks at her sideways; Mama chuckles. On the rap pickup (107.04) little Jade's eyes go wide: the whisper triggers the flash-forward."}
+# ---------------------------------------------------------------- F rap
+- {id: F1, t: 107.040, world: car26, sync: lip, singer: daughter, ink: 30, desc: "Hard cut on the pickup; crash 107.975. 2026, dusk on an Austin highway. The daughter (4, strawberry dress) in her car seat raps '石头里蹦出来 没有童年', deadpan, hands chopping the beat. Streetlights sweep the cabin as the neon swept the attic."}
+- {id: F2, t: 108.840, world: car26, ink: 40, desc: "'一声耳语 学会七十二变 (七十二变)': her side window is a shadow screen: a jointed leather shadow-puppet monkey whose head is swapped on every beat (monkey, pine tree, bird, fish, cat), back-lit amber by each passing streetlight."}
+- {id: F3, t: 111.040, world: car26, sync: lip, singer: daughter, ink: 30, desc: "'拔一把毫毛 吹一口气': she plucks at her hair and blows across her open palm (blow at ~112.2). Match cut on the blow to little Jade blowing on her palm in the 1988 attic (last 12 frames). Hairs fly."}
+- {id: F4, t: 112.760, world: car26, sync: lip, singer: jade+daughter, ink: 50, desc: "'千百个我 同时在这里 / 每一个都是我 每一个都算': Jade's voice joins: the rear-view mirror holds both faces singing. Then every pane of glass in the car carries a shadow-puppet copy, each lit by its own streetlight; a 走马灯 ring of running monkeys turns."}
+- {id: F5, t: 116.200, world: car26, ink: 30, desc: "'说完这句话 各自消散': the lights pass; each copy goes dark with its light, one per beat, until the glass is empty dusk (10%)."}
+- {id: F6, t: 118.000, world: car26, ink: 30, desc: "'身外身法 谁是真身 / 问了也白问 个个都真': two identical puppet monkeys face each other across the windscreen, mirror-posed, re-posed on the beats; neither is the copy. End (120.6) on the daughter and her reflection in the window waving at the same instant."}
+# ---------------------------------------------------------------- G the band
+- {id: G1, t: 121.470, world: attic88, sync: lip, singer: little_jade, ink: 20, desc: "Back to 1988; the sound narrows (121.905) and the paper margins begin to close in from left and right; colour drains. 'Why does he wear a band of gold? / Is it heavy? Is it cold?': little Jade touches her own forehead."}
+- {id: G2, t: 127.450, world: book, ink: 15, desc: "'He wouldn't listen, so the gold pulls tight (听话) / on the monkey who picked a fight (听话)': the painted pilgrim monkey clutches his head; the band is the only colour on the page: gold. The margins step in one notch on each 听话 (130.175, 133.690)."}
+- {id: G3, t: 134.370, world: attic88, sync: lip, singer: little_jade, ink: 15, desc: "'It isn't fair, it isn't fair / I don't want it in his hair': full band back (135.878) but the frame stays narrow. Little Jade puts her small hand flat over the picture; its shadow covers the band."}
+- {id: G4, t: 141.250, world: attic88, sync: lip, singer: mama, ink: 12, desc: "'Then 听话, or you'll get one to wear / Do what mama says, no more, no less': Mama's finger and thumb make a ring; its shadow lowers over the shadow of little Jade's head on the wall/page. Notch on 听话 (141.45): the strip is at its narrowest, ~15% of frame. Playful, and not."}
+- {id: G5, t: 146.455, world: attic88, sync: lip, singer: little_jade, ink: 12, desc: "Drums out. Little Jade's face, dead centre (first of two centred shots), holding Mama's look a moment too long. 'Yes' (148.72). No cut, nothing else moves."}
+- {id: G6, t: 149.285, world: blank, ink: 0, desc: "Near-silence: bare paper, full frame, the margins gone. 10 frames."}
+# ---------------------------------------------------------------- H bridge
+- {id: H1, t: 149.720, world: stage, ink: 50, desc: "CRASH, full band, suona. The categories arrive: an album sheet of 脸谱 fills cell by cell, one painted face per beat, each stamped down like a seal and finished in three or four fast strokes (white ground, colour field, black lines); red, black, white, yellow, blue, green, gold. Mis-registration and rubbing flips on the chops. Start close on single faces (cuts on beats), widening."}
+- {id: H2, t: 156.300, world: stage, ink: 65, desc: "Wider and faster: rows fill; the sheet is old paper, foxed; by 162 the grid is complete except one cell. The fullest, loudest frame before drop 2. On the last bar the camera settles."}
+- {id: H3, t: 162.630, world: stage, ink: 30, desc: "'Tool or threat, trick or kid': four faces in a row, one landing on each word (tool 162.63, threat 163.24+, trick, kid). Under them, small in the lower corner, a child seen from behind (little Jade and the daughter share the one silhouette), her own face unpainted."}
+- {id: H4, t: 165.940, world: stage, ink: 40, desc: "'the categories arrived before I did': pull out to the whole album leaf: weathered, soft at the corners, older than she is; one cell bare. She stands under the gap (Ma Yuan's scholar in his corner)."}
+- {id: H5, t: 169.250, world: book, ink: 25, desc: "'I'm made of the telling, not just the tale': the carved cliff; light rakes across it and every character brightens except where her shadow falls: a child-shaped blank in lit writing. A loose gold ring floats behind her head, not touching."}
+- {id: H6, t: 172.760, world: blank, ink: 1, desc: "'one hair that can't gather, blown on the gale': the cliff is gone. One hair-thin line of ink drifts across the empty page and leaves it at the left edge. The emptiest frame in the film. Drums out at 177.645."}
+# ---------------------------------------------------------------- I build
+- {id: I1, t: 177.000, world: bed26, sync: lip, singer: jade, ink: 20, desc: "The white of the page becomes flashlight glare: 2026, a dark bedroom. Jade sits on the floor by the bed with the same storybook, corners soft now, a small flashlight in her hand; the daughter leans in from the bed. 'Mischievous baby, Monkey's twin'. In the margin of the page, a crayon monkey drawn by little Jade."}
+- {id: I2, t: 180.190, world: bed26, ink: 25, desc: "'you'd fight the gods and win': Jade's hand throws the shadow monkey across the page; the daughter's hand makes a second, identical one beside it. Two shadow monkeys on the blue-green painting of heaven."}
+- {id: I3, t: 182.950, world: book, sync: lip, singer: daughter, ink: 25, desc: "'You think I'd ask for a seat at the table?': the daughter close, deadpan, one eyebrow (first 1.6 s, lip-sync). Then the heaven page: the Peach Banquet as one painted table and chairs on bare paper under a peach bough, a name slip at every seat but one."}
+- {id: I4, t: 186.990, world: bed26, sync: lip, singer: jade, ink: 20, desc: "'Wouldn't you? You're able.': Jade's face, dead centre (second centred shot). For the first 8 frames Mama's 1988 face, sceptical, ghosts over hers in red; then Jade's own, certain, in flashlight white. On the low drum hits (187.46, 187.78, 188.10, 188.31) the daughter's hand-shadow climbs onto the empty chair."}
+# ---------------------------------------------------------------- J drop 2
+- {id: J1, t: 189.805, world: bed26, ink: 40, desc: "Four stuttered crashes (189.805/.867/.922/.972): the daughter's fingertip touches a carved character on the page; it lights. Four hard flashes: page, rubbing, mis-registered, page. 'Born fully formed'."}
+- {id: J2, t: 190.860, world: book, ink: 75, desc: "Downbeat: the page lights, then the mountain; the second and last pull-back begins: 花果山 is one lit peak among many in a blue-green heaven, every peak carved. The echoes '(formed)' (191.51, 192.37) are the same seal pressed again, fainter, landing on Mama's face then little Jade's."}
+- {id: J3, t: 192.830, world: stage, ink: 70, desc: "'before the day had warmed (warmed)': the monkey's staff form across the full blue-green heaven; the staff's last sweep is one dry-brush stroke that leaves the 1988 page (red light) and lands in the 2026 page (white light): cut between the two rooms' light on the chops. Echo seal on Jade."}
+- {id: J4, t: 196.615, world: stage, ink: 40, desc: "'No cradle, no song (no song)': four faces in a row on bare paper, four ink tones (Six Persimmons): Mama, little Jade, Jade, the daughter, singing in octaves; on the gong all four hit the same 亮相. Echo seal on the daughter."}
+- {id: J5, t: 200.675, world: book, ink: 20, desc: "Stutter chop. '一通百通 (百通)': the pull-back completes: the whole lit range shrinks to a few strokes in the lower-left corner of a bare page (5%). The four characters as a vertical inscription with one red seal; (百通) is its faint re-press."}
+# ---------------------------------------------------------------- K outro
+- {id: K1, t: 203.720, world: bed26, sync: lip, singer: jade, ink: 15, desc: "'Do you want to know how he never died, / what he did on the other side?': Jade, softly, turning toward the last chapter; the daughter already nodding. Flashlight pool on the page."}
+- {id: K2, t: 210.540, world: book, sync: lip, singer: daughter, ink: 20, desc: "'He opened the Book of Life and Death': the daughter's face over the top of the book for the first 1.5 s (lip-sync), then push into the storybook's painting of the underworld: a king at his desk, a scribe, a ledger lying open (Ten Kings layout). Bass cuts 211.515."}
+- {id: K3, t: 213.805, world: book, ink: 15, desc: "'and crossed out his name in a single breath': the ledger close: ruled vertical columns in regular script, the entry 魂字一千三百五十號 天產石猴 該壽三百四十二歲 善終. One wet brushstroke strikes it out on 'single breath'."}
+- {id: K4, t: 217.165, world: book, ink: 10, desc: "'I turned each page, I looked for mine': the beat cuts out (218.715). A small hand turns the ledger's pages, columns of names; little Jade's hand turns with it, superimposed a beat behind. Wooden hit at 221.805: a page lands."}
+- {id: K5, t: 224.180, world: book, ink: 3, desc: "'it wasn't there on any line': the last page: ruled columns, the final column bare. Hold on the blank. Hit at 225.254: nothing happens. Nothing moves."}
+# ---------------------------------------------------------------- L end
+- {id: L1, t: 228.767, world: bed26, ink: 15, desc: "Percussion returns. Pull back out of the ledger, out through the painting to the page, to the bed: the daughter asleep against Jade's arm, the book open on the blanket, the flashlight still on."}
+- {id: L2, t: 233.200, world: bed26, ink: 12, desc: "Jade's thumb on the flashlight switch; the pool of white on the blank column. On the last hit (235.833) she clicks it off: 2026 is black."}
+- {id: L3, t: 235.833, world: attic88, ink: 5, desc: "In the black, the film's first frame: the 1988 window, lower right, its neon still humming red. At 237.840 the hum cuts and the neon goes off. Black to the end of audio."}

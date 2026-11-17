@@ -29,7 +29,7 @@ def emissions(y16, win=30.0, hop=20.0):
         f0 = int(round(a / FR)); n = min(len(em), nF - f0)
         kf = 0 if a == 0 else int((win - hop) / 2 / FR); kt = n if b >= dur else n - int((win - hop) / 2 / FR)
         E[f0 + kf:f0 + kt] = em[kf:kt]
-        if b >= dur: E = E[:f0 + n]; break
+        if b >= dur - 0.05: E = E[:f0 + n]; break
         a += hop
     return E
 
