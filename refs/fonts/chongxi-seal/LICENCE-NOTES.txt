@@ -1,0 +1,5 @@
+Chong Xi Small Seal 崇羲篆體 (Academia Sinica, 2022). Source: https://xiaoxue.iis.sinica.edu.tw/chongxi/index.htm  (download via download.htm on that site; here fetched from a GitHub mirror, jaywcjlove/free-font docs/fonts/其他字体/崇羲篆体.otf).
+Licence page (https://xiaoxue.iis.sinica.edu.tw/chongxi/copyright.htm): CC授權 姓名標示-禁止改作 3.0 台灣及其後版本 (CC-BY-ND-3.0-TW-or-later), https://creativecommons.org/licenses/by-nd/3.0/tw/
+Summary on page: 「使用者在遵守授權條款規定的前提下，得重製、散布、傳輸本著作（包括商業性利用），然使用時應表彰原作者姓名，亦不得修改本著作。」
+Intro page: 「完成後採公眾授權無償供各界使用…整體字型禁止被修改」.
+Obligations: credit Academia Sinica; do NOT modify/subset/convert/re-encode the font file. Rendering text to images is fine. Do not ship altered copies.

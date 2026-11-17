@@ -1,0 +1,14 @@
+media/
+work/
+previews/
+keep/
+refs/paintings/**/*.jpg
+refs/paintings/**/*.jpeg
+refs/paintings/**/*.png
+refs/paintings/**/*.tif*
+refs/fonts/**/*.ttf
+refs/fonts/**/*.otf
+refs/fonts/**/*.zip
+analysis/*.wav
+__pycache__/
+*.pyc

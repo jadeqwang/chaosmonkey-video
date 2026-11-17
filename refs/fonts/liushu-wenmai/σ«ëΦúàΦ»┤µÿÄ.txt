@@ -1,0 +1,13 @@
+六书文脉小篆 v0.8
+Liushu Wenmai Xiaozhuan
+
+授权：SIL Open Font License 1.1
+收录：《说文》正篆 703 个（含重文等共 1,603 个码位）
+设计单位：UPM 1000，字面框 900 × 680
+
+安装
+  Windows：右键 LiuShuWenMaiXiaozhuan-v0.8.ttf → 安装
+  macOS：双击 → 字体册 → 安装字体
+  Linux：复制到 ~/.local/share/fonts/ 后执行 fc-cache -f -v
+
+字体族名：六书文脉小篆 / LiuShu Wenmai Xiaozhuan

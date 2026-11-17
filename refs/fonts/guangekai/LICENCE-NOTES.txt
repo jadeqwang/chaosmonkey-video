@@ -1,0 +1,1 @@
+GuanGe Kai 館閣楷 v1.7.3. https://github.com/wainshine/guangeti  Font: SIL OFL 1.1 (name table nameID13); repo LICENSE (MIT) covers scripts. Real glyphs traced from Ming MS 四書白文; generated glyphs derived from LXGW WenKai (OFL).

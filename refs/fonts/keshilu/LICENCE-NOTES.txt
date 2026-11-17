@@ -1,0 +1,3 @@
+刻石錄 fonts (一點字坊 / Ichiten Fonts Project) - https://founder.acgvlyric.org/iu/doku.php/造字:開源字型_i.明體
+刻石录明體.ttf = I.Ming 6.11 (IPA Font License v1.0, http://ipafont.ipa.go.jp/ipa_font_license_v1.html). Permits use/redistribution; modified versions must be renamed; must accept the licence.
+刻石录顏體.ttf = I.Ngaan 1.004, 刻石录鋼筆鶴體.ttf = I.PenCrane-B 1.004: GNU GPL v2 or later (Dr. Hann-Tzong Wang 1999-2004 / Ichiten 2013-14), no font exception stated. Fine for rendering to images/video; do not redistribute the files except under GPL.

@@ -1,0 +1,16 @@
+# shigu.txt  UTF-8. 石鼓文 第一鼓 (車工 / 吾車篇), Stone Drum no.1, style sample only (not for the cliff).
+# Source: zh.wikisource.org 石鼓文/第一鼓 (車工·吾車篇), section 改變表記 (modern-character transcription), accessed 2026-11-16.
+# Parallel for the opening couplet: Shijing Xiaoya 車攻 "我車既攻，我馬既同" (chinesenotes.com/shijing).
+# Lines with undeciphered/rare graphs are given as the Wikisource note describes them; marked [rare].
+吾車既工，吾馬既同。
+吾車既好，吾馬既寶。      # Wikisource transcribes 𩢿 (馬+缶) as 寶; many editions read 阜 "plump/strong". Treat as uncertain.
+君子員獵，員獵員游。
+麀鹿速速，君子之求。
+[rare: 𤙡𤙡]角弓，弓玆以持。   # first two graphs = 𤙡𤙡 (午辛), usually read "騮騮/辛辛"; not typesettable in the seal fonts
+吾驅其特，其來趩趩。
+[rare: 𧾨𧾨𤒞𤒞]，即吾即時。
+麀鹿[rare: 𧻕𧻕]，其來大次。
+吾驅其樸，其來䢱䢱。
+射其豣獨。
+# Safe-to-typeset opening (common characters only):
+吾車既工，吾馬既同。吾車既好，吾馬既寶。君子員獵，員獵員游。麀鹿速速，君子之求。

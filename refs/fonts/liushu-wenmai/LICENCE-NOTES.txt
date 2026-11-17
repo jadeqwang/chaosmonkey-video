@@ -1,0 +1,1 @@
+LiuShu WenMai Xiaozhuan v0.8 (703 chars). https://github.com/jianyue2026/liushuwenmai-xiaozhuan  Licence per its README: SIL OFL 1.1 (no OFL.txt file shipped in the release zip; README only). Too few glyphs for use; kept for comparison only.
