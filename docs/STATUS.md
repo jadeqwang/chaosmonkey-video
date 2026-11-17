@@ -152,3 +152,10 @@ shot with per-shot lyric text off (old comps kept in `media/comp/_v1/`), new `to
 If that agent dies: its brief is reproducible from this paragraph and QA item 4 in `docs/QA_PREVIEW_V1.md`.
 Next (lead): review preview_v2 sheets -> `docs/MORNING.md` -> stop for Jade's review.
 Spend: TOTAL $174.90 of $600 cap  (514 billed items; list-price estimates)
+
+## Checkpoint 14 — 2026-11-17 04:16 — STOPPED FOR JADE'S REVIEW
+Complete 540p cut delivered: `previews/chaosmonkey_preview_v2_540p.mp4` (lyrics) and `..._nolyrics.mp4`
+(= `media/cut/preview_v2.mp4`, `preview_v2_clean.mp4`; 5720 frames, verified). Morning report: `docs/MORNING.md`.
+Current QA: `docs/QA_PREVIEW_V2.md`. No agents or jobs are running; the hourly checkpoint job is cancelled.
+Nothing further is to be generated or rendered until Jade has reviewed (her stop point). No 1080p render was made.
+Spend: $174.90 of $600.
