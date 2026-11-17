@@ -118,3 +118,16 @@ Known weak (lead's read of the contact sheets): lip-sync shots drift toward a so
 rooms brighter than their night budgets; lyric inscriptions tiny and inconsistent; 脸谱 faces graphic rather than brushy.
 Next: apply QA's top fixes -> re-assemble as preview_v2 -> `docs/MORNING.md` -> stop for Jade's review.
 Spend: TOTAL $172.24 of $600 cap  (506 billed items; list-price estimates)
+
+## Checkpoint 11 — 2026-11-17 03:02
+Done: polish round 1 (`docs/logs/LOG_polish1.md`: I4 repainted in the painted hand, G2 margins legible, B3 surround,
+L2 repaint + thumb press, J2 on paper); QA review of preview_v1 (`docs/QA_PREVIEW_V1.md`: 15 ranked fixes, measured
+sync table, lip-sync table); lead fixed `tools/cut/splice.py` (it duplicated a frame: all 7 splices were 1-2 frames
+late; now frame-exact, verified).
+Running fix round 2 from the QA list: BOOK/STAGE fixer (`docs/logs/LOG_fix2_book.md`: late seal/flip/crack/page
+triggers, D2 bows + legible seal glyphs, 脸谱 painted surface, J3/J2 light, K5 blank column) and ROOMS fixer
+(`docs/logs/LOG_fix2_rooms.md`: ending L2->L3 black + neon off, E3, unmarked crashes, centred faces, lip-sync shifts,
+I1 white-in, G4 ring, F6b reflection).
+Next: global lyric pass (QA item 4: one consistent lyric layer; per-shot lyric text off) -> splice -> preview_v2 ->
+`docs/MORNING.md` -> stop for Jade.
+Spend: TOTAL $174.90 of $600 cap  (514 billed items; list-price estimates)
