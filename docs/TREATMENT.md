@@ -126,3 +126,17 @@ blank column, the single click.
 
 If an idea here does not survive contact with the footage, it is dropped and the brainstorm's quieter
 version stands.
+
+## Sound (added 2026-11-16, Jade's go-ahead)
+
+Jade has cleared a sound-design layer (ElevenLabs or other tools) and extending the fade of the last note;
+the Hold Fire layer (`~/Documents/1-music-shipped/holdfire/docs/SOUND.md`) is the model. Planned cues, all
+diegetic to paper, room and stage, mixed under the song and never over a lyric:
+
+- Rooms: neon hum and its switch-off, dishes below, footsteps on the stairs, floor mats, page turns, the
+  flashlight click, car cabin and passing streetlights, the daughter's finger on paper.
+- Paper and ink: brush on xuan, a wet throw of ink, a seal thumping down (and fainter re-presses), paper
+  torn and slid, a rubbing pad dabbing, chisel on stone far off.
+- Stage: staff whoosh and tap, plume swish, a sleeve snap, feet landing on boards on each 亮相.
+- The end: the single clapper, the click, then the room tone cut; test extending the last note's tail
+  against a hard cut and keep whichever serves the click.
