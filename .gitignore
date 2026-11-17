@@ -13,3 +13,7 @@ analysis/*.wav
 __pycache__/
 *.pyc
 refs/paintings/_manifest.jsonl
+design/characters/**/*.jpg
+design/characters/**/*.png
+design/plates/**/*.jpg
+design/plates/**/*.png
