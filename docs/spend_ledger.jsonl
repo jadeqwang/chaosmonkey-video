@@ -587,3 +587,16 @@
 {"ts": "2026-11-17T07:48:19Z", "model": "google/nano-banana-pro", "tag": "kf_F3b", "ok": true, "est_usd": 0.1344, "where": "box"}
 {"ts": "2026-11-17T07:48:57Z", "model": "klingai/kling-v4", "tag": "stg_d7_kling4", "job": "chaosmonkey/stg_d7_kling4-fc84e72bb9", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
 {"ts": "2026-11-17T07:48:57Z", "model": "klingai/kling-v4", "tag": "stg_d8_kling4", "job": "chaosmonkey/stg_d8_kling4-bf1f45472f", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T07:49:12Z", "model": "google/nano-banana-pro", "tag": "kf_K1_end", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:49:25Z", "model": "google/nano-banana-pro", "tag": "kf_G1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:49:29Z", "model": "google/nano-banana-pro", "tag": "kf_L1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:49:32Z", "model": "google/nano-banana-pro", "tag": "kf_E6", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:49:42Z", "model": "google/nano-banana-pro", "tag": "kf_G3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:49:52Z", "model": "google/nano-banana-pro", "tag": "kf_I4_mama", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:50:00Z", "model": "klingai/kling-v4", "tag": "stg_j3_kling4", "job": "chaosmonkey/stg_j3_kling4-fe8f0d8380", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T07:50:01Z", "model": "bytedance/seedance-2.0", "tag": "stg_j3_sd20", "job": "chaosmonkey/stg_j3_sd20-6a9cf14e25", "event": "result", "ok": true, "est_usd": 1.85, "where": "box"}
+{"ts": "2026-11-17T07:50:30Z", "model": "google/nano-banana-pro", "tag": "kf_E6", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:50:34Z", "model": "google/nano-banana-pro", "tag": "kf_G1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:52:38Z", "model": "minimax/h3", "tag": "vb_V2_h3_aplume", "job": "chaosmonkey/vb_V2_h3_aplume-7af42cfad0", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T07:52:39Z", "model": "minimax/h3", "tag": "vb_V2_h3_bplume", "job": "chaosmonkey/vb_V2_h3_bplume-784a2bd87d", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T07:52:45Z", "model": "google/nano-banana-pro", "tag": "kf_G3", "ok": true, "est_usd": 0.1344, "where": "box"}

@@ -77,3 +77,15 @@ Not yet assigned: ROOMS team (animate room keyframes, lip-sync 18 shots, map pag
 code, margins on G shots, splice a/b parts): starts when keyframes + bake-off lip-sync verdict land.
 Then: assemble preview_v1 (`tools/cut/assemble.py --profile preview --audio media/sound/mix_v1.wav`), QA pass, `docs/MORNING.md`.
 Spend: TOTAL $94.29 of $600 cap  (362 billed items; list-price estimates)
+
+## Checkpoint 7 — 2026-11-17 01:52
+All 65 shots are now assigned. New teams: ROOMS-88 (attic: A1-A4 B1 B2 C2 C3 C5a D2d D3 D9 E1 E3 E5 E6 F3b G1 G3 G4 G5 L3;
+log `media/comp/LOG_rooms88.md`, $55) and ROOMS-26 (F1 F3a F4a F6b I1 I2 I3a I4 J1 K1 K2a L1 L2; `LOG_rooms26.md`, $55).
+Method for rooms: Kling v4 motion from keyframes (first+last), Seedance 2.5 lip-sync with `tools/review/lipsync.py` auto-lag,
+comp layers in tools.ink (page art on book via sidecar quads, neon sign in code, hand shadows, margins).
+Done: plates (all groups, `design/plates/PLATES.md`); bedroom + car keyframes (`media/kf/_sheets/`).
+Split shots to splice at assembly (lead): C5 = C5a+C5b @54.6; D2 = D2 + D2d (last ~0.6 s); F3 = F3a+F3b (last 12 f);
+F4 = F4a+F4b @~114.3; F6 = F6a+F6b @~120.6; I3 = I3a+I3b @~184.6; K2 = K2a+K2b @~212.1 (exact frames in team logs).
+Still running: attic keyframes; video bake-off (V1b/V4/V6 tails); teams MOUNTAIN, STAGE, FACES, HEAVEN.
+Next (lead): splice script; assemble preview_v1 with `media/sound/mix_v1.wav`; QA sheets; `docs/MORNING.md`.
+Spend: TOTAL $123.20 of $600 cap  (451 billed items; list-price estimates)
