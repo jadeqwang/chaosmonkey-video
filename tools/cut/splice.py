@@ -39,12 +39,12 @@ def main():
             filt.append(f"[{i}:v]trim=end_frame={n},setpts=N/(24*TB),scale=960:540,setsar=1[v{i}]")
             labels.append(f"[v{i}]")
         pad = need - sum(take)
-        cat = "".join(labels) + f"concat=n={len(take)}:v=1:a=0[c]"
+        cat = "".join(labels) + f"concat=n={len(take)}:v=1:a=0,setpts=N/(24*TB)[c]"
         tail = f";[c]tpad=stop_mode=clone:stop={max(pad,0)+3}[o]"  # +3 guard frames; -frames:v trims to need
         dst = out_dir / f"{sid}.mp4"
         cmd = ["ffmpeg", "-v", "error", "-y"]
         for p in paths: cmd += ["-i", str(p)]
-        cmd += ["-filter_complex", ";".join(filt) + ";" + cat + tail, "-map", "[o]", "-frames:v", str(need), "-fps_mode", "passthrough",
+        cmd += ["-filter_complex", ";".join(filt) + ";" + cat + tail, "-map", "[o]", "-frames:v", str(need), "-r", "24",
                 "-c:v", "libx264", "-crf", "14", "-pix_fmt", "yuv420p", str(dst)]
         subprocess.run(cmd, check=True)
         got = nframes(dst)
