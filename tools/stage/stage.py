@@ -9,6 +9,7 @@ from tools.ink import (load_image, key_paper, resize, lay_ink, transform, place,
 
 SINGLES = 'design/characters/monkey/singles/'
 SEAL_FONT = 'refs/fonts/chongxi-seal/崇羲篆体.otf'
+SYLLABLE_FONT = 'refs/fonts/guangekai/館閣楷-Regular.ttf'     # 锣鼓经 syllable seals (fix round 2)
 KAI_FONT = 'refs/fonts/lxgw-wenkai/霞鹜文楷-Regular.ttf'
 LATIN = 'refs/fonts/eb-garamond/EBGaramond[wght].ttf'
 LATIN_IT = 'refs/fonts/eb-garamond/EBGaramond-Italic[wght].ttf'
@@ -89,14 +90,18 @@ SEALS = {}
 
 
 def seals(s=1.0):
-    """倉 (big gong) and 才 (cymbal) as 白文 impressions in seal script (仓 is not in Chong Xi; 倉 is its form)."""
+    """倉 (big gong), 才 (cymbal), 台 as 白文 impressions. Fix round 2: the syllables are cut in a carved regular script
+    (館閣楷, thickened, natural proportions) so they read as characters at 540p: in 崇羲 small seal 才 reads as katakana
+    キ and 台 not at all. Same face for every syllable seal in the film (D1 D2 D2d D6 D7 D8 J3 J4)."""
     key = round(s, 3)
     if key not in SEALS:
+        def syl(ch, px, seed):
+            return seal(ch, SYLLABLE_FONT, int(px * s), 'bai', wear=0.28, seed=seed, weight=0.016, stretch=1.12)
         SEALS[key] = dict(
-            cang=seal('倉', SEAL_FONT, int(150 * s), 'bai', wear=0.32, seed=7),
-            cang_small=seal('倉', SEAL_FONT, int(104 * s), 'bai', wear=0.32, seed=7),
-            cai=seal('才', SEAL_FONT, int(84 * s), 'bai', wear=0.3, seed=11),
-            tai=seal('台', SEAL_FONT, int(84 * s), 'bai', wear=0.3, seed=13),
+            cang=syl('倉', 150, 7),
+            cang_small=syl('倉', 104, 7),
+            cai=syl('才', 96, 11),
+            tai=syl('台', 96, 13),
         )
     return SEALS[key]
 
@@ -105,9 +110,13 @@ def hold_index(t, cues):
     """Index of the last cue <= t (-1 before the first): hard re-posing, no in-betweens."""
     k = -1
     for i, c in enumerate(cues):
-        if t >= c - 1e-6:
+        if t >= on_frame(c) - 1e-6:                  # re-pose on the frame that contains the cue
             k = i
     return k
+
+
+def on_frame(t):
+    return np.floor(t * 24 + 1e-6) / 24
 
 
 def settle(t, t_hit, amp, dur=0.25, late=2 / 24):

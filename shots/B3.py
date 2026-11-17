@@ -22,7 +22,7 @@ MX, MY = 260, 230                         # canvas margin around the spread
 CW, CH = SW + 2 * MX, SH + 2 * MY
 PS = SH / 1920.0                          # B_master scale onto the spread
 START = (MX + SW / 2, MY + SH / 2, 1920 / (SW + 330))
-END = (MX + 1060, MY + 1500, 1920 / 2350)
+END = (MX + 1220, MY + 1480, 1920 / 2250)      # fix2: was (1060, 1500, 2350): the left page edge stayed in frame at the cut
 T_PUSH0, T_PUSH1 = 26.32, T1 + 0.25       # the push is still moving on the cut
 ATTIC = np.array([0.105, 0.078, 0.068], np.float32)        # the dark attic around the book (warm ink-dark)
 COVER = np.array([0.43, 0.16, 0.12], np.float32)           # the storybook's faded red cloth cover (B2)
@@ -66,7 +66,7 @@ def setup(ctx):
     BARE[MY:MY + SH, MX:MX + SW] = paper.rgb
     # the mist band, as painted across the mountain's waist (bare paper): drifts only once we are inside
     m = np.zeros((CH, CW), np.float32)
-    band_ = mist_band(SW + 1200, 460, 110, 350, seed=5, softness=0.5, wisp=0.75)
+    band_ = wavy_band(mist_band(SW + 1200, 460, 110, 350, seed=5, softness=0.5, wisp=0.75), 60, 800, seed=5)   # fix2
     MIST = (band_, MX - 600, MY + int(1000 * PS) - 110)
     CAM = Camera.push_in(T_PUSH0, T_PUSH1, START, END, 'in')
     # when have the page edges left the frame? (left edge and bottom edge)

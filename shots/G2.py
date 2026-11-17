@@ -48,9 +48,9 @@ def setup(ctx):
 def tight(t):
     """0 -> 1 -> 2 notches of tightening, each a 3-frame snap on a 听话."""
     k = 0.0
-    for c in (T_STEP1, T_STEP2):
-        if t >= c:
-            k += ease(min(1.0, (t - c) / (3 / 24)), 'out')
+    for c in (on_frame(T_STEP1), on_frame(T_STEP2)):          # fix2: on the frame containing the 听话
+        if t >= c - 1e-9:
+            k += 0.75 + 0.25 * ease(min(1.0, (t - c) / (2 / 24)), 'out')
     return k
 
 
@@ -65,8 +65,8 @@ def render(t, ctx):
     over(pic, nb, int(round(bx)), int(round(by)))
     # a small jolt of the whole figure on each 听话 (hands clench)
     jx = jy = 0.0
-    for c in (T_STEP1, T_STEP2):
-        d = t - c
+    for c in (on_frame(T_STEP1), on_frame(T_STEP2)):
+        d = t - c + 1e-9
         if 0 <= d < 0.25:
             jx += 3.0 * (1 - d / 0.25) * np.sin(d * 70)
             jy += 2.0 * (1 - d / 0.25)

@@ -76,11 +76,12 @@ def setup(ctx):
 def leaf_state(t):
     """(turn index, theta) or (spread index, None) when no leaf is in the air."""
     for k, tl in enumerate(LANDS):
+        tl = on_frame(tl)                       # fix2: the page is down ON the frame that contains the landing
         ts = tl - 6 / 24.0
-        if ts <= t < tl:
+        if ts - 1e-9 <= t < tl - 1e-9:
             j = min(2, int((t - ts) * 24.0 + 1e-6) // 2)
             return k, DRAW_THETA[j]
-    n = sum(1 for tl in LANDS if t >= tl)
+    n = sum(1 for tl in LANDS if t >= on_frame(tl) - 1e-9)
     return n, None
 
 

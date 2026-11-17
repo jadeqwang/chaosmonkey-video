@@ -36,14 +36,16 @@ def setup(ctx):
 
 def render(t, ctx):
     f = STONE.copy()
-    if t >= T_SPLIT:
+    t_s = on_frame(T_SPLIT)                      # fix2: the crack is there on the frame containing 43.635
+    if t >= t_s - 1e-9:
         yy, m = YMAP
-        u = ramp(t, T_SPLIT, T_SPLIT + DUR, 'in')
+        # the stone splits at once (a third of the way down on the first frame), then runs on to the base
+        u = 0.34 + 0.66 * ramp(t, t_s, t_s + DUR, 'out')
         front = Y0 + (Y1 - Y0 + 30) * u
         a = m * smoothstep(front + 6, front - 6, yy)
         f += (CRACK - f) * a[..., None]
     for a_, b_ in CHOPS:
-        if a_ <= t < max(b_, a_) + 2 / 24:
+        if on_frame(a_) - 1e-9 <= t < on_frame(max(b_, a_)) + 2 / 24:
             f = RB.apply(f, PAPER.rgb)
             break
     return f

@@ -14,8 +14,8 @@ from shots._mountain import *
 from shots.C6 import MID_BLOCKS
 
 T0, T1 = 1663 / 24, 1764 / 24
-ROLL = [71.692, 71.76, 71.815, 71.87, 71.925]
-T_GONG = 72.805
+ROLL = [on_frame(x) for x in (71.692, 71.76, 71.815, 71.87, 71.925)]   # fix2: floor frames
+T_GONG = on_frame(72.805)
 MS = 1920 / 3392.0                        # B_master zoom that shows the whole page
 
 
@@ -44,7 +44,7 @@ def setup(ctx):
     lit = cm.render((315, 30, 0.6), fill=0.4, gold=1.0, ambient=0.9, warmth=0.5, gold_stagger=0.5)
     MASTER = rock + (lit - rock) * 0.8
     RB = Rubbing(ctx.W, ctx.H, seed=6)
-    ROLL_ = [h['t'] for h in ctx.timing.hits(None, 71.6, 72.0)] or ROLL
+    ROLL_ = sorted({on_frame(h['t']) for h in ctx.timing.hits(None, 71.6, 72.0)}) or ROLL   # fix2: dedupe (71.692 is listed twice, which cancelled the first flip)
     INS = None
     if getattr(ctx, 'opts', {}).get('lyrics', True):
         s = ctx.s

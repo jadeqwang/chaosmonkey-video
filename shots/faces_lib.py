@@ -41,6 +41,99 @@ def _u8(a):
     return np.clip(a * 255.0 + 0.5, 0, 255).astype(np.uint8)
 
 
+def _tofu_f14(fin, m):
+    """F14 (clown): the plate's wide pale rectangle across both eyes read as a censor bar at 540p. Paint it back to
+    skin and lay the traditional small 豆腐块 on the bridge of the nose instead (eye and nose lines kept)."""
+    L = luma(fin)
+    sat = fin.max(axis=2) - fin.min(axis=2)
+    pale = ((sat < 0.20) & (L > 0.55) & (m > 0.5)).astype(np.uint8)
+    pale[:450] = 0
+    pale[1000:] = 0
+    pale = cv2.morphologyEx(pale, cv2.MORPH_OPEN, np.ones((15, 15), np.uint8))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(pale)
+    if n < 2:
+        return fin
+    i = 1 + int(np.argmax(st[1:, cv2.CC_STAT_AREA]))
+    x0, y0, bw0, bh0 = st[i, :4]
+    x1, y1 = x0 + bw0, y0 + bh0
+    out = fin.copy()
+    lines = L < 0.45
+    skin_zone = (m > 0.5) & ~lines & (sat > 0.22)
+    skin = np.median(fin[skin_zone], axis=0)
+    g = 6
+    sub = out[y0 - g:y1 + g, x0 - g:x1 + g]
+    keep = lines[y0 - g:y1 + g, x0 - g:x1 + g]
+    keep = cv2.dilate(keep.astype(np.uint8), np.ones((3, 3), np.uint8))
+    rim = np.ones_like(keep)                                          # the patch's own outline goes with it
+    rim[2 * g:-2 * g, 2 * g:-2 * g] = 0
+    thick = cv2.morphologyEx(keep, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))   # eye lines are thick, the rule thin
+    thick = cv2.dilate(thick, np.ones((5, 5), np.uint8))
+    keep = (keep * (1 - rim * (1 - thick))).astype(bool)[..., None]
+    sub[:] = np.where(keep, sub, skin[None, None])
+    # the 豆腐块: a small soft-cornered white block from between the eyes down the bridge of the nose
+    cx = (x0 + x1) // 2
+    bw, by0, by1 = int(bw0 * 0.22), y0 + int(bh0 * 0.10), y1 + int(bh0 * 0.12)
+    blk = np.zeros(L.shape, F32)
+    cv2.rectangle(blk, (cx - bw // 2, by0), (cx + bw // 2, by1), 1.0, -1)
+    blk = blur(blk, 2.5)
+    wcol = np.array([0.93, 0.91, 0.86], F32)
+    a = (blk * (L > 0.45))[..., None]
+    out = out * (1 - a) + wcol[None, None] * a
+    return out.astype(F32)
+
+
+def _paint_surface(fin, c, g, m, fid, seed):
+    """Make the vector-clean plate read as opaque mineral colour painted on an old album leaf: uneven pigment
+    loading (mottle), pigment pooled at the edges of each colour field, paper fibre through the colour, black lines
+    with dry-brush break-up and a slight bleed, and the line block a hair out of register with the colour.
+    -> (f, c, g, ln) float32 at source size."""
+    h, w = m.shape
+    r = rng(seed, fid, 'paint')
+    Lc, Lf = luma(c), luma(fin)
+    la = np.clip((Lc - Lf) / 0.25, 0, 1) * m                         # the black-line block
+    # paper: fibre (high-pass of a real sheet) + pigment grain
+    pp = Paper(w // 2, h // 2, 'new', seed=int(r.integers(1, 9999)))
+    pl = cv2.resize(luma(pp.rgb), (w, h), interpolation=cv2.INTER_CUBIC)
+    fib = np.clip(pl / (blur(pl, 9.0) + 1e-4), 0.80, 1.15)
+    ph = cv2.resize(pp.height, (w, h), interpolation=cv2.INTER_CUBIC)
+    gr = grain(h, w, seed, fid, 'pg', sigma=0.9)
+
+    def pigment(img, amt=1.0):
+        # uneven loading: two scales of mottle, as a power on the transmittance (pale colours change least)
+        mott = 0.65 * fbm(h, w, 70, seed, fid, 'm1', octaves=4) + 0.35 * fbm(h, w, 16, seed, fid, 'm2', octaves=3)
+        # pooling: pigment carried to the rim of every colour field as it dried (edges of the colour image)
+        sm = blur(img, 1.5)
+        gx = cv2.Sobel(sm, cv2.CV_32F, 1, 0, ksize=3)
+        gy = cv2.Sobel(sm, cv2.CV_32F, 0, 1, ksize=3)
+        e = np.clip(np.sqrt((gx ** 2 + gy ** 2).sum(axis=2)) * 3.0, 0, 1)
+        rim = np.clip(blur(e, 7.0) * 2.2 - e * 0.6, 0, 1) * (0.6 + 0.8 * fbm(h, w, 30, seed, fid, 'rim', octaves=2))
+        lit = smoothstep(0.12, 0.40, luma(img))                      # dark ink fields: no grain blow-up
+        expo = 1.0 + amt * lit * (0.55 * (mott - 0.5) * 2 + 0.40 * rim + 0.14 * (0.5 - ph) * 2 + 0.02 * gr)
+        out = np.clip(img, 1e-3, 1) ** np.clip(expo, 0.55, 1.9)[..., None]
+        out = out * fib[..., None] ** (0.9 * amt)                       # fibres show through the body colour
+        return np.clip(out, 0, 1)
+
+    cp = pigment(c)
+    gp = pigment(g, 0.7)
+    # the black lines: dry-brush break-up where the brush ran out along the stroke, and a slight wet bleed
+    sw_ = max(8, w // 7)                                              # bristle streaks: noise stretched along x
+    streak = cv2.resize(fbm(h, sw_, 2.2, seed, fid, 'dry', octaves=2), (w, h), interpolation=cv2.INTER_CUBIC)
+    core = blur(la, 3.0)
+    thin = np.clip(1.0 - core * 1.25, 0, 1)                           # thin lines and stroke edges break first
+    dry = smoothstep(0.60, 0.80, streak + 0.20 * thin) * (0.12 + 0.60 * thin)
+    lb = la * (1 - dry)
+    bleed = wash(la, ph, seed=int(r.integers(0, 999)), density=0.35, bleed=2.5, edge=0.0, granulate=0.0, pool=0.0,
+                 feather=0.8)
+    lb = np.clip(np.maximum(lb, bleed * 0.55 * (1 - la)), 0, 1)
+    # registration slop: the line block printed a few px off the colour
+    dx, dy = float(r.uniform(-3.5, 3.5)), float(r.uniform(-3.0, 3.0))
+    M = np.float32([[1, 0, dx], [0, 1, dy]])
+    lb = cv2.warpAffine(lb, M, (w, h), flags=cv2.INTER_LINEAR, borderValue=0) * m
+    ink = np.array([0.105, 0.095, 0.085], F32)[None, None] * (0.85 + 0.3 * fib[..., None])
+    fp = cp * (1 - lb[..., None]) + ink * lb[..., None]
+    return fp.astype(F32), cp.astype(F32), gp.astype(F32), lb.astype(F32)
+
+
 def _build_face(fid, seed):
     """-> dict of uint8 arrays at 1400 px: g (ground rgb), c (colour rgb), f (final rgb), a (alpha),
     Ac (colour arrival), Al (line arrival)."""
@@ -54,6 +147,8 @@ def _build_face(fid, seed):
         M = np.float32([[k, 0, 700 - 700 * k], [0, k, 700 - 692 * k]])
         fin = cv2.warpAffine(fin, M, (1400, 1400), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
         m = load_mask(f'{FL}/{FACES["F01"]["mask"]}')
+    if fid == 'F14':
+        fin = _tofu_f14(fin, m)
     h, w = m.shape
     bx, by, bw, bh = info['face_box_xywh']
     yy, xx = np.mgrid[0:h, 0:w].astype(F32)
@@ -97,7 +192,7 @@ def _build_face(fid, seed):
     gidx = np.floor(np.clip(band * 3.0 + 0.25 * (fbm(h, w, 160, seed, fid, 'gb') - 0.5), 0, 2.999))
     side = np.abs(xx - (bx + bw / 2)) / (0.5 * bw)
     Al = np.clip((gidx + 0.12 + 0.80 * np.clip(side, 0, 1) + 0.05 * (fbm(h, w, 40, seed, fid, 'ln') - 0.5)) / 3.0, 0, 1)
-    ln = np.clip((luma(c) - luma(fin)) / 0.25, 0, 1) * m        # the black-line block alone (for mis-registration)
+    fin, c, g, ln = _paint_surface(fin, c, g, m, fid, seed)     # fix2: painted surface, line block with slop
     return dict(g=_u8(g), c=_u8(c), f=_u8(fin), a=_u8(m), Ac=_u8(Ac), Al=_u8(Al), ln=_u8(ln))
 
 
@@ -114,8 +209,8 @@ class Face:
     """One painted face with its build. state(t) is closed-form."""
 
     def __init__(self, ctx, fid, seed=7, levels=3):
-        d = ctx.cache(('face7', fid, seed), lambda: _build_face(fid, seed),
-                      deps=[f'{FL}/{FACES[fid]["file"]}'])
+        d = ctx.cache(('face8', fid, seed), lambda: _build_face(fid, seed),
+                      deps=[f'{FL}/{FACES[fid]["file"]}', 'shots/faces_lib.py'])
         self.id, self.mips = fid, _mips(d, levels)
 
     def image(self, level, p_col, p_lin, split=False):
@@ -216,21 +311,21 @@ class Album:
 
     def face_state(self, e, t):
         """-> (visible, scale_mult, p_col, p_lin, shadow_u) for plan entry e at t"""
-        dt = t - e['t']
-        fr = int(math.floor(dt * 24 + 1e-6))
+        # fix2: frame arithmetic, the face is down on the frame CONTAINING its beat, nothing before it
+        fr = hit_frame(t) - hit_frame(e['t'])
+        dt = t - on_frame(e['t'])
         k = e['k']
-        if fr < -2:
-            return None
         if fr < 0:
-            return ('shadow', (fr + 3) / 3.0)
-        sm = (1.10, 0.965, 1.012)[fr] if fr < 3 else 1.0
+            return None
+        sm = (1.08, 0.975, 1.008)[fr] if fr < 3 else 1.0
         if e.get('overshoot', 1.0) != 1.0 and fr < 3:
             sm = 1 + (sm - 1) * e['overshoot']
         if e.get('done'):
             return ('face', sm, 1.0, 1.0)
-        # strokes: colour field over frames 2..5, lines over 5..9 (times k)
-        p_col = clamp((dt * 24 - 2 * k) / (3.0 * k))
-        p_lin = clamp((dt * 24 - 5 * k) / (4.5 * k))
+        # the stamp carries ground + most of the colour field (full-strength on the hit frame); the field finishes
+        # over the next 2 frames and the black lines are drawn on over frames 2..6.5 (times k)
+        p_col = clamp(0.72 + 0.28 * dt * 24 / (2.0 * k))
+        p_lin = clamp((dt * 24 - 2 * k) / (4.5 * k))
         return ('face', sm, p_col, p_lin)
 
     def draw_faces(self, f, cam, t, only=None, tex=None, mis=None):
@@ -291,7 +386,7 @@ class Album:
                 amax = a if amax is None else np.maximum(amax, a)
             a = amax
             # the pressed paper around a freshly stamped face
-            dtt = t - e['t']
+            dtt = t - on_frame(e['t'])
             if dtt < 0.5 and e.get('big', True):
                 amt = 0.22 * math.exp(-dtt / 0.12) + 0.0
                 m = blur(np.roll(a[..., 0], (int(3 + 6 * sc), int(3 + 6 * sc)), (0, 1)), max(2.0, 18 * sc))
@@ -358,7 +453,7 @@ def mis_at(t, times, hold=0.16, amount=10.0, seed=0):
     """woodblock mis-registration offsets (colour dx, dy, line dx, dy) in frame px while within `hold` s after a
     time in `times`; the same event always gives the same slip. None otherwise."""
     for i, m in enumerate(times):
-        if 0 <= t - m < hold:
+        if 0 <= t - on_frame(m) + 1e-9 < hold:
             r = rng(seed, 'mis', i)
             a = r.uniform(0, 2 * math.pi)
             d = amount * r.uniform(0.7, 1.0)
@@ -395,7 +490,7 @@ def draw_category_seals(f, cam, t, ctx, album, seal_rgba, hits):
     """press each seal at its hit (slam + dent) and keep it; positions in leaf px."""
     sc = SEAL_LEAF * cam[2] * ctx.s / (seal_rgba.shape[0] / 1.24)
     for i, th in enumerate(hits):
-        if t < th - 2 / 24:
+        if t < on_frame(th) - 1e-9:
             continue
         fx, fy = album.to_frame(cam, *seal_pos(i))
         if -200 < fx < ctx.W + 200 and -200 < fy < ctx.H + 200:

@@ -610,7 +610,7 @@ class RoomShot:
             self.page_hull = np.maximum(qm.astype(F32), m)
         if c.get('pre'):
             f = c['pre'](f, t, i, self)
-        f = self.SG.apply(f, t)
+        f = self.SG.apply(f, t, on=c['sign_on'](t) if c.get('sign_on') else 1.0)   # sign_on: t -> level (flares > 1)
         if self.BEAM is not None:
             f = motes(f, t, self.BEAM, self.s)
         return f
@@ -628,7 +628,15 @@ class RoomShot:
             from shots._margins import apply_margins, make_margins
             if not hasattr(self, 'M'):
                 self.M = make_margins(f.shape[1], f.shape[0])
-            f = apply_margins(f, t, self.M)
+            if c.get('margin_state'):                     # a shot-specific reading of the shared schedule
+                from tools.ink.margins import desaturate
+                st = c['margin_state'](t, f.shape[1], f.shape[0])
+                if not st['open']:
+                    if st['desat'] > 0:
+                        f = desaturate(f, st['desat'], paper=self.M.paper.ground)
+                    f = self.M.lay(f, st['rect'])
+            else:
+                f = apply_margins(f, t, self.M)
         for ins, t_in, t_out in self.INS:
             if t_out is not None and t >= t_out - 0.3:
                 ins.fade(f, t, t_out, 0.3)

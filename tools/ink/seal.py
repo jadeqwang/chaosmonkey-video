@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from .core import (CINNABAR, F32, ROOT, bbox, blur, fbm, grain, over, rng, rough_mask, smoothstep, transform,
-                   value_noise)
+                   value_noise, hit_frame, on_frame)
 
 _TRAD = {'仓': '倉', '扎': '紥', '匡': '匡'}
 LUOGU = {'gong_strike': '仓', 'gong': '仓', 'cymbal': '才', 'small': '台', 'clapper': '扎', 'drum': '大', 'chop': '七'}
@@ -109,7 +109,8 @@ def seal_mask(text, font, size, style='zhu', shape='square', border=0.07, stretc
     return np.clip(m, 0, 1)
 
 
-def seal(text, font, size=200, style='zhu', wear=0.3, seed=0, shape='square', colour=CINNABAR, pad=None, weight=0.0):
+def seal(text, font, size=200, style='zhu', wear=0.3, seed=0, shape='square', colour=CINNABAR, pad=None, weight=0.0,
+         stretch=1.9):
     """A seal impression as straight-alpha RGBA (size + 2*pad square, or tall).
 
     text    1-4 characters, laid out in columns right to left
@@ -120,7 +121,7 @@ def seal(text, font, size=200, style='zhu', wear=0.3, seed=0, shape='square', co
     """
     size = int(size)
     pad = int(size * 0.12) if pad is None else int(pad)
-    m = seal_mask(text, font, size, style, shape, weight=weight)
+    m = seal_mask(text, font, size, style, shape, weight=weight, stretch=stretch)
     m = cv2.copyMakeBorder(m, pad, pad, pad, pad, cv2.BORDER_CONSTANT, value=0)
     h, w = m.shape
     r = rng(seed, 'seal', text, style)
@@ -202,15 +203,17 @@ def fade(seal_rgba, ink, seed=0):
 
 
 def strike(frame, seal_rgba, t, t_hit, pos, scale=1.0, angle=0.0, overshoot=0.14, dent=1.0, ink=1.0, seed=0,
-           lead=2, opacity=1.0):
+           lead=0, opacity=1.0):
     """Slam a seal into the paper at t_hit, centred on pos (frame px). In place; returns frame.
 
     Before the hit (lead frames) the stone's shadow gathers on the paper. On the hit frame the impression lands
     oversize (overshoot), recoils on the next frame and is at rest on the third; the paper around it is pressed
     into a dent whose shadow settles over ~0.4 s to a trace. Afterwards the impression simply stays.
     ink < 1 presses a depleted seal (see fade / echoes)."""
-    dt = t - t_hit
-    k = int(math.floor(dt * 24 + 1e-6))
+    # frame arithmetic (fix round 2): k = 0 on the frame that CONTAINS t_hit, full impression there; no stone shadow
+    # before it unless lead > 0 is asked for (a hit arrives from nothing)
+    k = hit_frame(t) - hit_frame(t_hit)
+    dt = t - on_frame(t_hit)
     if k < -lead:
         return frame
     sh, sw = seal_rgba.shape[:2]
@@ -284,7 +287,7 @@ def shake_offset(t, t_hit, amp=7.0, dur=0.22, seed=0, freq=17.0):
     """(dx, dy) px of a decaying shake for shots without a Camera (same curve as Camera.shake). t_hit may be a list."""
     dx = dy = 0.0
     for i, th in enumerate(t_hit if isinstance(t_hit, (list, tuple)) else [t_hit]):
-        d = t - th
+        d = t - on_frame(th) + 1e-9
         if 0 <= d < dur:
             k = amp * (1 - d / dur) ** 2
             dx += k * math.sin(d * freq * 2 * math.pi + (seed + i) * 1.7)

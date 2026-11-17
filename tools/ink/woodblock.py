@@ -157,7 +157,8 @@ def reprint(blocks, names, paper, offsets=None, angles=None, texture=1.0, squash
 def beat_key(t, times):
     """Index of the most recent time in `times` at or before t (-1 before the first): the 'which beat' integer that
     makes per-beat jumps deterministic."""
-    return bisect.bisect_right(times, t + 1e-9) - 1
+    from .core import on_frame
+    return bisect.bisect_right([on_frame(x) for x in times], t + 1e-9) - 1
 
 
 def block_offsets(key, n, amount=4.0, rot=0.12, seed=0, key_block_still=True):
@@ -194,7 +195,8 @@ def misregister(frame, t, beat_times, amount=4.0, paper=None, seed=0, n=3, split
         paper = np.percentile(frame[::8, ::8].reshape(-1, 3), 75, axis=0).astype(F32)
     blocks, names = separate(frame, paper, n, palette) if blocks is None else (list(blocks[0]), blocks[1])
     key = beat_key(t, beat_times)
-    live = key >= 0 and (hold is None or (t - beat_times[key]) < hold - 1e-9)
+    from .core import on_frame
+    live = key >= 0 and (hold is None or (t - on_frame(beat_times[key])) < hold - 1e-9)
     offs, angs = block_offsets(key, len(blocks), amount if live else 0.0, rot if live else 0.0, seed)
     strength = None
     if split > 0 and len(blocks) > 1:

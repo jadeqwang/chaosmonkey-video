@@ -18,11 +18,12 @@ from tools.ink.roto import StaffTrail
 from tools.stage.stage import heaven, seals, KeyRetime, lyrics_on, LATIN, PAPER_SEED, ring_path, sweep_to_tip
 
 T0, T1 = 192.833333, 196.625
-CUTS = [193.459, 194.103, 194.963]           # red -> white -> red -> white
-T_LIANG, T_ECHO = 195.181, 195.650
+CUTS = [on_frame(x) for x in (193.459, 194.103, 194.963)]   # fix2: on the frames containing the hits           # red -> white -> red -> white
+T_LIANG, T_ECHO = on_frame(195.181), on_frame(195.650)
 SRC_SWEEP0, SRC_LIANG, SRC_END = 3.00, 3.85, 4.5     # measured: big sweep f72-f88, set f92     # clip times: last sweep starts / thrust set / tail
 T_SWEEP0 = 194.70
 SCALE = 1.12
+from tools.ink.light import NEON_RED, TORCH as TORCH_C
 CENTER = (960, 600)
 
 
@@ -48,8 +49,19 @@ def setup(ctx):
     TRAIL = [StaffTrail(spin, width=26 * s, scale=SC, pos=POS, paper=PN, seed=3, density=0.7, dry=0.65, chunk=900),
              StaffTrail(low, width=30 * s, scale=SC, pos=POS, paper=PN, seed=4, density=0.75, dry=0.6, chunk=900),
              StaffTrail(last, width=44 * s, scale=SC, pos=POS, paper=PN, seed=5, density=0.9, dry=0.55, chunk=4000)]
-    NF = neon_field(W, H, source=(2300 * s, -400 * s), reach=3200 * s)
-    FL = flashlight_field(W, H, (980 * s, 560 * s), 1350 * s, tilt=-12, stretch=1.3)
+    # fix round 2 (QA 14): the 1988 red is LIGHT raking across the painting from the window (upper right), not a
+    # filter: strong falloff to dark warm ink on the far side, the paper's tooth catching it, hot near the window
+    global RED_L, WHITE_L
+    I = neon_field(W, H, source=(2450 * s, -260 * s), reach=1400 * s, power=1.45)
+    rake = 1.0 + 0.55 * (PN.height - 0.5) * (0.4 + 0.6 * I)           # raking light finds the fibre
+    hot = smoothstep(0.50, 1.0, I) * 0.55
+    col = NEON_RED[None, None] * (1 - hot[..., None]) + np.array([1.0, 0.70, 0.58], np.float32)[None, None] * hot[..., None]
+    amb = np.array([0.20, 0.15, 0.125], np.float32)                     # dark warm ink, the greens still faintly there
+    RED_L = ((I * rake * 1.18)[..., None] * col + amb[None, None]).astype(np.float32)
+    # the 2026 page: a torch pool with real falloff (was ambient 0.30, a flat white)
+    FL = flashlight_field(W, H, (980 * s, 560 * s), 1080 * s, tilt=-12, stretch=1.3)
+    WHITE_L = (FL[..., None] * 1.04 * np.asarray(TORCH_C, np.float32)[None, None]
+               + 0.075 * np.array([0.80, 0.74, 0.70], np.float32)[None, None]).astype(np.float32)
     SEAL = seals(s)
     SEAL_POS = (1530 * s, 300 * s)
     ECHO_POS = (1530 * s + 18 * s, 300 * s + 190 * s)
@@ -86,13 +98,10 @@ def render(t, ctx):
     L = np.clip(resize(a, int(round(CL.w * SC)), int(round(CL.h * SC))), 0, 1)
     lay_ink(f, L, POS[0], POS[1])
     strike(f, SEAL['cang'], t, T_LIANG, SEAL_POS, overshoot=0.16)
-    echoes(f, SEAL['cang'], t, [(T_ECHO, ECHO_POS)], first=0.45, seed=21)
+    echoes(f, SEAL['cang'], t, [(T_ECHO, ECHO_POS)], first=0.62, seed=21)
     if lyrics_on(ctx):
         INS.draw(f, t)
     if os.environ.get('STAGE_NOLIGHT'):
         return f                                      # QA: coverage of the page itself, before the room's light
-    if red:
-        f = neon(f, 1.0, period=60.0, phase=0.0, field=NF, gain=0.82, ambient=0.16, tungsten=0.30)
-    else:
-        f = flashlight(f, (980 * s, 560 * s), 1350 * s, t=t, ambient=0.30, field=FL)
+    f = np.clip(f * (RED_L if red else WHITE_L), 0, 0.985)
     return shaken(f, *shake_offset(t, [T_LIANG], amp=8 * s, dur=0.22))

@@ -43,13 +43,26 @@ def setup(ctx):
         b0 = ctx.timing.word('and crossed out his name in a single breath', 'breath')[0]
     except Exception:
         b0 = 216.52
-    T_END = b0
-    T_START = b0 - N_STRIKE / 24.0
+    T_END = on_frame(b0)                                 # fix2: complete ON the frame containing 'breath'
+    T_START = T_END - N_STRIKE / 24.0
+    # fix2: bristle-tapered head. Each bristle (a thin streak across the stroke's width) arrives at its own moment,
+    # and the stroke's edges lag its centre, so the advancing front is a ragged point, not a straight cut
+    global STAG
+    h_, w_ = ST.D.shape
+    xs = np.arange(w_, dtype=np.float32)
+    rr = np.random.default_rng(11)
+    col = np.interp(xs, np.linspace(0, w_ - 1, max(4, w_ // 3)), rr.random(max(4, w_ // 3))).astype(np.float32)
+    dens = ST.D.max(axis=0)
+    on = np.where(dens > 0.05 * dens.max())[0]
+    cxm = (on.min() + on.max()) / 2.0 if len(on) else w_ / 2
+    hw = max((on.max() - on.min()) / 2.0, 1.0) if len(on) else w_ / 2
+    edge = np.clip(np.abs(xs - cxm) / hw, 0, 1.5) ** 1.5
+    STAG = (0.055 * col + 0.07 * edge)[None, :].astype(np.float32)
     DF = ST.density(1.6, wet=0)
     BL1, BL2 = blur(DF, 1.2 * ctx.s), blur(DF, 3.2 * ctx.s)
     # the torch held still over the entry; the pool is a little taller than wide (held at a slant from below)
     cx, cy = to_frame((806 + OFFX, 1598), s, X0, Y0)
-    L = light_field(W, H, (cx - 30 * ctx.s, cy + 20 * ctx.s), 470 * ctx.s, ambient=0.075, gain=1.38, tilt=90, stretch=1.55, seed=7)
+    L = light_field(W, H, (cx - 30 * ctx.s, cy + 20 * ctx.s), 470 * ctx.s, ambient=0.075, gain=1.55, tilt=90, stretch=1.55, seed=7)
     WORDS = line_words(ctx, 'and crossed out', 213.8)
 
 
@@ -57,7 +70,11 @@ def render(t, ctx):
     f = BASE.copy()
     if t >= T_START:
         p = (t - T_START) / (T_END - T_START)
-        d = ST.density(min(p, 1.0) if p < 1 else 1.0 + min(p - 1, 3) * 0.12)
+        if p < 1 - 1e-6:                                 # drawing: staggered bristle tips at the front
+            age = p - ST.A - STAG
+            d = ST.D * smoothstep(0.0, 0.06, age) * (1.0 + ST.wet * np.exp(-np.maximum(age, 0) / 0.12))
+        else:
+            d = ST.density(1.0 + min(p - 1, 3) * 0.12)
         if p > 1:                                        # the wet stroke keeps creeping a little into the fibres
             k = 1 - np.exp(-(t - T_END) / 0.35)
             halo = np.maximum(BL1 * 0.5, BL2 * 0.22) * k

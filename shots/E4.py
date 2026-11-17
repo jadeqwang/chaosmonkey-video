@@ -32,9 +32,9 @@ def render(t, ctx):
     f = P.frame(t)
     f *= MONKEY
     u = ramp(t, T_LEAN0, T_LEAN1, 'inout')
-    ang = -1.4 * u                              # degrees, about the upper-right corner: the hand moves left
+    ang = -3.0 * u                              # degrees, about the upper-right corner: the hand moves left
     M = cv2.getRotationMatrix2D((ctx.W - 1.0, 0.0), ang, 1.0)
-    M[1, 2] += 22 * ctx.s * u                   # and sinks a little toward the ear
+    M[1, 2] += 40 * ctx.s * u                   # and sinks a little toward the ear
     S = cv2.warpAffine(SLEEVE, M, (ctx.W, ctx.H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_CONSTANT,
                        borderValue=(1.0, 1.0, 1.0))
     f *= np.clip(S, 0, 1)

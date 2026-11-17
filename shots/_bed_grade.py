@@ -66,3 +66,56 @@ def desat_hue(frame, h0, h1, amount=0.5, region=None):
         m *= region
     hsv[..., 1] *= 1 - amount * m
     return cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB).astype(F32)
+
+
+# ----------------------------------------------------------------------------------------------------------- fix round 2
+LENS = np.array([0.80, 0.79, 0.75], F32)        # the torch's pale lens: a painted object, not a light source
+
+
+def find_lens(frame, ctx, box, sigma=3.0):
+    """The torch lens: the brightest small blob inside box (x0, y0, x1, y1, 1080p px). Returns (x, y) in 1080p px."""
+    s = ctx.s
+    x0, y0, x1, y1 = [int(round(v * s)) for v in box]
+    L = cv2.GaussianBlur(luma(frame[y0:y1, x0:x1]).astype(F32), (0, 0), sigma * s)
+    y, x = np.unravel_index(int(np.argmax(L)), L.shape)
+    return ((x + x0) / s, (y + y0) / s)
+
+
+def dehalo(frame, ctx, centre, R=110, lens_r=28, lens_thr=0.62, strength=0.85):
+    """Take a glow halo off a torch head (QA: 'no glow blooms'): the halo is the radial floor of the light around the
+    lens (a low percentile of luma per ring), minus the room's level at R; it is subtracted (colour kept by ratio).
+    The lens itself (bright pixels within lens_r) becomes a flat pale painted lens. centre/R/lens_r in 1080p px."""
+    s = ctx.s
+    H, W = frame.shape[:2]
+    cx, cy = centre[0] * s, centre[1] * s
+    Rp = R * s
+    x0, x1 = int(max(0, cx - Rp)), int(min(W, cx + Rp + 1))
+    y0, y1 = int(max(0, cy - Rp)), int(min(H, cy + Rp + 1))
+    if x1 - x0 < 4 or y1 - y0 < 4:
+        return frame
+    win = frame[y0:y1, x0:x1]
+    yy, xx = np.mgrid[y0:y1, x0:x1].astype(F32)
+    r = np.hypot(xx - cx, yy - cy)
+    L = luma(win).astype(F32)
+    nb = int(np.ceil(Rp)) + 1
+    ri = np.clip(r.astype(np.int32), 0, nb - 1)
+    floor = np.zeros(nb, F32)
+    for b in range(nb):
+        v = L[ri == b]
+        floor[b] = np.percentile(v, 20) if v.size else 0
+    for b in range(nb):                                        # empty bins (frame edge): carry the last value
+        if floor[b] == 0 and b:
+            floor[b] = floor[b - 1]
+    base = float(np.median(floor[int(0.85 * nb):]))
+    halo = np.clip(floor - base, 0, None)
+    halo = np.maximum.accumulate(halo[::-1])[::-1]             # monotone: the glow only falls with distance
+    halo *= smoothstep(Rp, 0.6 * Rp, np.arange(nb, dtype=F32))
+    h2 = halo[ri] * strength
+    ratio = np.clip((L - h2) / np.maximum(L, 1e-3), 0.0, 1.0)
+    out = frame.copy()
+    w = win * ratio[..., None]
+    lm = ((L > lens_thr) & (r < lens_r * s)).astype(F32)
+    lm = cv2.GaussianBlur(lm, (0, 0), 0.8 * s + 0.3)[..., None]
+    w = w * (1 - lm) + LENS[None, None] * lm
+    out[y0:y1, x0:x1] = w
+    return out.astype(F32)

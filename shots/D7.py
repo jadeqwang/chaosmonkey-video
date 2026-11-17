@@ -15,7 +15,7 @@ from tools.ink.roto import StaffTrail
 from tools.stage.stage import seals, KeyRetime, PAPER_SEED, ring_path, tip_line
 
 T0, T1 = 76.416667, 79.291667
-T_CUT, T_HIT = 77.919, 78.808
+T_CUT, T_HIT = on_frame(77.919), on_frame(78.808)       # fix2: frames containing the hits
 SRC_A0, SRC_A1 = 0.30, 2.85      # the flower (rings)
 SRC_B0, SRC_HIT, SRC_END = 3.25, 3.95, 4.35
 SCALE = 0.98

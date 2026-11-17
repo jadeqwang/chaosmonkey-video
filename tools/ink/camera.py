@@ -71,7 +71,7 @@ class Camera:
                     break
         sx = sy = 0.0
         for t_hit, amp, dur, seed, freq in self.shakes:
-            d = t - t_hit
+            d = t - math.floor(t_hit * 24 + 1e-6) / 24 + 1e-9        # starts on the frame containing the hit
             if 0 <= d < dur:
                 k = amp * (1 - d / dur) ** 2
                 sx += k * math.sin(d * freq * 2 * math.pi + seed * 1.7)

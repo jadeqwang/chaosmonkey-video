@@ -13,7 +13,7 @@ from tools.ink.video import Clip
 from tools.stage.stage import seals, KeyRetime, clip_bbox, PAPER_SEED
 
 T0, T1 = 79.291667, 82.5
-T_HIT = 80.806                  # snare 0.89 on the beat grid
+T_HIT = on_frame(80.806)  # fix2: floor frame. # snare 0.89 on the beat grid
 SRC_PERCH = 2.95                # clip time when he is up and set on the staff (measured: motion stops f71)
 SRC_END = 3.60                  # held from here (the dissolve needs a still figure)
 T_DIS0, T_DIS1 = 81.45, 82.45   # the bleed back into the paper
@@ -38,6 +38,12 @@ def setup(ctx):
     full = np.ones((ctx.H, ctx.W, 3), np.float32)
     lay_ink(full, _layer(SRC_END), POS[0], POS[1])
     BL = bloom(full, seed=8, order='light')
+    # fix round 2: the bleed-back is the whole figure sinking into the paper at once (density falls everywhere, the
+    # thinnest wash first, breaking up along the fibre); bloom.dissolve emptied the interior first and left a line rim
+    global DEN, FIB, COLR
+    DEN = density_of(full)
+    FIB = fbm(ctx.H, ctx.W, 5 * s, 8, 'd8fibre', octaves=3).astype(np.float32)
+    COLR = np.clip(full / np.maximum(ink_T(DEN), 1e-3), 0, 1).astype(np.float32)
 
 
 def _layer(src):
@@ -53,7 +59,11 @@ def render(t, ctx):
     if t < T_DIS0:
         lay_ink(f, _layer(RT.src(t)), POS[0], POS[1])
     else:
-        f *= BL.dissolve(min(q * 1.08, 1.0))
+        u = min(q * 1.08, 1.0)
+        d = blur(DEN, (0.5 + 6.0 * u) * s) if u > 0 else DEN
+        keep = np.clip((1 - u) ** 1.6 * (1.0 + 0.6 * (FIB - 0.5) * u), 0, 1)
+        dd = d * (keep[..., None] if d.ndim == 3 else keep)
+        f *= ink_T(dd) * (1 - (1 - COLR) * (1 - u))
     sl = f.copy()
     strike(sl, SEAL['cang'], t, T_HIT, SEAL_POS, overshoot=0.15)
     a = 1.0 - 0.92 * q                                   # the paste sinks back last, never quite gone

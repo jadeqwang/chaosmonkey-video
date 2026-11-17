@@ -14,7 +14,7 @@ from tools.ink.video import Clip
 from tools.stage.stage import mountain, seals, KeyRetime, clip_bbox, PAPER_SEED
 
 T0, T1 = 73.5, 76.416667
-T_LAND = 75.025                 # kick 1.0 on the beat grid
+T_LAND = on_frame(75.025)  # fix2: floor frame. # kick 1.0 on the beat grid
 SRC_LAND = 4.15                 # clip time where he settles in 亮相 (f~100, measured motion)
 SCALE = 0.52                    # clip px -> authoring px (figure ~245 px tall against a 520 px mountain)
 LAND_AT = (790, 1000)           # where his feet land (authoring px): just right of the mountain

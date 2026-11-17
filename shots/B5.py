@@ -20,7 +20,7 @@ def setup(ctx):
     T = key_paper(raw, lo=0.03)
     PLATE = paper.rgb * T
     BARE = paper.rgb.copy()
-    MB = mist_band(W + 1600, 520, 130, 390, seed=8, softness=0.5, wisp=0.7)
+    MB = wavy_band(mist_band(W + 1600, 520, 130, 390, seed=8, softness=0.5, wisp=0.7), 70, 900, seed=8)   # fix2: not a straight streak
 
 
 def cam(t):

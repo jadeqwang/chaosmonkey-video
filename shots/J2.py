@@ -32,7 +32,7 @@ CLOSE_K = 1.0 / REG['close']['scale_close_per_mid_px']
 STONE = tuple(REG['huaguoshan_stone']['mid_px'])          # (1880, 452)
 START = (1878, 640, 2.05)                                  # mid px, zoom (2.05 mid -> ~0.97 close px per frame px)
 END = (2300, 1100, 0.55)
-POOL = (1880, 820, 560)                                    # torch on 花果山 (mid px, radius)
+POOL = (1880, 700, 560)                                    # torch on 花果山 (mid px, radius)
 HEADS = [('design/characters/mama/mama_B_expressions.jpg', (1390, 150, 2060, 860)),
          ('design/characters/little_jade/lj_C_expressions_mouths.jpg', (160, 170, 480, 560))]
 
@@ -72,6 +72,18 @@ def head(path, box, px):
     return resize(d.astype(np.float32), int(w * s), int(h * s)) ** 1.4 * 0.30
 
 
+def pool_field(W, H, pos, radius, stretch=1.25, seed=5):
+    """fix2: a hard-edged torch pool (no bloom): flat plateau, a narrow uneven edge, intensity 0..1."""
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    dx, dy = (xx - pos[0]) / stretch, yy - pos[1]
+    r = np.hypot(dx, dy) / max(radius, 1.0)
+    th = np.arctan2(dy, dx)
+    wob = 0.03 * np.sin(3 * th + seed) + 0.02 * np.sin(7 * th + 2.1 * seed)
+    edge = smoothstep(1.0 + wob + 0.035, 1.0 + wob - 0.035, r)
+    plate = 1.0 - 0.10 * smoothstep(0.2, 1.0, r)                     # the plateau falls off a touch toward its rim
+    return (edge * plate).astype(np.float32)
+
+
 def setup(ctx):
     global SC_, CAM, CLOSE_T, NAME, HITS, POSN, HEAD_D, PAPER_MID
     Tc = ctx.cache('j2_close_carved', carved_close, deps=['design/plates/D_heaven/D_heaven_close.png'])
@@ -100,8 +112,13 @@ def render(t, ctx):
     st = CAM.at(t)
     f = SC_.render(t, CAM, ctx.size)
     cx, cy = SC_.to_frame(POOL[0], POOL[1], st, ctx.size)
-    L = light_field(ctx.W, ctx.H, (cx, cy), max(POOL[2] * st[2] * ctx.s, 160 * ctx.s), ambient=0.16, gain=1.3,
-                    stretch=1.35, tilt=90, seed=5)
+    # fix2: the fullest frame of the film. The page stays lit to the edges (warm room light, the blue-green
+    # neighbours readable), and a hard-edged torch pool holds 花果山 brighter; the pool keeps a good size in frame
+    # while the camera pulls back (anchored to the peak, radius in frame px eased from 900 to 470)
+    rad = (760 + (400 - 760) * float(smoothstep(T0, T1, t))) * ctx.s
+    I = pool_field(ctx.W, ctx.H, (cx, cy), rad, stretch=1.2)
+    warm = np.array([1.0, 0.93, 0.80], np.float32)
+    L = (0.62 * warm)[None, None] + (I * 0.42)[..., None] * np.asarray(TORCH, np.float32)[None, None]
     u = float(smoothstep(T0 + 16 / 24, T0 + 30 / 24, t))
     if u < 1:                                   # polish-1: the page light of J5's end (wide pool, paper to the edges)
         Lp = light_field(ctx.W, ctx.H, (ctx.W * 0.5, ctx.H * 0.46), 1250 * ctx.s, ambient=0.16, gain=1.3, stretch=1.2,
@@ -109,13 +126,13 @@ def render(t, ctx):
         L = Lp * (1 - u) + L * u
     f = lit(f, L)
     # pale heads under the echo presses, ~10 frames each
-    for k in (1, 2):
+    for k in ():                               # fix2: heads dropped (a smudge at speed; the echo must read as a seal)
         dt = t - HITS[k]
         if -1 / 48 <= dt < 10 / 24:
             a = 1.0 - smoothstep(7 / 24, 10 / 24, dt)
             d = HEAD_D[k - 1]
             x, y = POSN[k]
             lay_ink(f, ink_T(d * a), int(x - d.shape[1] / 2), int(y - d.shape[0] * 0.42))
-    echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.55, seed=4)
+    echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.80, seed=4)
     lyric(f, ctx, sung_words(WORDS, t, tail=0.0), y=0.955, px=28)
     return f

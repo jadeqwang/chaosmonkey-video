@@ -13,7 +13,7 @@ from shots._mountain import *
 from shots.C4 import egg_layer
 
 T0, T1 = 1369 / 24, 1408 / 24
-T_CUT = 57.95
+T_CUT = on_frame(57.95)   # fix2: floor frame
 T_CRASH = 58.673
 MID_BLOCKS = [(2140, 1120, 150, 560), (1930, 1120, 140, 560), (1590, 660, 160, 1000), (1300, 430, 170, 1050),
               (880, 480, 200, 1200), (610, 330, 150, 1050), (310, 450, 140, 1200)]

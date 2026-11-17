@@ -35,7 +35,7 @@ def setup(ctx):
     AL = Album(ctx, album_plan(ctx.timing))
     c = cell_centre
     mid = lambda *ii: (sum(c(i)[0] for i in ii) / len(ii), sum(c(i)[1] for i in ii) / len(ii))
-    e = 1 / 48
+    e = 0.0
     CUTS = [(-1e9, (*mid(1, 7), 0.95)),
             (157.104 - e, (*mid(4, 11), 0.92)),
             (157.537 - e, (*mid(7, 9, 13), 0.80)),
@@ -52,7 +52,7 @@ def setup(ctx):
 def cam_at(t):
     cam = CUTS[0][1]
     for tc, c in CUTS:
-        if t >= tc:
+        if t >= on_frame(tc) - 1e-9:              # fix2: cut on the frame containing the beat
             cam = c
     return cam
 

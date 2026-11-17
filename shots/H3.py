@@ -46,14 +46,14 @@ def cam_at(t):
         a, b = CAMS[3], _H4.CAM0
         z = math.exp(lerp(math.log(a[2]), math.log(b[2]), u))
         return (lerp(a[0], b[0], u), lerp(a[1], b[1], u), z)
-    k = max(0, sum(1 for h in HITS[1:] if t >= h - 1 / 48))
+    k = max(0, sum(1 for h in HITS[1:] if t >= on_frame(h) - 1e-9))
     return CAMS[k]
 
 
 def render(t, ctx):
     cam = cam_at(t)
     f, bg = AL.render(t, cam)
-    k = sum(1 for h in HITS if t >= h - 1 / 48)
+    k = sum(1 for h in HITS if t >= on_frame(h) - 1e-9)
     if k >= 4:                                     # she is there from the kid cut on (the bare cell is in frame)
         _H4.lay_child(f, cam, ctx, AL, CHILD)
     draw_category_seals(f, cam, t, ctx, AL, SEAL, HITS)

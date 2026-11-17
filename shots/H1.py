@@ -32,7 +32,7 @@ def setup(ctx):
     AL = Album(ctx, plan)
     CUTS = []
     for i, (fh, anc) in enumerate(H1_FRAMES):
-        CUTS.append((LAND[i] - 1 / 48 if i else -1e9, cams_frame_face(H1_FACES[i][1], fh, anc)))
+        CUTS.append((on_frame(LAND[i]) if i else -1e9, cams_frame_face(H1_FACES[i][1], fh, anc)))
     # widening on the last bar: two faces, a pair, a block, then most of the upper sheet
     wide = beats[10:15]
     c = lambda i: cell_centre(i)
@@ -50,7 +50,7 @@ def setup(ctx):
 def cam_at(t):
     cam = CUTS[0][1]
     for tc, c in CUTS:
-        if t >= tc:
+        if t >= on_frame(tc) - 1e-9:              # fix2: cut on the frame containing the beat
             cam = c
     return cam
 

@@ -86,6 +86,17 @@ def ramp(t, t0, t1, kind='inout'):
     return ease((t - t0) / (t1 - t0), kind)
 
 
+def hit_frame(t):
+    """The 24 fps frame that CONTAINS song time t (floor): a hit's first visible frame (fix round 2 sync rule)."""
+    return int(math.floor(t * FPS + 1e-6))
+
+
+def on_frame(t):
+    """Song time t snapped back to the start of the frame that contains it. Trigger on `t >= on_frame(t_hit)` so a
+    hit is fully visible on the frame that contains its audio event (never a frame later)."""
+    return hit_frame(t) / FPS
+
+
 def frame_of(t):
     """The timing map's rule: the first 24 fps frame that starts at or after t."""
     return int(math.ceil(t * FPS - 1e-9))

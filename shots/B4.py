@@ -73,13 +73,13 @@ def light_at(t):
         bnd = bnd * night
     # outside the band the page is as painted; inside it the cuts go deep with shadow and the walls flare, while
     # the flat rock brightens only a few percent (no glow): the light is visible in the carving
-    amb_out = 0.95 - 0.13 * night
+    amb_out = 0.95 - 0.07 * night                                 # fix2: was 0.13 (cement-grey night)
     amb = amb_out - (0.42 - 0.10 * night) * bnd
     flat = amb_out + (0.05 - 0.02 * night) * bnd                 # target brightness of flat rock
     pool = np.clip((flat - amb) / np.maximum(1.0 - amb, 1e-3), 0, None)
-    tint = np.array([1.0, 1.0, 1.0]) * (1 - night) + np.array([0.93, 0.955, 0.985]) * night
-    atint = np.array([1.0, 1.0, 1.0]) * (1 - night) + np.array([0.955, 0.965, 0.985]) * night
-    warmth = 0.85 * (1 - night)
+    tint = np.array([1.0, 1.0, 1.0]) * (1 - night) + np.array([0.975, 0.955, 0.915]) * night        # fix2: warm moon (was cool 0.93/0.955/0.985)
+    atint = np.array([1.0, 1.0, 1.0]) * (1 - night) + np.array([0.97, 0.955, 0.925]) * night
+    warmth = 0.85 * (1 - night) + 0.35 * night
     return (L['az'], L['el'], 1.0), amb.astype(np.float32), pool.astype(np.float32), tint, atint, warmth, night
 
 

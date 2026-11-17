@@ -19,7 +19,7 @@ All sizes scale with W, H (author at 1920x1080 or any size). The strip is centre
 """
 import numpy as np
 
-from tools.ink.core import ease
+from tools.ink.core import ease, on_frame
 from tools.ink.margins import Margins, desaturate
 from tools.ink.paper import Paper
 
@@ -27,8 +27,12 @@ T_START, T_STEP1, T_STEP2, T_STEP3, T_SNAP = 121.905, 130.175, 133.690, 141.45, 
 SLIDE = 3 / 24.0
 # (time, window width as a fraction of W) knots; steps are 3-frame slides between consecutive knots
 _W_OPEN = 1.04
-_KNOTS = [(T_START, _W_OPEN), (T_STEP1, 0.62), (T_STEP1 + SLIDE, 0.46), (T_STEP2, 0.42), (T_STEP2 + SLIDE, 0.28),
-          (T_STEP3, 0.25), (T_STEP3 + SLIDE, 0.22)]
+# fix round 2: the step knots sit on the START of the frame that contains each 听话 (floor), and a step shows 75 % of
+# its travel on that very frame, settling over the next two (see _width): never a frame late.
+_S1, _S2, _S3 = on_frame(T_STEP1), on_frame(T_STEP2), on_frame(T_STEP3)
+_KNOTS = [(T_START, _W_OPEN), (_S1, 0.62), (_S1 + SLIDE, 0.46), (_S2, 0.42), (_S2 + SLIDE, 0.28),
+          (_S3, 0.25), (_S3 + SLIDE, 0.22)]
+STEP_FIRST = 0.75
 _TB_MAX = 0.045                      # top/bottom margins at the narrowest: 4.5 % of H each
 MARGIN_PAPER_SEED = 777              # the margin sheets (not the picture's paper)
 MARGIN_EDGE_SEED = 5
@@ -40,10 +44,10 @@ def _width(t):
     if t >= _KNOTS[-1][0]:
         return _KNOTS[-1][1]
     for (ta, wa), (tb, wb) in zip(_KNOTS, _KNOTS[1:]):
-        if ta <= t < tb:
-            u = (t - ta) / (tb - ta)
-            if tb - ta <= SLIDE + 1e-6:          # a step: quick eased slide
-                u = ease(u, 'out')
+        if ta - 1e-9 <= t < tb - 1e-9:
+            u = max(0.0, (t - ta) / (tb - ta))
+            if tb - ta <= SLIDE + 1e-6:          # a step: lands 75 % on its first frame, settles over two more
+                u = STEP_FIRST + (1 - STEP_FIRST) * ease(min(1.0, u * 1.5), 'out')
             elif ta == T_START:                  # the first long close: slow start
                 u = ease(u, 'inout')
             # the creeps between steps stay linear

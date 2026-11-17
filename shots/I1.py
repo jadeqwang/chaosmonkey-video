@@ -5,13 +5,20 @@ daughter on her tummy reaches out and her fingertip finds little Jade's crayon m
 Comp: the 花果山 page (B_master keyed onto the worn book's aged page) mapped onto the painted page (quad measured on
 the keyframe, not the sidecar), the crayon monkey (A_crayon_monkey_rgba) in the outer margin where the finger lands;
 bedroom grade (one white pool on the page; the light the keyframe threw on her jacket is crushed); paper fibre.
+
+Fix round 2 (QA item 11): no grey dissolve. Frame 0 (the kick 177.193) is H6's bare paper, full frame (the same
+sheet: Paper 'new', BOOK_PAPER_SEED). From frame 1 that paper is a torch pool: a hard-edged ellipse of light, there
+within 2 frames, its edges falling off into darkness over ~10 frames while the room outside appears dim by the
+light's falloff (no second image fading in); then the camera pulls back (x2.5 -> 1) to the I1 framing, the pool
+shrinking onto the real page. The torch head's painted glow halo is taken off (_bed_grade.dehalo: a pale lens).
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _rooms26 import *
-from _bed_grade import bed_grade, bed_field
+from _bed_grade import bed_grade, bed_field, dehalo, find_lens
+from shots._mountain import BOOK_PAPER_SEED
 
 T0, T1 = 177.20833333333334, 180.20833333333334
 PAGE = [(313, 622), (772, 662), (872, 792), (600, 832)]     # the visible page measured on the CLIP (sd25 reframed frame 0 ~40 px up from I1.jpg), TL TR BR BL
@@ -44,8 +51,15 @@ def page_tex():
     return T.astype(F32)
 
 
+LENS_BOX = (400, 300, 700, 520)                               # where the torch head sits (1080p px)
+ZS, K_ON, K_POOL, K_BACK = 2.5, 1, 10, 26                     # close-up zoom; torch on; pool settled; back at I1
+POOL_R = (1012, 750)                                          # pool radii on screen at ZS (1080p px): 405x300 at x1
+LIT = (600, 630)                                              # the lit page in the clip (1080p px): the pool lands here
+
+
 def setup(ctx):
-    global B, P, PT, REG, FLD, WORDS, TR, CLIP
+    global B, P, PT, REG, FLD, WORDS, TR, CLIP, PB
+    PB = Paper(ctx.W, ctx.H, 'new', seed=BOOK_PAPER_SEED, breathe=1.0)     # H6's sheet
     B, CLIP = base_for('I1', 'media/kf/I1.jpg', ctx)
     TR = track_affine(B, (300, 600, 960, 900), ctx) if CLIP else None
     P = Paper(ctx.W, ctx.H, 'aged', seed=27)
@@ -56,7 +70,7 @@ def setup(ctx):
     WORDS = words_of(ctx, 'Mischievous baby', 176.0)
 
 
-def render(t, ctx):
+def plate(t, ctx):
     f = B.at(t)
     pt, reg = PT, REG
     if TR is not None:
@@ -65,9 +79,55 @@ def render(t, ctx):
     m = paper_mask(f, reg, warm=False, lo=0.30, soft=0.10, sat=(0.30, 0.42))
     f = lay_page(f, pt, m, 0.95)
     f = bed_grade(f, ctx, POOL, 300, field=FLD)
-    f = paper_fibre(f, P, 0.55)
-    k = 1.0 - ramp(t, T0, T0 + 0.30, 'out')          # the white of the page becomes the flashlight glare (cut-in)
-    if k > 0:
-        f = f * (1 - k) + np.float32([0.95, 0.93, 0.88]) * k
+    f = dehalo(f, ctx, find_lens(f, ctx, LENS_BOX), R=120)
+    return paper_fibre(f, P, 0.55)
+
+
+_YX = {}
+
+
+def pool_mask(ctx, rx, ry, cx=960, cy=540):
+    key = (ctx.W, ctx.H)
+    if key not in _YX:
+        _YX[key] = np.mgrid[0:ctx.H, 0:ctx.W].astype(F32) / ctx.s
+    yy, xx = _YX[key]
+    d = np.sqrt(((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2)
+    th = np.arctan2(yy - cy, xx - cx)
+    d = d * (1 + 0.012 * np.sin(5 * th + 1.3) + 0.008 * np.sin(11 * th))   # a reflector's slightly uneven rim
+    e = 4.0 / max(min(rx, ry), 1)                              # a hard edge: ~4 px at 1080p
+    m = np.clip((1 + e - d) / (2 * e), 0, 1)
+    light = 0.84 + 0.16 * np.exp(-(d / 0.55) ** 2)             # the torch's core on the paper, falling to the rim
+    return m.astype(F32)[..., None], light.astype(F32)[..., None]
+
+
+def render(t, ctx):
+    k = frame_of(t) - frame_of(T0)
+    if k < K_ON:
+        f = PB.frame(t)                                        # the bare paper H6 ended on
+    else:
+        base = plate(t, ctx)
+        if k < K_BACK:
+            if k <= K_POOL:                                    # the camera holds close on the pool
+                z = ZS
+                u = (k - K_ON) / (K_POOL - K_ON)
+                g = 1.00 - 0.18 * ease(u, 'out')               # the paper's edges fall off into darkness
+                rx, ry = POOL_R[0] * g, POOL_R[1] * g
+                wp, dim = 1.0, (0.22 if k == K_ON else 0.45)   # torch on: the dark is there within 2 frames
+            else:                                              # the pull-back to the I1 framing
+                u = ease((k - K_POOL) / (K_BACK - K_POOL), 'inout')
+                z = math.exp(math.log(ZS) * (1 - u))
+                rx, ry = POOL_R[0] * 0.82 * z / ZS, POOL_R[1] * 0.82 * z / ZS
+                wp = 1.0 - min(1.0, (k - K_POOL) / 2.0)          # the paper is the page: its detail comes up
+                dim = 0.45 + 0.55 * u
+            # zoom about the fixed point Q that puts the pool centre mid-frame at ZS and is the identity at x1
+            qx, qy = [(c0 - ZS * p) / (1 - ZS) for c0, p in ((960, LIT[0]), (540, LIT[1]))]
+            room = move(base, ctx, z, qx + (960 - qx) / z, qy + (540 - qy) / z)
+            pm, light = pool_mask(ctx, rx, ry, qx + z * (LIT[0] - qx), qy + z * (LIT[1] - qy))
+            lit = light * (1 - u) + u if k > K_POOL else light
+            inside = (PB.frame(t) * wp + room * (1 - wp)) * lit
+            pm = pm * (1 - u) if k > K_POOL else pm               # the hard pool hands over to the room's own pool
+            f = inside * pm + room * dim * (1 - pm)
+        else:
+            f = base
     lyric(f, ctx, sung(WORDS, t, tail=0.7), x=0.63, y=0.10, px=26)
     return f

@@ -96,3 +96,20 @@ def band(x, front, lead, trail, flare=1.0):
     up = np.exp(-np.maximum(-d, 0) ** 2 / (2 * (lead * 0.5) ** 2))
     down = np.exp(-np.maximum(d, 0) / max(trail, 1e-3))
     return (np.where(d < 0, up, down) * flare).astype(F32)
+
+
+def wavy_band(mask, amp, period, seed=0, lumps=0.35):
+    """Fix round 2 (QA: the mist band reads as a straight streak): bend a mist_band mask so its body rises and falls
+    along x (amp px, about `period` px between crests) and its edges go lumpy (cloud heads, not a ruled line)."""
+    h, w = mask.shape[:2]
+    r = np.random.default_rng(seed)
+    xs = np.arange(w, dtype=np.float32)
+    off = np.zeros(w, np.float32)
+    for k, a in ((1.0, 1.0), (2.3, 0.45), (5.1, 0.2)):
+        off += a * np.sin(xs / period * 2 * math.pi * k / 1.0 + r.uniform(0, 6.28))
+    off *= amp / 1.65
+    lump = fbm(h, w, period * 0.18, seed, 'mistlump', octaves=3) - 0.5
+    mx, my = np.meshgrid(xs, np.arange(h, dtype=np.float32))
+    my = my - off[None, :] + lump * amp * lumps * 2
+    out = cv2.remap(mask.astype(np.float32), mx, my.astype(np.float32), cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+    return np.clip(out, 0, 1).astype(np.float32)

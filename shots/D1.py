@@ -21,6 +21,10 @@ from tools.stage.stage import (d1_splash, d1_layout, seals, lyrics_on, T_GONG, L
 T0, T1 = 58.666667, 61.083333
 SOURCE = os.environ.get('STAGE_D1', 'hybrid')
 T_SET = 59.126                     # beat: he is set in 亮相
+# fix round 2: the gong (58.673) falls inside frame 1408, D1's FIRST frame, so the impact is that frame (the splat
+# with the throw's trailing streak, 倉 at full strength); the old in-flight throw frame is gone (it put the hit +1).
+TG = on_frame(T_GONG)
+DT0 = 0.014                        # the splat's age on its first frame (what the old frame 1409 showed)
 
 
 def setup(ctx):
@@ -38,7 +42,7 @@ def setup(ctx):
         b = clip_bbox(CL, 100)
         CSC = L['h'] * s / (b[3] - b[1])
         CPOS = (int(L['cx'] * s - (b[0] + b[2]) / 2 * CSC), int(L['base'] * s - b[3] * CSC))
-        RT = KeyRetime([(T_GONG, 1.50), (T_SET, 3.10), (T1 + 0.1, 3.40)], twos=[(T_GONG, T_SET)],
+        RT = KeyRetime([(TG - DT0, 1.50), (on_frame(T_SET), 3.10), (T1 + 0.1, 3.40)], twos=[(TG, on_frame(T_SET))],
                        duration=CL.duration)
     SEAL = seals(s)
     words = [(w, max(a, T_GONG + 0.04 * i), max(b, T_GONG + 0.04 * i + 0.1))
@@ -64,7 +68,7 @@ def _has(tm, line):
 def render(t, ctx):
     s = ctx.s
     f = P.frame(t)
-    dt = t - T_GONG
+    dt = t - TG + DT0
     if SOURCE == 'hybrid':
         if dt >= 0:
             SP.draw(f, dt)

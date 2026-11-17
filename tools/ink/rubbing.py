@@ -80,6 +80,8 @@ def flip_on(t, times, hold=2 / 24, mode='hold'):
     """Should the picture be flipped to its rubbing at time t?
     mode 'hold':   True for `hold` seconds after each time in `times` (a flash on each chop)
     mode 'toggle': each time flips the state and it stays until the next (page / rubbing / page ...)"""
+    from .core import on_frame
+    times = [on_frame(x) for x in times]          # the flip shows on the frame that contains the chop
     i = bisect.bisect_right(times, t + 1e-9)
     if i == 0:
         return False

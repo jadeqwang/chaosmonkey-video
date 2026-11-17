@@ -26,12 +26,15 @@ POOL = (975, 600)
 
 
 def setup(ctx):
-    global JADE, MAMA, P, PB, PAGE_T, PAGE_M, FB, SIL, CHAIR, POSES, LB, WORDS, FA
+    global GH, JADE, MAMA, P, PB, PAGE_T, PAGE_M, FB, SIL, CHAIR, POSES, LB, WORDS, FA
     JADE, _ = base_for('I4', 'media/kf/I4a.jpg', ctx)
     P = Paper(ctx.W, ctx.H, 'aged', seed=26)
     # Mama ghost: graded red, flattened, on our paper
     m = load_still('media/kf/I4_mama.jpg', ctx)
     MAMA = paper_fibre(flatten(m, ctx, 0.5), P, 0.6)
+    yy, xx = np.mgrid[0:ctx.H, 0:ctx.W].astype(F32)
+    d = ((xx - 960 * ctx.s) / (300 * ctx.s)) ** 2 + ((yy - 560 * ctx.s) / (420 * ctx.s)) ** 2
+    GH = soften((d < 1).astype(F32), ctx, 40)                   # Mama's face (not her hair or the red ground)
     # face grade: underlight pool at the chin, the face kept by bounce light, the hair and wall to violet
     FA = bed_field(ctx, (960, 1010), 520, faces=[(960, 560, 330, 470, 0.80)], amb=0.22, stretch=1.4, key="I4a")   # polish-1: the new take paints a cream ground: amb 0.34 -> 0.22
 
@@ -88,7 +91,12 @@ def render(t, ctx):
         f = face(t, ctx)
         op = 0.70 if k < 8 else (0.35 if k == 8 else 0.0)
         if op > 0:
-            f = f * (1 - op) + MAMA * op
+            # fix round 2 (QA item 7): a ghost OVER Jade, not a full-frame cut. Mama's face (registered on Jade's) at
+            # `op`, her hair and red ground only faintly; Jade's own dark lines (eyes, glasses, mouth, hair) read
+            # through from frame 0.
+            a = (op * (GH + (1 - GH) * 0.30))[..., None]
+            g = f * (1 - a) + MAMA * a
+            f = np.minimum(g, f * 1.04 + 0.14 * (1 - op / 0.70 * 0.3))
     elif t < CUT_C - 1e-6:
         f = FB.copy()
         i = sum(1 for h in HITS if t >= h - 1e-6) - 1

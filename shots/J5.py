@@ -73,8 +73,8 @@ def render(t, ctx):
     f = SC_.render(tt, CAM, ctx.size)
     if lyrics_on(ctx):
         INS.draw(f, t)
-        echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.35, seed=8)
-    if CHOP <= t < CHOP + 4 / 24.0:
+        echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.70, seed=8)       # fix2: the re-press reads (was 0.35)
+    if on_frame(CHOP) - 1e-9 <= t < on_frame(CHOP) + 4 / 24.0:              # fix2: on the frame containing the chop
         f = RB.apply(f, paper=BARE.render(tt, CAM, ctx.size))
     (x, y), r = pool(tt, ctx)
     L = light_field(ctx.W, ctx.H, (x, y), r, ambient=0.16, gain=1.3, stretch=1.2, seed=5)

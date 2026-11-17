@@ -19,8 +19,8 @@ HEADS = [  # name, mouths available, ink strength, (cx, cy) centre, height, own 
     ('jade', ('shut', 'open'), 0.56, (1168, 494), 450, -1.0),
     ('dau', ('shut', 'open', 'o'), 0.34, (1574, 524), 384, 3.0),
 ]
-T_LIANG = 198.613          # strongest hit in the shot (perc 1.0): the 亮相
-T_ECHO = 198.74            # "(no song)"
+T_LIANG = on_frame(198.613)  # fix2: floor frame. # strongest hit in the shot (perc 1.0): the 亮相
+T_ECHO = on_frame(198.74)  # fix2: floor frame. # "(no song)"
 FREEZE = 8 / 24
 COMMON_TILT = -8.0
 # mouth score on the word onsets (AUDIO_MAP lines 59-60): No 196.615 · cradle 196.83 · no 197.81 · song 198.12 ·
@@ -75,7 +75,7 @@ def render(t, ctx):
         L = LAY[(name, mm, key)]
         lay_ink(f, L, int(cx * s - L.shape[1] / 2), int(cy * s - L.shape[0] / 2 + jolt))
     x4, y4 = HEADS[3][3]
-    echoes(f, SEAL['cang_small'], t, [(T_ECHO, ((x4 + 40) * s, (y4 - 30) * s))], first=0.42, seed=12)
+    echoes(f, SEAL['cang_small'], t, [(T_ECHO, ((x4 + 40) * s, (y4 - 30) * s))], first=0.62, seed=12)
     if lyrics_on(ctx):
         INS.draw(f, t)
     return f

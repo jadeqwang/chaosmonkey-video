@@ -10,7 +10,7 @@ import numpy as np
 from shots._mountain import *
 
 T0, T1 = 1630 / 24, 1663 / 24
-T_TONG, T_BAI, T_TONG2 = 68.09, 68.53, 68.77
+T_TONG, T_BAI, T_TONG2 = (on_frame(x) for x in (68.09, 68.53, 68.77))   # fix2: floor frames
 
 
 def setup(ctx):
@@ -23,8 +23,8 @@ def setup(ctx):
     patch = cv2.resize(patch, (1920, 1080), interpolation=cv2.INTER_CUBIC)
     pc = Paper(1920, 1080, 'new', seed=BOOK_PAPER_SEED, scale=2.0)
     rock_c = onto_paper(patch, pc, ground=np.percentile(raw.reshape(-1, 3), 97, axis=0))
-    CC = Cliff(rock_c, '通', SEAL_FONT, size=820, region=(550, 120, 820, 840), seed=9, weather=0.12, chips=0.0,
-               jitter=0.0, weight=0.012, paint=0.8, depth=1.0, streaks=0.0, grime=0.3)
+    CC = Cliff(rock_c, '通', SEAL_FONT, size=820, region=(550, 120, 820, 840), seed=9, weather=0.22, chips=0.08,  # fix2: was 0.12/0.0 (bevel read digital)
+               jitter=0.0, weight=0.012, paint=0.8, depth=0.7, streaks=0.25, grime=0.5)
     CC.prepare(fill=0.95)
     # (b) wide: the block of five columns, 通 in the middle
     win = raw[100:1180, 6340:8260]
@@ -57,7 +57,7 @@ def render(t, ctx):
         pool = np.zeros((1080, 1920), np.float32)
         for g, t_on in POOLS:
             if t >= t_on:
-                pool = np.maximum(pool, g * ramp(t, t_on, t_on + 0.06, 'out'))
+                pool = np.maximum(pool, g * (0.75 + 0.25 * ramp(t, t_on, t_on + 0.06, 'out')))   # fix2: lit on its frame
         amb = 0.94 - 0.44 * pool
         flat = 0.94 + 0.04 * pool                               # flat rock barely changes: the light is in the cuts
         f = CW.render((335, 11, 1.0), fill=0.6, ambient=amb, warmth=0.8,

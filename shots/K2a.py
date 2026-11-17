@@ -5,6 +5,8 @@ The daughter's face over the top edge of the book, eyes down on the pages, singi
 media/kf/K2a.jpg: alt/K2a_v1). The pages, hidden from us, throw the flashlight's white up onto her face. The cover's red
 is pulled down (only pink and orange are saturated in 2026). Bedroom grade, paper fibre. A slow push in (2 %) toward
 the book's edge leads into K2b's push into the painting.
+Fix round 2 (QA item 7): reframed in comp (x1.40 -> 1.43) so her face sits on the left third and the book's top edge
+runs out of frame to the right (no longer a centred face).
 """
 import os
 import sys
@@ -33,6 +35,7 @@ def render(t, ctx):
     f = desat_hue(f, 335, 20, 0.45, COVER)
     f = bed_grade(f, ctx, (880, 2600), 100, field=FLD)
     f = paper_fibre(f, P, 0.6)
-    f = move(f, ctx, 1.0 + 0.02 * ramp(t, T0, T1, 'in'), 900, 640)
+    z = 1.40 + 0.03 * ramp(t, T0, T1, 'in')
+    f = move(f, ctx, z, 980 + 320 / z, 400 + 160 / z)    # face (980, 400 in the take) -> (640, 380): the left third
     lyric(f, ctx, sung(WORDS, t, tail=0.6), x=0.5, y=0.94, px=26)
     return f

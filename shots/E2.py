@@ -41,20 +41,27 @@ def setup(ctx):
     TEXT = typeset(ctx.W, ctx.H, s)
     DABS = []
     for k, x, y, t_on, per in HOPPERS:
-        T = element(f'design/plates/C_elements/dabs/C_dab_{k:02d}.png', 58 * s)
+        T = element(f'design/plates/C_elements/dabs/C_dab_{k:02d}.png', 84 * s)
         DABS.append((T, x * s, y * s, t_on, per))
+    # fix round 2 (QA: hops invisible at 540p): bigger dabs, higher hops, each dab takes every third beat in turn and
+    # leaves the ground ON the frame containing its beat
+    global HOPS
+    bs = [on_frame(b) for b in ctx.timing.beats_in(T0, T1)]
+    HOPS = [[b for j, b in enumerate(bs) if j % 3 == i and b >= DABS[i][3] - 0.5] for i in range(len(DABS))]
 
 
 def render(t, ctx):
     f = P.frame(t)
     f *= PLATE
     f *= TEXT
-    tq = math.floor(t * 12) / 12.0                         # on twos
-    for T, x, y, t_on, per in DABS:
+    for i, (T, x, y, t_on, per) in enumerate(DABS):
         h = 0.0
-        if tq >= t_on:
-            u = ((tq - t_on) % per) / 0.42                 # a hop lasts 0.42 s, then sits
+        past = [b for b in HOPS[i] if b <= t + 1e-9]
+        if past:
+            n = int(round((t - past[-1]) * 24))            # frames since take-off, drawn on twos after the first
+            n = n if n < 1 else n - (n % 2) + 1
+            u = (0.5 + n) / 9.0                            # a hop lasts 9 frames
             if u < 1:
-                h = 30 * ctx.s * 4 * u * (1 - u)
+                h = 64 * ctx.s * 4 * u * (1 - u) + 10 * ctx.s
         lay_at(f, T, x - T.shape[1] / 2, y - T.shape[0] - h)
     return f
