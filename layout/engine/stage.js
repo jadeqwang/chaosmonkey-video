@@ -53,7 +53,7 @@ export function stage(figSpecs, bookSpec, resolveExtra = () => null) {
   const run = (pass) => { const out = {}; for (const [who, s] of Object.entries(figSpecs || {})) {
     const sp = { who, ...s }; if (shift[who]) sp.at = sp.at.length === 3 ? [sp.at[0] + shift[who][0], sp.at[1], sp.at[2] + shift[who][1]] : [sp.at[0] + shift[who][0], sp.at[1] + shift[who][1]];
     out[who] = buildFigure(sp, ctxFor(pass));
-    if (s.headAt && pass > 0) { const ctx = ctxFor(pass); const want = ctx.resolve(s.headAt, out[who].userData.P); const P = out[who].userData.P;
+    if (s.headAt && pass > 0) { const ctx = ctxFor(pass); const want = (typeof s.headAt === 'object' && !Array.isArray(s.headAt)) ? ctx.resolve(s.headAt.at, out[who].userData.P).add(V(s.headAt.off || [0, 0, 0])) : ctx.resolve(s.headAt, out[who].userData.P); const P = out[who].userData.P;
       const d = want.clone().sub(P.head); shift[who] = [(shift[who]?.[0] || 0) + d.x, (shift[who]?.[1] || 0) + d.z]; }
   } return out; };
   figs = run(0);

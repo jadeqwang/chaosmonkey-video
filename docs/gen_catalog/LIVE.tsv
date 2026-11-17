@@ -1,4 +1,4 @@
-# live /ai/run probe 2026-11-14T06:56Z
+# live /ai/run probe 2026-11-17T06:45Z
 model	status	valid_fields
 alibaba/hh1-i2v	live	image, prompt, negative_prompt, resolution, duration, seed, watermark
 alibaba/hh1-t2v	live	prompt, resolution, ratio, duration, seed, watermark
@@ -35,6 +35,7 @@ bytedance/seedream-5-lite	live	prompt, image_input, size, aspect_ratio, sequenti
 bytedance/seedream-5-pro	live	prompt, image, size, watermark
 elevenlabs/eleven-flash-v2-5	live	text, voice_id, output_format, language_code, voice_settings.stability, voice_settings.similarity_boost, voice_settings.style, voice_settings.use_speaker_boost, voice_settings.speed, seed, previous_text, next_text, apply_text_normalization
 elevenlabs/eleven-multilingual-v2	live	text, voice_id, output_format, language_code, voice_settings.stability, voice_settings.similarity_boost, voice_settings.style, voice_settings.use_speaker_boost, voice_settings.speed, seed, previous_text, next_text, apply_text_normalization
+elevenlabs/eleven-text-to-sound-v3	live	text, duration_seconds, loop, prompt_influence, output_format
 elevenlabs/eleven-turbo-v2-5	live	text, voice_id, output_format, language_code, voice_settings.stability, voice_settings.similarity_boost, voice_settings.style, voice_settings.use_speaker_boost, voice_settings.speed, seed, previous_text, next_text, apply_text_normalization
 elevenlabs/eleven-v3	live	text, voice_id, output_format, language_code, voice_settings.stability, voice_settings.similarity_boost, voice_settings.style, voice_settings.use_speaker_boost, voice_settings.speed, seed, previous_text, next_text, apply_text_normalization
 elevenlabs/music-v2	live	prompt, composition_plan.chunks, music_length_ms, output_format, seed, force_instrumental, store_for_inpainting, sign_with_c2pa

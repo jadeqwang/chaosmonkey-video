@@ -164,6 +164,7 @@ export function buildFigure(spec, ctx) {
     P['knee' + n] = r.mid; P['ankle' + n] = r.end; P['foot' + n] = r.end.clone().addScaledVector(fd, pr.foot * H * 0.6);
     legInfo[n] = { reach: +r.reach.toFixed(2) };
   }
+  P.knees = P.kneeL.clone().add(P.kneeR).multiplyScalar(0.5);
   P.lap = P.kneeL.clone().add(P.kneeR).multiplyScalar(0.5).lerp(hip, 0.45).addScaledVector(by, 0.06 * H);
 
   // neck + head

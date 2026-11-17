@@ -58,7 +58,7 @@ function room(shot) {
   };
   const W = WINDOW;
   gable(ROOM.x1 + 0.06, [{ z0: W.z - W.w / 2, z1: W.z + W.w / 2, y0: W.sill, y1: W.sill + W.h }], 'right gable wall');
-  gable(ROOM.x0 - 0.06, [{ z0: DOOR.z - DOOR.w / 2, z1: DOOR.z + DOOR.w / 2, y0: -0.01, y1: DOOR.h }], 'left gable wall');
+  gable(ROOM.x0 - 0.06, [{ z0: DOOR.z - DOOR.w / 2, z1: DOOR.z + DOOR.w / 2, y0: 0.003, y1: DOOR.h }], 'left gable wall');
   // window frame, mullions, sill
   { const wx = W.x, y0 = W.sill, y1 = W.sill + W.h, za = W.z - W.w / 2, zb = W.z + W.w / 2, f = W.frame, FR = { grey: 0.6, col: 0x6b5b48 };
     const fr = [box(W.depth, f, W.w + 2 * f, FR, [wx, y0 - f / 2, W.z]), box(W.depth, f, W.w + 2 * f, FR, [wx, y1 + f / 2, W.z]),

@@ -93,7 +93,9 @@ window.sidecar = (id) => {
       spread_world: bk.pages.spread.map((v) => r2(v.toArray())) };
     else out.book = { state: 'closed', cover: bk.cover.map(P), corner_order: 'TL,TR,BR,BL as the cover is read' };
   }
-  for (const [name, cs] of Object.entries(b.panes || {})) out.panes[name] = { px: cs.map(P), world: cs.map((v) => r2(v.toArray())) };
+  const behind = (cs) => cs.map((v) => !px(v, cam).front);
+  for (const [name, cs] of Object.entries(b.panes || {})) out.panes[name] = { px: cs.map(P), world: cs.map((v) => r2(v.toArray())), behind_camera: behind(cs) };
+  if (out.book && b.book.pages) out.book.behind_camera = behind(b.book.pages.spread);
   for (const [who, f] of Object.entries(b.figs || {})) {
     const Pf = f.userData.P; const hp = px(Pf.head, cam);
     const inFrame = hp.front && hp.x >= 0 && hp.x <= W && hp.y >= 0 && hp.y <= H;

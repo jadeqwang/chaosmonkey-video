@@ -1,4 +1,4 @@
-# cloudflare-docs src/content/catalog-models @ c678d0b (2026-11-13T18:06:00Z); media models only
+# cloudflare-docs src/content/catalog-models @ 39a00b0 (2026-11-17T01:05:45Z); media models only
 model	task	pricing
 alibaba/hh1-i2v	Image-to-Video	{"Default (per second)": 0.28, "@720p (per second)": 0.14, "@1080p (per second)": 0.28}
 alibaba/hh1-t2v	Text-to-Video	{"Default (per second)": 0.28, "@720p (per second)": 0.14, "@1080p (per second)": 0.28}
@@ -35,6 +35,7 @@ bytedance/seedream-5-lite	Text-to-Image	{"Per image": 0.035}
 bytedance/seedream-5-pro	Text-to-Image	{"Per image": 0.045, "Per input image": 0.03}
 elevenlabs/eleven-flash-v2-5	Text-to-Speech	{"Per character": 5e-05}
 elevenlabs/eleven-multilingual-v2	Text-to-Speech	{"Per character": 0.0001}
+elevenlabs/eleven-text-to-sound-v3	Music Generation	{"output_audio_seconds": 0.002}
 elevenlabs/eleven-turbo-v2-5	Text-to-Speech	{"Per character": 5e-05}
 elevenlabs/eleven-v3	Text-to-Speech	{"Per character": 0.0001}
 elevenlabs/music-v2	Music Generation	{"output_audio_seconds": 0.0025}
