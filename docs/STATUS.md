@@ -107,3 +107,14 @@ F3b, I2, G3, G1). Relay queue is empty (144 done, 15 error, 8 rejected overall).
 Next: on room hand-backs -> `tools/cut/splice.py` -> `assemble.py --name preview_v1 --profile preview --audio
 media/sound/mix_v1.wav` -> contact sheets -> lead QA -> `docs/MORNING.md`.
 Spend: TOTAL $172.24 of $600 cap  (506 billed items; list-price estimates)
+
+## Checkpoint 10 — 2026-11-17 02:43
+**FIRST COMPLETE CUT EXISTS: `media/cut/preview_v1.mp4`** (960x540, all 65 shots, no slates, sound mix v1, 5720 frames
+verified). Contact sheets: `work/cut/preview_v1/contact_<SEQ>.jpg`. All six shot teams delivered; logs in `docs/logs/`.
+Lead change: narrowest margin strip widened 15% -> 22% (`shots/_margins.py`) so the face in G5 is whole; G4, G5 re-rendered.
+Running: QA review (read-only) -> `docs/QA_PREVIEW_V1.md`; polish round 1 (I4 repaint in the painted hand, G2 margin
+legibility, B3 surround, L2 thumb press, J2 back on paper) -> `docs/logs/LOG_polish1.md`.
+Known weak (lead's read of the contact sheets): lip-sync shots drift toward a soft 3D look and score r 0.16-0.54;
+rooms brighter than their night budgets; lyric inscriptions tiny and inconsistent; 脸谱 faces graphic rather than brushy.
+Next: apply QA's top fixes -> re-assemble as preview_v2 -> `docs/MORNING.md` -> stop for Jade's review.
+Spend: TOTAL $172.24 of $600 cap  (506 billed items; list-price estimates)
