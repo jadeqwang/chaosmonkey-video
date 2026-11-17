@@ -1,6 +1,6 @@
 # Look bake-off (image models)
 
-2026-11-16/17. Budget $25; spent **≈ $10.9** (list-price estimates, 100 paid calls; per-model split at the end).
+2026-11-16/17. Budget $25; spent **≈ $10.78** (list-price estimates, 99 paid calls; per-model split at the end).
 Every output is in `media/look/<test>/<model>_<variant>.jpg` with its prompt and parameters in the `.txt` beside it; rejects
 are kept. Contact sheets: `media/look/_sheets/L<n>.jpg`. Prompts: `media/look/_prompts/`. References: `media/look/_refs/`.
 
@@ -23,7 +23,7 @@ The catalog has no MiniMax image model (only video, music, speech).
 |---|---|---|---|
 | Earth plates (浅绛) | **qwen** | nbp, sd5 + style ref, codex | qwen has the finest real dry-brush; nbp the most "absorbent paper" |
 | Elements (monkey, egg) | **nbp** | sd5 | nbp is the only one that really paints in a few strokes |
-| Stage figure (splashed ink) | **sd5** | nbp, kling3, recraftpro | sd5 v2 nails the pose and Liang Kai wash |
+| Stage figure (splashed ink) | **sd5** (paid), **codex** (free) | nbp, kling3, recraftpro | same v2 prompt; codex is the most Liang Kai but 1672x941 |
 | Pose sheet | **nbp** (with the L3 design as ref) | gpt2, sd5 | all three keep the design over 6 poses |
 | Heaven (青绿) | **sd5** | nbp | |
 | Rooms | **nbp**, rendering hand (a) | sd5, qwen | |
@@ -103,7 +103,8 @@ which is right for cut-outs: generate at 2K and scale up in the compositor.
 
 | Model | Variant | Cost | Coverage | Verdict |
 |---|---|---|---|---|
-| sd5 | v2 | $0.05 | 7.1 % | **Best.** Leg raised, hand shading eyes (搭凉棚), staff behind, plumes; wet wash robe; original |
+| codex | v2 | free | 10.2 % | **Co-best.** The most Liang Kai of all: one wet wash for the robe, a few lines for face and hands, faint cinnabar; 1672x941 only |
+| sd5 | v2 | $0.05 | 7.1 % | **Best paid.** Leg raised, hand shading eyes (搭凉棚), staff behind, plumes; wet wash robe; original |
 | nbp | v1 | $0.13 | 7.2 % | Clean, cap + plumes, peach patch; staff across rather than behind |
 | kling3 | v2 | $0.03 | 11.6 % | Strongest splash and paper; reads as a heroic "Wukong" type (headband): watch originality |
 | recraftpro | v1 | $0.21 | 13.0 % | Most like real 泼墨 brushwork; chimp face; leg not raised |
@@ -127,7 +128,7 @@ Originality: none of the leaders resembles the 1961 film (no yellow tunic, no re
 realistic fur), Dragon Ball (no tail-and-gi child) or anime. Watch the red-around-the-eyes patch: it is generic opera
 monkey make-up; keep it peach-shaped and small. qwen's gold circlet is the 1986 look: avoid qwen for the monkey.
 
-Best: `media/look/L3/sd5_v2.jpg`, `media/look/L3/nbp_v1.jpg`, `media/look/L3/kling3_v2.jpg`; pose sheet
+Best: `media/look/L3/codex_v2.jpg`, `media/look/L3/sd5_v2.jpg`, `media/look/L3/nbp_v1.jpg` (also `kling3_v2.jpg`); pose sheet
 `media/look/L3/nbp_pose_v1.jpg` (and `gpt2_pose_v1.jpg`).
 
 Winning recipe (sd5, `size 2560x1440`, no refs):
@@ -283,7 +284,7 @@ layout references only; the treatment builds the book in 3D.
 - **codex image_gen** (free): works headless with
   `codex exec -s workspace-write --skip-git-repo-check "<prompt> … save to <abs path>" < /dev/null`; without `< /dev/null`
   it hangs on "Reading additional input from stdin". 1672x941. Very obedient restraint (L1). It shares one lock with the
-  other agents' codex jobs, so it is slow to get a turn. CODEX_L23_RESULT
+  other agents' codex jobs, so it is slow to get a turn. L2 egg: fine (1.8 %), soft. L2 monkey: **refused by its safety filter** (the prompt is harmless; retry with other wording). L3 v2 (`media/look/L3/codex_v2.jpg`, 10.2 %): **one of the best stage figures of the whole test**: wet splashed-ink robe, hand shading the eyes, knee raised, staff behind, two plume strokes, a faint cinnabar patch. Total time to get codex working: ~10 min (the stdin hang), plus queueing behind other agents' codex jobs.
 
 ## Needs another round
 

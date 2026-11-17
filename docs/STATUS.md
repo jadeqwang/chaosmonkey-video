@@ -39,3 +39,15 @@ Running: image look bake-off (outputs in `media/look/L1..L10`; early read: ink-w
 Mama renders too old); painting library; codex cut tooling; Three.js blockouts.
 Next: lock rendering hand + models from `docs/LOOK_BAKEOFF.md`; design lock; video bake-off; sequence teams.
 Spend: TOTAL $10.50 of $600 cap  (118 billed items; list-price estimates)
+
+## Checkpoint 4 — 2026-11-17 00:44
+LOCKED after image bake-off (`docs/LOOK_BAKEOFF.md`): rendering hand (a) = people in fine line + wash on xuan, rooms as
+ink-wash paintings of night (refs `media/look/L5/nbp_a_v2.jpg`, `L6/nbp_a_v2.jpg`); monkey canon = `media/look/L3/sd5_v2.jpg`;
+models: Nano Banana Pro (rooms, people), Qwen/NBP/Seedream (plates), GPT Image 2 (脸谱 grid, puppets). Neon sign is built in code.
+Done: cut tooling works (`tools/cut/`; `media/cut/animatic_v0.mp4` = slate animatic, 65 shots, 5720 frames).
+Note: codex headless needs `< /dev/null` or it hangs.
+Running: character + monkey canon (`design/characters/CANON.md`, $25); video bake-off (`docs/VIDEO_BAKEOFF.md`, $70);
+plates + elements (`design/plates/PLATES.md`, $45); painting library; Three.js blockouts (`layout/NOTES.md`).
+Next: when canon + video bake-off + blockouts land -> sequence teams produce shots into `media/comp/<ID>.mp4`
+(stage/book shots can start as soon as plates groups B/D/F are checkpointed) -> assemble preview_v1 -> `docs/MORNING.md`.
+Spend: TOTAL $10.57 of $600 cap  (119 billed items; list-price estimates)
