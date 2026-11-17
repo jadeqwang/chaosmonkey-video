@@ -1,0 +1,1 @@
+A_open_worn.png + the crayon monkey (A_crayon_monkey) multiplied into the bottom outer margin of the left page; rect in A_open_book.json.

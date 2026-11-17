@@ -1,0 +1,409 @@
+{
+ "faces": {
+  "F01": {
+   "family": "整脸 red",
+   "file": "faces/F01.png",
+   "mask": "faces/F01_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6,
+   "build": [
+    "builds/F01_1_ground.png",
+    "builds/F01_2_colour.png",
+    "builds/F01_3_lines.png",
+    "builds/F01_lines_mask.png"
+   ]
+  },
+  "F02": {
+   "family": "整脸 black",
+   "file": "faces/F02.png",
+   "mask": "faces/F02_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    865,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F03": {
+   "family": "整脸 purple",
+   "file": "faces/F03.png",
+   "mask": "faces/F03_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F04": {
+   "family": "三块瓦 blue",
+   "file": "faces/F04.png",
+   "mask": "faces/F04_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    140,
+    863,
+    1120
+   ],
+   "coverage": 36.6,
+   "build": [
+    "builds/F04_1_ground.png",
+    "builds/F04_2_colour.png",
+    "builds/F04_3_lines.png",
+    "builds/F04_lines_mask.png"
+   ]
+  },
+  "F05": {
+   "family": "花三块瓦 green",
+   "file": "faces/F05.png",
+   "mask": "faces/F05_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    865,
+    1120
+   ],
+   "coverage": 36.7
+  },
+  "F06": {
+   "family": "尖三块瓦 yellow",
+   "file": "faces/F06.png",
+   "mask": "faces/F06_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F07": {
+   "family": "十字门 black",
+   "file": "faces/F07.png",
+   "mask": "faces/F07_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    140,
+    863,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F08": {
+   "family": "花十字门 red",
+   "file": "faces/F08.png",
+   "mask": "faces/F08_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6,
+   "build": [
+    "builds/F08_1_ground.png",
+    "builds/F08_2_colour.png",
+    "builds/F08_3_lines.png",
+    "builds/F08_lines_mask.png"
+   ]
+  },
+  "F09": {
+   "family": "六分脸 red",
+   "file": "faces/F09.png",
+   "mask": "faces/F09_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    140,
+    863,
+    1120
+   ],
+   "coverage": 36.5,
+   "build": [
+    "builds/F09_1_ground.png",
+    "builds/F09_2_colour.png",
+    "builds/F09_3_lines.png",
+    "builds/F09_lines_mask.png"
+   ]
+  },
+  "F10": {
+   "family": "六分脸 slate",
+   "file": "faces/F10.png",
+   "mask": "faces/F10_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    865,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F11": {
+   "family": "碎花脸 multicolour",
+   "file": "faces/F11.png",
+   "mask": "faces/F11_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6,
+   "build": [
+    "builds/F11_1_ground.png",
+    "builds/F11_2_colour.png",
+    "builds/F11_3_lines.png",
+    "builds/F11_lines_mask.png"
+   ]
+  },
+  "F12": {
+   "family": "碎脸 blue-green",
+   "file": "faces/F12.png",
+   "mask": "faces/F12_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    865,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F13": {
+   "family": "歪脸 crooked",
+   "file": "faces/F13.png",
+   "mask": "faces/F13_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F14": {
+   "family": "丑角 豆腐块",
+   "file": "faces/F14.png",
+   "mask": "faces/F14_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    140,
+    863,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F15": {
+   "family": "丑角 date-pit",
+   "file": "faces/F15.png",
+   "mask": "faces/F15_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    865,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F16": {
+   "family": "神仙脸 gold",
+   "file": "faces/F16.png",
+   "mask": "faces/F16_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6,
+   "build": [
+    "builds/F16_1_ground.png",
+    "builds/F16_2_colour.png",
+    "builds/F16_3_lines.png",
+    "builds/F16_lines_mask.png"
+   ]
+  },
+  "F17": {
+   "family": "神仙脸 silver",
+   "file": "faces/F17.png",
+   "mask": "faces/F17_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F18": {
+   "family": "僧道脸 monk",
+   "file": "faces/F18.png",
+   "mask": "faces/F18_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    268,
+    140,
+    863,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F19": {
+   "family": "太监脸 eunuch",
+   "file": "faces/F19.png",
+   "mask": "faces/F19_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    277,
+    140,
+    844,
+    1120
+   ],
+   "coverage": 34.9
+  },
+  "F20": {
+   "family": "元宝脸 ingot",
+   "file": "faces/F20.png",
+   "mask": "faces/F20_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F21": {
+   "family": "水白脸 water-white",
+   "file": "faces/F21.png",
+   "mask": "faces/F21_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    140,
+    140,
+    1120,
+    1120
+   ],
+   "coverage": 64.1
+  },
+  "F22": {
+   "family": "油白脸 oil-white",
+   "file": "faces/F22.png",
+   "mask": "faces/F22_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  },
+  "F23": {
+   "family": "整脸 green",
+   "file": "faces/F23.png",
+   "mask": "faces/F23_mask.png",
+   "size": [
+    1400,
+    1400
+   ],
+   "face_box_xywh": [
+    267,
+    140,
+    864,
+    1120
+   ],
+   "coverage": 36.6
+  }
+ },
+ "note": "all faces normalised: face (cap to chin) is exactly 1120 px tall, centred on a 1400x1400 sheet; masks = face silhouette"
+}

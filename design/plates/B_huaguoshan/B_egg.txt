@@ -1,0 +1,10 @@
+SOURCE: design/plates/B_huaguoshan/_cand/egg_nbp_a.png
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 5504x3072
+est_usd: 0.24
+secs: 53
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper, abbreviated-brush (jianbi) manner. A stone egg, round as a ball, alone on the sheet: one ring of pale ink drawn in a single wet stroke that bleeds softly into the absorbent paper, a very pale grey wash inside, slightly deeper on its lower side, two or three tiny dry dots. It sits a little left of centre and low on the sheet, about one sixth of the sheet's height. Nothing else on the sheet: no ground, no shadow, no rock, no sky. Bare unpainted paper everywhere else. No writing, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette.

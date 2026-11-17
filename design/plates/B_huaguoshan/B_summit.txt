@@ -1,0 +1,13 @@
+SOURCE: design/plates/B_huaguoshan/_cand/summit_qwen_b.png
+model: alibaba/qwen-image-3.0-pro
+params: {"size": "1920x3392", "watermark": false, "prompt_extend": false}
+refs: []
+output: 1920x3392
+est_usd: 0.07
+secs: 34
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper in the monumental high-distance manner (gaoyuan) of Fan Kuan's "Travelers among Mountains and Streams": we look up from below at the summit of a steep rock peak. The massive rock rises from the bottom edge of the sheet and fills only the lower half, built with dense raindrop and axe-cut texture strokes in ink, a few small pines and dark moss dots along its upper edge. On the very top of the peak, seen against the empty paper, rests one smooth round stone, a little larger than a pine tree there, drawn with one soft outline and a pale grey ink wash: smooth, unmarked, uncarved, no cracks. The upper half of the sheet is bare unpainted paper: the sky is the paper itself. Ink with faint ochre. No clouds, no sun, no birds, no figures, no writing, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette, no shadow.
+
+NEGATIVE:
+text, calligraphy, characters, letters, seal, stamp, signature, border, frame, margin, vignette, clouds, sun, birds, distant mountains, waves, photorealistic, 3d render, cinematic, dramatic lighting, digital art, fantasy

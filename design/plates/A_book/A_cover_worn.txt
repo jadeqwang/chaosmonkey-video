@@ -1,0 +1,10 @@
+SOURCE: design/plates/A_book/_cand/cover_worn_gpt2_a.png
+model: openai/gpt-image-2
+params: {"size": "2304x2592", "quality": "high", "output_format": "png"}
+refs: ['design/plates/A_book/_cand/cover_gpt2_a.png']
+output: 2304x2592
+est_usd: 0.732
+secs: 105
+
+PROMPT:
+Edit this image: the same book cover, exactly the same layout, the same painting of the mountain, the same blank upper half, the same flat straight-on view, but 38 years older and much read: the four corners softened and rounded with the board showing through, the edges of the paper rubbed pale, the indigo cloth spine faded and frayed at the top and bottom, a few faint foxing spots and one pale water stain near the lower edge, the paper slightly yellowed. Keep the upper half blank for the title. No title, no letters, no characters, no logo, no seal, no signature anywhere.

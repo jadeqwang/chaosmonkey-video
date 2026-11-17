@@ -1,0 +1,10 @@
+SOURCE: design/plates/B_huaguoshan/_cand/stone_nbp_crack.png
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['/tmp/claude-1000/-home-jade-Documents-chaosmonkey-video/e0374f19-0e18-4b47-948d-235491a67d56/scratchpad/p/stone_in.jpg']
+output: 5504x3072
+est_usd: 0.24
+secs: 49
+
+PROMPT:
+Edit this Chinese ink painting. Keep everything exactly as it is: the same stone, the same pale wash, the same outline, the same rock strokes and moss dots, the same paper, the same framing. Add only one thing: a single hairline crack in dark ink running from the top of the stone down to its base, slightly jagged, drawn with one thin, quick brush line that splits into two tiny branches near the bottom. Nothing else changes. No writing, no seal.

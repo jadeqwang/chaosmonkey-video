@@ -1,0 +1,12 @@
+Cropped 5% to drop the sheet edge. _rgba: matted in code (alpha from distance to paper, colour un-premultiplied) - lay with over(), not multiply: gold is opaque pigment.
+
+SOURCE: design/plates/G_extras/_cand/halo_nbp.png
+model: google/nano-banana-pro
+params: {"aspect_ratio": "1:1", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 4096x4096
+est_usd: 0.24
+secs: 68
+
+PROMPT:
+A single loose, imperfect brush ring painted in one quick circular stroke of mineral gold pigment (shell gold) on plain unsized cream xuan paper: the ring is slightly open where the stroke started and ended and overlaps a little at the join, thicker and wetter where the brush pressed down, thinning and breaking into dry-brush streaks (feibai) where it ran out of paint, with a few tiny gold specks flicked off. The gold has the soft metallic sheen of real mineral gold paint, not a glowing light. The ring sits in the centre and is about half the sheet's height. Nothing else on the sheet. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette.

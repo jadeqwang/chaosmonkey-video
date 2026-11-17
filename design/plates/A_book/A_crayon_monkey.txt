@@ -1,0 +1,1 @@
+Cut and keyed in code from src/crayon_nbp_a.png (nano-banana-pro; photo of a crayon drawing, shading removed by dividing out a median-blurred paper estimate). _rgba: alpha from wax density.

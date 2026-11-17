@@ -1,0 +1,10 @@
+SOURCE: design/plates/B_huaguoshan/_cand/stone_nbp_a.png
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: []
+output: 5504x3072
+est_usd: 0.24
+secs: 58
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper, Southern Song academy manner. A single smooth round stone, a little wider than tall, resting on the flat top of a rock summit; the summit rock is only a band of a few axe-cut strokes and moss dots along the bottom edge of the sheet. The stone fills the middle third of the sheet: one soft wet outline stroke in pale ink, a pale grey wash that is slightly darker toward its lower side, the paper left bare on its upper face where the light falls. Its surface is smooth and completely unmarked: no cracks, no lines, no carving, no texture strokes. Everything around it is bare unpainted paper. No sky, no clouds, no sun, no writing, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette, no shadow.

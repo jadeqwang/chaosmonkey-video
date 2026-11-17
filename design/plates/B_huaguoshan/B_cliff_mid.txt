@@ -1,0 +1,13 @@
+SOURCE: design/plates/B_huaguoshan/_cand/mid_qwen_a.png
+model: alibaba/qwen-image-3.0-pro
+params: {"size": "3072x1728", "watermark": false, "prompt_extend": false}
+refs: []
+output: 3072x1728
+est_usd: 0.07
+secs: 27
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper, Southern Song academy style, ink and light colour (qianjiang). A tall sea cliff seen from the middle distance, frontally: a wall of rock made of several broad, flat, nearly vertical stone faces, each smooth and pale, separated by dark fissures drawn with axe-cut texture strokes (fupi cun). Against the flat faces lean a few very thin bamboo ladders and two small lashed bamboo scaffolds, drawn with single fine dry lines, tiny against the rock: each ladder is about one tenth of the cliff's height. A few small pines in the cracks, a few moss dots. The cliff fills the lower two thirds and the left side of the sheet; its top edge and the right part of the sheet fade into bare unpainted paper (mist is the paper itself). The flat faces are bare and uncarved. No people, no figures, no writing, no characters, no inscriptions, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette, no shadow.
+
+NEGATIVE:
+text, calligraphy, characters, letters, seal, stamp, signature, border, frame, margin, vignette, clouds, sun, birds, distant mountains, waves, photorealistic, 3d render, cinematic, dramatic lighting, digital art, fantasy

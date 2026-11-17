@@ -1,0 +1,9 @@
+model: bytedance/seedream-5-pro
+params: {"size": "2304x1728", "watermark": false}
+refs: ['design/plates/_refs/tenkings_desk_crop.jpg']
+output: 2304x1728
+est_usd: 0.075
+secs: 120
+
+PROMPT:
+Chinese painting in ink and light colour on cream xuan paper, in the manner of the Southern Song "Ten Kings of Hell" paintings from Jin Chushi's workshop, but restrained and sparse: a king of the underworld seated frontally behind a large plain rectangular desk, wearing a dark official's robe and a flat-topped crown, his face stern and still. Beside the desk on the left stands a scribe in a green robe, holding a brush, leaning toward the desk. On the desk, facing us, lies one large register, a stitched book, open flat; its two pages are blank except for faint ruled vertical lines. An inkstone and a brush rest beside it. Behind the king, a plain folding screen drawn in a few pale lines. Fine-line baimiao outlines with pale washes of indigo, green, ochre and one touch of cinnabar on the desk cloth. The group sits in the middle of the sheet and fills about a third of it; everything around it is bare unpainted paper: no floor, no room, no demons, no other figures, no clouds. No writing, no characters on the screen or in the book, no seal, no signature, no border, no frame. Flat even scan of the painting, no vignette. The reference image is ONLY a reference for the figure drawing, the costume and the brushwork; do not copy its composition, its background, its colours of silk or its extra figures.

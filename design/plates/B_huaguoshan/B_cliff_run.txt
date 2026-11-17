@@ -1,0 +1,3 @@
+Stitched in code from src/cliff_gpt2_ext2 | src/cliff_gpt2_ext1 | src/cliff_gpt2_a (gpt-image-2, 3840x1280 each; ext1/ext2 = outpaint leftwards from canvas src/outpaint_left*.png, prompt in src/*.txt).
+Panels colour-matched to cliff_gpt2_a, overlap found by search, joined along a dynamic-programming min-cost vertical seam (14 px feather). Joins at x=3535 and x=5899.
+B_cliff_run_silk.png = as painted (brown silk tone). B_cliff_run.png = silk ground divided out and re-laid on cream PAPER_NEW (ink kept 85% neutral grey).

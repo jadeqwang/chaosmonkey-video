@@ -1,0 +1,10 @@
+SOURCE: design/plates/C_elements/_cand/troop_nbp.png
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['design/plates/_refs/canon_troop_dabs.jpg']
+output: 5504x3072
+est_usd: 0.24
+secs: 82
+
+PROMPT:
+Chinese ink painting on unsized cream xuan paper, abbreviated-brush (jianbi) manner of Liang Kai, ink and light colour: the long sloping shoulder of a rocky mountain runs diagonally from the lower-left corner up toward the middle of the sheet, drawn with a few axe-cut strokes, pale ink wash and a little ochre, two small pines. Across this slope swarms a troop of about one hundred small monkeys, each a single faceless dab of the brush: one wet blot for body and head with quick flicked limbs and a dry flick for the tail, no faces, no eyes, no plumes, no red, all in different poses: sitting, climbing, running on all fours, hanging, grooming, leaping, crowded in clusters and thinning out at the edges. The upper half and the whole right side of the sheet are bare unpainted paper. No border, no frame, no fold, no seal, no text, no signature. Flat even scan of the painting, no shadow, no vignette. The reference image is ONLY a reference for how each small monkey is painted as a dab; do not copy its layout.

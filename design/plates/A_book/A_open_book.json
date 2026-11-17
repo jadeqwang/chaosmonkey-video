@@ -1,0 +1,32 @@
+{
+ "size": [
+  5504,
+  3072
+ ],
+ "book_bbox": [
+  234.0,
+  314.0,
+  5266.0,
+  2865.0
+ ],
+ "gutter_x": 2797,
+ "right_page_xyxy": [
+  2857,
+  314,
+  5040,
+  2729
+ ],
+ "left_page_xyxy": [
+  455,
+  314,
+  2738,
+  2733
+ ],
+ "crayon_xywh_in_worn": [
+  569,
+  2069,
+  553,
+  580
+ ],
+ "note": "pages are blank: map spreads into the page boxes (curve them toward the gutter); NEW and WORN are pixel-registered"
+}

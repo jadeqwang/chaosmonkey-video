@@ -1,0 +1,70 @@
+{
+ "mid": {
+  "file": "D_heaven_mid.png",
+  "size": [
+   5504,
+   3072
+  ]
+ },
+ "close": {
+  "file": "D_heaven_close.png",
+  "size": [
+   5504,
+   3072
+  ],
+  "corners_in_mid_px": [
+   [
+    785.9182840406313,
+    241.51684938815416
+   ],
+   [
+    3380.980155755136,
+    241.4412190172317
+   ],
+   [
+    3380.9684166445386,
+    1677.8193625617646
+   ],
+   [
+    785.9065449300342,
+    1677.894992932687
+   ]
+  ],
+  "approx_rect_in_mid": [
+   786,
+   236,
+   2595,
+   1459
+  ],
+  "scale_close_per_mid_px": 2.1210019267822737
+ },
+ "far": {
+  "file": "D_heaven_far.png",
+  "size": [
+   5504,
+   3072
+  ],
+  "mid_rect_in_far_px": [
+   192,
+   1936,
+   1871,
+   1044
+  ],
+  "scale": 0.34
+ },
+ "huaguoshan_stone": {
+  "mid_px": [
+   1880,
+   452
+  ],
+  "close_px": [
+   2320.4977498981902,
+   450.23115614319704
+  ],
+  "far_px": [
+   831.2,
+   2089.68
+  ]
+ },
+ "notes": "Nested zoom: a point p in close maps to mid via corners (affine); mid maps to far by p*scale+offset."
+}

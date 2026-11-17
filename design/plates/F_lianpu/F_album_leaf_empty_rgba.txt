@@ -1,0 +1,1 @@
+Built in code (tools/ink Paper aged, seed 88; hand-ruled pale ink grid via ink.wash). 6 x 4 cells, all bare. Geometry: F_album_grid.json.

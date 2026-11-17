@@ -1,0 +1,10 @@
+SOURCE: design/plates/A_book/_cand/cover_gpt2_a.png
+model: openai/gpt-image-2
+params: {"size": "2304x2592", "quality": "high", "output_format": "png"}
+refs: []
+output: 2304x2592
+est_usd: 0.712
+secs: 99
+
+PROMPT:
+A flat, straight-on scan of the front cover of a hardcover children's picture book, the closed book filling the whole image edge to edge, perfectly rectangular, no perspective, no shadow, no background. The cover is half-bound: a spine strip of faded indigo bookcloth along the left edge, about one eighth of the width, with visible cloth weave; the rest of the boards are covered in cream paper printed with a small painting in Chinese ink and light colour: a steep island mountain with axe-cut rock strokes, two small pines and one smooth round stone on its summit, standing in the lower part of the cover above an unpainted sea, small, about a quarter of the cover's height. The whole upper half of the cover is plain cream paper, completely blank, left empty for a title to be printed later. The book is new: crisp corners, clean edges, slightly glossy paper. No title, no letters, no characters, no author name, no logo, no barcode, no seal, no signature anywhere.

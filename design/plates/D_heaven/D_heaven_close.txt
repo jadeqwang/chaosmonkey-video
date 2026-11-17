@@ -1,0 +1,12 @@
+nbp edit of the mid plate's crop x 786-3381, y 236-1695 (input: src/heaven_close_in.png), registered by ECC; see D_heaven_registration.json
+
+SOURCE: design/plates/D_heaven/_cand/heaven_close_nbp_a.png
+model: google/nano-banana-pro
+params: {"aspect_ratio": "16:9", "image_size": "4K", "output_format": "png"}
+refs: ['/tmp/claude-1000/-home-jade-Documents-chaosmonkey-video/e0374f19-0e18-4b47-948d-235491a67d56/scratchpad/p/heaven_close_in.png']
+output: 5504x3072
+est_usd: 0.24
+secs: 91
+
+PROMPT:
+This image is a detail of a blue-green landscape painting (qinglü shanshui) in the manner of Wang Ximeng. Repaint this same detail as a high-resolution close-up of the original painting. Keep every peak exactly where it is, with the same outline, the same size and the same colours; keep the composition exactly; keep the clouds as bare unpainted paper exactly where they are. Add only the finer brushwork a close view reveals: crisp fine ink contour lines, texture strokes, layered azurite blue and malachite green washes over the ochre underpainting, small pines with individual clusters of needles along the ridges, moss dots. The tall peak on the left, with one small smooth round pale stone on its summit, stays exactly as it is. No new peaks, no buildings, no people, no rivers, no text, no seal, no signature, no border, no fold line. Flat even scan of the painting.

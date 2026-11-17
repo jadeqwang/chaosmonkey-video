@@ -1,0 +1,1 @@
+C_waves.png with the line density x3.2 in code (the original lines are below key_paper's default lo threshold).
