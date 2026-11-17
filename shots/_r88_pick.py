@@ -22,7 +22,7 @@ CACHE = f'{OUT}/lipsync.json'
 SH = {s['id']: s for s in json.load(open('docs/shots.json'))['shots']}
 BOX = {'C3': '415,215,60,45'}             # shot -> "x,y,w,h" mouth box in clip px when FaceMesh fails (wide shots)
 MAXLAG = {'G5': 0.6}   # G5: one word after 2.8 s of silence; at 1.2 s the correlation locks onto noise (+1018 ms, checked by eye: wrong)
-FORCE = {'E1': 't1', 'G1': 't1'}           # shot -> take tag to use regardless of score (with a reason in the log)
+FORCE = {'E1': 't1', 'G1': 't1', 'G3': 't2'}           # shot -> take tag to use regardless of score (with a reason in the log)
 
 # Kling picks: shot -> dict(t_clip0=song time of clip frame 0, rate, src_range=(a, b) in clip seconds, twos)
 KLING = {

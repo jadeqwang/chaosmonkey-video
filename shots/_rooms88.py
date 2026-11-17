@@ -320,6 +320,17 @@ def warp_spread(T, quad, W, H, strength=1.0):
     return out
 
 
+def clean_page(f, mask, s, k=31):
+    """Erase anything a video model drew on the blank page: a grey closing (max then min filter) removes dark marks
+    smaller than k px and keeps the paper's lit gradient; only inside the page mask."""
+    kk = max(5, int(k * s) | 1)
+    el = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kk, kk))
+    c = cv2.morphologyEx(f, cv2.MORPH_CLOSE, el)
+    c = cv2.GaussianBlur(c, (0, 0), 4 * s + 0.5)
+    m = cv2.erode(mask, np.ones((3, 3), np.uint8))[..., None]
+    return f + (c - f) * m
+
+
 def map_page(f, T, quad, mask, strength=1.0):
     """Multiply the art onto the lit page, only where the page shows (hands and thumbs stay unprinted)."""
     H, W = f.shape[:2]
@@ -589,6 +600,8 @@ class RoomShot:
             kind = pg['kind_at'](t) if pg.get('kind_at') else pg['kind']
             q = self.PT.quad(i, self.s)
             m = self.PT.mask(f, self.s, i)
+            if pg.get('clean'):
+                f = clean_page(f, m, self.s, pg.get('clean_k', 31))
             f = map_page(f, self.SP[kind], q, m, pg.get('strength', 1.0))
             self.page_m = m
             self.page_q = q
@@ -682,8 +695,7 @@ def head_mask(h=400):
     m = np.zeros((h, w), np.uint8)
     cx = w // 2
     cv2.circle(m, (cx, int(h * 0.38)), int(h * 0.26), 1, -1)                                       # head
-    cv2.ellipse(m, (int(cx + 0.05 * w), int(h * 0.10)), (int(h * 0.09), int(h * 0.07)), -20, 0, 360, 1, -1)   # tie
-    cv2.ellipse(m, (int(cx + 0.24 * w), int(h * 0.20)), (int(h * 0.06), int(h * 0.16)), 35, 0, 360, 1, -1)   # tail
+    cv2.ellipse(m, (int(cx + 0.27 * w), int(h * 0.30)), (int(h * 0.05), int(h * 0.15)), 25, 0, 360, 1, -1)   # tail
     cv2.rectangle(m, (int(cx - 0.11 * w), int(h * 0.58)), (int(cx + 0.11 * w), int(h * 0.78)), 1, -1)        # neck
     cv2.ellipse(m, (cx, int(h * 0.98)), (int(w * 0.48), int(h * 0.22)), 0, 180, 360, 1, -1)                  # shoulders
     return cv2.GaussianBlur(m.astype(F32), (0, 0), 2.0)

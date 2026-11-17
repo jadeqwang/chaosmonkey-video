@@ -1,8 +1,9 @@
 """G3 134.375-141.250 (165 f). Team ROOMS-88. 'It isn't fair, it isn't fair / I don't want it in his hair': little
 Jade puts her small hand flat over the picture (the pilgrim-with-band page, C_pilgrim_band); the SHADOW of her flat
 hand (comp layer) settles over the painted gold band, sharpening as the hand comes down. Seedance 2.5 lip-sync,
-first+last G3_end (hovering) -> G3 (flat). The frame stays narrow (shared margins, 28 % -> 25 %); the column
-(her face above, hand and page below) is centred in the strip. Mama kept dim (her clothes are off-model dark)."""
+take 2 (first frame G3: the hand already flat). The frame stays narrow (shared margins, 28 % -> 25 %); the column
+(her face above, hand and page below) is centred in the strip. Mama kept dim (her clothes are off-model dark). Take 2 is used (forced): take 1 scored a little higher (0.29 vs 0.23,
+both weak) but drew two faces on the blank pages."""
 from shots._rooms88 import *
 
 T0, T1 = 3225 / 24, 3390 / 24

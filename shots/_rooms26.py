@@ -39,8 +39,8 @@ class Plate:
     at(t) -> float32 frame for song time t (clip frame 0 sits at song time t0). Clamps at both ends.
     twos=True holds every other frame (play on twos)."""
 
-    def __init__(self, path, t0, ctx, start=0.0, dur=None, twos=False, crop=None):
-        self.t0, self.twos = t0, twos
+    def __init__(self, path, t0, ctx, start=0.0, dur=None, twos=False, crop=None, rate=1.0):
+        self.t0, self.twos, self.rate = t0, twos, rate
         fr = []
         for st, a in decode(path, start, dur):
             if crop is not None:                       # (x0, y0, x1, y1) in source px: reframe
@@ -58,7 +58,7 @@ class Plate:
             pass
 
     def index(self, t):
-        i = int(np.floor((t - self.t0) * self.fps + 1e-3))
+        i = int(np.floor((t - self.t0) * self.fps * self.rate + 1e-3))
         if self.twos:
             i -= i % 2
         return int(np.clip(i, 0, self.n - 1))
@@ -268,7 +268,7 @@ def base_for(name, still, ctx, twos=False, crop=None):
     """The picked take for `name` (media/gen/rooms26/picks.json) or the keyframe still. Returns (source, is_clip)."""
     p = pick(name)
     if p and os.path.exists(os.path.join(ROOT, p['clip'])):
-        return Plate(p['clip'], p['t0'], ctx, twos=p.get('twos', twos), crop=crop), True
+        return Plate(p['clip'], p['t0'], ctx, twos=p.get('twos', twos), crop=crop, rate=p.get('rate', 1.0)), True
     return Still(still, ctx), False
 
 
