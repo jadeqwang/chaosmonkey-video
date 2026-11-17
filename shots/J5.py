@@ -71,9 +71,8 @@ def pool(t, ctx):
 def render(t, ctx):
     tt = min(t, T_SETTLE)                                   # the last second is still
     f = SC_.render(tt, CAM, ctx.size)
-    if lyrics_on(ctx):
-        INS.draw(f, t)
-        echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.70, seed=8)       # fix2: the re-press reads (was 0.35)
+    INS.draw(f, t)                                          # art inscription + seal: always on (not a lyric)
+    echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.70, seed=8)           # fix2: the re-press reads (was 0.35)
     if on_frame(CHOP) - 1e-9 <= t < on_frame(CHOP) + 4 / 24.0:              # fix2: on the frame containing the chop
         f = RB.apply(f, paper=BARE.render(tt, CAM, ctx.size))
     (x, y), r = pool(tt, ctx)

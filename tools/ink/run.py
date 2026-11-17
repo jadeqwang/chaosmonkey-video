@@ -4,6 +4,7 @@
     $PY -m tools.ink.run shots/H03.py --t0 52.0 --t1 58.5 --size 960x540 --out media/comp/H03.mp4 [--audio]
     $PY -m tools.ink.run shots/H03.py --still 54.2 --out work/H03_54.2.png
     $PY -m tools.ink.run shots/H03.py --frames work/H03_png --size 1920x1080          # PNG sequence
+    $PY -m tools.ink.run shots/H03.py ... --opt lyrics=on                             # ctx.opts (see tools/ink/opts.py)
 
 A shot script is a Python file that exposes
     render(t, ctx) -> float32 RGB HxWx3 at ctx.W x ctx.H       (t = seconds on the song clock)
@@ -40,21 +41,24 @@ import cv2
 import numpy as np
 
 from .core import F32, FPS, ROOT, frame_of, to_u8
+from .opts import default_opts, parse_opts
 from .timing import Timing
 
 
 class Ctx:
     """What a shot script gets. W, H: render size (authoring size, default 1920x1080). s: W / 1920 (multiply your
     pixel numbers by it if you want the script to work at other internal sizes). t0, t1: the range being rendered.
-    timing: the Timing map. seed: the shot's base seed. root: project root (Path)."""
+    timing: the Timing map. seed: the shot's base seed. root: project root (Path). opts: dict of render options
+    (tools/ink/opts.py: 'lyrics' from env INK_LYRICS, default off; `--opt key=value` on the command line)."""
 
-    def __init__(self, W=1920, H=1080, t0=0.0, t1=0.0, timing=None, seed=0, shot_id='shot', draft=False):
+    def __init__(self, W=1920, H=1080, t0=0.0, t1=0.0, timing=None, seed=0, shot_id='shot', draft=False, opts=None):
         self.W, self.H, self.s = W, H, W / 1920.0
         self.t0, self.t1, self.fps = t0, t1, FPS
         self.timing = timing if timing is not None else Timing.load()
         self.seed, self.id, self.root, self.draft = seed, shot_id, ROOT, draft
         self.size = (W, H)
         self.store = {}
+        self.opts = dict(default_opts() if opts is None else opts)
 
     def path(self, p):
         p = Path(p)
@@ -168,14 +172,16 @@ def find_audio(mod):
 
 def run(shot, t0=None, t1=None, size=(960, 540), internal=(1920, 1080), out=None, frames_dir=None, still=None,
         jobs=None, audio=False, crf=16, preset='medium', timing=None, seed=None, fresh=False, quiet=False,
-        keep_cache=True):
+        keep_cache=True, opts=None):
     """Render a shot. Returns a dict with frames, seconds, fps and the output path."""
     mod = load_shot(shot)
     sid = Path(shot).stem
     tm = Timing.load(timing)
     t0 = float(t0 if t0 is not None else getattr(mod, 'T0', 0.0))
     t1 = float(t1 if t1 is not None else getattr(mod, 'T1', t0 + 4.0))
-    ctx = Ctx(internal[0], internal[1], t0, t1, tm, seed if seed is not None else getattr(mod, 'SEED', 0), sid)
+    opts = dict(default_opts() if opts is None else opts)
+    ctx = Ctx(internal[0], internal[1], t0, t1, tm, seed if seed is not None else getattr(mod, 'SEED', 0), sid,
+              opts=opts)
     W, H = size
     if still is not None:
         r = make_renderer(mod, ctx)
@@ -191,7 +197,8 @@ def run(shot, t0=None, t1=None, size=(960, 540), internal=(1920, 1080), out=None
     if n <= 0:
         raise SystemExit(f'empty range {t0}..{t1}')
     key = hashlib.blake2b(repr((code_sig(shot), W, H, internal, ctx.seed, str(tm.path),
-                                tm.path.stat().st_mtime_ns if tm.path else 0)).encode(), digest_size=6).hexdigest()
+                                tm.path.stat().st_mtime_ns if tm.path else 0, sorted(opts.items()))).encode(),
+                        digest_size=6).hexdigest()
     cdir = Path(frames_dir) if frames_dir else ROOT / 'work' / 'ink' / sid / f'{W}x{H}_{key}'
     if not cdir.is_absolute():
         cdir = ROOT / cdir
@@ -284,11 +291,13 @@ def main(argv=None):
     ap.add_argument('--seed', type=int)
     ap.add_argument('--fresh', action='store_true', help='ignore the frame cache')
     ap.add_argument('--no-keep', action='store_true', help='delete the frame cache after encoding')
+    ap.add_argument('--opt', action='append', default=[], metavar='KEY=VALUE',
+                    help='render option for ctx.opts (repeatable), e.g. --opt lyrics=on; default from env INK_LYRICS')
     a = ap.parse_args(argv)
     if not (a.out or a.frames or a.still is not None):
         a.out = str(ROOT / 'media' / 'comp' / (Path(a.shot).stem + '.mp4'))
     r = run(a.shot, a.t0, a.t1, a.size, a.internal, a.out, a.frames, a.still, a.jobs, a.audio, a.crf, a.preset,
-            a.timing, a.seed, a.fresh, keep_cache=not a.no_keep)
+            a.timing, a.seed, a.fresh, keep_cache=not a.no_keep, opts=parse_opts(a.opt))
     if 'seconds' in r:
         print(f'{Path(a.shot).stem}: {r["frames"]} frames ({r["t0"]:.3f}-{r["t1"]:.3f} s), rendered {r["rendered"]} '
               f'in {r["seconds"]:.1f} s = {r["fps"]:.1f} fps (+ setup {r["setup"]:.1f} s) -> {r.get("out", r["frames_dir"])}')

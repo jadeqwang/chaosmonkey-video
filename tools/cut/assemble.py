@@ -9,6 +9,8 @@ import tempfile
 from pathlib import Path
 from PIL import Image, ImageDraw
 from common import ROOT, FPS, FFMPEG, FONT, SONG, run, probe, tc, wrap, font, safe_name
+import numpy as np
+import lyrics as lyric_layer
 
 
 def resolve_source(shot, picks):
@@ -145,19 +147,46 @@ def encode_frames(decode_cmd, encode_cmd, paint, width, height, count):
                         pass  # Preserve the original pipe/process error and its logs.
 
 
-def render(shot, source, args, work, width, height, crf, short):
+def measure_frames(decode_cmd, width, height, count, fn):
+    """Decode the shot once (same filters as the render) and call fn(rgb_u8, index) on each frame."""
+    with tempfile.TemporaryFile() as log:
+        decoder = subprocess.Popen([str(a) for a in decode_cmd], stdout=subprocess.PIPE, stderr=log)
+        try:
+            frame_size = width * height * 3
+            for index in range(count):
+                data = decoder.stdout.read(frame_size)
+                if len(data) != frame_size:
+                    raise RuntimeError(f'Decoder ended at frame {index}/{count}')
+                fn(np.frombuffer(data, np.uint8).reshape(height, width, 3), index)
+            decoder.stdout.close()
+            if decoder.wait() != 0:
+                raise RuntimeError('Frame decoder failed')
+        except BaseException:
+            if decoder.poll() is None:
+                decoder.kill()
+            decoder.wait()
+            log.seek(0)
+            raise
+
+
+def render(shot, source, args, work, width, height, crf, short, layer=None, state_in=None):
+    """Returns (path, lyric state out). With a lyric layer, the shot's lyrics are composited after the picture."""
     kind, path, start, rate = source
+    plan = layer.plan(shot) if layer is not None else None
     params = {'shot': shot, 'source': str(path), 'mtime': path.stat().st_mtime_ns if path else None,
               'size': path.stat().st_size if path else None, 'start': start, 'rate': rate,
               'profile': args.profile, 'clean': args.clean, 'short': short,
               'font': FONT.stat().st_mtime_ns,
+              'lyrics': (lyric_layer.code_hash(), layer.signature(plan, state_in)) if layer is not None else None,
               'code': hashlib.sha256(Path(__file__).read_bytes() + (ROOT/'tools/cut/common.py').read_bytes()).hexdigest()}
     key = hashlib.sha256(json.dumps(params, sort_keys=True).encode()).hexdigest()[:20]
     directory = work / f"{shot['id']}_{key}"
     directory.mkdir(exist_ok=True)
     output = directory / 'shot.mp4'
+    look_file = directory / 'lyrics.json'
     if output.exists():
-        return output
+        look = json.loads(look_file.read_text()) if look_file.exists() else None
+        return output, (look['ground'] if look else state_in)
     n = shot['frames']
     cmd = [FFMPEG, '-v', 'error', '-y', '-threads', '2']
     if kind == 'slate':
@@ -189,13 +218,25 @@ def render(shot, source, args, work, width, height, crf, short):
                   '-crf', str(crf), '-threads', '2', '-pix_fmt', 'yuv420p',
                   '-r', str(FPS), '-fps_mode', 'cfr', '-color_primaries', 'bt709',
                   '-color_trc', 'bt709', '-colorspace', 'bt709', temp]
-    encode_frames(cmd, encode_cmd, burn_in(shot, args, width, height, short, kind),
-                  width, height, n)
+    paint = burn_in(shot, args, width, height, short, kind)
+    state_out, look = state_in, None
+    if plan is not None:
+        stats = []
+        measure_frames(cmd, width, height, n, lambda rgb, i: stats.append(layer.measure(plan, rgb, i)))
+        look = layer.decide(plan, stats, state_in)
+        state_out = look['ground']
+        lyr = layer.painter(plan, look)
+        burn = paint
+        paint = lambda im, i: burn(lyr(im, i), i)          # the lyric goes on the laid shot; burn-ins on top
+    encode_frames(cmd, encode_cmd, paint, width, height, n)
     stream = next(s for s in probe(temp, True)['streams'] if s['codec_type'] == 'video')
     if int(stream['nb_read_frames']) != n:
         raise RuntimeError(f"{shot['id']}: render frame count mismatch")
     temp.replace(output)
-    return output
+    if look is not None:
+        look_file.write_text(json.dumps({**look, 'state_in': state_in, 'place': plan['place'],
+                                         'lines': [l.text for l, s, a, b in plan['items']]}, ensure_ascii=False) + '\n')
+    return output, state_out
 
 
 def main():
@@ -206,9 +247,13 @@ def main():
     parser.add_argument('--only')
     parser.add_argument('--audio', type=Path, default=SONG)
     parser.add_argument('--clean', action='store_true')
+    parser.add_argument('--lyrics', choices=['on', 'off'],
+                        help='the film lyric layer (tools/cut/lyrics.py); default on for preview/master, off for animatic')
     args = parser.parse_args()
+    if args.lyrics is None:
+        args.lyrics = 'off' if args.profile == 'animatic' else 'on'
     data = json.loads((ROOT/'docs/shots.json').read_text())
-    shots = data['shots']
+    shots = all_shots = data['shots']
     ids = [s['id'] for s in shots]
     if args.range:
         first, last = args.range.split(':')
@@ -252,8 +297,11 @@ def main():
     renders = []
     manifest = []
     frame = 0
+    layer = lyric_layer.LyricLayer(all_shots, width, height) if args.lyrics == 'on' else None
+    state = None
     for shot, source, short in zip(shots, sources, shorts):
-        renders.append(render(shot, source, args, work, width, height, crf, short))
+        out, state = render(shot, source, args, work, width, height, crf, short, layer, state)
+        renders.append(out)
         manifest.append({**shot, 'cut_in_frame': frame, 'source_kind': source[0], 'short': short})
         frame += shot['frames']
         print(f"{shot['id']} {source[0]} {shot['frames']} frames" + (' SHORT' if short else ''), flush=True)
@@ -286,6 +334,7 @@ def main():
         raise RuntimeError('Final verification failed: video format/tags')
     temp.replace(destination)
     (work/'manifest.json').write_text(json.dumps({'name':args.name, 'profile':args.profile,'fps':FPS,'frames':frame,
+                                                'lyrics':args.lyrics,
                                                 'shots':manifest},ensure_ascii=False,indent=2)+'\n')
     print(f'Verified {destination}: {frame} frames, video {video["duration"]}s, audio {audio["duration"]}s')
 

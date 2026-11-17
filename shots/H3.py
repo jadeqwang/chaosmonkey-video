@@ -33,7 +33,8 @@ def setup(ctx):
     SEAL = category_seal()
     CHILD = child_figure(ctx, 640, strength=1.7)
     INS = None
-    if getattr(ctx, 'opts', {}).get('lyrics', True):
+    from tools.ink.opts import lyrics_on
+    if lyrics_on(ctx):
         s = ctx.s
         INS = Inscription(LINE, GARAMOND, (int(905 * s), int(985 * s), int(480 * s), int(60 * s)),
                           size=ctx.size, vertical=False, max_px=34 * s, words=tm.words(LINE), mode='word', seed=4,

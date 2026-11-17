@@ -141,3 +141,14 @@ Next: global lyric pass (ctx has no `opts`; teams used three different switches 
 per-shot lyric text off, keep art inscriptions 一通百通 in D4/D5/J5, add one consistent lyric layer at assembly) ->
 `tools/cut/splice.py` -> preview_v2 -> `docs/MORNING.md`.
 Spend: TOTAL $174.90 of $600 cap  (514 billed items; list-price estimates)
+
+## Checkpoint 13 — 2026-11-17 03:44 (after the 03:40 window reset)
+No interruption occurred; nothing died. Done: fix round 2 ROOMS (`docs/logs/LOG_fix2_rooms.md`: ending L2->L3 rebuilt
+(black from f5660, window up f5670-5672, neon off f5709), E3, crash events in E1/F1, G1 margins on f2926, centred faces
+reframed, I4 ghost, lip-sync 1-frame shifts, I1 torch-on, G4 band, F6b reflection).
+Running: global lyric pass + preview_v2 (one agent): unify the lyric switch (`ctx.opts`, default off), re-render every
+shot with per-shot lyric text off (old comps kept in `media/comp/_v1/`), new `tools/cut/lyrics.py` layer at assembly
+(`assemble.py --lyrics on|off`), then `preview_v2` and `preview_v2_clean`, re-measured sync, `docs/QA_PREVIEW_V2.md`.
+If that agent dies: its brief is reproducible from this paragraph and QA item 4 in `docs/QA_PREVIEW_V1.md`.
+Next (lead): review preview_v2 sheets -> `docs/MORNING.md` -> stop for Jade's review.
+Spend: TOTAL $174.90 of $600 cap  (514 billed items; list-price estimates)

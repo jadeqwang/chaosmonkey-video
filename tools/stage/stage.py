@@ -128,9 +128,9 @@ def settle(t, t_hit, amp, dur=0.25, late=2 / 24):
 
 
 def lyrics_on(ctx):
-    """The one switch for on-screen lyrics (ctx.opts['lyrics'] when the runner provides opts; env STAGE_LYRICS=0)."""
-    o = getattr(ctx, 'opts', None) or {}
-    return bool(o.get('lyrics', os.environ.get('STAGE_LYRICS', '1') != '0'))
+    """The one switch for on-screen lyrics: ctx.opts['lyrics'] (tools/ink/opts.py; env INK_LYRICS, default off)."""
+    from tools.ink.opts import lyrics_on as _on
+    return _on(ctx)
 
 
 # ---------------------------------------------------------------------------------------------------- D1 / D2 shared

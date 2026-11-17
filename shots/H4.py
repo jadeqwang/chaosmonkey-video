@@ -31,7 +31,8 @@ def setup(ctx):
     SEAL = category_seal()
     CHILD = child_figure(ctx, 640, strength=1.7)   # hi-res; warped per frame; darker, she ends small
     INS = None
-    if getattr(ctx, 'opts', {}).get('lyrics', True):
+    from tools.ink.opts import lyrics_on
+    if lyrics_on(ctx):
         INS = Inscription(LINE, GARAMOND, (20, 10, INS_SIZE[0] - 40, INS_SIZE[1] - 20), size=INS_SIZE, vertical=False,
                           max_px=68, words=ctx.timing.words(LINE), mode='stroke', seed=9, density=0.85)
     TP0, TP1 = T0, 168.30

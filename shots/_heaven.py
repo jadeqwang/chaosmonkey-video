@@ -21,9 +21,7 @@ WENKAI = 'refs/fonts/lxgw-wenkai/霞鹜文楷-Regular.ttf'
 SEALFONT = 'refs/fonts/chongxi-seal/崇羲篆体.otf'
 
 
-def lyrics_on(ctx):
-    o = getattr(ctx, 'opts', None) or {}
-    return bool(o.get('lyrics', os.environ.get('INK_LYRICS', '1') != '0'))
+from tools.ink.opts import lyrics_on   # noqa: E402  the one switch: ctx.opts['lyrics'] (env INK_LYRICS, default off)
 
 
 def ensure_ledger():

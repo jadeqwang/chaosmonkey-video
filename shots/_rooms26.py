@@ -195,9 +195,7 @@ def soften(m, ctx, px):
 
 
 # ----------------------------------------------------------------------------- lyrics
-def lyrics_on(ctx):
-    o = getattr(ctx, 'opts', None) or {}
-    return bool(o.get('lyrics', os.environ.get('INK_LYRICS', '1') != '0'))
+from tools.ink.opts import lyrics_on   # noqa: E402  the one switch: ctx.opts['lyrics'] (env INK_LYRICS, default off)
 
 
 def words_of(ctx, text_start, near):

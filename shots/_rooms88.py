@@ -32,8 +32,7 @@ SIGN_PHASE = 0.0          # the same phase on the song clock in every shot: the 
 CLIPS = ROOT / 'media/comp/rooms88/clips.json'
 
 
-def lyrics_on(ctx):
-    return getattr(ctx, 'opts', {}).get('lyrics', True)
+from tools.ink.opts import lyrics_on   # noqa: E402  the one switch: ctx.opts['lyrics'] (env INK_LYRICS, default off)
 
 
 def kf(name, W, H):

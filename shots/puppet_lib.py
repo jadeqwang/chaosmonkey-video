@@ -295,7 +295,8 @@ WENKAI = 'refs/fonts/lxgw-wenkai/霞鹜文楷-Regular.ttf'
 def lyric(ctx, line, region, max_px=46, start=None):
     """the sung line as a pale vertical inscription on the night picture (one switch: ctx.opts['lyrics']).
     region (x, y, w, h) in 1080p px, inside the centred 4:5 area."""
-    if not getattr(ctx, 'opts', {}).get('lyrics', True):
+    from tools.ink.opts import lyrics_on
+    if not lyrics_on(ctx):
         return None
     from tools.ink.text import Inscription
     s = ctx.s

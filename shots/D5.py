@@ -5,8 +5,8 @@ columns light one after another (gold running up each, right to left). (2) On th
 (71.692-71.925, five hits) the frame flips to its rubbing on every hit, and inside the flips the picture crosses to
 the whole mountain (B_master): (3) the pull-back continues until 花果山 stands entire and lit on the page (its rock
 carved as far texture, all gold), with a woodblock mis-registration on the gong (72.805). The four characters
-一通百通 land as one vertical inscription in the blank (LXGW WenKai) with one red seal (lyrics switch:
-ctx.opts['lyrics']).
+一通百通 land as one vertical inscription in the blank (LXGW WenKai) with one red seal. It is ART (an inscription in
+the picture), not a lyric: it is NOT behind the lyric switch (lyric pass, preview_v2).
 """
 import numpy as np
 
@@ -45,9 +45,8 @@ def setup(ctx):
     MASTER = rock + (lit - rock) * 0.8
     RB = Rubbing(ctx.W, ctx.H, seed=6)
     ROLL_ = sorted({on_frame(h['t']) for h in ctx.timing.hits(None, 71.6, 72.0)}) or ROLL   # fix2: dedupe (71.692 is listed twice, which cancelled the first flip)
-    INS = None
-    if getattr(ctx, 'opts', {}).get('lyrics', True):
-        s = ctx.s
+    s = ctx.s                                  # art inscription: always on (not behind ctx.opts['lyrics'])
+    if True:
         INS = Inscription('一通百通', KAI_FONT, region=(1520 * s, 160 * s, 150 * s, 600 * s), size=ctx.size,
                           vertical=True, start=71.95, end=72.75, mode='word', seal='悟空', seal_font=SEAL_FONT,
                           paper=Paper(ctx.W, ctx.H, 'new', seed=BOOK_PAPER_SEED), seed=3)
