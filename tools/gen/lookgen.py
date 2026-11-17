@@ -123,7 +123,11 @@ def main(argv):
             refs = j[4].split(",") if len(j) > 4 and j[4] != "-" else []
             neg = j[5] if len(j) > 5 and j[5] != "-" else None
             aspect = j[6] if len(j) > 6 else "16:9"
-            return run(j[0], j[1], j[2], j[3], refs, neg, aspect)
+            try:
+                return run(j[0], j[1], j[2], j[3], refs, neg, aspect)
+            except Exception as e:
+                print(f"FAIL {j[:3]}: {e}", file=sys.stderr)
+                return None
         with ThreadPoolExecutor(3) as ex:
             for r in ex.map(go, jobs):
                 print("done", r)

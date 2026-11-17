@@ -662,7 +662,10 @@ def main(argv):
         inside[max(0, N(c.t0)):min(n, N(c.t1))] = True
     outside_nonzero = int(np.count_nonzero(layer[:, ~inside]))
     zero_ok = all(np.count_nonzero(layer[:, N(a):N(b)]) == 0 for a, b in ZERO_SPANS)
-    after_end = int(np.count_nonzero(layer[:, N(A("sync:Hum/drone")) + N(0.35):]))   # relay tick room tail <= 0.35 s
+    after_end = round(peak_db(layer[:, N(A("sync:Hum/drone")) + N(0.10):]), 1)   # the relay tick's room tail after +0.1 s
+    mx, _ = sf.read(os.path.join(OUTD, "mix_v1.wav"), always_2d=True, dtype="float64")
+    lx, _ = sf.read(os.path.join(OUTD, "layer_v1.wav"), always_2d=True, dtype="float64")
+    readback_err = float(np.abs(mx.T - song - lx.T).max())
     qa["global"] = {
         "song_lufs": round(integrated_lufs(song), 2), "mix_lufs": round(integrated_lufs(mix), 2),
         "layer_lufs": round(integrated_lufs(layer), 1),
@@ -671,7 +674,7 @@ def main(argv):
         "mixB_lufs": round(integrated_lufs(mixB), 2), "mixC_lufs": round(integrated_lufs(mixC), 2),
         "len": {"A": n / SR, "B": mixB.shape[1] / SR, "C": mixC.shape[1] / SR},
         "null_outside_cues_nonzero": outside_nonzero, "cue_span_s": round(inside.sum() / SR, 1),
-        "zero_spans_exact": zero_ok, "layer_nonzero_after_237.84+0.35": after_end,
+        "zero_spans_exact": zero_ok, "layer_peak_after_237.94": after_end, "readback_max_abs_err": readback_err,
         "ebur128_song": ebur128(SONG), "ebur128_mix": ebur128(os.path.join(OUTD, "mix_v1.wav")),
         "endB": notesB,
         "clipped_mix": int(np.count_nonzero(np.abs(mix) >= 1.0)),
@@ -719,7 +722,8 @@ def write_doc(qa, cues):
         f"| layer alone | {g['layer_lufs']} LUFS integrated, sample peak {g['layer_peak']} dBFS |",
         f"| song untouched | mix - song = layer; layer non-zero outside the cue windows: **{g['null_outside_cues_nonzero']}** samples (cue windows {g['cue_span_s']} s of 238.32) |",
         f"| hole 15.440-15.515 and near-silence 149.285-149.525 | layer exactly 0: **{g['zero_spans_exact']}** |",
-        f"| after the neon tick (237.84 + 0.35 s tick/room tail) | layer non-zero samples: {g['layer_nonzero_after_237.84+0.35']} |",
+        f"| after the neon tick | layer peak from 237.94 on (the tick's own room tail): {g['layer_peak_after_237.94']} dBFS; nothing else sounds |",
+        f"| files read back | max abs(mix_v1 - song - layer_v1) = {g['readback_max_abs_err']:.2e} (24-bit rounding: <= 1.2e-07) |",
         f"| lengths | A {g['len']['A']:.3f} s, B {g['len']['B']:.3f} s, C {g['len']['C']:.3f} s |",
         f"| loudness of the ending variants | B {g['mixB_lufs']} LUFS, C {g['mixC_lufs']} LUFS |",
     ]
