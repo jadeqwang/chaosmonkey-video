@@ -1,7 +1,7 @@
 # Video bake-off (ink on paper)
 
-2026-11-17. Budget $70 for this task. **Status: IN PROGRESS** — V1, V2 (a, b, c), V2d, V3 first+last, V5 measured;
-V1b, V4, V6, V3 first-frame-only still arriving. This file is checkpointed as results land.
+2026-11-17. Budget $70 for this task. **Status: COMPLETE.** Spent **$60.73** of the $70 (list-price estimates from `tools/gen/spend.py`, tags `vb_*` and
+`vbake_*`; 87 billed items, errors and cancelled jobs not billed). Nothing committed.
 
 Clips: `media/vbake/<test>/<model>_<variant>.mp4`, each with a `.txt` (model, job id, exact input, prompt). Per-clip
 10-frame sheets: `media/vbake/_sheets/<test>/<model>_<variant>.jpg`. Synced labelled grids (all models of a test, 4 across):
@@ -107,7 +107,7 @@ left + land), c (four bows) verbatim in vbake.py. All 16 models ran a; the 4 lea
 | hh11 | 0.90 | Dry-brush ring, pushes in 1.5x, staff grows a spear head | Spectacular swirl tumble but paper turns brown, camera pushes in, adds a tail | Decent turns and bows | Strongest single moments, least control (camera, props, paper colour) |
 | veo31 | 1.20 | Crisp spin with motion blur, but the staff vanishes from the final pose | Cartwheel, then shrinks; **invents teal shoes** and a ground splash | Turns, adds a tail, ends standing frontal | Fine motion, invents details |
 | vidu3 | 0.63 | Clean ring spin, small, keeps the look | – | – | Good a; V1 / V2d show jump cuts and solid-black silhouettes |
-| h3 | 0.65 | Spin with motion blur, stays on one leg, BUT the plumes become **photoreal barred pheasant feathers** (gold/brown) | (plume-guard retry below) | – | Holds frame 0 exactly; feather drift breaks "only cinnabar" |
+| **h3** (2K) + plume guard | 0.65 | Dry-brush staff swipe and ring, ends in pose, plumes stay ink strokes | Cartwheel + aerial flip right to left, lands low on the left in pose | – (not run) | **Co-best**, at 2560x1440 for $0.65: frame 0 exact, clean paper (std 0.8-0.9). **Without** the guard (first run) the plumes become photoreal barred pheasant feathers |
 | h3max / h3hs / h3lite | 0.40 / 0.30 / 0.20 | Same feather drift (max), ribbon plumes (hs), modest spin (lite) | – | – | Cheap, obedient, low energy |
 | hailuo23 | 0.28 | Snaps at 0.6 s into a **flat black cel silhouette with a white mask** | – | – | Fails the look |
 | hailuo23f | 0.19 | Stiff, snaps into a standing pose | – | – | Fails |
@@ -135,7 +135,7 @@ few quick brushstrokes, with his two long pheasant plumes and the small red patc
 him stays bare. Locked-off camera. No ground, no shadow, no background, nothing new appears.
 ```
 For MiniMax add: "His two plumes stay two thin black brush strokes, never real feathers; no colour except the small red
-face patch." (result below).
+face patch." (`V2/h3_aplume.mp4`, `h3_bplume.mp4`: the guard fixes it completely).
 
 ## V3 Ink throw (blank paper -> the monkey)
 
@@ -206,3 +206,99 @@ project found, so every take must be measured and retimed (below).
 
 None gives the true shadow-play snap; the treatment's "re-posed in hard cuts, no in-betweens" is better done with
 `tools/ink/puppet.py` from cut-out parts. Use kling4 for the hand shadow "talking".
+
+## Recommended model per job
+
+| Job | Model | Settings | Why | Backup |
+|---|---|---|---|---|
+| Landscape mist / water on a plate | **minimax/h3** | 2K, 5 s, `ratio: "adaptive"`, prompt V1 v1 | Frame 0 exact at 2560x1440, rock locked (std 1.7), real soft mist, brush texture intact, no inventions | h3-lite 768P ($0.20, same behaviour) for drafts; kling4 720p/1080p with prompt v2 |
+| Heaven clouds (青绿) | **minimax/h3** | 2K, 5 s | Clean pull-back + drifting paper clouds, nothing invented | hailuo-2.3 ($0.28) |
+| Ink figure action (staff, tumbling, bows) | **klingai/kling-v4** and **minimax/h3** (2K + plume guard) | kling 1080p for keeps (720p tested); h3 2K `ratio adaptive`; 5 s; first frame mid-pose | Committed, weighty moves, ink holds, plumes and patch hold, paper clean; h3 gives 2K for $0.65 | **seedance-2.0** (best dry-brush staff rings); veo31 / hh11 for single spectacular takes |
+| Figure between two poses | **kling-v4 first + last** | 5 s; prompt "starts exactly on @image_1 … ends exactly on @image_2" | Lands exactly on the last pose by ~3.9 s | sd20 last_frame_image (arrives early) |
+| Ink throw / birth splash | **seedance-2.0 first + last** | 720p, 5 s | Wet bleed into paper, settles into the exact figure | seedance-2.5 (more violent), h3 768P first+last (cleanest paper, $0.40) |
+| Room acting | **klingai/kling-v4** | 720p-1080p, 5 s | Faces locked, painted hand holds, neon flicker as asked | seedance-2.0 for the attic |
+| Lip-sync | **seedance-2.5 + reference_audios** | 720p, 5 s, 0.5 s pre-roll, `generate_audio:false`, then `tools/review/lipsync.py` retime | Only model that holds the painted face and sings plausibly | pruna/p-video-avatar with a neutral video_prompt (exact sync, unstable head) |
+| Puppets / hand shadow | **kling-v4** (hand shadow) / code (`tools/ink/puppet.py`) for the jointed puppet | 5 s | Kling makes the shadow talk; no model snaps like a real 皮影 | h3 768P |
+
+## MiniMax verdict
+
+Jade's hint holds **for landscape painting**: h3 is the best model in the test for mist and clouds on a painted plate
+(exact first frame at 2K, locked brushwork, mist that reads as paper-coloured vapour, no invention), and the cheap h3-lite /
+h3-highspeed behave the same at 768P. h3 also does first + last frame (with `ratio: "adaptive"`). On the **figure** it holds
+the frame exactly and moves with real commitment (staff ring, cartwheel + flip), but left alone it turns the two ink plumes
+into photoreal barred pheasant feathers (h3, h3-max); one guard sentence fixes that, after which h3 is co-best with
+kling-v4 for figure action, at 2K and $0.65 a clip. hailuo-2.3 is good on heaven clouds but fails the figure (flat black cel silhouette) and
+fogs the plate grey; hailuo-2.3-fast fails both. MiniMax has no audio input with a first frame on this relay. HV's
+"MiniMax 0/5" was only the `ratio` default in gen.py.
+
+## Failure patterns
+
+- **"Mist is the paper" taken as an object**: kling4 drew a tan paper strip, hh11 a silk sash. Describe mist as a feathered
+  substance the colour of the paper (prompt v2) for non-MiniMax models.
+- **Unasked camera moves**: veo31 tilts/pans and invents more landscape below the frame; pixv6 pulls back; hh11 pushes in on
+  big moves; vidu3 jump-cuts to a reframed image at ~0.5 s.
+- **Inventions**: veo31 calligraphy + seals on 青绿, teal shoes, a tail; hh11 spear head, tail; pixv6 / veo31 tails; wan27 a
+  third plume; h3 photoreal pheasant feathers; kling4 a painting margin on pull-back.
+- **Style collapse**: hailuo-2.3 flat cel silhouette; vidu3 solid black silhouette mid-move; kling4 CG glossy fluid in the
+  throw; sd25 smears hairline rock texture into worm ripples after ~3 s.
+- **Frame 0 not held**: sd25 (recomposes, regrades, once returned 21:9 1470x630 despite 16:9), k3omni (ignores it).
+- **Paper**: sd20 and hh11 make the paper grain/tone live (std 1.2-1.5; hh11 browns the sheet on big moves); pixv6 dirties it.
+- **Audio tracks**: kling4, hh11, wan27 and all h3 return a (silent or AAC) audio stream; strip it.
+- **Inputs that need a public HTTPS URL** (ltx `image_uri`; probably fabric): untestable through the relay.
+- **Ref-name collision** in `gen.ref_image` (same basename in two folders): fixed in vbake.py; watch for it in other tools.
+
+## Lip-sync procedure (with the automatic lag tool)
+
+1. First frame: chest-up, face about a third of the height, lips parted, painted hand (a) (nano-banana-pro from the room
+   still is fine). Never name the shot size in the video prompt.
+2. Audio: `gen.py audio-ref work/stems/vocals.wav <first_word - 0.5> 5.0 OUT.mp3` (or `vbake.py`'s `audio=` tuple).
+3. Seedance 2.5, 720p, 5 s, `reference_audios: [OUT]`, `generate_audio:false`, prompt V5 (in vbake.py). Make 2 takes.
+4. Measure every take:
+   `$PY tools/review/lipsync.py TAKE.mp4 --audio work/stems/vocals.wav --t0 <window start> --plot work/review/lipsync/X.png`
+   It tracks the inner-lip gap with MediaPipe FaceMesh (it re-runs itself in the orbital-sunrise py3.12 venv that has
+   mediapipe 0.10.14; painted faces are found 100 % of the time), correlates it with the 1-3 kHz vocal-band envelope over
+   ±1.2 s, and prints `lag_ms`, `lag_vs_synced_ms` (corrected for the -60 ms mouth lead measured on takes whose audio is
+   known to be in sync), `r_best`, `sharp`, a second-peak check, head drift/roll and a suggested placement
+   ("place clip frame 0 at song time T").
+5. Keep takes with r ≥ 0.4 and sharp ≥ 0.35; on two equal takes prefer the smaller head roll. Place with
+   `Retime(t0=T - lag_vs_synced/1000, src0=0)`. If Jade's ear disagrees, the tool's second peak is the first alternative.
+6. Validation of the tool: on p-video-avatar takes (audio returned bit-identical to the stem, so true lag is 0) it measures
+   -42 and -83 ms (= the physiological mouth lead); shifting the window by +200 / -300 ms moves the estimate by +167 /
+   -333 ms (within one frame). Broadband loudness was rejected: on legato singing it barely dips (r 0.33).
+
+## What the compositor must do per model (`tools/ink/video.py`)
+
+| Model | Prep |
+|---|---|
+| h3 / h3-lite | Strip audio. Frame 0 is the still: use the clip as the plate itself (no stabilise needed, drift 0.1 px). Mist is lighter than the paper: if it must go onto our sheet, take `max(0, clip - still)` luminance as an erase/mist matte rather than `key_paper`. h3 output is 5.17 s; cut at 5.0 |
+| kling4 | Strip audio. `Clip.prepare(ground='light')` keys cleanly (paper std 0.4-0.8). Drop the first ~0.4 s (repeated frames at the start); first+last holds land ~1 s early: freeze/hold into the hit with `Retime.freeze_at` rather than playing the dead tail |
+| sd20 | Grade-match frame 0 (ff 0.975). Raise `lo` / use `smooth=0.5` to kill the living paper grain. Its alternating frame steps suit `on_twos` |
+| sd25 | Check the output size (21:9 happens); regrade; only for lip-sync and the throw |
+| hh11 | Stabilise + undo the push-in (zoom 0.65-1.28), de-tint the browned paper (prepare's per-frame ground division), matte out the invented spear head / tail |
+| veo31 | Stabilise (drift 110-300 px); desaturate everything but cinnabar (teal shoes); never use for plates |
+| vidu3 | Drop everything before the jump cut (~0.6 s) |
+| All figure clips | Play the action on twos, `freeze_at` the 亮相 on the gong, matte with SAM 2.1 if the key catches stray smears; run `tools/review/vbake_review.py intake` to confirm paper std < 1 after prep |
+
+## Recommended settings
+
+- **Duration**: ask for 5 s (h3 returns 5.17 s, Veo only 4/6/8 s, Hailuo 6/10 s). Most figure moves resolve by 3-4 s; the
+  rest is a hold that the compositor replaces with `freeze_at`. Never stretch past the end.
+- **Resolution**: h3 at 2K is the best price per pixel ($0.13/s for 2560x1440); kling-v4 1080p ($0.235/s) for keeps,
+  720p ($0.157/s) for tries; seedance-2.0 720p is enough for keyed figures (stores are 720p in `tools/ink`), 1080p for plates.
+- **First frame**: always the staged still; for figures pick a still already mid-action. Start every prompt with
+  "Animate the first frame exactly." and end with the guards.
+- **Last frame**: use it whenever the end pose matters (kling-v4 best, seedance-2.0 lands early, h3 works with ratio adaptive,
+  h3-max rejects it). For the ink throw, the last frame is what makes the splash resolve into *our* monkey.
+- **h3 family**: `ratio: "adaptive"` with any image; no reference audio with a first frame.
+
+## The best clips
+
+1. `media/vbake/V1/h3_v1.mp4` — mist at the foot of the one-corner peak, 2K, rock locked.
+2. `media/vbake/V1b/h3_v1.mp4` — heaven clouds with a clean pull-back, 2K.
+3. `media/vbake/V2/kling4_a.mp4` — staff flower with wet dry-brush arcs, freeze (also `V2/kling4_c.mp4`, four bows).
+4. `media/vbake/V2/h3_bplume.mp4` — tumbling pass right to left, lands in pose, 2K (and `h3_aplume.mp4`).
+5. `media/vbake/V3/sd20_fl.mp4` — ink throw blooming into the monkey (also `V3/sd25_fl.mp4`, `V3/h3_fl.mp4`).
+6. `media/vbake/V5m/sd25_sing2.mp4` — Mom sings "Do you want to know how he never died"; r 0.52, retime +190 ms.
+
+Also worth keeping: `V2d/kling4_fl.mp4` (pose to pose), `V4/kling4_attic2.mp4` and `V4b/kling4_bed.mp4` (room acting),
+`V6b/kling4_hand.mp4` (talking hand shadow), `V2/sd20_a.mp4` (dry-brush rings).

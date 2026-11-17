@@ -178,6 +178,33 @@ def column_layout(text, region, size, col_gap=0.3, row_gap=0.12, rows=None, dire
     """Lay characters in vertical columns, right to left. text: characters; newlines force a new column, other
     whitespace is ignored. region (x, y, w, h). Returns [(char, cx, cy, col, row)] and (n_cols, rows_per_col).
     Stops when the region is full."""
+    out, dims, _ = _layout_n(text, region, size, col_gap, row_gap, rows, direction)
+    return out, dims
+
+
+def blocks_layout(text, regions, size, col_gap=0.3, row_gap=0.12, rows=None, direction='rtl'):
+    """Text flowing through several inscription blocks (each (x, y, w, h), in reading order: for 'rtl', give the
+    rightmost block first). Columns are numbered globally in reading order. Returns [(char, cx, cy, col, row)],
+    (n_cols, max_rows) and the per-block list of (first_col, n_cols)."""
+    out, col0, info, pos, mrow = [], 0, [], 0, 1
+    for reg in regions:
+        rr = rows
+        if len(reg) > 4:                                    # (x, y, w, h, rows) forces a row count for the block
+            reg, rr = reg[:4], reg[4]
+        cells, (nc, nr), used = _layout_n(text[pos:], reg, size, col_gap, row_gap, rr, direction)
+        pos += used
+        nc_used = (max(c[3] for c in cells) + 1) if cells else 0
+        out += [(ch, cx, cy, col + col0, row) for ch, cx, cy, col, row in cells]
+        info.append((col0, nc_used))
+        col0 += nc_used
+        mrow = max(mrow, nr)
+        while pos < len(text) and text[pos] == '\n':        # a block ends a column: drop a pending column break
+            pos += 1
+    return out, (max(col0, 1), mrow), info
+
+
+def _layout_n(text, region, size, col_gap=0.3, row_gap=0.12, rows=None, direction='rtl'):
+    """column_layout that also returns how many characters of `text` it consumed."""
     x, y, w, h = region
     ph, pw = size * (1 + row_gap), size * (1 + col_gap)
     rows = rows or max(1, int((h + size * row_gap) // ph))
@@ -185,11 +212,14 @@ def column_layout(text, region, size, col_gap=0.3, row_gap=0.12, rows=None, dire
     # centre the block in the region
     bx = x + (w - (ncol * pw - size * col_gap)) / 2.0
     by = y + (h - (rows * ph - size * row_gap)) / 2.0
-    out, col, row = [], 0, 0
-    for ch in text:
+    out, col, row, used = [], 0, 0, 0
+    for i, ch in enumerate(text):
+        used = i
         if ch == '\n':
             if row > 0:
                 col, row = col + 1, 0
+            if col >= ncol:
+                break
             continue
         if ch.isspace():
             continue
@@ -200,11 +230,25 @@ def column_layout(text, region, size, col_gap=0.3, row_gap=0.12, rows=None, dire
         ci = (ncol - 1 - col) if direction == 'rtl' else col
         out.append((ch, bx + ci * pw + size / 2.0, by + row * ph + size / 2.0, col, row))
         row += 1
-    return out, (ncol, rows)
+        used = i + 1
+    else:
+        used = len(text)
+    return out, (ncol, rows), used
 
 
 # --------------------------------------------------------------------------------------------------------------------
 # the cliff
+
+def plane_presence(rock, size, lo=0.10, hi=0.42):
+    """Where a carver would cut: the pale flat planes of a painted rock (1), not its dark fissures and texture-stroke
+    clusters (0). Measured as the plate's local ink density against its own palest tone, smoothed at a stroke's
+    scale, so a column that crosses a crack is broken off there as real inscriptions are."""
+    L = luma(rock)
+    g = float(np.percentile(L, 97))
+    d = np.clip(1.0 - L / max(g, 1e-3), 0, 1)
+    d = blur(d, max(2.0, size * 0.10))
+    return (1.0 - smoothstep(lo, hi, d)).astype(F32)
+
 
 class Cliff:
     """Characters cut into a rock plate.
@@ -229,14 +273,23 @@ class Cliff:
 
     def __init__(self, rock, text, font, size=120, region=None, col_gap=0.3, row_gap=0.12, rows=None, cut='v',
                  depth=1.0, weather=0.15, moss=None, uncarved=None, uncarved_mode='skip', presence=None, quad=None,
-                 plane_size=None, jitter=0.03, seed=0, direction='rtl', relief=0.12, grime=0.35):
+                 plane_size=None, jitter=0.03, seed=0, direction='rtl', relief=0.12, grime=0.35, chips=0.0,
+                 streaks=0.0, soft_relief=True, weight=0.0, paint=0.0):
         self.rock = np.ascontiguousarray(rock[..., :3].astype(F32))
         H, W = self.rock.shape[:2]
         self.W, self.H, self.seed, self.size = W, H, seed, float(size)
+        self.soft_relief, self.paint, self.weight = soft_relief, float(paint), float(weight)
         pw, ph = plane_size or (W, H)
         self.pw, self.ph = int(pw), int(ph)
         region = region or (int(pw * 0.06), int(ph * 0.06), int(pw * 0.88), int(ph * 0.88))
-        self.region = region
+        multi = isinstance(region, (list, tuple)) and len(region) > 0 and isinstance(region[0], (list, tuple))
+        self.regions = [tuple(r[:4]) for r in region] if multi else [tuple(region)]
+        if multi:                                            # bounding box, for the gold front and framing
+            xs = [r[0] for r in self.regions] + [r[0] + r[2] for r in self.regions]
+            ys = [r[1] for r in self.regions] + [r[1] + r[3] for r in self.regions]
+            self.region = (min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys))
+        else:
+            self.region = region
         self.Hm = None
         if quad is not None:
             src = np.array([[0, 0], [pw, 0], [pw, ph], [0, ph]], np.float32)
@@ -244,8 +297,16 @@ class Cliff:
         ok, self.missing = coverage(text.replace('\n', ''), font)
         keep = set(ok)
         text = ''.join(ch for ch in text if ch == '\n' or ch in keep)
-        cells, (ncol, nrow) = column_layout(text, region, size, col_gap, row_gap, rows, direction)
+        if multi:
+            cells, (ncol, nrow), self.blocks = blocks_layout(text, list(region), size, col_gap, row_gap, rows,
+                                                             direction)
+        else:
+            cells, (ncol, nrow) = column_layout(text, region, size, col_gap, row_gap, rows, direction)
+            self.blocks = [(0, ncol)]
         self.ncol, self.nrow = ncol, nrow
+        if isinstance(presence, str) and presence == 'plane':
+            presence = plane_presence(self.rock, size)
+        self._plane = presence if isinstance(presence, np.ndarray) else None
         # uncarved mask in plane space
         unc_p = None
         if uncarved is not None:
@@ -265,6 +326,9 @@ class Cliff:
                 if reg.size and reg.max() > 0.3:
                     continue
             g = glyph_mask(ch, font, size * sc, pad)
+            if weight > 0:                                    # a broader chisel than the font's hairline seal strokes
+                k = max(1, int(round(size * weight)))
+                g = cv2.dilate(g, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * k + 1, 2 * k + 1)))
             if abs(rot) > 0.05:
                 Mr = cv2.getRotationMatrix2D((g.shape[1] / 2, g.shape[0] / 2), rot, 1.0)
                 g = cv2.warpAffine(g, Mr, (g.shape[1], g.shape[0]), flags=cv2.INTER_LINEAR)
@@ -279,10 +343,10 @@ class Cliff:
             self.cells.append((ch, cx, cy, col, row))
         if unc_p is not None:
             mask = mask * (1 - smoothstep(0.3, 0.7, blur(unc_p, max(1.0, size * 0.02))))
-        self._build(mask, colmap, cut, depth, weather, moss, presence, relief, grime)
+        self._build(mask, colmap, cut, depth, weather, moss, presence, relief, grime, chips, streaks)
 
     # -- precompute ----------------------------------------------------------------------------------------------------
-    def _build(self, mask, colmap, cut, depth, weather, moss, presence, relief, grime):
+    def _build(self, mask, colmap, cut, depth, weather, moss, presence, relief, grime, chips=0.0, streaks=0.0):
         size, seed, pw, ph = self.size, self.seed, self.pw, self.ph
         # age: breaks strokes away and softens them
         if isinstance(weather, np.ndarray):
@@ -301,7 +365,7 @@ class Cliff:
         hard = (m > 0.5).astype(np.uint8)
         dist = cv2.distanceTransform(hard, cv2.DIST_L2, 5)
         dist = np.maximum(dist - 0.5 + m * 0.5, 0) * (m > 0.02)                 # keep the anti-aliased edge
-        half = max(1.0, size * 0.034)                                            # typical half stroke width
+        half = max(1.0, size * (0.034 + getattr(self, 'weight', 0.0)))          # typical half stroke width
         if cut == 'flat':
             wall = max(1.0, half * 0.55)
             dep = np.clip(dist / wall, 0, 1) * half * 0.9
@@ -329,11 +393,33 @@ class Cliff:
         dep = blur(dep, lip) * (1 - wz[..., None][..., 0] * 0.0)
         soft = blur(dep, lip * 3.0)
         dep = dep + (soft - dep) * np.clip(wz * 1.3, 0, 1)
+        if self.soft_relief:                       # the arris rounds INTO the cut; it never spreads a halo onto the face
+            dep = dep * smoothstep(0.0, 0.45, blur(m, max(0.7, lip)))
         cutm = smoothstep(0.02, 0.35, m) if size < 40 else smoothstep(0.05, 0.6, blur(m, 0.6))
+        # chips: an old cut loses flakes of stone off its lips (shallow scoops just outside the stroke)
+        if size >= 24 and chips > 0:
+            ring = np.clip(blur(m, max(1.0, size * 0.03)) * 2.5, 0, 1) * (1 - m)
+            cn = fbm(ph, pw, max(2.0, size * 0.035), seed, 'cl_chip', octaves=2)
+            sp = fbm(ph, pw, max(6.0, size * 0.25), seed, 'cl_chip2', octaves=2)      # chips come in clusters
+            thr = 0.80 - 0.12 * chips * (0.3 + wz)
+            ch_ = smoothstep(thr, thr + 0.05, cn * 0.6 + sp * 0.5) * ring
+            dep = dep + blur(ch_, 0.7) * half * 0.45 * min(chips, 1.0)
+            cutm = np.maximum(cutm, ch_ * 0.35)
         # gold arrival: bottom of each column first, columns staggered right to left
         yy = np.arange(ph, dtype=F32)[:, None] * np.ones((1, pw), F32)
         ry0, rh = self.region[1], max(1.0, self.region[3])
         v = np.clip(1.0 - (yy - ry0) / rh, 0, 1)                                # 0 at the foot, 1 at the top
+        if len(self.regions) > 1 and self.cells:                               # per column: foot to top of ITS column
+            nc = max(self.ncol, 1)
+            top = np.full(nc, 1e9, F32)
+            bot = np.full(nc, -1e9, F32)
+            for ch, cx, cy, col, row in self.cells:
+                top[col] = min(top[col], cy - size * 0.6)
+                bot[col] = max(bot[col], cy + size * 0.6)
+            ci = np.clip(colmap, 0, nc - 1).astype(np.int32)
+            ci = cv2.dilate(ci.astype(F32), np.ones((5, 5), np.uint8)).astype(np.int32)
+            tt, bb = top[ci], bot[ci]
+            v = np.clip((bb - yy) / np.maximum(bb - tt, 1.0), 0, 1).astype(F32)
         cmf = cv2.dilate(colmap.astype(F32), np.ones((3, 3), np.uint8))
         self._col_p, self._v_p = cmf, v
         # to rock space
@@ -372,8 +458,14 @@ class Cliff:
         self.col, self.v = cmf, v.astype(F32)
         # surface height: the cuts go down; the painted strokes of the rock give a faint relief of their own
         L = luma(self.rock)
-        micro = (blur(L, 1.0) - blur(L, max(6.0, size * 0.08))) * relief * 9.0
-        micro += (fbm(self.H, self.W, 7.0, seed, 'cl_micro', octaves=3) - 0.5) * relief * 1.3
+        if self.soft_relief:
+            # the painted strokes give the rock only a broad relief; paper fibres and pixel grain are NOT stone
+            # (lit at a raking angle they read as embossed paper)
+            micro = (blur(L, max(2.0, size * 0.03)) - blur(L, max(12.0, size * 0.4))) * relief * 6.0
+            micro += (fbm(self.H, self.W, max(9.0, size * 0.12), seed, 'cl_micro', octaves=3) - 0.5) * relief * 0.5
+        else:
+            micro = (blur(L, 1.0) - blur(L, max(6.0, size * 0.08))) * relief * 9.0
+            micro += (fbm(self.H, self.W, 7.0, seed, 'cl_micro', octaves=3) - 0.5) * relief * 1.3
         hgt = -self.depth + micro
         gx = cv2.Sobel(hgt, cv2.CV_32F, 1, 0, ksize=3) / 8.0
         gy = cv2.Sobel(hgt, cv2.CV_32F, 0, 1, ksize=3) / 8.0
@@ -385,6 +477,18 @@ class Cliff:
         ao = np.clip(self.depth / self.dmax, 0, 1) ** 0.7 * self.cut
         gr = fbm(self.H, self.W, max(8.0, size * 0.3), seed, 'cl_grime', octaves=3)
         alb *= (1.0 - grime * ao * (0.5 + 0.9 * gr))[..., None]
+        if streaks > 0:
+            # rain has run out of the cuts for centuries: faint dark streaks hang below each stroke
+            k = max(3, int(size * 0.9))
+            ker = np.zeros((2 * k + 1, 1), F32)
+            ker[:k + 1, 0] = np.linspace(0.2, 1.0, k + 1) ** 2                 # samples ABOVE: the streak hangs down
+            ker /= ker.sum()
+            src = blur(self.cut, max(1.0, size * 0.02))
+            st = cv2.filter2D(src, -1, ker, borderType=cv2.BORDER_CONSTANT) * (1 - self.cut)
+            sn = fbm(self.H, self.W, max(3.0, size * 0.05), seed, 'cl_streak', octaves=2)
+            sn = cv2.resize(cv2.resize(sn, (self.W, max(2, self.H // 6))), (self.W, self.H))   # vertical runs
+            st = np.clip(st * 2.2, 0, 1) * smoothstep(0.35, 0.75, sn) * streaks
+            alb *= (1.0 - 0.22 * st)[..., None] * (1.0 - 0.05 * st[..., None] * np.array([-0.4, 0.2, 0.6], F32))
         if self.moss is not None:
             mc = np.array([0.36, 0.42, 0.30], F32) * (0.8 + 0.4 * gr[..., None])
             a = (self.moss * 0.7)[..., None]
@@ -409,7 +513,8 @@ class Cliff:
         if self.moss is not None:
             a = a * (1 - 0.8 * self.moss)
         col = np.asarray(colour, F32) * (0.80 + 0.35 * (n1[..., None] - 0.5))
-        alb = self.albedo * (1 - a[..., None]) + (col * 0.72 + self.albedo * 0.5) * a[..., None]
+        pk = getattr(self, 'paint', 0.0)                 # 0: thin old stain; 1: a body of vermilion paste
+        alb = self.albedo * (1 - a[..., None]) + (col * (0.72 + 0.25 * pk) + self.albedo * (0.5 - 0.38 * pk)) * a[..., None]
         if len(self._fill_cache) > 3:
             self._fill_cache.clear()
         self._fill_cache[key] = alb.astype(F32)
@@ -453,10 +558,55 @@ class Cliff:
         A = self._gold_cache[1]
         return smoothstep(0.0, soft, progress * 1.04 - A) * self.cut * smoothstep(0.05, 0.3, self.depth / self.dmax)
 
-    def render(self, light=(200.0, 10.0), fill=0.0, gold=None, t=0.0, ambient=0.5, warmth=0.5, pool=None,
-               fill_colour=CINNABAR, gold_colour=GOLD, gold_stagger=0.55, gold_order='rtl', cap=1.9):
-        """One frame (HxWx3).
+    # -- windows: render only what the camera sees ------------------------------------------------------------------
+    def prepare(self, fill=0.0, fill_colour=CINNABAR, gold=False, gold_stagger=0.55, gold_order='rtl'):
+        """Precompute the full-plate caches (cinnabar fill, gold arrival) once, in setup(), so forked workers share
+        them and `render(box=...)` only slices them."""
+        if fill > 0:
+            self._fill(fill, fill_colour)
+        if gold:
+            self.gold_mask(0.5, gold_stagger, order=gold_order)
+            self._leaf_map()
+        return self
 
+    def _leaf_map(self):
+        if not hasattr(self, '_leaf'):
+            lf = fbm(self.H, self.W, max(2.5, self.size * 0.05), self.seed, 'cl_leaf', octaves=3, gain=0.6)
+            self._leaf = (0.72 + 0.28 * smoothstep(0.30, 0.55, lf)).astype(F32)
+        return self._leaf
+
+    _PER_PX = ('rock', 'depth', 'cut', 'col', 'v', 'nx', 'ny', 'nz', 'hgt', 'albedo', 'ao', '_ngr', 'moss', '_leaf')
+
+    def _sub(self, x0, y0, x1, y1, fill, fill_colour, gold, gold_stagger, gold_order):
+        """A view of the plate window [y0:y1, x0:x1] that renders exactly like the full plate there."""
+        sub = object.__new__(Cliff)
+        sub.__dict__.update({k: v for k, v in self.__dict__.items() if not isinstance(v, np.ndarray)})
+        ys, xs = slice(y0, y1), slice(x0, x1)
+        for k in self._PER_PX:
+            a = getattr(self, k, None)
+            if isinstance(a, np.ndarray):
+                setattr(sub, k, a[ys, xs])
+        sub.W, sub.H = x1 - x0, y1 - y0
+        sub._fill_cache = {}
+        if fill > 0:
+            full = self._fill(fill, fill_colour)
+            key = (round(float(fill), 3), tuple(np.round(fill_colour, 3)))
+            sub._fill_cache = {key: full[ys, xs]}
+        sub._gold_cache = None
+        if gold is not None and gold > 0:
+            self.gold_mask(0.5, gold_stagger, order=gold_order)
+            sub._gold_cache = (self._gold_cache[0], self._gold_cache[1][ys, xs])
+            sub._leaf = self._leaf_map()[ys, xs]
+        return sub
+
+    def render(self, light=(200.0, 10.0), fill=0.0, gold=None, t=0.0, ambient=0.5, warmth=0.5, pool=None,
+               fill_colour=CINNABAR, gold_colour=GOLD, gold_stagger=0.55, gold_order='rtl', cap=1.9, box=None,
+               tint=None, ambient_tint=None):
+        """One frame (HxWx3), or only the plate window `box` = (x0, y0, x1, y1) (returns that crop: what a camera on
+        a long scroll needs; identical to the same crop of a full render).
+
+        tint          RGB of the direct light (None = white; a moon is e.g. (0.93, 0.95, 0.98): silver, never blue)
+        ambient_tint  RGB of the unlit rock (None = as painted; night e.g. (0.95, 0.96, 0.99))
         light     (az, el[, intensity]) degrees, or callable t -> that. az = direction the light comes FROM.
         fill      0..1 how much cinnabar is left in the cuts
         gold      None or progress 0..1 of the gold running up the columns ("gold happens once")
@@ -464,6 +614,31 @@ class Cliff:
         warmth    how warm the raking light is (0 neutral .. 1 tungsten/low sun). Never cool.
         pool      optional (x, y, radius) of a pool of light (a flashlight on the page), or an HxW intensity map
         """
+        if callable(pool):
+            pool = pool(t)
+        if callable(ambient):
+            ambient = ambient(t)
+        if box is not None:
+            if callable(light):
+                light = light(t)
+            x0, y0, x1, y1 = [int(round(v)) for v in box]
+            mg = int(self.size * 0.6 + 8)
+            a0, b0, a1, b1 = max(0, x0 - mg), max(0, y0 - mg), min(self.W, x1 + mg), min(self.H, y1 + mg)
+            sub = self._sub(a0, b0, a1, b1, fill, fill_colour, gold, gold_stagger, gold_order)
+            if pool is not None:
+                pool = _win(pool, b0, b1, a0, a1) if isinstance(pool, np.ndarray) else (pool[0] - a0, pool[1] - b0,
+                                                                                      pool[2])
+            if isinstance(ambient, np.ndarray):
+                ambient = _win(ambient, b0, b1, a0, a1)
+            out = sub.render(light, fill, gold, t, ambient, warmth, pool, fill_colour, gold_colour, gold_stagger,
+                             gold_order, cap, None, tint, ambient_tint)
+            full = np.empty((y1 - y0, x1 - x0, 3), F32)
+            full[:] = 0.5
+            cx0, cy0 = max(x0, 0), max(y0, 0)
+            cx1, cy1 = min(x1, self.W), min(y1, self.H)
+            if cx1 > cx0 and cy1 > cy0:
+                full[cy0 - y0:cy1 - y0, cx0 - x0:cx1 - x0] = out[cy0 - b0:cy1 - b0, cx0 - a0:cx1 - a0]
+            return full
         if callable(light):
             light = light(t)
         az, el = float(light[0]), float(light[1])
@@ -490,13 +665,20 @@ class Cliff:
         else:
             lit = inten
         # k: 1 = as painted. Shadows fall to `ambient`; lit walls rise above 1 but are compressed (no blown whites).
+        # ambient may also be an HxW map (rock space): e.g. deeper shade inside a travelling band of light
         k = ambient + (1.0 - ambient) * lam * lit if not np.isscalar(lit) else ambient + ((1.0 - ambient) * lit) * lam
         hi = np.maximum(k - 1.0, 0)
         k = np.minimum(k, 1.0) + hi / (1.0 + hi * 0.9) * 0.9
         alb = self._fill(fill, fill_colour) if fill > 0 else self.albedo
-        out = alb * k[..., None]
+        if tint is None and ambient_tint is None:
+            out = alb * k[..., None]
+        else:
+            ta = np.asarray(ambient_tint if ambient_tint is not None else (1, 1, 1), F32)
+            tl = np.asarray(tint if tint is not None else (1, 1, 1), F32)
+            amb = ambient[..., None] if isinstance(ambient, np.ndarray) else ambient
+            out = alb * (amb * ta + (k[..., None] - amb) * tl)
         if warmth > 0:
-            w = np.clip((k - ambient) / max(1e-3, 1.4 - ambient), 0, 1)[..., None] * warmth
+            w = np.clip((k - ambient) / np.maximum(1e-3, 1.4 - ambient), 0, 1)[..., None] * warmth
             out *= 1.0 + w * np.array([0.07, 0.0, -0.13], F32)
             out *= 1.0 - (1 - np.clip(k, 0, 1))[..., None] * np.array([0.03, 0.01, -0.02], F32) * warmth
         if gold is not None and gold > 0:
@@ -510,10 +692,7 @@ class Cliff:
                     facet -= 0.16 * sh
                 gc = np.asarray(gold_colour, F32)[None, None] * np.clip(facet, 0.35, 1.25)[..., None]
                 gc = gc + np.clip(facet - 1.0, 0, 1)[..., None] * np.array([0.30, 0.27, 0.16], F32)
-                if not hasattr(self, '_leaf'):
-                    lf = fbm(self.H, self.W, max(2.5, self.size * 0.05), self.seed, 'cl_leaf', octaves=3, gain=0.6)
-                    self._leaf = (0.72 + 0.28 * smoothstep(0.30, 0.55, lf)).astype(F32)
-                ga = (g * self._leaf)[..., None]
+                ga = (g * self._leaf_map())[..., None]
                 out = out * (1 - ga) + gc * ga
                 sg = max(0.9, self.size * 0.008)
                 spill = np.clip(blur(g, sg) - g, 0, 1) * 0.22                 # a very tight warm spill on the lip
@@ -532,6 +711,11 @@ class Cliff:
         """(x, y, w, h) of the i-th carved character on the plane (for framing a close-up)."""
         ch, cx, cy, col, row = self.cells[i]
         return cx - self.size / 2, cy - self.size / 2, self.size, self.size
+
+
+def _win(a, b0, b1, a0, a1):
+    """Window of a rock-space map; a 1xW row (light varying along the cliff only) or Hx1 column broadcasts."""
+    return a[slice(b0, b1) if a.shape[0] > 1 else slice(0, 1), slice(a0, a1) if a.shape[1] > 1 else slice(0, 1)]
 
 
 def silhouette_child(w, h, cx, foot_y, height, seed=0):

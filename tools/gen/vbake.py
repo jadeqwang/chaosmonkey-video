@@ -196,8 +196,11 @@ TESTS["V2alt"]["variants"] = {"a": TESTS["V2"]["variants"]["a"]}
 
 def spec(test, models, variants=None):
     T = TESTS[test]
-    first = "file:" + os.path.relpath(gen.ref_image(os.path.join(ROOT, T["first"])), ROOT)
-    last = ("file:" + os.path.relpath(gen.ref_image(os.path.join(ROOT, T["last"])), ROOT)) if T.get("last") else None
+    def ref(path):   # unique name per source (L5/nbp_a_v2 and L6/nbp_a_v2 collided in gen.ref_image's default name)
+        out = os.path.join(gen.REFS, path.replace("/", "_").rsplit(".", 1)[0] + "_2048.jpg")
+        return "file:" + os.path.relpath(gen.ref_image(os.path.join(ROOT, path), out), ROOT)
+    first = ref(T["first"])
+    last = ref(T["last"]) if T.get("last") else None
     audio = None
     if T.get("audio"):
         src, st, du = T["audio"]
@@ -228,13 +231,18 @@ def file_clips():
         if not j["tag"].startswith("vb_") or j["state"] != "done" or not j.get("files"):
             continue
         _, test, model, var = j["tag"].split("_", 3)
+        spec_file = j["spec_file"]
+        if not os.path.exists(os.path.join(ROOT, spec_file)):
+            # the first V4 attic takes got the L6 bedroom frame (ref-name collision): kept as V4b/<model>_atticprompt
+            spec_file = spec_file[:-5] + ".wrongframe.json"
+            test, var = "V4b", "atticprompt"
         dst = os.path.join(ROOT, "media", "vbake", test, f"{model}_{var}.mp4")
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         src = os.path.join(ROOT, j["files"][0])
         if os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(src):
             continue
         shutil.copy2(src, dst)
-        sp = json.load(open(os.path.join(ROOT, j["spec_file"])))
+        sp = json.load(open(os.path.join(ROOT, spec_file)))
         inp = {k: (v if not (isinstance(v, str) and v.startswith(("file:", "data:"))) else v[:120])
                for k, v in sp["input"].items()}
         with open(dst[:-4] + ".txt", "w") as f:
