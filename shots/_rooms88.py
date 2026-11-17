@@ -57,6 +57,32 @@ def _match_stats(src, ref):
     return (sr / ss).astype(F32), (mr - ms * sr / ss).astype(F32)
 
 
+def register(clip_u8, kf_img):
+    """Similarity transform clip px -> keyframe px (1920x1080 space), from ORB matches + RANSAC. Falls back to a
+    plain resize if the fit is poor."""
+    h, w = clip_u8.shape[:2]
+    base = np.array([[1920.0 / w, 0, 0], [0, 1080.0 / h, 0]])
+    k = cv2.resize(kf_img, (1920, 1080), interpolation=cv2.INTER_AREA)
+    g1 = cv2.cvtColor(clip_u8, cv2.COLOR_RGB2GRAY)
+    g2 = cv2.cvtColor((np.clip(k, 0, 1) * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)
+    orb = cv2.ORB_create(4000)
+    k1, d1 = orb.detectAndCompute(g1, None)
+    k2, d2 = orb.detectAndCompute(g2, None)
+    if d1 is None or d2 is None:
+        return base
+    mt = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True).match(d1, d2)
+    if len(mt) < 30:
+        return base
+    p1 = np.float32([k1[m.queryIdx].pt for m in mt]); p2 = np.float32([k2[m.trainIdx].pt for m in mt])
+    M, inl = cv2.estimateAffinePartial2D(p1, p2, method=cv2.RANSAC, ransacReprojThreshold=4.0, maxIters=5000)
+    if M is None or inl.sum() < 25:
+        return base
+    sc = math.hypot(M[0, 0], M[1, 0]) / (1920.0 / w)
+    if not 0.9 < sc < 1.15:
+        return base
+    return M
+
+
 class Source:
     """A still or a clip at render size. Clip time: src = (t - t_clip0) * rate, clamped (holds first/last frame).
     twos: hold every other song frame. match: colour-match the clip to the keyframe (frame 0 statistics)."""
@@ -75,9 +101,11 @@ class Source:
             self.dur = len(self.frames) / self.fps
             self.src_range = src_range or (0.0, self.dur - 1.0 / self.fps)
             self.gain, self.off = np.ones(3, F32), np.zeros(3, F32)
+            self.A = None                       # clip px -> keyframe px at 1920 (similarity), when the model reframed
             if match is not None:
-                f0 = cv2.resize(self.frames[0], (match.shape[1], match.shape[0]), interpolation=cv2.INTER_AREA)
-                self.gain, self.off = _match_stats(f0.astype(F32) / 255.0, match)
+                self.A = register(self.frames[0], match)
+                f0 = self.frame_i(0, match.shape[1], match.shape[0])
+                self.gain, self.off = _match_stats(f0, match)
 
     @property
     def n(self):
@@ -97,7 +125,13 @@ class Source:
         W, H = W or self.W, H or self.H
         if self.frames is None:
             return self.still.copy()
-        a = cv2.resize(self.frames[i], (W, H), interpolation=cv2.INTER_CUBIC if W > self.frames[i].shape[1] else cv2.INTER_AREA)
+        src = self.frames[i]
+        if getattr(self, 'A', None) is not None:
+            M = self.A.copy()
+            M[:, :] *= W / 1920.0                                  # 1920-space target -> render size
+            a = cv2.warpAffine(src, M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+        else:
+            a = cv2.resize(src, (W, H), interpolation=cv2.INTER_CUBIC if W > src.shape[1] else cv2.INTER_AREA)
         return np.clip(a.astype(F32) / 255.0 * self.gain + self.off, 0, 1).astype(F32)
 
     def at(self, t):
@@ -188,8 +222,10 @@ def order_quad(q, tl_dir):
 class PageTrack:
     """Page per source frame. roi and tl_dir in 1920 space. quads stored in 1920 space, temporally smoothed."""
 
-    def __init__(self, src, roi, tl_dir=(-1, -1), thr=None, smooth=1.5, every=1, quad=None, cthr=11.0):
+    def __init__(self, src, roi, tl_dir=(-1, -1), thr=None, smooth=1.5, every=1, quad=None, cthr=11.0, mthr=None,
+                 mcthr=None):
         self.roi, self.tl_dir, self.cthr = roi, tl_dir, cthr
+        self.mthr, self.mcthr = mthr, mcthr                 # a looser mask for printing (clipped to the quad)
         self.src = src
         W0, H0 = 960, 540
         r = [v / 2 for v in roi]
@@ -218,8 +254,15 @@ class PageTrack:
     def quad(self, i, s=1.0):
         return self.Q[min(i, len(self.Q) - 1)] * s
 
-    def mask(self, img, s):
-        m, _ = page_mask(img, [v * s for v in self.roi], self.thr, self.cthr)
+    def mask(self, img, s, i=None):
+        if self.mthr is not None and i is not None:
+            m, _ = page_mask(img, [v * s for v in self.roi], self.mthr, self.mcthr or self.cthr)
+            qm = np.zeros(m.shape, np.uint8)
+            cv2.fillConvexPoly(qm, np.round(self.quad(i, s)).astype(np.int32), 1)
+            qm = cv2.dilate(qm, np.ones((5, 5), np.uint8))
+            m = m & qm
+        else:
+            m, _ = page_mask(img, [v * s for v in self.roi], self.thr, self.cthr)
         m = fill_holes(m)
         m = cv2.erode(m, np.ones((3, 3), np.uint8)).astype(F32)
         return cv2.GaussianBlur(m, (0, 0), max(0.6, 1.2 * s))
@@ -339,7 +382,8 @@ class Sign:
     hang partly outside the glass: the mullions and frame hide it). The glass is found in the keyframe as its
     brightest red area. pool: the room's red light follows the sign's colour (amount)."""
 
-    def __init__(self, kf_img, s, window, place, pool=0.35, strength=1.0, blur=1.6, halo=10.0, glass_thr=None):
+    def __init__(self, kf_img, s, window, place, pool=0.35, strength=1.0, blur=1.6, halo=10.0, glass_thr=None,
+                 exclude=()):
         H, W = kf_img.shape[:2]
         self.s, self.strength, self.pool = s, strength, pool
         x0, y0, x1, y1 = [int(round(v * s)) for v in window]
@@ -349,7 +393,11 @@ class Sign:
         L = sub.mean(axis=2)
         thr = glass_thr if glass_thr is not None else np.percentile(L, 45)
         g = np.zeros((H, W), F32)
-        g[y0:y1, x0:x1] = cv2.GaussianBlur((L > thr).astype(F32), (0, 0), 1.0 * s + 0.5)
+        reddish = (sub[..., 0] - sub[..., 2]) > 0.12            # the glass glows red; a pale face in front does not
+        g[y0:y1, x0:x1] = cv2.GaussianBlur(((L > thr) & reddish).astype(F32), (0, 0), 1.0 * s + 0.5)
+        if exclude:                                          # people in front of the glass
+            from shots._attic_grade import _ellipses
+            g *= 1 - np.clip(_ellipses(W, H, [tuple(e[:4]) + (1.0,) for e in exclude], s) * 2.5, 0, 1)
         self.glass = g
         cx, cy, hh, ang = place
         A = sign_alpha()
@@ -373,7 +421,7 @@ class Sign:
         if k > 0:
             l = (f[..., 0] * 0.3 + f[..., 1] * 0.5 + f[..., 2] * 0.2)[..., None]
             cool = l * (np.asarray(NEON_BLUE, F32) * 0.75 + 0.25) * 1.15
-            a = (np.maximum(self.redness * self.pool, self.glass * 0.75) * k * on)[..., None]
+            a = (np.maximum(self.redness * self.pool, self.glass * 0.45) * k * on)[..., None]
             f = f + (cool - f) * a
         if on <= 0:
             return f
@@ -507,12 +555,13 @@ class RoomShot:
             self.src = Source(W, H, still=self.KF)
         self.G = grade_field(self.KF, keep=c.get('keep', ()), floor=c.get('floor', 0.30))
         self.TEX = paper_tex(W, H)
-        self.SG = Sign(self.KF, s, c['window'], c['sign'], pool=c.get('pool', 0.35)) if c.get('window') else \
+        self.SG = Sign(self.KF, s, c['window'], c['sign'], pool=c.get('pool', 0.35), exclude=c.get('sign_exclude', ())) if c.get('window') else \
             Sign(self.KF, s, (0, 0, 2, 2), (-500, -500, 10, 0), pool=c.get('pool', 0.35))
         pg = c.get('page')
         self.PT = None
         if pg:
-            self.PT = PageTrack(self.src, pg['roi'], pg.get('tl', (-1, -1)), thr=pg.get('thr'), quad=pg.get('quad'), cthr=pg.get('cthr', 11.0))
+            self.PT = PageTrack(self.src, pg['roi'], pg.get('tl', (-1, -1)), thr=pg.get('thr'), quad=pg.get('quad'), cthr=pg.get('cthr', 11.0),
+                                mthr=pg.get('mthr'), mcthr=pg.get('mcthr'))
             kinds = pg.get('kinds', [pg['kind']])
             self.SP = {k: spread(k) for k in kinds}
         self.BEAM = beam_field(self.G, self.KF, s) if c.get('dust') else None
@@ -523,7 +572,12 @@ class RoomShot:
                     w = ctx.timing.words(line)
                 except Exception:
                     w = None
-                self.INS.append(inscription(line.replace('(', '').replace(')', ''), region, ctx, words=w or None))
+                self.INS.append([inscription(line.replace('(', '').replace(')', ''), region, ctx, words=w or None),
+                                 (w[0][1] if w else None), None])
+            for a, b in zip(self.INS, self.INS[1:]):          # a line leaves as the next one begins
+                a[2] = b[1]
+            if c.get('lyrics_out'):
+                self.INS[-1][2] = c['lyrics_out']
         if c.get('setup'):
             c['setup'](self, ctx)
 
@@ -534,7 +588,7 @@ class RoomShot:
             pg = c['page']
             kind = pg['kind_at'](t) if pg.get('kind_at') else pg['kind']
             q = self.PT.quad(i, self.s)
-            m = self.PT.mask(f, self.s)
+            m = self.PT.mask(f, self.s, i)
             f = map_page(f, self.SP[kind], q, m, pg.get('strength', 1.0))
             self.page_m = m
             self.page_q = q
@@ -562,8 +616,11 @@ class RoomShot:
             if not hasattr(self, 'M'):
                 self.M = make_margins(f.shape[1], f.shape[0])
             f = apply_margins(f, t, self.M)
-        for ins in self.INS:
-            ins.draw(f, t, opacity=0.8)
+        for ins, t_in, t_out in self.INS:
+            if t_out is not None and t >= t_out - 0.3:
+                ins.fade(f, t, t_out, 0.3)
+            else:
+                ins.draw(f, t, opacity=0.8)
         return f
 
 
@@ -600,3 +657,46 @@ def lay_shadow(f, S, soft, strength=0.9, umbra=UMBRA):
         S = cv2.GaussianBlur(S, (0, 0), soft)
     a = (np.clip(S, 0, 1) * strength)[..., None]
     return f * (1 - a + a * umbra)
+
+
+def flat_hand_mask(h=400, seed=0):
+    """A child's flat hand seen from above (palm + four fingers + thumb), fingers pointing up, as a 0..1 mask."""
+    w = int(h * 0.8)
+    m = np.zeros((h, w), np.uint8)
+    cx = w // 2
+    cv2.ellipse(m, (cx, int(h * 0.68)), (int(w * 0.30), int(h * 0.22)), 0, 0, 360, 1, -1)       # palm
+    for k, (dx, ln, ang) in enumerate([(-0.20, 0.30, -10), (-0.07, 0.36, -3), (0.06, 0.34, 3), (0.18, 0.27, 10)]):
+        x0, y0 = int(cx + dx * w), int(h * 0.52)
+        x1 = int(x0 + math.sin(math.radians(ang)) * ln * h)
+        y1 = int(y0 - math.cos(math.radians(ang)) * ln * h)
+        cv2.line(m, (x0, y0), (x1, y1), 1, int(h * 0.085))
+        cv2.circle(m, (x1, y1), int(h * 0.042), 1, -1)
+    cv2.line(m, (int(cx + 0.26 * w), int(h * 0.72)), (int(cx + 0.46 * w), int(h * 0.52)), 1, int(h * 0.09))   # thumb
+    cv2.line(m, (cx, int(h * 0.85)), (cx, h - 1), 1, int(w * 0.42))                                 # wrist
+    return cv2.GaussianBlur(m.astype(F32), (0, 0), 1.5)
+
+
+def head_mask(h=400):
+    """Little Jade's head from the side-back: round head, high half-ponytail, bangs, neck and shoulder."""
+    w = int(h * 0.9)
+    m = np.zeros((h, w), np.uint8)
+    cx = w // 2
+    cv2.circle(m, (cx, int(h * 0.38)), int(h * 0.26), 1, -1)                                       # head
+    cv2.ellipse(m, (int(cx + 0.05 * w), int(h * 0.10)), (int(h * 0.09), int(h * 0.07)), -20, 0, 360, 1, -1)   # tie
+    cv2.ellipse(m, (int(cx + 0.24 * w), int(h * 0.20)), (int(h * 0.06), int(h * 0.16)), 35, 0, 360, 1, -1)   # tail
+    cv2.rectangle(m, (int(cx - 0.11 * w), int(h * 0.58)), (int(cx + 0.11 * w), int(h * 0.78)), 1, -1)        # neck
+    cv2.ellipse(m, (cx, int(h * 0.98)), (int(w * 0.48), int(h * 0.22)), 0, 180, 360, 1, -1)                  # shoulders
+    return cv2.GaussianBlur(m.astype(F32), (0, 0), 2.0)
+
+
+def ring_mask(w=300, h=70, thick=16):
+    m = np.zeros((h + 2 * thick, w + 2 * thick), np.uint8)
+    cv2.ellipse(m, (m.shape[1] // 2, m.shape[0] // 2), (w // 2, h // 2), 0, 0, 360, 1, thick)
+    return cv2.GaussianBlur(m.astype(F32), (0, 0), 1.2)
+
+
+def spread_point(quad, u, v):
+    """Spread (u, v) in 0..1 -> frame px through the page homography (quad TL, TR, BR, BL)."""
+    M = cv2.getPerspectiveTransform(np.float32([[0, 0], [1, 0], [1, 1], [0, 1]]), np.float32(quad))
+    p = M @ np.array([u, v, 1.0])
+    return p[0] / p[2], p[1] / p[2]

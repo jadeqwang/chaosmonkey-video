@@ -5,7 +5,7 @@ from shots._rooms88 import *
 
 T0, T1 = 233 / 24, 302 / 24
 R = RoomShot(shot='A3', T0=T0, T1=T1, kf='A3', window=(1815, 480, 1920, 800), sign=(1880, 640, 190, 8.0),
-             keep=[(460, 420, 90, 300, 0.9), (1560, 760, 200, 300, 0.7)], floor=0.28, twos=True)
+             keep=[(460, 420, 90, 300, 0.9), (1560, 760, 200, 300, 0.7)], floor=0.24, twos=True)
 
 
 def setup(ctx):

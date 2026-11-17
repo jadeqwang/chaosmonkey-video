@@ -100,3 +100,10 @@ Running: ROOMS-88 and ROOMS-26 (no logs written yet at this time; they are gener
 Next: when rooms land -> splice.py -> assemble preview_v1 -> lead QA pass on contact sheets (continuity, lyric text
 consistency, brightness of rooms) -> fixes -> `docs/MORNING.md`.
 Spend: TOTAL $172.24 of $600 cap  (506 billed items; list-price estimates)
+
+## Checkpoint 9 — 2026-11-17 02:33
+Running: ROOMS-88 and ROOMS-26, both progressing (71 clips now in `media/comp/` incl. parts; newest: F3a, G4, F4a, C5a,
+F3b, I2, G3, G1). Relay queue is empty (144 done, 15 error, 8 rejected overall). Nothing stalled.
+Next: on room hand-backs -> `tools/cut/splice.py` -> `assemble.py --name preview_v1 --profile preview --audio
+media/sound/mix_v1.wav` -> contact sheets -> lead QA -> `docs/MORNING.md`.
+Spend: TOTAL $172.24 of $600 cap  (506 billed items; list-price estimates)

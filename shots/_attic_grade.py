@@ -26,11 +26,11 @@ def _ellipses(W, H, keep, s):
         w = e[4] if len(e) > 4 else 1.0
         yy, xx = np.ogrid[:H, :W]
         d = ((xx - cx) / max(rx, 1)) ** 2 + ((yy - cy) / max(ry, 1)) ** 2
-        m = np.maximum(m, w * np.clip(1.6 - d, 0, 1).astype(F32) ** 0.7)
+        m = np.maximum(m, (w * np.exp(-0.9 * d)).astype(F32))       # soft: no visible ring
     return m
 
 
-def grade_field(kf, keep=(), floor=0.30, lift=0.0, red_bias=0.55):
+def grade_field(kf, keep=(), floor=0.26, lift=0.0, red_bias=0.55):
     """kf: HxWx3 float (the keyframe at render size). Returns the static weight field (1 = in the light)."""
     H, W = kf.shape[:2]
     s = W / 1920.0
@@ -38,11 +38,11 @@ def grade_field(kf, keep=(), floor=0.30, lift=0.0, red_bias=0.55):
     red = np.clip(kf[..., 0] - np.maximum(kf[..., 1], kf[..., 2]), 0, 1)
     lit = L + red_bias * red                                   # the neon pool counts as light even where it is dim
     M = cv2.GaussianBlur(lit, (0, 0), 28 * s)
-    lo, hi = np.percentile(M, 35), np.percentile(M, 99.3)
+    lo, hi = np.percentile(M, 50), np.percentile(M, 99.5)
     w = np.clip((M - lo) / max(hi - lo, 1e-4), 0, 1)
     w = w * w * (3 - 2 * w)
     if keep:
-        w = np.maximum(w, _ellipses(W, H, keep, s))
+        w = np.maximum(w, cv2.GaussianBlur(_ellipses(W, H, keep, s), (0, 0), 30 * s))
     w = np.clip(w + lift, 0, 1)
     gain = floor + (1 - floor) * w ** 0.85
     return {'w': w.astype(F32), 'gain': gain.astype(F32)}

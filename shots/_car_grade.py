@@ -14,16 +14,16 @@ DUSK = np.array([0.78, 0.74, 1.00], F32)
 AMBER = np.array([1.22, 0.86, 0.48], F32)
 
 
-def _ellipse(W, H, cx, cy, rx, ry, soft=0.6):
+def _ellipse(W, H, cx, cy, rx, ry, soft=1.0):
     yy, xx = np.mgrid[0:H, 0:W].astype(F32)
     d = np.sqrt(((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2)
-    return (1 - smoothstep(1 - soft, 1 + soft * 0.3, d)).astype(F32)
+    return np.exp(-0.5 * (d / (0.8 * soft)) ** 2).astype(F32)
 
 
 _C = {}
 
 
-def car_field(ctx, faces=(), dark=0.62, face_lift=0.88):
+def car_field(ctx, faces=(), dark=0.62, face_lift=0.80):
     k = (ctx.W, ctx.H, tuple(map(tuple, faces)), dark, face_lift)
     if k not in _C:
         s = ctx.s
@@ -32,12 +32,12 @@ def car_field(ctx, faces=(), dark=0.62, face_lift=0.88):
             cx, cy, rx, ry = f[:4]
             prot = np.maximum(prot, _ellipse(ctx.W, ctx.H, cx * s, cy * s, rx * s, ry * s))
         lvl = dark + (face_lift - dark) * prot
-        tint = DUSK[None, None] * (1 - prot[..., None] * 0.7) + prot[..., None] * 0.7
+        tint = DUSK[None, None] * (1 - prot[..., None] * 0.5) + prot[..., None] * 0.5
         _C[k] = (lvl[..., None] * tint).astype(F32)
     return _C[k]
 
 
-def car_grade(frame, ctx, faces=(), dark=0.62, face_lift=0.88, crush=0.85):
+def car_grade(frame, ctx, faces=(), dark=0.62, face_lift=0.80, crush=0.85):
     out = frame * car_field(ctx, faces, dark, face_lift)
     Lm = luma(out)[..., None]
     out = out * (crush + (1 - crush) * np.clip(Lm * 2.2, 0, 1))

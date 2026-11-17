@@ -36,9 +36,9 @@ def page_tex():
     T[y0:y0 + ah, x0:x0 + aw] *= Ta
     # crayon monkey, wax multiplied, in the outer (right) margin where her fingertip lands in I1_end
     cr = load_image(os.path.join(ROOT, 'design/plates/A_book/A_crayon_monkey_rgba.png'), alpha=True)
-    cw = int(W * 0.15); chh = int(cw * cr.shape[0] / cr.shape[1])
+    cw = int(W * 0.21); chh = int(cw * cr.shape[0] / cr.shape[1])
     cr = cv2.resize(cr, (cw, chh), interpolation=cv2.INTER_AREA)
-    cx0, cy0 = int(W * 0.78), int(H * 0.30)
+    cx0, cy0 = int(W * 0.75), int(H * 0.27)
     a = cr[..., 3:4]
     T[cy0:cy0 + chh, cx0:cx0 + cw] *= (1 - a + a * np.clip(cr[..., :3], 0, 1))
     return T.astype(F32)
@@ -66,5 +66,8 @@ def render(t, ctx):
     f = lay_page(f, pt, m, 0.95)
     f = bed_grade(f, ctx, POOL, 300, field=FLD)
     f = paper_fibre(f, P, 0.55)
+    k = 1.0 - ramp(t, T0, T0 + 0.30, 'out')          # the white of the page becomes the flashlight glare (cut-in)
+    if k > 0:
+        f = f * (1 - k) + np.float32([0.95, 0.93, 0.88]) * k
     lyric(f, ctx, sung(WORDS, t, tail=0.7), x=0.63, y=0.10, px=26)
     return f

@@ -4,7 +4,7 @@ from shots._rooms88 import *
 
 T0, T1 = 2503 / 24, 2569 / 24
 R = RoomShot(shot='E6', T0=T0, T1=T1, kf='E6', window=(1440, 380, 1660, 620), sign=(1550, 500, 150, 0.0),
-             keep=[(680, 240, 140, 170, 1.0), (1240, 740, 130, 160, 1.0)], floor=0.30, twos=True,
+             keep=[(680, 240, 140, 170, 1.0), (1240, 740, 130, 160, 1.0)], floor=0.24, twos=True,
              lyrics=[('a secret only he could hear', (560, 40, 800, 44))])
 
 

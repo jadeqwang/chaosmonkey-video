@@ -53,10 +53,10 @@ def beams(f, t, R):
 
 RA = RoomShot(shot='D3a', kf='D3a', T0=T0, T1=T_B, page=dict(kind='birth_r', roi=(0, 480, 1720, 1080), tl=(-1, -1), cthr=18,
               strength=0.75), window=(1440, 103, 1687, 363), sign=(1563, 233, 150, 0.0), setup=_setup_a,
-              keep=[(900, 860, 700, 260, 1.0)], floor=0.30, still_cam=[(T0, 960, 540, 1.0), (T_B, 960, 520, 1.02)])
+              keep=[(900, 860, 700, 260, 1.0)], floor=0.24, still_cam=[(T0, 960, 540, 1.0), (T_B, 960, 540, 1.0)])
 RB = RoomShot(shot='D3b', kf='D3b', T0=T_B, T1=T1, page=dict(kind='birth', roi=(780, 900, 1140, 1080), tl=(-1, -1), cthr=22),
               window=(1389, 285, 1679, 509), sign=(1534, 397, 140, 0.0),
-              keep=[(740, 380, 130, 160, 1.0), (1180, 460, 110, 140, 1.0), (960, 980, 220, 100, 0.9)], floor=0.30,
+              keep=[(740, 380, 130, 160, 1.0), (1180, 460, 110, 140, 1.0), (960, 980, 220, 100, 0.9)], floor=0.24,
               lyrics=[('No cradle, no lullaby, no song', (560, 40, 800, 44))])
 
 

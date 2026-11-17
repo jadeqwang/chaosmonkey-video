@@ -45,7 +45,7 @@ def _setup(R, ctx):
 
 R = RoomShot(shot='C2', kf='C2', T0=T0, T1=T1,
              page=dict(kind='hgs', roi=(250, 250, 1330, 900), tl=(-1, -1)),
-             window=None, sign=None, keep=[(780, 540, 520, 330, 1.0), (150, 200, 220, 160, 0.6)], floor=0.28,
+             window=None, sign=None, keep=[(780, 540, 520, 330, 1.0), (150, 200, 220, 160, 0.6)], floor=0.24,
              still_cam=[(T0, 960, 540, 1.0), (T1, 900, 500, 1.04)], pre=pre, setup=_setup, twos=True)
 
 
