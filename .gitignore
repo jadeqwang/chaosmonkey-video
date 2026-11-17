@@ -12,3 +12,4 @@ refs/fonts/**/*.zip
 analysis/*.wav
 __pycache__/
 *.pyc
+refs/paintings/_manifest.jsonl
