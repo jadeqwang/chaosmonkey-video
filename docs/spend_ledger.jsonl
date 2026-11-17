@@ -139,3 +139,229 @@
 {"ts": "2026-11-17T06:48:37Z", "model": "google/nano-banana-pro", "tag": "vbake_face_child", "ok": true, "est_usd": 0.1344, "where": "box"}
 {"ts": "2026-11-17T06:48:49Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_cliff_qwen_a", "ok": true, "est_usd": 0.04, "where": "box"}
 {"ts": "2026-11-17T06:48:51Z", "model": "google/nano-banana-pro", "tag": "plates_cliff_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:49:13Z", "model": "google/nano-banana-pro", "tag": "plates_master_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:49:32Z", "model": "klingai/kling-v4", "tag": "vb_V1_kling4_v1", "job": "chaosmonkey/vb_V1_kling4_v1-4f7c24ebfd", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T06:49:33Z", "model": "klingai/kling-v4", "tag": "vb_V2_kling4_a", "job": "chaosmonkey/vb_V2_kling4_a-e554cd9611", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T06:49:33Z", "model": "google/nano-banana-pro", "tag": "char_test_A_nbp_v2", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:49:34Z", "model": "alibaba/hh1.1-i2v", "tag": "vb_V1_hh11_v1", "job": "chaosmonkey/vb_V1_hh11_v1-a6a09c1b75", "event": "submit", "ok": null, "est_usd": 0.9, "where": "box"}
+{"ts": "2026-11-17T06:49:35Z", "model": "alibaba/hh1.1-i2v", "tag": "vb_V2_hh11_a", "job": "chaosmonkey/vb_V2_hh11_a-5486a0da34", "event": "submit", "ok": null, "est_usd": 0.9, "where": "box"}
+{"ts": "2026-11-17T06:49:36Z", "model": "google/veo-3.1", "tag": "vb_V1_veo31_v1", "job": "chaosmonkey/vb_V1_veo31_v1-4172b7ba5f", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T06:49:36Z", "model": "google/veo-3.1", "tag": "vb_V2_veo31_a", "job": "chaosmonkey/vb_V2_veo31_a-2cedf4919e", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T06:49:37Z", "model": "bytedance/seedance-2.0", "tag": "vb_V1_sd20_v1", "job": "chaosmonkey/vb_V1_sd20_v1-0f8154a1f2", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:49:38Z", "model": "bytedance/seedance-2.0", "tag": "vb_V2_sd20_a", "job": "chaosmonkey/vb_V2_sd20_a-22986c735c", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:49:39Z", "model": "bytedance/seedance-2.5", "tag": "vb_V1_sd25_v1", "job": "chaosmonkey/vb_V1_sd25_v1-91b0622376", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:49:40Z", "model": "bytedance/seedance-2.5", "tag": "vb_V2_sd25_a", "job": "chaosmonkey/vb_V2_sd25_a-df0c44a673", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:49:41Z", "model": "minimax/h3", "tag": "vb_V1_h3_v1", "job": "chaosmonkey/vb_V1_h3_v1-c568cc1d26", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T06:49:41Z", "model": "minimax/h3", "tag": "vb_V2_h3_a", "job": "chaosmonkey/vb_V2_h3_a-595ae7a0d0", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T06:49:42Z", "model": "minimax/h3-max", "tag": "vb_V1_h3max_v1", "job": "chaosmonkey/vb_V1_h3max_v1-8cc033bd7f", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:49:43Z", "model": "minimax/h3-max", "tag": "vb_V2_h3max_a", "job": "chaosmonkey/vb_V2_h3max_a-480b1abf28", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:49:44Z", "model": "minimax/h3-lite", "tag": "vb_V1_h3lite_v1", "job": "chaosmonkey/vb_V1_h3lite_v1-11499a9ac3", "event": "submit", "ok": null, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:49:45Z", "model": "minimax/h3-lite", "tag": "vb_V2_h3lite_a", "job": "chaosmonkey/vb_V2_h3lite_a-ea8e9b0694", "event": "submit", "ok": null, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:49:46Z", "model": "minimax/h3-highspeed", "tag": "vb_V1_h3hs_v1", "job": "chaosmonkey/vb_V1_h3hs_v1-68d40dcfd1", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T06:49:47Z", "model": "minimax/h3-highspeed", "tag": "vb_V2_h3hs_a", "job": "chaosmonkey/vb_V2_h3hs_a-a6da1ea390", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T06:49:47Z", "model": "minimax/hailuo-2.3", "tag": "vb_V1_hailuo23_v1", "job": "chaosmonkey/vb_V1_hailuo23_v1-258aa1e412", "event": "submit", "ok": null, "est_usd": 0.28, "where": "box"}
+{"ts": "2026-11-17T06:49:48Z", "model": "minimax/hailuo-2.3", "tag": "vb_V2_hailuo23_a", "job": "chaosmonkey/vb_V2_hailuo23_a-c2923573e8", "event": "submit", "ok": null, "est_usd": 0.28, "where": "box"}
+{"ts": "2026-11-17T06:49:49Z", "model": "minimax/hailuo-2.3-fast", "tag": "vb_V1_hailuo23f_v1", "job": "chaosmonkey/vb_V1_hailuo23f_v1-a34b9afbcd", "event": "submit", "ok": null, "est_usd": 0.19, "where": "box"}
+{"ts": "2026-11-17T06:49:50Z", "model": "minimax/hailuo-2.3-fast", "tag": "vb_V2_hailuo23f_a", "job": "chaosmonkey/vb_V2_hailuo23f_a-06242e1a4b", "event": "submit", "ok": null, "est_usd": 0.19, "where": "box"}
+{"ts": "2026-11-17T06:49:51Z", "model": "pixverse/v6", "tag": "vb_V1_pixv6_v1", "job": "chaosmonkey/vb_V1_pixv6_v1-a33dcb4a58", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T06:49:51Z", "model": "pixverse/v6", "tag": "vb_V2_pixv6_a", "job": "chaosmonkey/vb_V2_pixv6_a-c41c77b0a7", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T06:49:52Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V1_ltx_v1", "job": "chaosmonkey/vb_V1_ltx_v1-b6b6552018", "event": "submit", "ok": null, "est_usd": 0.45, "where": "box"}
+{"ts": "2026-11-17T06:49:53Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V2_ltx_a", "job": "chaosmonkey/vb_V2_ltx_a-fe5e0c0754", "event": "submit", "ok": null, "est_usd": 0.45, "where": "box"}
+{"ts": "2026-11-17T06:49:54Z", "model": "vidu/q3-pro", "tag": "vb_V1_vidu3_v1", "job": "chaosmonkey/vb_V1_vidu3_v1-853f02bd5f", "event": "submit", "ok": null, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T06:49:55Z", "model": "vidu/q3-pro", "tag": "vb_V2_vidu3_a", "job": "chaosmonkey/vb_V2_vidu3_a-587884f7b8", "event": "submit", "ok": null, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T06:49:55Z", "model": "alibaba/wan-2.7-i2v", "tag": "vb_V1_wan27_v1", "job": "chaosmonkey/vb_V1_wan27_v1-766deed549", "event": "submit", "ok": null, "est_usd": 0.5, "where": "box"}
+{"ts": "2026-11-17T06:49:56Z", "model": "google/nano-banana-pro", "tag": "char_test_poses1_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:49:56Z", "model": "alibaba/wan-2.7-i2v", "tag": "vb_V2_wan27_a", "job": "chaosmonkey/vb_V2_wan27_a-5b74dd9572", "event": "submit", "ok": null, "est_usd": 0.5, "where": "box"}
+{"ts": "2026-11-17T06:49:57Z", "model": "klingai/kling-v3-omni", "tag": "vb_V1_k3omni_v1", "job": "chaosmonkey/vb_V1_k3omni_v1-d09568e460", "event": "submit", "ok": null, "est_usd": 0.565, "where": "box"}
+{"ts": "2026-11-17T06:49:58Z", "model": "klingai/kling-v3-omni", "tag": "vb_V2_k3omni_a", "job": "chaosmonkey/vb_V2_k3omni_a-55f17bf10c", "event": "submit", "ok": null, "est_usd": 0.565, "where": "box"}
+{"ts": "2026-11-17T06:50:00Z", "model": "google/nano-banana-pro", "tag": "char_test_A_nbp_v1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T06:50:05Z", "model": "google/nano-banana-pro", "tag": "char_test_handshadow_sil_nbp_v2", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T06:50:08Z", "model": "bytedance/seedream-5-pro", "tag": "plates_master_sd5_b", "ok": false, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T06:50:17Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5c_sd25_sing", "job": "chaosmonkey/vb_V5c_sd25_sing-2c3702b042", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:50:18Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5m_sd25_sing", "job": "chaosmonkey/vb_V5m_sd25_sing-404d0414b8", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:50:18Z", "model": "google/nano-banana-pro", "tag": "char_test_B_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:50:19Z", "model": "openai/gpt-image-2", "tag": "char_test_A_gpt2_v1", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T06:50:19Z", "model": "veed/fabric-1.0", "tag": "vb_V5c_fabric_sing", "job": "chaosmonkey/vb_V5c_fabric_sing-4801d4df07", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:50:19Z", "model": "bytedance/seedream-5-pro", "tag": "char_test_A_sd5_v2", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T06:50:20Z", "model": "veed/fabric-1.0", "tag": "vb_V5m_fabric_sing", "job": "chaosmonkey/vb_V5m_fabric_sing-2a0a2e6b97", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:50:21Z", "model": "pruna/p-video-avatar", "tag": "vb_V5c_pavatar_sing", "job": "chaosmonkey/vb_V5c_pavatar_sing-825dab3438", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T06:50:22Z", "model": "pruna/p-video-avatar", "tag": "vb_V5m_pavatar_sing", "job": "chaosmonkey/vb_V5m_pavatar_sing-7ee7e199d7", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T06:50:23Z", "model": "minimax/h3", "tag": "vb_V5c_h3_sing", "job": "chaosmonkey/vb_V5c_h3_sing-35a9f71aac", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:50:24Z", "model": "minimax/h3", "tag": "vb_V5m_h3_sing", "job": "chaosmonkey/vb_V5m_h3_sing-94e043ddc0", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:50:25Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5c_sd25_sing2", "job": "chaosmonkey/vb_V5c_sd25_sing2-1386b05ecc", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:50:26Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5m_sd25_sing2", "job": "chaosmonkey/vb_V5m_sd25_sing2-3b9f33d89f", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:50:31Z", "model": "google/nano-banana-pro", "tag": "char_test_C_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:50:35Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_mid_qwen_a", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:50:35Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_master_qwen_b", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:50:40Z", "model": "bytedance/seedream-5-pro", "tag": "char_test_poses2_sd5_v1", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T06:50:48Z", "model": "google/nano-banana-pro", "tag": "char_test_poses2_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:50:57Z", "model": "bytedance/seedream-5-pro", "tag": "char_test_poses1_sd5_v1", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T06:50:59Z", "model": "openai/gpt-image-2", "tag": "plates_cliff_gpt2_ext1", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:51:00Z", "model": "bytedance/seedream-5-pro", "tag": "plates_summit_sd5_a", "ok": false, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T06:51:03Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_summit_qwen_a", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:51:04Z", "model": "bytedance/seedream-5-pro", "tag": "char_test_A_sd5_v1", "ok": true, "est_usd": 0.135, "where": "box"}
+{"ts": "2026-11-17T06:51:23Z", "model": "google/nano-banana-pro", "tag": "plates_summit_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:51:29Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_stone_qwen_a", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:51:50Z", "model": "bytedance/seedream-5-pro", "tag": "char_poses2_sd5_v2", "ok": false, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T06:51:51Z", "model": "google/nano-banana-pro", "tag": "plates_stone_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:52:14Z", "model": "google/nano-banana-pro", "tag": "plates_egg_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:52:55Z", "model": "google/nano-banana-pro", "tag": "char_test_A_nbp_v2", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:52:56Z", "model": "google/nano-banana-pro", "tag": "plates_mid_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:53:08Z", "model": "minimax/h3", "tag": "vb_V2d_h3_fl", "job": "chaosmonkey/vb_V2d_h3_fl-818f766871", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:53:09Z", "model": "klingai/kling-v4", "tag": "vb_V2d_kling4_fl", "job": "chaosmonkey/vb_V2d_kling4_fl-e3b7ec67be", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T06:53:10Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V2d_ltx_fl", "job": "chaosmonkey/vb_V2d_ltx_fl-bed37d822e", "event": "submit", "ok": null, "est_usd": 0.45, "where": "box"}
+{"ts": "2026-11-17T06:53:11Z", "model": "bytedance/seedance-2.0", "tag": "vb_V2d_sd20_fl", "job": "chaosmonkey/vb_V2d_sd20_fl-2cdaa9b6d3", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:53:12Z", "model": "vidu/q3-pro", "tag": "vb_V2d_vidu3_fl", "job": "chaosmonkey/vb_V2d_vidu3_fl-9b38d510d3", "event": "submit", "ok": null, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T06:53:12Z", "model": "minimax/h3", "tag": "vb_V3_h3_fl", "job": "chaosmonkey/vb_V3_h3_fl-bf2877dea7", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:53:14Z", "model": "klingai/kling-v4", "tag": "vb_V3_kling4_fl", "job": "chaosmonkey/vb_V3_kling4_fl-f01880512b", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T06:53:15Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V3_ltx_fl", "job": "chaosmonkey/vb_V3_ltx_fl-05b156f4fd", "event": "submit", "ok": null, "est_usd": 0.45, "where": "box"}
+{"ts": "2026-11-17T06:53:16Z", "model": "bytedance/seedance-2.0", "tag": "vb_V3_sd20_fl", "job": "chaosmonkey/vb_V3_sd20_fl-fdbc7c4386", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:53:17Z", "model": "bytedance/seedance-2.5", "tag": "vb_V3_sd25_fl", "job": "chaosmonkey/vb_V3_sd25_fl-0033e48077", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:53:18Z", "model": "vidu/q3-pro", "tag": "vb_V3_vidu3_fl", "job": "chaosmonkey/vb_V3_vidu3_fl-6cabc570ed", "event": "submit", "ok": null, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T06:53:36Z", "model": "google/nano-banana-pro", "tag": "char_test_A_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:53:59Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_summit_qwen_b", "ok": false, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:54:01Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_master_qwen_c", "ok": false, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:54:12Z", "model": "bytedance/seedream-5-pro", "tag": "char_test_poses2_sd5_v2", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T06:54:27Z", "model": "openai/gpt-image-2", "tag": "char_test_puppet_parts_dark_gpt2_v1", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:54:28Z", "model": "openai/gpt-image-2", "tag": "char_test_puppet_parts_colour_gpt2_v1", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:54:43Z", "model": "google/nano-banana-pro", "tag": "plates_stone_nbp_crack", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:54:46Z", "model": "google/nano-banana-pro", "tag": "plates_carvers_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:54:46Z", "model": "openai/gpt-image-2", "tag": "plates_cliff_gpt2_ext2", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:54:52Z", "model": "google/nano-banana-pro", "tag": "char_test_B_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:54:53Z", "model": "google/nano-banana-pro", "tag": "char_test_C_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:55:16Z", "model": "google/nano-banana-pro", "tag": "char_test_C_nbp_v2", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:55:23Z", "model": "alibaba/hh1.1-i2v", "tag": "vb_V1_hh11_v1", "job": "chaosmonkey/vb_V1_hh11_v1-a6a09c1b75", "event": "result", "ok": true, "est_usd": 0.9, "where": "box"}
+{"ts": "2026-11-17T06:55:23Z", "model": "alibaba/hh1.1-i2v", "tag": "vb_V2_hh11_a", "job": "chaosmonkey/vb_V2_hh11_a-5486a0da34", "event": "result", "ok": true, "est_usd": 0.9, "where": "box"}
+{"ts": "2026-11-17T06:55:24Z", "model": "google/veo-3.1", "tag": "vb_V1_veo31_v1", "job": "chaosmonkey/vb_V1_veo31_v1-4172b7ba5f", "event": "result", "ok": true, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T06:55:25Z", "model": "google/veo-3.1", "tag": "vb_V2_veo31_a", "job": "chaosmonkey/vb_V2_veo31_a-2cedf4919e", "event": "result", "ok": true, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T06:55:28Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_carvers_qwen_a", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:55:34Z", "model": "openai/gpt-image-2", "tag": "char_test_puppet_heads_gpt2_v1", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:56:03Z", "model": "google/nano-banana-pro", "tag": "char_test_storybook_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:56:11Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_summit_qwen_b", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:56:12Z", "model": "alibaba/qwen-image-3.0-pro", "tag": "plates_master_qwen_c", "ok": true, "est_usd": 0.04, "where": "box"}
+{"ts": "2026-11-17T06:56:23Z", "model": "google/nano-banana-pro", "tag": "char_test_hands_handshadow_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:56:35Z", "model": "klingai/kling-v4", "tag": "vb_V1_kling4_v1", "job": "chaosmonkey/vb_V1_kling4_v1-4f7c24ebfd", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T06:56:37Z", "model": "minimax/h3", "tag": "vb_V1_h3_v1", "job": "chaosmonkey/vb_V1_h3_v1-c568cc1d26", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:56:37Z", "model": "minimax/h3", "tag": "vb_V2_h3_a", "job": "chaosmonkey/vb_V2_h3_a-595ae7a0d0", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:57:00Z", "model": "openai/gpt-image-2", "tag": "char_test_C_gpt2_v3", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T06:57:37Z", "model": "google/nano-banana-pro", "tag": "char_test_master_nbp_v1", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T06:57:46Z", "model": "google/nano-banana-pro", "tag": "char_test_B_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:57:51Z", "model": "minimax/h3-max", "tag": "vb_V1_h3max_v1", "job": "chaosmonkey/vb_V1_h3max_v1-8cc033bd7f", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:57:51Z", "model": "minimax/h3-max", "tag": "vb_V2_h3max_a", "job": "chaosmonkey/vb_V2_h3max_a-480b1abf28", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:58:06Z", "model": "openai/gpt-image-2", "tag": "char_test_puppet_parts_colour_gpt2_v2", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:58:45Z", "model": "google/nano-banana-pro", "tag": "char_test_B_nbp_v1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T06:58:52Z", "model": "minimax/h3", "tag": "vb_V1_h3_v1", "job": "chaosmonkey/vb_V1_h3_v1-4afbd3696e", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T06:58:53Z", "model": "minimax/h3", "tag": "vb_V2_h3_a", "job": "chaosmonkey/vb_V2_h3_a-1ca38c69f7", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T06:58:54Z", "model": "minimax/h3-max", "tag": "vb_V1_h3max_v1", "job": "chaosmonkey/vb_V1_h3max_v1-c70278fc6d", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:58:55Z", "model": "minimax/h3-max", "tag": "vb_V2_h3max_a", "job": "chaosmonkey/vb_V2_h3max_a-1f246b845f", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:58:56Z", "model": "minimax/h3-highspeed", "tag": "vb_V1_h3hs_v1", "job": "chaosmonkey/vb_V1_h3hs_v1-eb1ec854be", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T06:58:57Z", "model": "minimax/h3-highspeed", "tag": "vb_V2_h3hs_a", "job": "chaosmonkey/vb_V2_h3hs_a-83aae571f9", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T06:58:58Z", "model": "minimax/h3", "tag": "vb_V2d_h3_fl", "job": "chaosmonkey/vb_V2d_h3_fl-72706444f9", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:58:59Z", "model": "minimax/h3", "tag": "vb_V3_h3_fl", "job": "chaosmonkey/vb_V3_h3_fl-4fdd96f6ec", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:59:00Z", "model": "minimax/h3", "tag": "vb_V5c_h3_sing", "job": "chaosmonkey/vb_V5c_h3_sing-185ee61daa", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:59:01Z", "model": "minimax/h3", "tag": "vb_V5m_h3_sing", "job": "chaosmonkey/vb_V5m_h3_sing-fe56fde0ba", "event": "submit", "ok": null, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T06:59:01Z", "model": "bytedance/seedance-2.0", "tag": "vb_V1_sd20_v1", "job": "chaosmonkey/vb_V1_sd20_v1-0f8154a1f2", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:59:01Z", "model": "bytedance/seedance-2.0", "tag": "vb_V2_sd20_a", "job": "chaosmonkey/vb_V2_sd20_a-22986c735c", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T06:59:03Z", "model": "bytedance/seedance-2.5", "tag": "vb_V2_sd25_a", "job": "chaosmonkey/vb_V2_sd25_a-df0c44a673", "event": "result", "ok": true, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T06:59:03Z", "model": "minimax/h3-lite", "tag": "vb_V1_h3lite_v1", "job": "chaosmonkey/vb_V1_h3lite_v1-11499a9ac3", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:03Z", "model": "minimax/h3-lite", "tag": "vb_V2_h3lite_a", "job": "chaosmonkey/vb_V2_h3lite_a-ea8e9b0694", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:15Z", "model": "minimax/h3-highspeed", "tag": "vb_V1_h3hs_v1", "job": "chaosmonkey/vb_V1_h3hs_v1-68d40dcfd1", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:15Z", "model": "minimax/h3-highspeed", "tag": "vb_V2_h3hs_a", "job": "chaosmonkey/vb_V2_h3hs_a-a6da1ea390", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:15Z", "model": "minimax/h3", "tag": "vb_V5c_h3_sing", "job": "chaosmonkey/vb_V5c_h3_sing-35a9f71aac", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:15Z", "model": "minimax/h3", "tag": "vb_V5m_h3_sing", "job": "chaosmonkey/vb_V5m_h3_sing-94e043ddc0", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:15Z", "model": "minimax/h3", "tag": "vb_V2d_h3_fl", "job": "chaosmonkey/vb_V2d_h3_fl-818f766871", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:15Z", "model": "minimax/h3", "tag": "vb_V3_h3_fl", "job": "chaosmonkey/vb_V3_h3_fl-bf2877dea7", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T06:59:27Z", "model": "minimax/h3-lite", "tag": "vb_V1_h3lite_v1", "job": "chaosmonkey/vb_V1_h3lite_v1-472f5c39e9", "event": "submit", "ok": null, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:59:28Z", "model": "minimax/h3-lite", "tag": "vb_V2_h3lite_a", "job": "chaosmonkey/vb_V2_h3lite_a-7e3e40c93c", "event": "submit", "ok": null, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T06:59:43Z", "model": "google/nano-banana-pro", "tag": "char_test_storybook_nbp_v2", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:00:09Z", "model": "klingai/kling-v4", "tag": "vb_V2_kling4_a", "job": "chaosmonkey/vb_V2_kling4_a-e554cd9611", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:00:10Z", "model": "bytedance/seedance-2.5", "tag": "vb_V1_sd25_v1", "job": "chaosmonkey/vb_V1_sd25_v1-91b0622376", "event": "result", "ok": true, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:00:31Z", "model": "google/nano-banana-pro", "tag": "char_test_B_nbp_v2", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T07:00:36Z", "model": "google/nano-banana-pro", "tag": "char_test_B_nbp_v2", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T07:00:57Z", "model": "openai/gpt-image-2", "tag": "char_test_twins_gpt2_v1", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T07:01:15Z", "model": "google/nano-banana-pro", "tag": "plates_heaven_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T07:01:31Z", "model": "google/nano-banana-pro", "tag": "char_p3_attic_lj_centre_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:02:31Z", "model": "bytedance/seedream-5-pro", "tag": "plates_heaven_sd5_b", "ok": true, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T07:02:34Z", "model": "google/nano-banana-pro", "tag": "char_p4_attic_lj_pose_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:02:47Z", "model": "minimax/hailuo-2.3", "tag": "vb_V2_hailuo23_a", "job": "chaosmonkey/vb_V2_hailuo23_a-c2923573e8", "event": "result", "ok": true, "est_usd": 0.28, "where": "box"}
+{"ts": "2026-11-17T07:02:48Z", "model": "google/nano-banana-pro", "tag": "char_p6_bed_jade_centre_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:02:54Z", "model": "openai/gpt-image-2", "tag": "plates_banquet_gpt2_a", "ok": true, "est_usd": 0.1872, "where": "box"}
+{"ts": "2026-11-17T07:03:17Z", "model": "google/nano-banana-pro", "tag": "plates_banquet_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T07:03:23Z", "model": "minimax/hailuo-2.3", "tag": "vb_V1_hailuo23_v1", "job": "chaosmonkey/vb_V1_hailuo23_v1-258aa1e412", "event": "result", "ok": true, "est_usd": 0.28, "where": "box"}
+{"ts": "2026-11-17T07:03:26Z", "model": "google/nano-banana-pro", "tag": "char_p1_attic_twoshot_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:03:28Z", "model": "google/nano-banana-pro", "tag": "char_p2_attic_mama_blow_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:03:41Z", "model": "minimax/hailuo-2.3-fast", "tag": "vb_V1_hailuo23f_v1", "job": "chaosmonkey/vb_V1_hailuo23f_v1-a34b9afbcd", "event": "result", "ok": true, "est_usd": 0.19, "where": "box"}
+{"ts": "2026-11-17T07:03:41Z", "model": "minimax/hailuo-2.3-fast", "tag": "vb_V2_hailuo23f_a", "job": "chaosmonkey/vb_V2_hailuo23f_a-06242e1a4b", "event": "result", "ok": true, "est_usd": 0.19, "where": "box"}
+{"ts": "2026-11-17T07:03:42Z", "model": "pixverse/v6", "tag": "vb_V1_pixv6_v1", "job": "chaosmonkey/vb_V1_pixv6_v1-a33dcb4a58", "event": "result", "ok": true, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T07:03:43Z", "model": "pixverse/v6", "tag": "vb_V2_pixv6_a", "job": "chaosmonkey/vb_V2_pixv6_a-c41c77b0a7", "event": "result", "ok": true, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T07:04:00Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V2_ltx_a", "job": "chaosmonkey/vb_V2_ltx_a-fe5e0c0754", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T07:04:33Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V1_ltx_v1", "job": "chaosmonkey/vb_V1_ltx_v1-b6b6552018", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T07:05:30Z", "model": "bytedance/seedream-5-pro", "tag": "plates_heaven_sd5_a", "ok": false, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T07:05:30Z", "model": "google/nano-banana-pro", "tag": "char_p5_bed_jade_daughter_nbp", "ok": false, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:05:58Z", "model": "vidu/q3-pro", "tag": "vb_V1_vidu3_v1", "job": "chaosmonkey/vb_V1_vidu3_v1-853f02bd5f", "event": "result", "ok": true, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T07:05:58Z", "model": "vidu/q3-pro", "tag": "vb_V2_vidu3_a", "job": "chaosmonkey/vb_V2_vidu3_a-587884f7b8", "event": "result", "ok": true, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T07:06:36Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V2d_ltx_fl", "job": "chaosmonkey/vb_V2d_ltx_fl-bed37d822e", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T07:06:37Z", "model": "lightricks/ltx-2-5-fast", "tag": "vb_V3_ltx_fl", "job": "chaosmonkey/vb_V3_ltx_fl-05b156f4fd", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T07:06:43Z", "model": "google/nano-banana-pro", "tag": "char_p3_attic_lj_centre_nbp_v2", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:06:44Z", "model": "google/nano-banana-pro", "tag": "char_p1_attic_twoshot_nbp_v2", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:07:04Z", "model": "alibaba/wan-2.7-i2v", "tag": "vb_V1_wan27_v1", "job": "chaosmonkey/vb_V1_wan27_v1-766deed549", "event": "result", "ok": true, "est_usd": 0.5, "where": "box"}
+{"ts": "2026-11-17T07:07:05Z", "model": "alibaba/wan-2.7-i2v", "tag": "vb_V2_wan27_a", "job": "chaosmonkey/vb_V2_wan27_a-5b74dd9572", "event": "result", "ok": true, "est_usd": 0.5, "where": "box"}
+{"ts": "2026-11-17T07:07:20Z", "model": "bytedance/seedream-5-pro", "tag": "char_p9_stage_monkey_perch_sd5", "ok": true, "est_usd": 0.105, "where": "box"}
+{"ts": "2026-11-17T07:07:30Z", "model": "klingai/kling-v4", "tag": "vb_V2_kling4_b", "job": "chaosmonkey/vb_V2_kling4_b-72b4b40e91", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:07:31Z", "model": "bytedance/seedance-2.0", "tag": "vb_V2_sd20_b", "job": "chaosmonkey/vb_V2_sd20_b-41d2840570", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:07:32Z", "model": "alibaba/hh1.1-i2v", "tag": "vb_V2_hh11_b", "job": "chaosmonkey/vb_V2_hh11_b-d23252f505", "event": "submit", "ok": null, "est_usd": 0.9, "where": "box"}
+{"ts": "2026-11-17T07:07:33Z", "model": "google/veo-3.1", "tag": "vb_V2_veo31_b", "job": "chaosmonkey/vb_V2_veo31_b-620a95d4d4", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T07:07:34Z", "model": "klingai/kling-v4", "tag": "vb_V2_kling4_c", "job": "chaosmonkey/vb_V2_kling4_c-bd2a09f5d1", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:07:35Z", "model": "bytedance/seedance-2.0", "tag": "vb_V2_sd20_c", "job": "chaosmonkey/vb_V2_sd20_c-39a92c469a", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:07:35Z", "model": "alibaba/hh1.1-i2v", "tag": "vb_V2_hh11_c", "job": "chaosmonkey/vb_V2_hh11_c-0b96ca31a6", "event": "submit", "ok": null, "est_usd": 0.9, "where": "box"}
+{"ts": "2026-11-17T07:07:36Z", "model": "google/veo-3.1", "tag": "vb_V2_veo31_c", "job": "chaosmonkey/vb_V2_veo31_c-32c84e3ab1", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T07:07:38Z", "model": "bytedance/seedance-2.5", "tag": "vb_V1_sd25_v2", "job": "chaosmonkey/vb_V1_sd25_v2-957b5b6e66", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:07:38Z", "model": "bytedance/seedance-2.0", "tag": "vb_V1_sd20_v2", "job": "chaosmonkey/vb_V1_sd20_v2-68ca850ff3", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:07:39Z", "model": "klingai/kling-v4", "tag": "vb_V1_kling4_v2", "job": "chaosmonkey/vb_V1_kling4_v2-66f4b89ac3", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:07:40Z", "model": "google/veo-3.1", "tag": "vb_V1_veo31_v2", "job": "chaosmonkey/vb_V1_veo31_v2-cced96bc5b", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T07:07:41Z", "model": "minimax/hailuo-2.3", "tag": "vb_V1_hailuo23_v2", "job": "chaosmonkey/vb_V1_hailuo23_v2-eef574db36", "event": "submit", "ok": null, "est_usd": 0.28, "where": "box"}
+{"ts": "2026-11-17T07:07:42Z", "model": "bytedance/seedance-2.5", "tag": "vb_V1b_sd25_v1", "job": "chaosmonkey/vb_V1b_sd25_v1-96c7e0b5f2", "event": "submit", "ok": null, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:07:43Z", "model": "google/nano-banana-pro", "tag": "char_p8_bed_daughter_close_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:07:44Z", "model": "bytedance/seedance-2.0", "tag": "vb_V1b_sd20_v1", "job": "chaosmonkey/vb_V1b_sd20_v1-cc448104ab", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:07:45Z", "model": "klingai/kling-v4", "tag": "vb_V1b_kling4_v1", "job": "chaosmonkey/vb_V1b_kling4_v1-349f0354ce", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:07:46Z", "model": "google/veo-3.1", "tag": "vb_V1b_veo31_v1", "job": "chaosmonkey/vb_V1b_veo31_v1-664f3cb99d", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T07:07:47Z", "model": "minimax/hailuo-2.3", "tag": "vb_V1b_hailuo23_v1", "job": "chaosmonkey/vb_V1b_hailuo23_v1-77017be313", "event": "submit", "ok": null, "est_usd": 0.28, "where": "box"}
+{"ts": "2026-11-17T07:07:51Z", "model": "google/nano-banana-pro", "tag": "char_p7_car_daughter_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:08:01Z", "model": "google/nano-banana-pro", "tag": "char_p10_stage_monkey_new_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:08:32Z", "model": "veed/fabric-1.0", "tag": "vb_V5c_fabric_sing", "job": "chaosmonkey/vb_V5c_fabric_sing-4801d4df07", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T07:08:32Z", "model": "veed/fabric-1.0", "tag": "vb_V5m_fabric_sing", "job": "chaosmonkey/vb_V5m_fabric_sing-2a0a2e6b97", "event": "result", "ok": false, "est_usd": 0, "where": "box"}
+{"ts": "2026-11-17T07:08:37Z", "model": "klingai/kling-v4", "tag": "vb_V4_kling4_attic", "job": "chaosmonkey/vb_V4_kling4_attic-04841a94a1", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:08:38Z", "model": "bytedance/seedance-2.0", "tag": "vb_V4_sd20_attic", "job": "chaosmonkey/vb_V4_sd20_attic-d3d74918d0", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:08:38Z", "model": "google/veo-3.1", "tag": "vb_V4_veo31_attic", "job": "chaosmonkey/vb_V4_veo31_attic-78a60a31a8", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T07:08:40Z", "model": "klingai/kling-v4", "tag": "vb_V4b_kling4_bed", "job": "chaosmonkey/vb_V4b_kling4_bed-ae23e93341", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:08:41Z", "model": "bytedance/seedance-2.0", "tag": "vb_V4b_sd20_bed", "job": "chaosmonkey/vb_V4b_sd20_bed-1ba90bf7fa", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:08:42Z", "model": "google/veo-3.1", "tag": "vb_V4b_veo31_bed", "job": "chaosmonkey/vb_V4b_veo31_bed-03a0c2438b", "event": "submit", "ok": null, "est_usd": 1.2, "where": "box"}
+{"ts": "2026-11-17T07:08:42Z", "model": "klingai/kling-v4", "tag": "vb_V3_kling4_ff", "job": "chaosmonkey/vb_V3_kling4_ff-a2ee6f96c8", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:08:43Z", "model": "pixverse/v6", "tag": "vb_V3_pixv6_ff", "job": "chaosmonkey/vb_V3_pixv6_ff-12859d58de", "event": "submit", "ok": null, "est_usd": 0.3, "where": "box"}
+{"ts": "2026-11-17T07:08:45Z", "model": "bytedance/seedance-2.0", "tag": "vb_V3_sd20_ff", "job": "chaosmonkey/vb_V3_sd20_ff-9da859ce3d", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:09:07Z", "model": "klingai/kling-v3-omni", "tag": "vb_V2_k3omni_a", "job": "chaosmonkey/vb_V2_k3omni_a-55f17bf10c", "event": "result", "ok": true, "est_usd": 0.565, "where": "box"}
+{"ts": "2026-11-17T07:09:54Z", "model": "google/nano-banana-pro", "tag": "char_p1_attic_twoshot_nbp_v3", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:10:28Z", "model": "klingai/kling-v3-omni", "tag": "vb_V1_k3omni_v1", "job": "chaosmonkey/vb_V1_k3omni_v1-d09568e460", "event": "result", "ok": true, "est_usd": 0.565, "where": "box"}
+{"ts": "2026-11-17T07:10:30Z", "model": "google/nano-banana-pro", "tag": "char_p5_bed_jade_daughter_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:10:54Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5m_sd25_sing", "job": "chaosmonkey/vb_V5m_sd25_sing-404d0414b8", "event": "result", "ok": true, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:10:55Z", "model": "pruna/p-video-avatar", "tag": "vb_V5c_pavatar_sing", "job": "chaosmonkey/vb_V5c_pavatar_sing-825dab3438", "event": "result", "ok": true, "est_usd": 0.126, "where": "box"}
+{"ts": "2026-11-17T07:10:55Z", "model": "pruna/p-video-avatar", "tag": "vb_V5m_pavatar_sing", "job": "chaosmonkey/vb_V5m_pavatar_sing-7ee7e199d7", "event": "result", "ok": true, "est_usd": 0.126, "where": "box"}
+{"ts": "2026-11-17T07:11:48Z", "model": "google/nano-banana-pro", "tag": "plates_heaven_close_nbp_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T07:11:56Z", "model": "veed/fabric-1.0", "tag": "vb_V5c_fabric_sing", "job": "chaosmonkey/vb_V5c_fabric_sing-784e8a6a78", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:11:57Z", "model": "veed/fabric-1.0", "tag": "vb_V5m_fabric_sing", "job": "chaosmonkey/vb_V5m_fabric_sing-f1432a2671", "event": "submit", "ok": null, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:12:00Z", "model": "openai/gpt-image-2", "tag": "plates_banquet_table_gpt2", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T07:12:03Z", "model": "openai/gpt-image-2", "tag": "plates_banquet_chairs_gpt2", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T07:12:10Z", "model": "google/nano-banana-pro", "tag": "char_p5b_bed_asleep_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:12:41Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5c_sd25_sing", "job": "chaosmonkey/vb_V5c_sd25_sing-2c3702b042", "event": "result", "ok": true, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:13:11Z", "model": "google/nano-banana-pro", "tag": "char_p1_attic_twoshot_nbp_v4", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:13:33Z", "model": "minimax/h3-max", "tag": "vb_V1_h3max_v1", "job": "chaosmonkey/vb_V1_h3max_v1-c70278fc6d", "event": "result", "ok": true, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T07:14:21Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5m_sd25_sing2", "job": "chaosmonkey/vb_V5m_sd25_sing2-3b9f33d89f", "event": "result", "ok": true, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:14:24Z", "model": "minimax/h3", "tag": "vb_V1_h3_v1", "job": "chaosmonkey/vb_V1_h3_v1-4afbd3696e", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T07:14:25Z", "model": "minimax/h3", "tag": "vb_V2_h3_a", "job": "chaosmonkey/vb_V2_h3_a-1ca38c69f7", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T07:15:15Z", "model": "bytedance/seedance-2.5", "tag": "vb_V5c_sd25_sing2", "job": "chaosmonkey/vb_V5c_sd25_sing2-1386b05ecc", "event": "result", "ok": true, "est_usd": 1.156, "where": "box"}
+{"ts": "2026-11-17T07:15:39Z", "model": "minimax/h3-max", "tag": "vb_V2_h3max_a", "job": "chaosmonkey/vb_V2_h3max_a-1f246b845f", "event": "result", "ok": true, "est_usd": 0.4, "where": "box"}
+{"ts": "2026-11-17T07:16:08Z", "model": "google/nano-banana-pro", "tag": "char_p5c_bed_asleep_nbp", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T07:16:28Z", "model": "klingai/kling-v4", "tag": "vb_V2d_kling4_fl", "job": "chaosmonkey/vb_V2d_kling4_fl-e3b7ec67be", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T07:16:28Z", "model": "bytedance/seedance-2.0", "tag": "vb_V2d_sd20_fl", "job": "chaosmonkey/vb_V2d_sd20_fl-2cdaa9b6d3", "event": "result", "ok": true, "est_usd": 0.75, "where": "box"}
+{"ts": "2026-11-17T07:16:29Z", "model": "vidu/q3-pro", "tag": "vb_V2d_vidu3_fl", "job": "chaosmonkey/vb_V2d_vidu3_fl-9b38d510d3", "event": "result", "ok": true, "est_usd": 0.625, "where": "box"}
+{"ts": "2026-11-17T07:17:19Z", "model": "openai/gpt-image-2", "tag": "plates_F01", "ok": true, "est_usd": 0.1872, "where": "box"}

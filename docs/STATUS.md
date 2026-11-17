@@ -51,3 +51,14 @@ plates + elements (`design/plates/PLATES.md`, $45); painting library; Three.js b
 Next: when canon + video bake-off + blockouts land -> sequence teams produce shots into `media/comp/<ID>.mp4`
 (stage/book shots can start as soon as plates groups B/D/F are checkpointed) -> assemble preview_v1 -> `docs/MORNING.md`.
 Spend: TOTAL $10.57 of $600 cap  (119 billed items; list-price estimates)
+
+## Checkpoint 5 — 2026-11-17 01:18
+Done: room blockouts (`layout/`, `media/layout/`, 39 setups, sidecars with page/pane quads; `docs/LAYOUT.md`);
+painting library (422 images, `refs/paintings/MANIFEST.md`); character + monkey canon
+(`design/characters/CANON.md`, `_overview.jpg`; drift: Jade's jacket trim in medium shots, Mama's small hand gestures);
+G4 is now shadow-only (18 lip-sync shots); keyframe brief (`docs/KEYFRAME_BRIEF.md`).
+Running: attic keyframes (`media/kf/LOG_attic88.md`, $18); bedroom+car keyframes (`media/kf/LOG_bed26*.md`, $16);
+video bake-off (`docs/VIDEO_BAKEOFF.md`); plates (`design/plates/PLATES.md`).
+Next: on video bake-off verdict -> animate room keyframes + lip-sync; book/stage sequence teams build comps in tools/ink
+from plates; assemble preview_v1; morning report.
+Spend: TOTAL $79.08 of $600 cap  (287 billed items; list-price estimates)
