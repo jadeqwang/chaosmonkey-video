@@ -1,1 +1,37 @@
-{}
+{
+ "C5": {
+  "src": "media/comp/spliced/C5.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "D2": {
+  "src": "media/comp/spliced/D2.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "F3": {
+  "src": "media/comp/spliced/F3.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "F4": {
+  "src": "media/comp/spliced/F4.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "F6": {
+  "src": "media/comp/spliced/F6.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "I3": {
+  "src": "media/comp/spliced/I3.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "K2": {
+  "src": "media/comp/spliced/K2.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ }
+}

@@ -7,7 +7,7 @@ top and bottom) while the picture drains to greys except gold:
   121.905 - 130.175  closing slowly (continuous, eased) to a window 62 % of the frame wide
   130.175  (听话 1)  steps in one notch (3-frame slide) to 46 %, then creeps to 42 %
   133.690  (听话 2)  steps to 28 %, creeps to 25 %
-  141.450  (听话 G4) steps to the narrowest strip, 15 % of the frame width, and holds
+  141.450  (听话 G4) steps to the narrowest strip, 22 % (lead: widened from 15 so the face in G5 is whole) of the frame width, and holds
   149.285            snaps away: open, full colour (G6 is bare paper, full frame)
 
     from shots._margins import margin_state, make_margins, apply_margins
@@ -28,7 +28,7 @@ SLIDE = 3 / 24.0
 # (time, window width as a fraction of W) knots; steps are 3-frame slides between consecutive knots
 _W_OPEN = 1.04
 _KNOTS = [(T_START, _W_OPEN), (T_STEP1, 0.62), (T_STEP1 + SLIDE, 0.46), (T_STEP2, 0.42), (T_STEP2 + SLIDE, 0.28),
-          (T_STEP3, 0.25), (T_STEP3 + SLIDE, 0.15)]
+          (T_STEP3, 0.25), (T_STEP3 + SLIDE, 0.22)]
 _TB_MAX = 0.045                      # top/bottom margins at the narrowest: 4.5 % of H each
 MARGIN_PAPER_SEED = 777              # the margin sheets (not the picture's paper)
 MARGIN_EDGE_SEED = 5
@@ -55,7 +55,7 @@ def margin_state(t, W=1920, H=1080):
     """The margins at song time t: rect = picture window (x0, y0, x1, y1) in frame px (may extend past the frame when
     open), desat = grey amount 0..1 (gold protected), progress 0..1 (0 open, 1 narrowest), open = no margins."""
     w = _width(t)
-    p = float(np.clip((_W_OPEN - w) / (_W_OPEN - 0.15), 0, 1))
+    p = float(np.clip((_W_OPEN - w) / (_W_OPEN - 0.22), 0, 1))
     half = w * W / 2.0
     tb = (-0.03 + (_TB_MAX + 0.03) * p) * H
     rect = (W / 2.0 - half, tb, W / 2.0 + half, H - tb)
