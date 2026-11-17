@@ -101,9 +101,9 @@ class Margins:
             out *= (1.0 - self.shadow * (sh * 0.85 + tight * 0.5))[..., None] ** np.array([1.0, 1.03, 1.08], F32)
         pap = self.paper.rgb
         # the top and bottom sheets lie over the side sheets: a faint shadow on the side sheets at the overlap
-        lap = smoothstep(self.shadow_px * 1.2, 0.0, -d_tb) * a_lr * (1 - a_tb)
+        lap = smoothstep(self.shadow_px * 1.6, 0.0, d_tb) * a_lr * (1 - a_tb)
         lip = smoothstep(-5.0, -0.5, d) * a                       # torn edge: paler, fluffier
-        m = pap * (1.0 - 0.10 * self.shadow / 0.3 * lap)[..., None] + (lip * 0.030)[..., None]
+        m = pap * (1.0 - 0.16 * self.shadow / 0.3 * lap)[..., None] + (lip * 0.030)[..., None]
         out = out * (1 - a[..., None]) + m * a[..., None]
         return np.clip(out, 0, 1, out=out)
 

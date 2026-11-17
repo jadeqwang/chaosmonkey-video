@@ -14,7 +14,7 @@ import numpy as np
 
 from .core import F32, blur, rng, smoothstep, value_noise
 
-NEON_RED = np.array([1.00, 0.30, 0.20], F32)          # cinnabar neon on cream paper
+NEON_RED = np.array([1.00, 0.25, 0.17], F32)          # cinnabar neon on cream paper
 NEON_BLUE = np.array([0.36, 0.60, 1.00], F32)         # the cold phase
 TUNGSTEN = np.array([1.00, 0.72, 0.42], F32)
 NIGHT = np.array([0.55, 0.68, 1.00], F32)             # colour of the ambient dark (moonless blue)
@@ -57,11 +57,6 @@ def cast_shadow(mask, light_pos, distance=0.4, light_size=18.0, t=0.0, size=None
         s = blur(s, sig)
         s = smoothstep(0.02, 0.98, s)
     return s
-
-
-def _apply(frame, light, shadow, bounce, shadow_tint):
-    """frame * light, with the shadow removing only this lamp's light (ambient and bounce stay)."""
-    return light
 
 
 def neon_colour(t, period=7.0, phase=0.0, fade=0.10, red=NEON_RED, blue=NEON_BLUE, seed=0):
@@ -124,7 +119,7 @@ def neon(frame, t, period=7.0, phase=0.0, source=(2150, -260), reach=1500.0, gai
     return np.clip(out, 0, 0.985, out=out).astype(F32)
 
 
-def flashlight_field(W, H, pos, radius, tilt=0.0, stretch=1.0, seed=0, core=0.42, ring=0.07, spill=0.05):
+def flashlight_field(W, H, pos, radius, tilt=0.0, stretch=1.0, seed=0, core=0.45, ring=0.045, spill=0.06):
     """Intensity (HxW, about 0..1) of a hand torch on the page: a hot core, a plateau with a soft uneven edge, the
     faint brighter ring and dark dimple a reflector throws, and a little spill outside.
     tilt (degrees) and stretch (>1) make the pool an ellipse, as when the torch is held at a slant."""
@@ -145,9 +140,9 @@ def flashlight_field(W, H, pos, radius, tilt=0.0, stretch=1.0, seed=0, core=0.42
     wob = np.concatenate([wob, wob[:1]])
     ti = np.clip(((th + math.pi) / (2 * math.pi) * 360).astype(np.int32), 0, 360)
     rr = r * (1.0 + 0.035 * (wob[ti] - 0.5) * 2)
-    I = (1 - core) * smoothstep(1.02, 0.62, rr)
-    I += core * np.exp(-(rr / 0.40) ** 2)
-    I += ring * np.exp(-((rr - 0.80) / 0.055) ** 2)
+    I = (1 - core) * smoothstep(1.08, 0.38, rr) ** 1.25
+    I += core * np.exp(-(rr / 0.46) ** 2)
+    I += ring * np.exp(-((rr - 0.74) / 0.06) ** 2)
     I -= 0.045 * np.exp(-(rr / 0.065) ** 2)
     I += spill * smoothstep(2.4, 0.95, rr) ** 2
     return np.clip(I, 0, 1.2).astype(F32)
@@ -239,7 +234,7 @@ def hand_monkey(W, H, pos=(0, 0), scale=1.0, seed=0, t=None):
         return np.array([[ox + x * s, oy + y * s] for x, y in pts], np.int32)
     jaw = 0.0 if t is None else 0.5 + 0.5 * math.sin(t * 2.2)
     # forearm rising from the bottom edge, wrist, fist (skull), brow of knuckles, muzzle of fingers, thumb = jaw
-    cv2.fillPoly(m, [P([(-70, 620), (70, 620), (58, 250), (-50, 240)])], 1.0, cv2.LINE_AA)
+    cv2.fillPoly(m, [P([(-80, 1400), (90, 1400), (58, 250), (-50, 240)])], 1.0, cv2.LINE_AA)
     cv2.ellipse(m, (int(ox + 5 * s), int(oy + 150 * s)), (int(108 * s), int(120 * s)), -12, 0, 360, 1.0, -1, cv2.LINE_AA)
     cv2.ellipse(m, (int(ox + 105 * s), int(oy + 150 * s)), (int(88 * s), int(52 * s)), 8, 0, 360, 1.0, -1, cv2.LINE_AA)
     cv2.ellipse(m, (int(ox + 60 * s), int(oy + 78 * s)), (int(62 * s), int(34 * s)), -18, 0, 360, 1.0, -1, cv2.LINE_AA)

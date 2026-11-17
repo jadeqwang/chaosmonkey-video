@@ -18,7 +18,7 @@ Next: shot list to measured timing (`docs/SHOTLIST.md`, `docs/shots.json`); mode
 bulk generation; comp; sound layer; 540p preview; morning report `docs/MORNING.md`.
 If an agent's output file is missing on resume, relaunch that agent (briefs are reproducible from this list).
 
-## Checkpoint 2 — 2026-11-17 ~00:50
+## Checkpoint 2 — 2026-11-16 23:54
 Done: recon manual (`docs/PIPELINE_RECON.md`), tools copied (`tools/gen|review|edit`), CF ids in `work/`, cap $600 set in
 `tools/gen/spend.py`; fonts + proofed texts (`refs/fonts/FONTS.md`, `design/text/`; seal font = 崇羲篆體, 千字文 lines 1-160
 fully covered); opera bible (`docs/research/OPERA_WUSHU.md`); timing map (`analysis/timing.json`, `docs/AUDIO_MAP.md`;

@@ -139,8 +139,9 @@ def stroke(points, width=40.0, seed=0, paper=None, density=0.9, dry=0.35, dry_en
     u = s / max(L, 1e-6)
     tin, tout = taper
     # entry is a press (quick swell), exit is a lift (long taper)
-    tw = np.minimum(smoothstep(0, max(tin, 1e-4), u) ** 0.6, smoothstep(0, max(tout, 1e-4), 1 - u) ** 0.8)
-    half = np.maximum(0.6, 0.5 * width * pr * (0.18 + 0.82 * tw))
+    tw_in, tw_out = smoothstep(0, max(tin, 1e-4), u) ** 0.6, smoothstep(0, max(tout, 1e-4), 1 - u) ** 0.8
+    # the brush is pressed down at the start (a rounded head) and lifted to a point at the end
+    half = np.maximum(0.6, 0.5 * width * pr * (0.55 + 0.45 * tw_in) * (0.12 + 0.88 * tw_out))
     padv = int(pad if pad is not None else width * 0.75 + bleed * 3 + 6)
     x0, y0 = int(math.floor(xy[:, 0].min())) - padv, int(math.floor(xy[:, 1].min())) - padv
     x1, y1 = int(math.ceil(xy[:, 0].max())) + padv, int(math.ceil(xy[:, 1].max())) + padv
@@ -240,7 +241,7 @@ def splat_shape(size, direction=0.0, seed=0, fingers=14, droplets=90, spread=1.0
     R = size * 0.42 * (0.75 + 0.6 * ring[np.clip(ti.astype(np.int32), 0, 720)])
     for i in range(fingers):                                  # fingers: narrow lobes, mostly forward
         t0 = r.normal(0, 0.9) if r.random() < 0.75 else r.uniform(-math.pi, math.pi)
-        ln = size * r.uniform(0.25, 1.0) * spread * (1.0 if abs(t0) < 1.2 else 0.5)
+        ln = size * r.uniform(0.2, 0.75) * spread * (1.0 if abs(t0) < 1.2 else 0.5)
         wd = r.uniform(0.02, 0.07)
         dth = np.angle(np.exp(1j * (th - t0)))
         R = R + ln * np.exp(-(dth / wd) ** 2)
@@ -279,7 +280,7 @@ class Splash:
             return d0 * self._bleed_gate(spread)
         r = smoothstep(0.0, 0.45, (dt - 0.10) / self.resolve - self.A_res * 0.55)
         # the excess thins to a pale stain and the figure gathers the ink
-        d = d0 * (1 - r * (1 - self.remain)) * self._bleed_gate(spread) + self.D1 * r * k
+        d = (d0 + (self.Ds * self.remain - d0) * r) * self._bleed_gate(spread) + self.D1 * r * k
         return d
 
     def _bleed_gate(self, spread):
@@ -307,19 +308,20 @@ class Splash:
         lay = np.zeros((H, W), F32)
         u = 1 + dt / self.fly                                  # 0 start of flight .. 1 impact
         for i in range(n):
-            lag = r.uniform(0, 0.25)
+            lag = r.uniform(0, 0.35)
             off = r.normal(0, self.size * 0.16, 2)
-            sz = self.size * (0.03 + 0.10 * r.random() ** 3)
-            uu = min(1.0, max(0.0, u * (1 + lag) - lag * 0.4))
-            dist = (1 - uu) * self.size * 5.5
-            arc = -math.sin(uu * math.pi) * self.size * 0.5 * 0 + 0
-            x = ix - math.cos(a) * dist + off[0] * (0.3 + 0.7 * (1 - uu))
-            y = iy - math.sin(a) * dist + off[1] * (0.3 + 0.7 * (1 - uu)) + arc
-            if uu >= 1.0:
+            sz = self.size * (0.025 + 0.11 * r.random() ** 3)
+            val = float(0.75 + 0.25 * r.random())
+            uu = u * (1 + lag) - lag                              # stragglers leave later and land later
+            if uu <= 0 or uu >= 1.0:
                 continue
-            ln = sz * (1 + 5.0 * (1 / self.fly) * 0.08)        # motion smear along the throw
-            cv2.ellipse(lay, ((float(x), float(y)), (float(2 * ln * 2.2), float(2 * sz))), self.direction, 0, 360,
-                        float(0.75 + 0.25 * r.random()), -1, cv2.LINE_AA)
+            dist = (1 - uu) * self.size * 5.0
+            sp = 0.3 + 0.7 * (1 - uu)                              # the gob spreads as it flies, gathers at the hit
+            x = ix - math.cos(a) * dist + off[0] * sp
+            y = iy - math.sin(a) * dist + off[1] * sp
+            smear = sz * 2.0 + self.size * 5.0 / max(self.fly * 24.0, 1.0) * 0.5      # half a frame of travel
+            cv2.ellipse(lay, ((float(x), float(y)), (float(smear), float(2 * sz)), float(self.direction)), val, -1,
+                        cv2.LINE_AA)
         lay = blur(lay, max(1.0, self.size * 0.012))
         frame *= ink_T(lay * 0.95, tint=self.tint)
 
@@ -377,6 +379,9 @@ def splash(impact, size=400, direction=0.0, seed=0, into=None, into_pos=(0, 0), 
     core = (blur(m, bleed * 0.3) > 0.6).astype(np.uint8)
     dout = cv2.distanceTransform(1 - core, cv2.DIST_L2, 3)
     fib = fbm(h, w, max(2.0, bleed * 0.8), seed, 'fib', octaves=3)
+    # what the excess dries to: a pale stain with a hard dried rim, patchy
+    patch = smoothstep(0.25, 0.7, fbm(h, w, size * 0.35, seed, 'stain', octaves=3))
+    sp.Ds = (wash(m, ph, seed + 7, 1.0, bleed, edge=1.2, granulate=0.5, pool=0.9) * (0.35 + 0.65 * patch)).astype(F32)
     sp._Ab = np.clip(dout / max(bleed * 2.2, 1e-3) * (0.6 + 0.8 * fib), 0, 3).astype(F32)
     return sp
 
@@ -389,7 +394,7 @@ class Bloom:
     order: 'dark' (dark strokes first, pale washes last: how a painter works), 'light' (washes first), 'radial'
     (from `origin` outward) or an HxW order map (0 first .. 1 last)."""
 
-    def __init__(self, T, seed=0, order='dark', origin=None, noise=0.35, soft=0.10, wet_blur=None, cell=None):
+    def __init__(self, T, seed=0, order='dark', origin=None, noise=0.28, soft=0.22, wet_blur=None, cell=None):
         self.Tfull = T.astype(F32)
         h, w = T.shape[:2]
         d = 1.0 - T.min(axis=2)
@@ -413,7 +418,7 @@ class Bloom:
         if inked.any():
             v = np.sort(a[inked])
             a = np.interp(a, v, np.linspace(0, 1, len(v))).astype(F32)
-        self.A = blur(a.astype(F32), 1.5) * (1 - soft)
+        self.A = blur(a.astype(F32), max(2.0, min(h, w) / 250.0)) * (1 - soft)
         self.soft = soft
         self.wet_blur = wet_blur if wet_blur is not None else max(2.0, min(h, w) / 220.0)
         self.Tblur = blur(self.Tfull, self.wet_blur)
