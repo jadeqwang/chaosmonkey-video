@@ -18,7 +18,7 @@ from tools.stage.stage import T_GONG
 from tools.stage.stage3 import *
 
 T0, T1 = 61.083333, 64.416667
-SEAL_POS = (1290, 500)                  # D1's 倉
+SEAL_POS = (1410, 500)                  # D1's 倉
 
 
 def setup(ctx):

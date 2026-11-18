@@ -29,7 +29,7 @@ MOON = (222.0, 13.0)
 def make_fields(W):
     """Rectangular fields along both rows of the wall, right to left; some split in two by a horizontal channel."""
     r = rng(11, 'fields')
-    sizes = [110, 84, 64, 84, 110, 64, 96, 72]
+    sizes = [110, 60, 88, 52, 120, 70, 96, 56]
     out = []
     for (ya, yb), off in (((1440, 2480), 0), ((90, 1130), 3)):
         x, k = W - 70, off
@@ -41,12 +41,12 @@ def make_fields(W):
                 break
             if r.uniform() < 0.34 and size <= 84:
                 cut = ya + (yb - ya) * float(r.uniform(0.42, 0.6))
-                out.append((x - w, ya, w, cut - 40 - ya, size, 0.62, 0.12))
+                out.append((x - w, ya, w, cut - 70 - ya, size, 0.62, 0.12))
                 s2 = sizes[(k + 3) % len(sizes)]
-                out.append((x - w, cut + 40, w, yb - cut - 40, s2, 0.62, 0.12))
+                out.append((x - w, cut + 70, w, yb - cut - 70, s2, 0.62, 0.12))
             else:
                 out.append((x - w, ya, w, yb - ya, size, 0.62, 0.12))
-            x -= w + float(r.uniform(70, 120))
+            x -= w + float(r.uniform(150, 230))
             k += 1
     return out
 
@@ -86,9 +86,12 @@ def build(ctx):
     mrock = cv2.resize(crop, (MW * MZ, MH * MZ), interpolation=cv2.INTER_CUBIC)
     g = fbm(MH * MZ, MW * MZ, 3.0, 21, 'grain', octaves=3) - 0.5                 # the stone's grain, seen close
     g2 = smoothstep(0.62, 0.8, fbm(MH * MZ, MW * MZ, 7.0, 22, 'pits', octaves=2))
-    mrock = np.clip(mrock * (1 + 0.035 * g - 0.04 * g2)[..., None], 0, 1).astype(np.float32)
+    gf = fbm(MH * MZ, MW * MZ, 1.6, 23, 'grainf', octaves=2) - 0.5              # the grains themselves, seen close
+    gm = fbm(MH * MZ, MW * MZ, 9.0, 24, 'grainm', octaves=3) - 0.5              # mottling
+    glint = smoothstep(0.80, 0.92, fbm(MH * MZ, MW * MZ, 1.2, 25, 'glint', octaves=1))   # sparse quartz flecks
+    mrock = np.clip(mrock * (1 + 0.03 * g + 0.11 * gf + 0.07 * gm + 0.07 * glint)[..., None], 0, 1).astype(np.float32)
     mmicro = cv2.resize(micro[y0:y0 + MH, x0:x0 + MW], (MW * MZ, MH * MZ), interpolation=cv2.INTER_CUBIC) * MZ
-    mmicro = (mmicro * 0.5 + g * 0.07 - g2 * 0.25).astype(np.float32)
+    mmicro = (mmicro * 0.5 + g * 0.05 + (blur(g2, 6.0) - 0.2) * 0.25 + blur(gf, 0.8) * 0.5).astype(np.float32)
     mpres = cv2.resize(pres[y0:y0 + MH, x0:x0 + MW], (MW * MZ, MH * MZ), interpolation=cv2.INTER_LINEAR)
     mnoise = cv2.resize(noise[y0:y0 + MH, x0:x0 + MW], (MW * MZ, MH * MZ), interpolation=cv2.INTER_LINEAR)
     mpaper = cv2.resize(paper.rgb[y0:y0 + MH, x0:x0 + MW], (MW * MZ, MH * MZ), interpolation=cv2.INTER_CUBIC)
@@ -110,24 +113,24 @@ def setup(ctx):
     S = build(ctx)
     mx, my = S['mc']
     T_MOON = ctx.timing.word('Sunlight by day and moonlight by night', 'moonlight')[0]
-    CAM = Camera([(T0, mx, my, 8.5), (30.05, mx - 12, my, 7.6, 'linear'), (31.6, mx - 650, 1950, 1.0, 'inout'),
-                  (T_MOON, 5900, 1840, 0.8, 'linear'), (T1 + 0.2, 5000, 1290, 0.5, 'sine')])
+    CAM = Camera([(T0, mx + 26, my, 8.5), (29.95, mx + 16, my, 7.8, 'linear'), (32.45, mx - 650, 1950, 1.0, 'inout'),
+                  (T_MOON + 0.25, 5900, 1840, 0.8, 'linear'), (T1 + 0.2, 5000, 1290, 0.5, 'sine')])
     # terminators (canvas x over time)
-    XS_K = np.array([(T0 - 0.1, mx + 75), (29.6, mx + 30), (30.1, mx - 62), (31.6, mx - 720), (T_MOON - 0.15, 4650),
+    XS_K = np.array([(T0 - 0.1, mx + 64), (29.6, mx + 12), (30.1, mx - 70), (32.3, mx - 900), (T_MOON - 0.15, 4650),
                      (T_MOON + 0.3, -400)], np.float64)
     XM_K = np.array([(T_MOON + 0.2, 4450), (T1 - 0.1, 9200)], np.float64)
     W, H = S['W'], S['H']
     # dust: born where and when the edges cut
-    p = sample_points(S['cd'], 9000, seed=1)
+    p = sample_points(S['cd'], 15000, seed=1)
     p = p[p[:, 0] > 4300]
     tb = t_of_x(XS_K, p[:, 0])
-    DUST_S = Dust(p, tb + rng(2, 'j').uniform(0, 0.25, len(p)), seed=3, life=(2.0, 5.0), size=(1.6, 3.0), tail=0.14)
+    DUST_S = Dust(p, tb + rng(2, 'j').uniform(0, 0.25, len(p)), seed=3, life=(2.6, 6.0), size=(1.8, 3.4), tail=0.14)
     mo = S['macro']['origin']
     pc = sample_points(S['macro']['cd'], 260, seed=4)
     pc = np.stack([mo[0] + pc[:, 0] / MZ, mo[1] + pc[:, 1] / MZ], 1)
     DUST_C = Dust(pc, t_of_x(XS_K, pc[:, 0]) + rng(5, 'j').uniform(0, 0.12, len(pc)), seed=6, rise=(14, 60),
                   drift=(-8, 4), sway=3.0, life=(0.9, 2.2), size=(2.0, 4.0), tail=0.2, accel=20.0)
-    pm = sample_points(S['cm'], 7000, seed=7)
+    pm = sample_points(S['cm'], 11000, seed=7)
     pm = pm[pm[:, 0] > 4450]
     DUST_M = Dust(pm, t_of_x(XM_K, pm[:, 0]) + rng(8, 'j').uniform(0, 0.25, len(pm)), seed=9, life=(1.6, 4.0),
                   colour=SILVER_FLECK, size=(1.6, 2.8), tail=0.14)
@@ -184,7 +187,7 @@ def lit_frame(L, box, t, z, scale=1.0, origin=(0.0, 0.0)):
     alb += (FRESH[None, None] * (0.55 + 0.45 * lum) - alb) * np.clip(fresh, 0, 1)
     red = (cd * smoothstep(260.0, 900.0, ds) * (0.5 + 0.5 * smoothstep(0.3, 0.7, L['noise'][sl])) * 0.86)[..., None]
     alb += (RED[None, None] * (0.8 + 0.3 * lum) - alb) * red
-    flat = (0.87 + 0.13 * lit_s) * (1 - night) + (0.76 + 0.20 * lit_m) * night
+    flat = (0.87 + 0.13 * lit_s) * (1 - night) + (0.83 + 0.14 * lit_m) * night
     con_d = 0.20 + lit_s * (0.30 + 0.28 * np.exp(-np.maximum(ds, 0) / 520.0))
     con_n = 0.20 + lit_m * (0.32 + 0.26 * np.exp(-np.maximum(dm, 0) / 520.0))
     turn = abs(2 * night - 1)                                       # the light turns over between sun and moon
@@ -235,7 +238,7 @@ def render(t, ctx):
     if night > 0:
         DUST_M.draw(f, t, to_frame, ctx.s, gain=night)
     # the veil and the inscription (static in frame)
-    lvl = (1 - night) + 0.88 * night
+    lvl = 1.0 * (1 - night) + np.array([0.955, 0.925, 0.86], np.float32) * night
     f += (PF.rgb * lvl - f) * VEIL[..., None]
     INS.draw(f)
     return np.clip(f, 0, 1)

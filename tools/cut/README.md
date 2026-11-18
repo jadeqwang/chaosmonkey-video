@@ -11,6 +11,7 @@ $PY tools/cut/assemble.py --name sequence_test --profile preview --range A1:C6
 $PY tools/cut/assemble.py --name selected --profile preview --only A1,B2 --clean
 $PY tools/cut/assemble.py --name final --profile master --audio '/path/to/song.wav'
 $PY tools/cut/assemble.py --name preview_v2 --profile preview --audio media/sound/mix_v1.wav --lyrics on   # off = clean cut
+work/cut/build_v3.sh   # preview_v3 in one command: B2 sync, splice, both cuts (--tail black, mix_v2), copies, contacts, checks, notes page
 ```
 
 `build.py` validates times and ids before writing `docs/shots.json` and `docs/SHOTLIST.md`. Shot boundaries use Python `round(t*24)`; out frames are exclusive. The JSON object contains `fps`, `end`, `sequences`, and `shots`. Lyrics retain their original song-clock timestamps. `nearest_beat_in.offset_ms` is the snapped cut minus the nearest beat (positive means cut follows beat).
@@ -34,3 +35,11 @@ clean cut and the picture files never carry lyrics. Lines and word onsets come f
 constants at the top of `lyrics.py`, and per-shot placements are in its `OVERRIDES` table. The ground (ink on paper /
 cream with a wash on night) is decided once per shot from the luminance under the text (one extra decode pass), with
 hysteresis against the previous shot; the decision is stored in the render cache as `lyrics.json`.
+
+**preview_v3.** `splice.py` holds the v3 table (C5, D2, F3, F4, F6, I2, I3, K2, L3; reasons in its docstring) and stops
+if a part changes length. `assemble.py --tail black` appends, after the film's last shot, a black hold to the end of the
+audio (`round(audio seconds x 24)` frames in all: 5806 for `mix_v2.wav`); the tail fades the last frame to black over 8
+frames and is listed in the manifest as `END`, so the frame counts in `docs/shots.json` are untouched. `lyrics.py`:
+the rap's English is the director's (REVISION_V3 section 7); `PARTS` and `OVERRIDES` were re-set for the v3 pictures
+and their painted inscriptions. `work/cut/verify_v3.py` writes `work/cut/preview_v3/verify.txt` and `sources.txt`
+(every source file with its mtime).

@@ -18,6 +18,8 @@ import numpy as np
 from tools.ink import *
 from tools.ink.text import Inscription
 from _heaven import *
+from tools.ink.inscription import inscription
+from tools.ink.medium import Mediums
 
 T0, T1 = 200.66666666666666, 203.70833333333334
 REG = json.load(open('design/plates/D_heaven/D_heaven_registration.json'))
@@ -34,28 +36,32 @@ def build():
 
 
 def setup(ctx):
-    global SC_, BARE, CAM, RB, PAPER_RGB, INS, NAME, HITS, POSN, CHOP
+    global SC_, BARE, CAM, PAPER_RGB, INS, NAME, HITS
     Tm = ctx.cache('j5_midT', build, deps=['design/plates/D_heaven/D_heaven_mid.png'])
     P = Paper(FAR_W, FAR_H, 'aged', seed=19, scale=2.0)
     SC_ = Scene(FAR_W, FAR_H, paper=P)
     SC_.add(Tm, kind='ink', pos=MID_POS, scale=MID_K)
     BARE = Scene(FAR_W, FAR_H, paper=P)
     CAM = Camera([(T0, *START), (T_SETTLE, *END, 'inout')])
-    RB = Rubbing(ctx.W, ctx.H, seed=6)
-    tm = ctx.timing
-    ch = [h['t'] for h in tm.hits('chop', 200.6, 200.8)]
-    CHOP = ch[0] if ch else 200.675
-    words = line_words(ctx, '一通百通', 201.0)
+    global MED, SWITCH, INS_XY
+    MED = Mediums(ctx.W, ctx.H, seed=6)
+    # v3: medium switch on the two measured chops of the stutter (rubbing, then shadow puppet), held 4 frames each
+    SWITCH = [(200.675, 'rubbing'), (201.03, 'shadow')]
+    # v3: the inscription is STATIC and lives on the page (far sheet), so the pull-back reveals it; 60 px at rest
+    zf = END[2]
+    def far(x, y):
+        return (FAR_W / 2 + (x - 960) / zf, FAR_H / 2 + (y - 540) / zf)
+    x0, y0 = far(1230, 150)
+    INS = inscription((FAR_W, FAR_H), text='一通百通', box=(x0, y0, 170 / zf, 640 / zf), px=60 / zf, paper=P, seed=3)
+    SC_.add(INS.T, kind='ink')
+    sl = np.zeros((FAR_H, FAR_W, 4), np.float32)
+    sx, sy = INS.seal_pos
+    sl[sy:sy + INS.seal.shape[0], sx:sx + INS.seal.shape[1]] = INS.seal
+    SC_.add(sl, kind='rgba')
+    NAME = seal('悟空', SEALFONT, 60 * 0.86 * ctx.s, 'zhu', wear=0.3, seed=1)
     re_ = line_words(ctx, '(百通)', 202.4)
-    s = ctx.s
-    INS = Inscription('一通百通', WENKAI, region=(int(1210 * s), int(150 * s), int(170 * s), int(620 * s)),
-                      size=ctx.size, vertical=True, words=words or None, start=200.735, end=202.7, mode='word',
-                      seed=3, density=0.85)
-    NAME = seal('悟空', SEALFONT, 92 * s, 'zhu', wear=0.3, seed=1)
-    last = words[-1][1] if words else 201.965
-    HITS = [last + 0.06, re_[0][1] if re_ else 202.46]
-    x0, y0, bw, bh = INS.box                                # the written text
-    POSN = [(x0 + bw / 2, y0 + bh + 70 * s), (x0 + bw / 2 - 108 * s, y0 + bh + 84 * s)]
+    HITS = [re_[0][1] if re_ else 202.46]
+    INS_XY = (sx + INS.seal.shape[1] / 2 - 75 / zf, sy + INS.seal.shape[0] / 2 + 14 / zf)   # the faint re-press, beside it
 
 
 def pool(t, ctx):
@@ -71,10 +77,12 @@ def pool(t, ctx):
 def render(t, ctx):
     tt = min(t, T_SETTLE)                                   # the last second is still
     f = SC_.render(tt, CAM, ctx.size)
-    INS.draw(f, t)                                          # art inscription + seal: always on (not a lyric)
-    echoes(f, NAME, t, list(zip(HITS, POSN)), decay=0.70, seed=8)           # fix2: the re-press reads (was 0.35)
-    if on_frame(CHOP) - 1e-9 <= t < on_frame(CHOP) + 4 / 24.0:              # fix2: on the frame containing the chop
-        f = RB.apply(f, paper=BARE.render(tt, CAM, ctx.size))
+    px, py = SC_.to_frame(INS_XY[0], INS_XY[1], CAM.at(tt), ctx.size)
+    echoes(f, NAME, t, [(HITS[0], (px, py))], decay=0.70, first=0.55, seed=8)      # (百通): the faint re-press
+    from tools.ink.medium import medium_at
+    m = medium_at(t, SWITCH, 4)
+    if m:                                                                   # a clean, full-frame print: not torch-lit
+        return MED.render(m, f, BARE.render(tt, CAM, ctx.size))
     (x, y), r = pool(tt, ctx)
     L = light_field(ctx.W, ctx.H, (x, y), r, ambient=0.16, gain=1.3, stretch=1.2, seed=5)
     return lit(f, L)

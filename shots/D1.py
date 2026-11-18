@@ -28,7 +28,7 @@ SRC = {'s3_d1_sd20b': dict(hit=14 / 24, line=34 / 24, flood0=42 / 24, flood1=82 
 TG = on_frame(T_GONG)
 T_LINE, T_FLOOD0, T_FLOOD1 = on_frame(58.96), on_frame(59.126), on_frame(59.98)
 SWITCH = [(59.595, 'papercut'), (60.02, 'rubbing')]
-SEAL_POS = (1290, 500)
+SEAL_POS = (1410, 500)
 
 
 def setup(ctx):

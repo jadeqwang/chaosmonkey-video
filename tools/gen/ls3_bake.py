@@ -10,9 +10,9 @@ STEM = "work/stems/vocals.wav"
 KF = "media/kf/v3/lipsync_test"
 AUD = "media/gen/v3/lipsync/_audio"
 GUARD = (" Same painting throughout: fine ink line and light colour wash on paper, the same face and hair, the same framing. "
-         "The camera does not move. No text.")
+         "The camera does not move. No text. Wide 16:9 landscape frame.")
 LINES = {
- "a": dict(img=f"{KF}/lj_sing.jpg", who="the little girl", win=dict(pre=(15.31, 7), f0=(15.77, 6), short=(15.31, 4)),
+ "a": dict(img=f"{KF}/lj_sing.jpg", who="the little girl", win=dict(pre=(15.31, 7), f0=(15.77, 6), short=(15.31, 4), short2=(18.70, 4)),
    act="A five-year-old bargaining for a bedtime story. At the start she looks up to the right at her mother and sings the first "
        "word with her eyebrows lifting. Around 1.5 s she leans in a little and tilts her head, blinks once, singing sweetly. Around "
        "3.5 s she takes a small breath, her shoulders rise, her eyes flick down and come back up. Then she sings the question, her "
@@ -94,7 +94,7 @@ def kling(line):
 
 METHODS = {
  "sd25pre": lambda l: sd25(l, "pre"), "sd25f0": lambda l: sd25(l, "f0"), "sd25short": lambda l: sd25(l, "short"),
- "sd25pre480": lambda l: sd25(l, "pre", "480p"),
+ "sd25short2": lambda l: sd25(l, "short2"), "sd25pre480": lambda l: sd25(l, "pre", "480p"),
  "sd20mini": sd20mini, "sd25v2v": sd25v2v, "sd25v2v720": lambda l: sd25v2v(l, "720p"), "pavN": lambda l: pav(l, "neutral"), "pavA": lambda l: pav(l, "acted"), "pavD": lambda l: pav(l, "default"),
  "fabric": fabric, "fabricfast": lambda l: fabric(l, "veed/fabric-1.0-fast"), "omni": omni, "kling": kling,
 }

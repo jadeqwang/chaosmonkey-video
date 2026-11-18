@@ -34,8 +34,8 @@ GROUND = np.array([0.935, 0.915, 0.865], F32)          # the white ground (light
 # type; the sheet as a whole follows the colour code (docs/logs/LOG_v3_faces.md). Cell 15 stays bare.
 ALBUM = {0: 'ZHANGFEI', 1: 'BAOZHENG', 2: 'DIANWEI', 3: 'CAOCAO', 4: 'XUYANZHAO', 5: 'HUANGGAI',
          6: 'CHENGYAOJIN', 7: 'JIANGWEI', 8: 'DOUERDUN', 9: 'GAODENG', 10: 'GUANYU', 11: 'ZHENGEN',
-         12: 'LUZHISHEN', 13: 'TANGQIN', 14: 'KID', 16: 'SHIQIAN', 17: 'LIUJIN',
-         18: 'ZHOUCANG', 19: 'ERLANG', 20: 'JINQIANBAO', 21: 'ZHONGKUI', 22: 'XIAHOUDUN', 23: 'MUZHA'}
+         12: 'LUZHISHEN', 13: 'TANGQIN', 14: 'KID', 16: 'MONKEY', 17: 'LIUJIN',
+         18: 'ZHOUCANG', 19: 'ERLANG', 20: 'JINQIANBAO', 21: 'ZHONGKUI', 22: 'XIAHOUDUN', 23: 'SHIQIAN'}
 
 
 def cell_centre(i):
@@ -135,7 +135,7 @@ def _paint_surface(fin, c, g, m, fid, seed):
     cp = np.clip(cp, 1e-3, 1) ** (1.0 + lit * (0.34 * passes + 0.42 * big)[..., None])
     gp = np.clip(gp, 1e-3, 1) ** (1.0 + 0.5 * (0.34 * passes + 0.42 * big)[..., None])
     wear = smoothstep(0.60, 0.78, 0.6 * fbm(h, w, 120, seed, fid, 'w1', octaves=3) + 0.4 * fbm(h, w, 34, seed, fid, 'w2'))
-    wear = (wear * (0.30 + 0.25 * fbm(h, w, 9, seed, fid, 'w3')))[..., None]
+    wear = (wear * (0.17 + 0.16 * fbm(h, w, 9, seed, fid, 'w3')))[..., None]
     ptone = np.array([0.80, 0.74, 0.60], F32)[None, None]                             # aged paper under the paint
     cp = cp * (1 - wear) + (0.5 * cp + 0.5 * ptone) * wear
     WEAR = wear[..., 0]
@@ -225,7 +225,7 @@ class Face:
     """One painted face with its build. state(t) is closed-form."""
 
     def __init__(self, ctx, fid, seed=7, levels=3):
-        d = ctx.cache(('face9', fid, seed), lambda: _build_face(fid, seed),
+        d = ctx.cache(('face10', fid, seed), lambda: _build_face(fid, seed),
                       deps=[f'{FL}/{FACES[fid]["file"]}', 'shots/faces_lib.py'])
         self.id, self.mips = fid, _mips(d, levels)
 

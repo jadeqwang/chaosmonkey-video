@@ -2099,20 +2099,6 @@
    "src": "abacus",
    "events": [
     {
-     "at": "beat:113.688",
-     "src_at": 3.72,
-     "pre": 0.01,
-     "dur": 0.22,
-     "pan": 0.3
-    },
-    {
-     "at": "beat:114.135",
-     "src_at": 4.8,
-     "pre": 0.01,
-     "dur": 0.22,
-     "pan": -0.3
-    },
-    {
      "at": "beat:114.567",
      "src_at": 3.9,
      "pre": 0.01,
@@ -2153,7 +2139,7 @@
    },
    "picture_dependent": true,
    "new": true,
-   "intent": "F4b swarm: the abacus worker's beads click on the beats 113.688 .. 115.882 (every cell re-poses on the beat): a 2-3 click flick per beat, alternating sides.",
+   "intent": "F4b swarm: the abacus worker's beads click on the beats 114.567 .. 115.882, the four inside F4b (every cell re-poses on the beat; the two earlier beats 113.688 and 114.135 fall over the F4a mirror shot and were removed for preview_v3): a 2-3 click flick per beat, alternating sides.",
    "v2": {
     "band": 6,
     "floor": 3,

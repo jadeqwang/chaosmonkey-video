@@ -14,7 +14,7 @@ from shots.H2 import album_plan
 T0, T1 = 165.95833, 169.25
 GARAMOND = 'refs/fonts/eb-garamond/EBGaramond[wght].ttf'
 LINE = 'the categories arrived before I did'
-CH_H = 250.0                                   # the child's height in leaf px (cell is 475 tall)
+CH_H = 290.0                                   # the child's height in leaf px (cell is 475 tall)
 X0, Y0, X1, Y1 = BARE_CELL = CELLS[BARE][0], CELLS[BARE][1], CELLS[BARE][0] + CELLS[BARE][2], CELLS[BARE][1] + CELLS[BARE][3]
 CHILD_FOOT = ((X0 + X1) / 2 + 30, Y1 - 22)    # she stands on the cell's lower rule, a little right of centre
 INS_LEAF = (780, 80)                           # top-left of the inscription block, leaf px (upper-left margin)
@@ -29,7 +29,7 @@ def setup(ctx):
     global AL, CHILD, INS, TP0, TP1, SEAL
     AL = Album(ctx, album_plan(ctx.timing))
     SEAL = category_seal()
-    CHILD = child_figure(ctx, 640, strength=1.7)   # hi-res; warped per frame; darker, she ends small
+    CHILD = child_figure(ctx, 640, strength=2.3)   # hi-res; warped per frame; darker, she ends small
     INS = None
     from tools.ink.opts import lyrics_on
     if lyrics_on(ctx):

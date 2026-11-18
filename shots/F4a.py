@@ -1,30 +1,23 @@
-"""F4a (112.750-114.333 = F4 frames 2706-2743; F4b by team FACES from 2744) '千百个我 同时在这里'.  ROOMS-26.
+"""F4a (112.750-114.333; F4b by team STAGE follows) '千百个我 同时在这里'.  BED+CAR v3.
 
-The rear-view mirror holds both faces, Jade (left) and the daughter behind (right), singing together (sd25 lip-sync
-take 2; an amber streetlight slides across the headliner and the mirror: the clip's own). Car grade with both
-reflected faces kept; paper fibre. Lyric in WenKai, small, on the dark dashboard below the mirror.
+The rear-view mirror: Jade's eyes find her daughter in the glass and SMILE (cheeks lift, brows up); the daughter, small at
+the far end of the glass in her car seat, bounces and points at the mirror, rapping at her; the second seat empty between
+them. Kling v4 take of media/kf/v3/F4a.jpg. Slow 4 % push on the mirror. Nobody's mouth is the subject (plays as voice).
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _rooms26 import *
-from _car_grade import car_grade
+from _bedcar3 import *
 
 T0, T1 = 112.75, 114.33333333333333
-FACES = [(330, 360, 200, 230), (790, 400, 170, 200)]
 
 
 def setup(ctx):
-    global B, P, WORDS
-    B, _ = base_for('F4a', 'media/kf/F4a.jpg', ctx)
-    P = Paper(ctx.W, ctx.H, 'aged', seed=42)
-    WORDS = words_of(ctx, '千百个我', 112.76)
+    global B, P
+    B = Take('F4a', ctx)
+    P = Paper(ctx.W, ctx.H, 'aged', seed=67)
 
 
 def render(t, ctx):
-    f = B.at(t)
-    f = car_grade(f, ctx, FACES, dark=0.66)
-    f = paper_fibre(f, P, 0.5)
-    lyric(f, ctx, sung(WORDS, t, tail=0.4, sep=''), x=0.5, y=0.80, px=30)
-    return f
+    return fin(push(B.at(t), ctx, t, T0, T1, 1.0, 1.04, cx=800, cy=330, kind='linear'), P)

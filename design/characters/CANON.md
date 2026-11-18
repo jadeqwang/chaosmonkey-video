@@ -575,3 +575,12 @@ no background, no tail, no feathers, nothing new appears."
 - Keying: `key_paper(lo=0.025)` keeps the pale yellow; at the default `lo=0.035` the lightest wash thins.
 - Seated pose 19 holds up two fingers like a "V": read as 捏诀 only at small size.
 - Sheets are 2560 px: a single figure is ~650 px tall; soft when laid above ~75 % of a 1080p frame.
+
+**Reconciled with the costume research (REVISION_V3 §15, `refs/paintings/MANIFEST_V3.md` topic 01), 15:10.** The stills
+show two stage costumes: (a) all yellow, jacket AND trousers, with a black whorl pattern, yellow cap
+(`opera_hih14_*`, `opera_arhats16_*`); (b) the yellow quilted jacket with black key-fret, leopard-fur trim, red scarf
+over a white collar, knotted yellow-and-black cap, red trousers (`opera_hih02_*`). The v3 sheets above are costume (a)
+plus a yellow scarf, and every shot of preview_v3 uses them. Costume (b) in our hand exists as ONE alternate model sheet,
+`monkey/v3/monkey_v3b_ALT_fret_leopard_redscarf.jpg` (sd5 edit of the v3 sheet, described in words only; no photo was
+passed): red scarf, key-fret, leopard trim. It is NOT in any shot; switching means new pose sheets and re-generating
+the six clips (about $12 and an hour). Shown to the lead as a choice for Jade.

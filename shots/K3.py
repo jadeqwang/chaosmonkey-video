@@ -25,7 +25,9 @@ N_STRIKE = 8                                             # frames to draw the st
 
 
 def setup(ctx):
-    global BASE, L, ST, T_END, T_START, DF, BL1, BL2, WORDS
+    global BASE, L, ST, T_END, T_START, DF, BL1, BL2, WORDS, INS
+    from tools.ink.inscription import inscription
+    INS = inscription(ctx, 'K3', box=(360, 170, 100, 640), ground='dark')
     W, H = ctx.W, ctx.H
     s = SC * ctx.s
     sp = load_image(SPREAD)
@@ -81,5 +83,6 @@ def render(t, ctx):
             d = np.maximum(d, np.minimum(halo, 0.6))
         lay_ink(f, ink_T(d), int(ST.pos[0]), int(ST.pos[1]))
     f = lit(f, L)
+    INS.draw(f)                               # v3: static inscription 一笔勾之, pale on the dark beside the ledger
     lyric(f, ctx, sung_words(WORDS, t, tail=0.25), y=0.955, x=0.40, px=28)
     return f

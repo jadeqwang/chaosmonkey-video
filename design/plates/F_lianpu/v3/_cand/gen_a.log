@@ -1,0 +1,63 @@
+[cf] openai/gpt-image-2 88.5s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/DIANWEI_a.png  ($0.2 est, 89.1s)
+[cf] openai/gpt-image-2 94.7s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/ZHANGFEI_a.png  ($0.2 est, 95.2s)
+('ZHANGFEI', 'ok')
+[cf] openai/gpt-image-2 95.5s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/XUYANZHAO_a.png  ($0.2 est, 96.1s)
+[cf] openai/gpt-image-2 102.4s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/BAOZHENG_a.png  ($0.2128 est, 103.0s)
+('BAOZHENG', 'ok')
+('DIANWEI', 'ok')
+('XUYANZHAO', 'ok')
+[cf] openai/gpt-image-2 92.0s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/HUANGGAI_a.png  ($0.2 est, 92.5s)
+('HUANGGAI', 'ok')
+[cf] openai/gpt-image-2 86.9s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/CHENGYAOJIN_a.png  ($0.2 est, 87.4s)
+('CHENGYAOJIN', 'ok')
+[cf] openai/gpt-image-2 94.6s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/JIANGWEI_a.png  ($0.2 est, 95.0s)
+('JIANGWEI', 'ok')
+[cf] openai/gpt-image-2 97.2s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/DOUERDUN_a.png  ($0.2 est, 97.7s)
+('DOUERDUN', 'ok')
+[cf] openai/gpt-image-2 93.0s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/ZHENGEN_a.png  ($0.2 est, 93.6s)
+[cf] openai/gpt-image-2 96.0s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/GAODENG_a.png  ($0.2 est, 96.4s)
+('GAODENG', 'ok')
+('ZHENGEN', 'ok')
+[cf] openai/gpt-image-2 95.4s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/LUZHISHEN_a.png  ($0.2 est, 95.9s)
+('LUZHISHEN', 'ok')
+[cf] openai/gpt-image-2 92.8s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/TANGQIN_a.png  ($0.2 est, 93.4s)
+('TANGQIN', 'ok')
+[cf] openai/gpt-image-2 85.3s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/KID_a.png  ($0.2 est, 85.8s)
+('KID', 'ok')
+[cf] openai/gpt-image-2 95.8s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/SHIQIAN_a.png  ($0.2 est, 98.0s)
+('SHIQIAN', 'ok')
+[cf] openai/gpt-image-2 94.2s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/LIUJIN_a.png  ($0.2 est, 94.8s)
+('LIUJIN', 'ok')
+[cf] openai/gpt-image-2 95.2s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/ZHOUCANG_a.png  ($0.2 est, 95.7s)
+('ZHOUCANG', 'ok')
+[cf] openai/gpt-image-2 96.6s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/ERLANG_a.png  ($0.2128 est, 97.1s)
+('ERLANG', 'ok')
+[cf] openai/gpt-image-2 89.9s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/JINQIANBAO_a.png  ($0.2 est, 90.4s)
+('JINQIANBAO', 'ok')
+[cf] openai/gpt-image-2 98.9s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/ZHONGKUI_a.png  ($0.2 est, 99.4s)
+('ZHONGKUI', 'ok')
+[cf] openai/gpt-image-2 94.3s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/XIAHOUDUN_a.png  ($0.2 est, 94.9s)
+('XIAHOUDUN', 'ok')
+[cf] openai/gpt-image-2 97.4s
+[cf] openai/gpt-image-2 -> design/plates/F_lianpu/v3/_cand/MUZHA_a.png  ($0.2 est, 97.9s)
+('MUZHA', 'ok')

@@ -37,7 +37,7 @@ HEADS = [('design/characters/mama/mama_B_expressions.jpg', (1390, 150, 2060, 860
          ('design/characters/little_jade/lj_C_expressions_mouths.jpg', (160, 170, 480, 560))]
 
 
-def carved_close():
+def carved_close(cells_only=False):
     im = load_image('design/plates/D_heaven/D_heaven_close.png')
     x0, y0, x1, y1 = 1750, 600, 3000, 2600
     crop = im[y0:y1, x0:x1].copy()
@@ -45,6 +45,8 @@ def carved_close():
     text = ''.join(lines[:60])
     c = Cliff(crop, text, SEALFONT, size=64, region=(120, 230, 1180, 1960), weather=0.25, moss=0.0,
               presence='auto', seed=3)
+    if cells_only:                                       # v3: where each character sits, in mid-plate px
+        return {ch: (CLOSE_POS[0] + (x0 + cx) * CLOSE_K, CLOSE_POS[1] + (y0 + cy) * CLOSE_K) for ch, cx, cy, _, _ in c.cells}
     out = c.render(light=(200, 10, 0.9), fill=0.55)
     im[y0:y1, x0:x1] = out
     return key_paper(im)
@@ -104,8 +106,18 @@ def setup(ctx):
     # in the bare sky right of 花果山, then left of it, then lower right: each press a little off the last
     POSN = [(1440 * ctx.s, 250 * ctx.s), (1650 * ctx.s, 470 * ctx.s), (330 * ctx.s, 200 * ctx.s)]
     HEAD_D = [head(p, b, 230 * ctx.s) for p, b in HEADS]
-    global WORDS
+    global WORDS, EDGES
     WORDS = line_words(ctx, 'Born', 190.0)
+    # v3 (§3.2): the threads of D5 again, on this peak: true component jumps from 道 (辶), three generations on the
+    # downbeat and the two beats after it; they fade as the pull-back takes the carving below reading size
+    from shots import _tong
+    cells = carved_close(cells_only=True)
+    C_ = _tong.components(list(cells))
+    st_ = next((c for c in '道過遐邇通' if c in cells), None) or next(c for c in cells if '辶' in C_[c])
+    gens = _tong.chain(list(cells), start=st_, first='辶', per_jump=4, gens=3, pos=cells)
+    _, ed = _tong.schedule(gens, [190.885, 191.0, 191.2], [0.08, 0.18, 0.3])
+    EDGES = [(cells[a][0], cells[a][1], cells[b][0], cells[b][1], tt, g) for a, b, tt, g in ed]
+    print('J2 threads from', st_, [len(g) for g in gens])
 
 
 def render(t, ctx):
@@ -125,6 +137,9 @@ def render(t, ctx):
                          seed=5)
         L = Lp * (1 - u) + L * u
     f = lit(f, L)
+    from shots import _tong
+    _tong.threads(f, t, EDGES, lambda x, y: SC_.to_frame(x, y, st, ctx.size), ctx.s, t_end=191.75,
+                  colour=(1.0, 0.86, 0.42))
     # pale heads under the echo presses, ~10 frames each
     for k in ():                               # fix2: heads dropped (a smudge at speed; the echo must read as a seal)
         dt = t - HITS[k]

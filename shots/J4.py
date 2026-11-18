@@ -1,81 +1,56 @@
-"""J4  196.625-200.667  "No cradle, no song (no song)" (stage team).
+"""J4 (196.625-200.667) "No cradle, no song (no song)".  BED+CAR v3: the split screen of the two storytimes.
 
-Four heads in a row on bare paper, after Muqi's Six Persimmons: Mama (1988), little Jade, Jade, the daughter, cut from
-the canon expression sheets (tools/stage/heads.py) and keyed as ink of four strengths, darkest to palest, left to
-right; evenly spaced with a little irregularity. They sing by puppet-style HARD mouth swaps on the measured word
-onsets (no morphing). On the strongest hit (perc 198.613) all four snap to the same tilt: a 亮相, mouths frozen for
-8 frames. The echo "(no song)" (198.74) is a faint re-pressed 倉 over the fourth face. Nothing else: heads and paper.
+Left half: 1988, the attic in red neon (team ATTIC: media/comp/J4_1988.mp4, 960x540, the song frames of J4; columns
+240..720 of it). Right half: 2026, the bedroom in flashlight white (Kling v4 take of media/kf/v3/J4_2026.jpg, the columns
+around Jade and the daughter). Each mother with her child in her lap, the book in front of both, same framing; a thin strip
+of bare paper between the halves. All four sing; on the echo hit 198.833 both children throw their arms up at once (agreed
+with ATTIC: arms start 198.74, up by 198.833, held to the cut).
+Until ATTIC's half exists the left half is their keyframe media/kf/v3/J4.jpg as a still (placeholder).
 """
-import numpy as np
+import os
+import sys
 
-from tools.ink import *
-from tools.ink.core import INK_K
-from tools.stage.stage import seals, lyrics_on, LATIN, PAPER_SEED, hold_index
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _bedcar3 import *
 
-T0, T1 = 196.625, 200.666667
-HEADS = [  # name, mouths available, ink strength, (cx, cy) centre, height, own tilt
-    ('mama', ('shut', 'open'), 1.30, (352, 500), 430, -2.5),
-    ('lj', ('shut', 'open', 'o'), 0.86, (764, 518), 412, 2.0),
-    ('jade', ('shut', 'open'), 0.56, (1168, 494), 450, -1.0),
-    ('dau', ('shut', 'open', 'o'), 0.34, (1574, 524), 384, 3.0),
-]
-T_LIANG = on_frame(198.613)  # fix2: floor frame. # strongest hit in the shot (perc 1.0): the 亮相
-T_ECHO = on_frame(198.74)  # fix2: floor frame. # "(no song)"
-FREEZE = 8 / 24
-COMMON_TILT = -8.0
-# mouth score on the word onsets (AUDIO_MAP lines 59-60): No 196.615 · cradle 196.83 · no 197.81 · song 198.12 ·
-# (no 198.74 · song 199.38) · end 199.475
-SCORE = [(0.0, 'shut'), (196.615, 'o'), (196.83, 'open'), (197.02, 'shut'), (197.81, 'o'), (198.12, 'open'),
-         (198.74, 'o'), (199.02, 'open'), (199.38, 'open'), (199.48, 'shut')]
-
-
-def _ink(T, strength):
-    k = float(np.mean(INK_K))
-    lum = T.mean(axis=2)
-    d = -np.log(np.clip(lum, 1e-3, 1)) / k
-    return ink_T((d * strength).astype(np.float32))
+T0, T1 = 196.625, 200.66666666666666
+LEFT = 'media/comp/J4_1988.mp4'
+LEFT_X = (240, 720)            # columns of the 960-wide attic comp
+RIGHT_X = (500, 1460)          # columns of my 1920-wide take (the pair sits at x ~980)
+STRIP = 22                     # bare paper between the halves (1080p px)
 
 
 def setup(ctx):
-    global P, LAY, SEAL, INS, TIMES
-    s = ctx.s
-    P = Paper(ctx.W, ctx.H, 'aged', seed=PAPER_SEED + 1)
-    LAY = {}
-    for name, mouths, k, (cx, cy), h, tilt in HEADS:
-        for m in mouths:
-            T = _ink(np.load(f'work/stage/heads/{name}_{m}.npy'), k)
-            T = resize(T, int(T.shape[1] * h * s / T.shape[0]), int(h * s))
-            ph, pw = int(T.shape[0] * 0.12), int(T.shape[1] * 0.15)
-            T = np.pad(T, ((ph, ph), (pw, pw), (0, 0)), constant_values=1.0)
-            for key, ang in (('own', tilt), ('liang', COMMON_TILT)):
-                # rotate about the chin (the neck pin of a puppet head)
-                L = transform(T, angle=ang, center=(T.shape[1] / 2, T.shape[0] * 0.80), out_size=(T.shape[1], T.shape[0]))
-                LAY[(name, m, key)] = L
-    SEAL = seals(s)
-    TIMES = [a for a, _ in SCORE]
-    INS = Inscription('No cradle, no song', LATIN, region=(int(760 * s), int(860 * s), int(400 * s), int(52 * s)),
-                      size=ctx.size, vertical=False, words=ctx.timing.words('No cradle, no song'), mode='word',
-                      paper=P, seed=9, density=0.8)
-
-
-def mouth_at(t):
-    if T_LIANG <= t < T_LIANG + FREEZE:
-        t = T_LIANG                                    # the 亮相 holds the mouths too
-    return SCORE[hold_index(t, TIMES)][1]
+    global B, P, PB, L, LSTILL
+    B = Take('J4', ctx)
+    P = Paper(ctx.W, ctx.H, 'aged', seed=47)
+    PB = Paper(ctx.W, ctx.H, 'new', seed=48)
+    L, LSTILL = None, None
+    hw = (ctx.W - int(STRIP * ctx.s)) // 2
+    if os.path.exists(os.path.join(ROOT, LEFT)):
+        fr = []
+        for st, a in decode(os.path.join(ROOT, LEFT), 0, None):
+            a = a[:, LEFT_X[0] * a.shape[1] // 960: LEFT_X[1] * a.shape[1] // 960]
+            fr.append(np.clip(cv2.resize(a, (hw, ctx.H), interpolation=cv2.INTER_CUBIC) * 255 + 0.5, 0, 255).astype(np.uint8))
+        L = np.stack(fr)
+    else:
+        a = load_image(os.path.join(ROOT, 'media/kf/v3/J4.jpg'))
+        w = a.shape[1]
+        LSTILL = cv2.resize(a[:, w // 4: 3 * w // 4], (hw, ctx.H), interpolation=cv2.INTER_AREA).astype(F32)
 
 
 def render(t, ctx):
     s = ctx.s
-    f = P.frame(t)
-    m = mouth_at(t)
-    key = 'liang' if t >= T_LIANG else 'own'
-    jolt = -5 * s if 0 <= t - T_LIANG < 2 / 24 else 0
-    for name, mouths, k, (cx, cy), h, tilt in HEADS:
-        mm = m if m in mouths else ('open' if m == 'o' else 'shut')
-        L = LAY[(name, mm, key)]
-        lay_ink(f, L, int(cx * s - L.shape[1] / 2), int(cy * s - L.shape[0] / 2 + jolt))
-    x4, y4 = HEADS[3][3]
-    echoes(f, SEAL['cang_small'], t, [(T_ECHO, ((x4 + 40) * s, (y4 - 30) * s))], first=0.62, seed=12)
-    if lyrics_on(ctx):
-        INS.draw(f, t)
+    hw = (ctx.W - int(STRIP * s)) // 2
+    f = PB.frame(t)
+    if L is not None:
+        k = int(np.clip(frame_of(t) - frame_of(T0), 0, len(L) - 1))
+        left = L[k].astype(F32) / 255.0
+    else:
+        left = fin(LSTILL, P)[:, :hw] if False else LSTILL
+    r = fin(B.at(t), P)
+    x0, x1 = int(RIGHT_X[0] * s), int(RIGHT_X[1] * s)
+    right = cv2.resize(r[:, x0:x1], (hw, ctx.H), interpolation=cv2.INTER_AREA)
+    f[:, :hw] = left
+    f[:, ctx.W - hw:] = right
     return f

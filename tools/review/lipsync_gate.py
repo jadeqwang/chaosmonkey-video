@@ -2,13 +2,14 @@
 """Lip-sync QA gate (REVISION_V3 section 2.6): a singing face ships only if it passes this.
 
     $PY tools/review/lipsync_gate.py TAKE.mp4 --t0 T [--shift N] [--name SHOT_takeN] [--out DIR]
-                                     [--eye "pass|fail: what you saw"] [--check] [--log] [--box x,y,w,h]
+                                     [--eye "pass|fail: what you saw"] [--check] [--log] [--box x,y,w,h] [--pick x,y]
 
 TAKE   the generated take.  --t0 T = song time (s) that the take's frame 0 was generated for
        (= the start of the audio window you sent the model).
 --shift N   the retime actually used, in 24 fps frames: the take is placed N frames LATER than t0 (negative = earlier),
             i.e. clip frame 0 sits at song time T + N/24. Omit it and the gate picks the shift itself.
 --eye       your verdict after LOOKING at the strip. Without it the result can only be AUTO-PASS (needs eye) or FAIL.
+--pick x,y  two faces in frame: measure the one whose nose is nearest to pixel x,y in frame 0.
 --check     also write <name>_check.mp4: the take at the chosen placement with the song under it (watch it once).
 --log       append the result line to docs/logs/LOG_v3_lipsync.md
 
@@ -21,14 +22,17 @@ What it measures
 3. The shift used = --shift, else the viseme lag when it is trusted (>= 3 bilabials and a clear peak), else the envelope
    lag when it is trusted (r >= 0.4 and sharp >= 0.35). If both are trusted they must agree within 1 frame, or the take
    is AMBIGUOUS. If neither is trusted the take is AMBIGUOUS: try shifts by hand with --shift and judge the strip.
-4. At that placement: closed = share of bilabials whose mouth is closed, open = share of vowels whose mouth is open,
+4. At that placement: closed = share of bilabials whose mouth is closed, open = share of vowels whose mouth is open (lip gap >= 0.3 of the take's range, or >= 0.12 after rising from a shut mouth),
    drift = spread of the per-bilabial timing error in frames (a re-sung take drifts: one shift cannot fix it).
 5. The word strip <name>_strip.jpg: one cell per word at the chosen placement. Red cells are bilabial closures (three
    consecutive frames ending on the onset frame: the mouth must be shut in at least one of the first two); grey cells are
-   the vowel frame of each word (the mouth must be open). Every cell is labelled with the word and the frame number.
+   the vowel frame of each word (the mouth must be open); blue cells are phrase starts (first word after a silence): four
+   frames at -3, -1, +1, +3 around the onset, the mouth must start moving between the second and third (this is the check
+   that works on sparse lines such as "Yes" or "You're able", where the envelope has too little to hold on to).
 
-PASS needs all of: face tracked on >= 90 % of frames; articulation >= 0.04; residual lag within +-1 frame (envelope, if
-trustworthy, and viseme); closed >= 0.75; open >= 0.75; drift <= 1.5 frames; and --eye pass.
+With --shift given and no trustworthy lag measure (sparse line), the numbers can only say AUTO-PASS: the strip decides.
+PASS needs all of: no phrase start later than +2 f or earlier than -6 f; face tracked on >= 90 % of frames; articulation >= 0.04; residual lag within +-1 frame (envelope, if
+trustworthy, and viseme); closed >= 0.75; open >= 0.8; drift <= 1.5 frames; and --eye pass.
 Exit code: 0 PASS or AUTO-PASS, 2 FAIL, 3 AMBIGUOUS / unreadable.
 """
 import json
@@ -48,6 +52,10 @@ TIMING = os.path.join(ROOT, "analysis/timing.json")
 LOG = os.path.join(ROOT, "docs/logs/LOG_v3_lipsync.md")
 CJK_FONT = "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf"
 LATIN_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+# Raw envelope lag of takes whose audio is known to be aligned (p-video-avatar passes the stem through, offset 0.0 ms):
+# -42, -83 (first bake-off), -42, -125, -125, -83, -125, -83 (v3 bake-off). Mean -90 ms, spread +-45 ms = +-1.1 frame.
+# So the envelope alone cannot certify +-1 frame; its tolerance below is 1.5 f and the strip decides.
+BIAS_MS = -90
 BILABIAL_CJK = set("妈没蹦变百白把拔每毛不爸怕跑朋本帮被别比边步")
 SILENT_B = {"climb", "thumb", "lamb", "comb", "bomb", "dumb"}
 
@@ -85,12 +93,23 @@ def bilabial_events(w):
         ev.append("final")
     elif s not in SILENT_B and len(core) > 1 and core[-1] in "mbp" and not (len(core) == 1):
         ev.append("final")
-    mid = s[1:-1] if len(s) > 2 else ""
+    mid = core[1:-1] if len(core) > 2 else ""
     if re.search(r"[mbp]", mid.replace("ph", "")) and s not in ("remember",):
         ev.append("mid")
     if s == "remember":
         ev += ["mid"]
     return ev
+
+
+def _sounding(tm, tv):
+    """True if the vocal stem at tm is within 9 dB of its level at the vowel point tv."""
+    import numpy as np
+    def lvl(t):
+        raw = subprocess.run([LS.FFMPEG, "-v", "error", "-ss", f"{max(0, t - 0.05):.3f}", "-t", "0.1", "-i", STEM, "-ac", "1", "-ar", "16000",
+                              "-f", "f32le", "-"], capture_output=True).stdout
+        x = np.frombuffer(raw, np.float32)
+        return 20 * np.log10(np.sqrt(np.mean(x ** 2)) + 1e-9) if len(x) else -120
+    return lvl(tm) > lvl(tv) - 9
 
 
 def events(t_a, t_b):
@@ -101,7 +120,7 @@ def events(t_a, t_b):
         if l.get("echo"):
             continue
         for w in l["words"]:
-            if not (t_a <= w["start"] <= t_b):
+            if not (t_a <= w["start"] <= t_b) or w.get("confidence") == "low":     # low-confidence times are not judged
                 continue
             st, en = w["start"], max(w["end"], w["start"] + 0.06)
             for kind in bilabial_events(w):
@@ -112,7 +131,14 @@ def events(t_a, t_b):
                 else:
                     out.append(dict(kind="B", word="-" + w["w"] + "-", t=(st + en) / 2, lo=st + 0.04, hi=en - 0.02, tag="mid"))
             tv = st + min(0.5 * (en - st), 0.14)
-            out.append(dict(kind="V", word=w["w"], t=tv, lo=tv - 0.03, hi=tv + 0.05, tag="vowel"))
+            out.append(dict(kind="V", word=w["w"], t=tv, lo=tv - 0.02, hi=tv + 0.045, tag="vowel"))
+            if en - st >= 0.5 and _sounding(st + 0.5 * (en - st), tv):   # a held note still sounding at its middle
+                tm = st + 0.5 * (en - st)
+                out.append(dict(kind="V", word=w["w"] + "~", t=tm, lo=tm - 0.06, hi=tm + 0.06, tag="hold"))
+    words = sorted((w["start"], max(w["end"], w["start"] + 0.06), w["w"], w.get("confidence")) for l in T["lines"] if not l.get("echo") for w in l["words"])
+    for i, (st, en, ww, cf_) in enumerate(words):
+        if cf_ != "low" and t_a <= st <= t_b and (i == 0 or (st - words[i - 1][1] >= 0.15 and words[i - 1][3] != "low")):
+            out.append(dict(kind="S", word=">" + ww, t=st, lo=st - 0.1, hi=st + 0.1, tag="start"))
     out.sort(key=lambda e: e["t"])
     return out
 
@@ -142,10 +168,16 @@ def score_at(g, ev, place):
         if b < a or b < 0 or a > n - 1:
             continue
         seg = g[a:b + 1]
+        if e["kind"] == "S" or (e["t"] - place) * FPS > n - 1:
+            continue
         if e["kind"] == "B":
             c.append(1.0 - float(seg.min()))
         else:
-            o.append(float(seg.max()))
+            v = float(seg.max())
+            # a small, rounded vowel (you, to, 悟) still counts if the mouth clearly opened INTO it from a shut mouth
+            if v < 0.30 and v >= 0.12 and v - float(g[max(a - 6, 0):a + 1].min()) >= 0.10:
+                v = 0.30
+            o.append(v)
     cs = float(np.mean(c)) if c else float("nan")
     os_ = float(np.mean(o)) if o else float("nan")
     return c, o, (np.nanmean([cs, os_]) if (c or o) else float("nan"))
@@ -198,7 +230,8 @@ def main():
 
     # --- mouth series + landmarks for the crops
     import mediapipe as mp
-    fm = mp.solutions.face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, refine_landmarks=True,
+    pick = [float(v) for v in o["pick"].split(",")] if o.get("pick") else None
+    fm = mp.solutions.face_mesh.FaceMesh(static_image_mode=False, max_num_faces=4 if pick else 1, refine_landmarks=True,
                                          min_detection_confidence=0.2, min_tracking_confidence=0.2)
     op, boxes, ok = [], [], 0
     for f in frames:
@@ -207,7 +240,11 @@ def main():
         if not r.multi_face_landmarks:
             op.append(np.nan); boxes.append(None); continue
         ok += 1
-        L = r.multi_face_landmarks[0].landmark
+        faces = r.multi_face_landmarks
+        if pick:
+            faces = sorted(faces, key=lambda F: (F.landmark[1].x * w - pick[0]) ** 2 + (F.landmark[1].y * h - pick[1]) ** 2)
+            pick = [faces[0].landmark[1].x * w, faces[0].landmark[1].y * h]
+        L = faces[0].landmark
         P = lambda i: np.array([L[i].x * w, L[i].y * h])  # noqa: E731
         iod = np.linalg.norm(P(33) - P(263)) + 1e-6
         op.append(np.linalg.norm(P(13) - P(14)) / iod)
@@ -232,14 +269,16 @@ def main():
     # --- 1. envelope lag
     e = LS.envelope(STEM, t0, n, fps)
     lag, r, sharp, lags, rs = LS.xcorr(LS.hp_z(op, fps), LS.hp_z(e, fps), fps, 0.6)
-    env_ms = lag * 1000 - LS.BIAS_MS          # picture late by this much
-    env_ok = bool(r >= 0.4 and sharp >= 0.35)
+    env_ms = lag * 1000 - BIAS_MS             # picture late by this much
+    env_ok = bool(r >= 0.4 and sharp >= 0.35)       # re-checked below: needs >= 5 words in the take
     res.update(env_lag_ms=round(env_ms), r=round(float(r), 2), sharp=round(float(sharp), 2), env_trust=env_ok)
 
     # --- 2. viseme lag scan (placement = t0 + s/24: positive s = play the take later)
-    ev = events(t0 - 0.3, t0 + n / fps + 0.3)
+    ev = events(t0 - 0.02, t0 + n / fps - 0.08)
     nb = sum(1 for x in ev if x["kind"] == "B")
-    res["n_bilabials"], res["n_words"] = nb, sum(1 for x in ev if x["kind"] == "V")
+    res["n_bilabials"], res["n_words"] = nb, sum(1 for x in ev if x["kind"] == "V" and x["tag"] == "vowel")
+    if res["n_words"] < 5:
+        env_ok = False; res["env_trust"] = False
     scan = {s: score_point(g, ev, t0 + s / FPS) for s in range(-12, 13)}
     top = max(scan.values())
     plateau = [s for s in scan if scan[s] >= top - 0.015]
@@ -254,7 +293,7 @@ def main():
     res["env_shift_f"] = env_shift
 
     # --- 3. choose the shift. The viseme scan is only trusted with >= 3 bilabials and a clear peak.
-    vis_ok = bool(nb >= 3 and res["viseme_margin"] >= 0.12)
+    vis_ok = bool(nb >= 3 and res["viseme_margin"] >= 0.15)
     res["viseme_trust"] = vis_ok
     if "shift" in o:
         shift, why = int(o["shift"]), "given"
@@ -292,7 +331,21 @@ def main():
         x["err_f"] = best_k
         if best_k is not None:
             errs.append(best_k)
+    starts = []
+    for x in ev:
+        if x["kind"] != "S":
+            continue
+        f0 = (x["t"] - place) * FPS
+        a, b = int(np.floor(f0)) - 6, int(np.ceil(f0)) + 6
+        if a < 0 or b >= n:
+            continue
+        rest = float(np.median(g[max(a - 3, 0):a + 3]))
+        mv = [j for j in range(a + 2, b) if abs(g[j] - rest) > 0.2 and abs(g[j + 1] - rest) > 0.2]
+        x["err_f"] = round(mv[0] - f0, 1) if mv else None
+        starts.append(x["err_f"])
+    res["phrase_start_err_f"] = starts
     res["bilabial_err_f"] = [x.get("err_f") for x in ev if x["kind"] == "B" and x["tag"] != "mid"]
+    res["gap"] = [round(float(v), 2) for v in g]
     res["drift_f"] = round(float(np.mean(np.abs(np.array(errs) - np.median(errs)))), 1) if len(errs) >= 2 else 0.0
     res["viseme_scan"] = {str(k): round(float(v), 2) for k, v in scan.items()}
 
@@ -309,12 +362,20 @@ def main():
         (fails if why == "given" else amb).append(f"envelope lag {res['resid_env_f']:+.1f} f at this placement")
     if vis_ok and abs(res["resid_viseme_f"]) > 1:
         (fails if why == "given" else amb).append(f"viseme scan wants {-res['resid_viseme_f']:+d} f from this placement")
-    if not env_ok and not vis_ok:
+    if not env_ok and not vis_ok and why != "given":
         amb.append("neither the envelope nor the viseme scan finds a clear lag: place by the strip (try --shift) or reject")
+    if not env_ok and abs(shift) > 6 and why != "given":
+        amb.append(f"a {shift:+d} f shift on an untrusted envelope: likely a chance match, check the strip hard or reject")
     if c and closed < 0.75:
         fails.append(f"bilabials closed on only {closed:.0%}")
-    if ov and opened < 0.75:
+    if ov and opened < 0.8:
         fails.append(f"vowels open on only {opened:.0%}")
+    # mouths move before the sound (breath, shutting for an m): up to 6 f early is natural; late by more than 2 f is not
+    bad = [e_ for e_ in starts if e_ is not None and (e_ > 2.0 or e_ < -6.0)]
+    if bad:
+        fails.append(f"a phrase starts {bad[0]:+.0f} f off its word onset (allowed -6..+2)")
+    if res["n_words"] < 5 and why != "given":
+        amb.append("fewer than 5 words: the lag cannot be found from this take alone; place it by construction (--shift) and judge the strip")
     if res["drift_f"] > 1.5:
         fails.append(f"timing drifts inside the take (sd {res['drift_f']} f): one shift cannot fix it")
     eye = o.get("eye", "")
@@ -384,7 +445,9 @@ def make_strip(out, frames, boxes, g, ev, place, n, res, Image, ImageDraw, Image
         if f0 < -1 or f0 > n:
             continue
         if e["kind"] == "B":
-            js = [f0 - 1, f0, f0 + 1] if e["tag"] != "mid" else [f0 - 1, f0, f0 + 1]
+            js = [f0 - 1, f0, f0 + 1]
+        elif e["kind"] == "S":
+            js = [f0 - 3, f0 - 1, f0 + 1, f0 + 3]
         else:
             js = [f0]
         cells.append((e, js))
@@ -410,9 +473,10 @@ def make_strip(out, frames, boxes, g, ev, place, n, res, Image, ImageDraw, Image
     for row in rows:
         x = 10
         for e, js in row:
-            red = e["kind"] == "B"
+            red = e["kind"] == "B"; blue = e["kind"] == "S"
             wc = len(js) * CW
-            d.rectangle([x - 3, y - 3, x + wc + 2, y + CH + LAB + 4], outline=(200, 30, 30) if red else (170, 170, 170), width=3 if red else 1)
+            d.rectangle([x - 3, y - 3, x + wc + 2, y + CH + LAB + 4], outline=(200, 30, 30) if red else (40, 80, 200) if blue else (170, 170, 170),
+                        width=3 if (red or blue) else 1)
             for k, j in enumerate(js):
                 img.paste(crop(j), (x + k * CW, y))
                 jj = min(max(j, 0), n - 1)
@@ -420,9 +484,10 @@ def make_strip(out, frames, boxes, g, ev, place, n, res, Image, ImageDraw, Image
                 d.rectangle([x + k * CW + 2, y + CH - 6, x + k * CW + 2 + int(gv * (CW - 4)), y + CH - 2],
                             fill=(30, 140, 60) if gv >= 0.3 else (200, 30, 30))
                 d.text((x + k * CW + 3, y + 2), str(j), fill=(255, 255, 0), font=small)
-            lab = e["word"] + ("  [" + {"init": "closed before", "final": "closed after", "mid": "closed inside"}[e["tag"]] + "]" if red else "")
-            d.text((x + 2, y + CH + 1), lab, fill=(170, 0, 0) if red else (0, 0, 0), font=font)
-            d.text((x + 2, y + CH + 22), f"{e['t']:.2f}s" + (f"  err {e['err_f']:+d}f" if red and e.get("err_f") is not None else
+            lab = e["word"] + ("  [" + {"init": "closed before", "final": "closed after", "mid": "closed inside"}[e["tag"]] + "]" if red else
+                               "  [phrase start: -3 -1 +1 +3 f]" if blue else "")
+            d.text((x + 2, y + CH + 1), lab, fill=(170, 0, 0) if red else (30, 60, 170) if blue else (0, 0, 0), font=font)
+            d.text((x + 2, y + CH + 22), f"{e['t']:.2f}s" + (f"  err {e['err_f']:+.0f}f" if (red or blue) and e.get("err_f") is not None else
                                                               ("  no closure" if red and e["tag"] != "mid" else "")),
                    fill=(110, 110, 110), font=small)
             x += wc + PAD * 2 + 6

@@ -30,17 +30,17 @@ TIMING = ROOT / 'analysis/timing.json'
 # (art inscriptions in the picture, D4/D5 and J5). Everything else in `lines` is shown, "Monkey!" and "Yes" included.
 HIDE_PARENTHESES = True
 HIDE_TEXTS = {'一通百通'}
-# The rap (107.04-121.47): the Chinese line with the brainstorm's working English beneath it, smaller.
+# The rap (107.04-121.47): the Chinese line with the director's English beneath it, smaller (REVISION_V3 section 7).
 RAP_RANGE = (107.0, 121.47)
 RAP_ENGLISH = {
-    '石头里蹦出来 没有童年': 'Popped out of a stone, no childhood',
-    '一声耳语 学会七十二变': 'One whisper, and I learned the seventy-two changes',
+    '石头里蹦出来 没有童年': 'Burst out of a stone, no childhood',
+    '一声耳语 学会七十二变': 'One whisper, and learned the 72 transformations',
     '拔一把毫毛 吹一口气': 'Pluck a handful of hairs, blow one breath',
-    '千百个我 同时在这里': 'Hundreds of me, here at the same time',
-    '每一个都是我 每一个都算': 'Every one is me, every one counts',
-    '说完这句话 各自消散': 'Say this line, and each one scatters',
-    '身外身法 谁是真身': 'The body-beyond-the-body spell: which one is real?',
-    '问了也白问 个个都真': 'No use asking: every one is real',
+    '千百个我 同时在这里': 'Hundreds, thousands of me, all here at once',
+    '每一个都是我 每一个都算': 'Each one is me, each one counts',
+    '说完这句话 各自消散': 'When this sentence is finished, each one scatters',
+    '身外身法 谁是真身': 'Body outside the body: which is the real one?',
+    '问了也白问 个个都真': 'No use asking, every one is real',
 }
 # Voices: Mom upright, Child italic (Latin) / same weight (CJK). Lines sung by both are set upright. No names, no colours.
 VOICE_ITALIC = {'child': True, 'mom': False, 'both': False}
@@ -99,72 +99,82 @@ DEFAULT = dict(x=0.5, align='c', y=BASELINE_Y, scale=1.0, maxw=None, ground=None
 # Units: shots spliced from parts (tools/cut/splice.py) or cut internally are scheduled, placed and lit per part.
 # (id, first frame, world). A line never crosses a room <-> book/stage cut inside a shot either.
 PARTS = {
+    'B2': [('B2a', 535, 'attic88'), ('B2b', 588, 'attic88')],       # v3: lap two-shot, then over the shoulder onto the page
     'C5': [('C5a', 1254, 'attic88'), ('C5b', 1311, 'book')],
     'D2': [('D2', 1466, 'stage'), ('D2d', 1531, 'attic88')],
-    'D3': [('D3a', 1546, 'attic88'), ('D3b', 1568, 'attic88')],
     'F3': [('F3a', 2665, 'car26'), ('F3b', 2694, 'attic88')],
     'F4': [('F4a', 2706, 'car26'), ('F4b', 2744, 'car26')],
-    'F6': [('F6a', 2832, 'car26'), ('F6b', 2895, 'car26')],
+    'F6': [('F6a', 2832, 'car26'), ('F6b', 2882, 'car26')],
+    'I2': [('I2', 4325, 'book')],                                   # v3: BOOK's page comp fills the slot
+    'K1': [('K1a', 4889, 'bed26'), ('K1b', 4973, 'book')],          # v3: BOOK's K1 page from 207.208
+    'I4': [('I4', 4488, 'bed26'), ('I4b', 4545, 'bed26')],           # v3: from 189.375 the page and fingertip (J1's view)
     'I3': [('I3a', 4391, 'bed26'), ('I3b', 4431, 'book')],
     'K2': [('K2a', 5053, 'bed26'), ('K2b', 5091, 'book')],
 }
-# Per-unit placement overrides (unit id, or 'unit:line' with the timing.json line index for one line). Checked on
-# every lyric frame of preview_v2 (work/qa/v2/). Reasons are in docs/QA_PREVIEW_V2.md. Keys: x, align, y, scale,
-# maxw, ground ('paper'|'night'), mist (0..1 bare paper behind the line on busy paper grounds), delay (frames).
+# Per-unit placement overrides (unit id, or 'unit:line' with the timing.json line index for one line). Re-set for
+# preview_v3 (every picture changed): checked on every lyric line of the cut (work/cut/qa/preview_v3_lyr_*.jpg), against
+# the painted inscriptions, seals and name slips. Reasons: docs/QA_PREVIEW_V3.md. Keys: x, align, y, scale, maxw,
+# ground ('paper'|'night'), mist (0..1 bare paper behind the line on busy paper grounds), delay (frames).
 R, L = 'r', 'l'
 OVERRIDES = {
-    'B1':  dict(x=0.27),                                        # off the child, over Mama's dark blurred body
-    'B2':  dict(align=L, x=0.025, y=0.93, maxw=0.30),           # off the book in Mama's hands; stays dark through the push
-    'B3':  dict(x=0.72),                                        # bare page right of the mountain
-    'B4':  dict(mist=0.55),                                     # full-bleed carved rock: a band of mist under the line
-    'B5':  dict(mist=0.45),                                     # rides the mist band across the summit
+    'B1':  dict(align=L, x=0.03, y=0.955, maxw=0.27),           # dark quilt lower left, off the child and her hands
+    'B2a': dict(align=L, x=0.025, y=0.93, maxw=0.30),           # dark floor left of the lap
+    'B2b': dict(x=0.72),                                        # over the shoulder: dark heads, then the bare page right (as B3)
+    'B3':  dict(x=0.72),                                        # bare page right of the mountain, under the inscription
+    'B4':  dict(x=0.70, mist=0.60),                             # right of the macro character; then carved rock: mist under the line
+    'B5':  dict(x=0.86, y=0.78, maxw=0.22),                     # bare paper right, under the inscription (same place as C1)
     'C1':  dict(x=0.86, y=0.78, maxw=0.22),                     # off the egg and its crack, bare paper right
-    'C2':  dict(x=0.82),                                        # off the hand and the shadow (dark floor right)
-    'C3':  dict(align=R, x=0.975, y=0.90, maxw=0.28),           # off the two hands, dark floor right
-    'C5a': dict(align=R, x=0.975, y=0.90, maxw=0.36),           # off Mama, the egg page and her hand
-    'C5b': dict(x=0.68),                                        # beside the fading egg
+    'C2':  dict(x=0.82),                                        # off the hands and the shadow (dark floor right)
+    'C3':  dict(align=L, x=0.025, y=0.93, maxw=0.22),           # dark quilt left, off Mama's arms and the hands
+    'C5a': dict(align=R, x=0.975, y=0.90, maxw=0.36),           # dark floor right, off Mama and the book
+    'C5b': dict(x=0.68),                                        # beside the egg, below the inscription
     'C6':  dict(x=0.72, mist=0.35),                             # beside the cracking egg
-    'D1':  dict(x=0.76),                                        # off the splash and the monkey
-    'D2':  dict(x=0.83, maxw=0.30),                             # off the bowing monkey, right of the seals
-    'D2d': dict(align=L, x=0.025, maxw=0.28),                   # dark floor left; off Mama, child and the book
-    'D3b': dict(align=L, x=0.025, maxw=0.24),                   # off Mama and the child
-    'D5':  dict(x=0.82, maxw=0.30, mist=0.45),                  # off the mountain; below the 悟空 seal and 一通百通 column
-    'D6':  dict(x=0.82, maxw=0.30),
-    'E1':  dict(align=R, x=0.975, y=0.93, maxw=0.30),           # off the nose tap and the child
-    'E2':  dict(align=R, x=0.975, maxw=0.21),                   # bare paper under the book text, off the troop
-    'E3':  dict(x=0.27),                                        # the dark left half, off the child
+    'D1':  dict(x=0.76),                                        # off the splash and the monkey, below inscription and seal
+    'D2':  dict(x=0.20, maxw=0.30),                             # left of the bowing monkey: the seal column and inscription are right
+    'D2d': dict(align=L, x=0.025, maxw=0.28),                   # dark floor left; off Mama, child and the books
+    'D3':  dict(align=L, x=0.025, maxw=0.24),                   # dark floor left, off the lap and the book
+    'D5':  dict(x=0.82, maxw=0.30, mist=0.45),                  # off the cliff; below the inscription
+    'D6':  dict(x=0.72, y=0.90, maxw=0.30),                       # 6 frames: between the pillars and the monkey's entrance
+    'E1':  dict(align=R, x=0.975, y=0.93, maxw=0.30),           # dark quilt right, off the nose tap and the child
+    'E2':  dict(align=R, x=0.975, maxw=0.21),                   # bare paper under the inscription, off the troop
+    'E3':  dict(x=0.27),                                        # the dark left, off the child
     'E6':  dict(align=R, x=0.975, y=0.90, maxw=0.30),           # dark floor right, off Mama and the child
-    'F1':  dict(align=L, x=0.025, maxw=0.36),                   # dark seats left, off the child's hands
-    'F2':  dict(align=L, x=0.025, y=0.90, maxw=0.38),           # door panel, off the child and the puppet pane
-    'F3a': dict(align=R, x=0.975, maxw=0.36),                   # dark seat back, off the blowing hand
-    'F3b': dict(align=L, x=0.03, y=0.60, maxw=0.30),            # 12 f: Mama's dark sweater; off the book, palm and face
-    'F5':  dict(x=0.62),                                        # the empty seat, off the child
-    'F6a': dict(x=0.56),                                        # the console, off the driver's arm
-    'F6b': dict(x=0.30, y=0.90),                                # under the reflection, off the waving child
-    'G1':  dict(x=0.70, maxw=0.24),                             # the dark wall right, off the centred face
-    # G2-G5: the picture strip is too narrow; the line sits in the bare-paper RIGHT margin, in ink
+    'F1':  dict(align=R, x=0.975, y=0.90, maxw=0.29),           # the empty second seat, off the rapping child
+    'F2':  dict(align=L, x=0.025, y=0.90, maxw=0.38),           # (v2 comp) door panel, off the child and the puppet pane
+    'F3a': dict(align=L, x=0.025, y=0.90, maxw=0.30),           # dark door and seat edge left, off the palm and the dress
+    'F3b': dict(align=L, x=0.03, y=0.93, maxw=0.30),            # 12 f: dark floor lower left, off the palm and the faces
+    'F4b': dict(y=0.965, scale=0.9),                            # the bare band under the album leaf (leaf ends at y 0.81)
+    'F5':  dict(y=0.985, scale=0.8),                            # three rows (the English wraps): smaller and lower to clear the rule
+    'F6a': dict(y=0.985, scale=0.8),                            # the bare band under the leaf (ends at y 0.80)
+    'F6b': dict(x=0.30, y=0.90),                                # dark door left, off the laughing child
+    'G1':  dict(align=L, x=0.12, y=0.88, maxw=0.20),            # dark attic left; off faces and book
+    'G1:35': dict(align=L, x=0.17, y=0.965, maxw=0.20),         # the margins have closed to x 0.15: dark floor inside the strip
+    # G2-G5: the picture strip is narrow; the line sits in the bare-paper RIGHT margin, in ink
     'G2:36': dict(align=L, x=0.828, y=0.88, maxw=0.16, ground='paper'),
     'G2:38': dict(align=L, x=0.735, y=0.88, maxw=0.25, ground='paper'),
     'G2':  dict(align=L, x=0.745, y=0.88, maxw=0.23, ground='paper'),
     'G3':  dict(align=L, x=0.665, maxw=0.30, ground='paper'),
     'G4':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),
-    'G5':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),  # beside the centred face, at chin height and below
-    'H3':  dict(y=0.90),                                        # under the faces' chins
+    'G5':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),
+    'H3':  dict(y=0.97, scale=0.9, mist=0.5),                   # under the big faces' chins, on the rule between the rows
     'H4':  dict(y=0.965, scale=0.9, mist=0.5),                  # under the album's bottom row (pull-back)
-    'H5':  dict(x=0.635, maxw=0.19, mist=0.40),                 # the rock gap between carved columns
-    'H6':  dict(align=R, x=0.95, y=0.90, scale=0.8),            # the emptiest frame: small, lower right
-    'I1':  dict(align=L, x=0.025, y=0.88, maxw=0.30, delay=12), # after the white-in; off the lit book and lap
-    'I2':  dict(align=R, x=0.985, maxw=0.17),                   # off the hands and the page (dark right)
-    'I3a': dict(align=R, x=0.975, maxw=0.33),                   # off the child's face
-    'I3b': dict(align=L, x=0.025, y=0.90, maxw=0.25),           # off the banquet table and chairs
-    'I4':  dict(y=0.95, ground='night'),                        # centred face: below the chin, on the dark collar
+    'H5':  dict(align=R, x=0.975, y=0.90, maxw=0.20),           # the mist veil right, under the inscription, off the carving
+    'H6':  dict(align=R, x=0.95, y=0.90, scale=0.8),            # the emptiest frame: small, lower right, under the inscription
+    'I1':  dict(align=L, x=0.025, y=0.88, maxw=0.30, delay=12), # after the white-in; the dark bedside left
+    'I2':  dict(x=0.62, y=0.93, maxw=0.40),                     # bare cloud lower centre: right of the couplet, under the host
+    'I3a': dict(align=L, x=0.02, y=0.82, maxw=0.20),             # the dark bedside left, off the child's face and the sleeves
+    'I3b': dict(align=L, x=0.04, y=0.95, maxw=0.42, mist=0.4), # bare cloud lower left, under the inscription and its seal
+    'I4':  dict(y=0.95, ground='night'),                        # centred face: below the chin, on the dark hair
+    'I4b': dict(align=L, x=0.025, y=0.90, maxw=0.32),           # the page and fingertip (as J1)
     'J1':  dict(align=L, x=0.025, y=0.90, maxw=0.32),           # dark bedspread left, off the pointing hand
     'J3':  dict(x=0.80, maxw=0.30),                             # off the monkey's stance
-    'K1':  dict(align=L, x=0.02, y=0.88, maxw=0.24),            # dark nightstand left, off the book and lap
-    'K2a': dict(align=R, x=0.975, maxw=0.28),                   # off the reading face and the book
-    'K3':  dict(align=L, x=0.03, maxw=0.36),                    # the dark columns left, off the struck entry
-    'K4':  dict(align=R, x=0.985, y=0.88, maxw=0.16, scale=0.9),  # the dark right of the spread, off the pages
-    'K5':  dict(align=L, x=0.025, maxw=0.21, ground='night'),   # lower left in the dark: nothing over or under the bare column
+    'J4':  dict(x=0.75, y=0.93),                                # the 2026 half's dark floor: off the paper strip between the halves
+    'K1a': dict(align=L, x=0.02, y=0.955, maxw=0.24),            # dark floor left, off the book and the lap
+    'K1b': dict(y=0.955),                                       # under the rope and the walkers
+    'K2a': dict(align=R, x=0.975, maxw=0.28),                   # off the book, on the dark hair
+    'K3':  dict(align=L, x=0.03, maxw=0.36),                    # the dark columns left, under the inscription, off the struck entry
+    'K4':  dict(align=R, x=0.985, y=0.88, maxw=0.16, scale=0.9),  # the dark right of the spread, under the inscription
+    'K5':  dict(align=L, x=0.025, maxw=0.21, ground='night'),   # lower left in the dark, under the inscription
     'L1':  dict(align=L, x=0.025, maxw=0.21, ground='night'),   # continues K5's line from K5's last frame
 }
 

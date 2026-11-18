@@ -9,10 +9,10 @@ PICKS = json.load(open(f'{D}/picks.json'))
 import os
 os.makedirs(f'{D}/faces', exist_ok=True)
 out = {}
-FLIP = {'XIAHOUDUN'}          # the arrow wound is under HIS left eye (viewer's right)
+FLIP = {('XIAHOUDUN', 'a')}   # take a had the arrow wound under HIS right eye; take d paints it under his left (viewer's right)
 for fid, take in PICKS.items():
     im = cv2.imread(f'{D}/_cand/{fid}_{take}.png').astype(np.float32) / 255
-    if fid in FLIP:
+    if (fid, take) in FLIP:
         im = im[:, ::-1].copy()
     h, w = im.shape[:2]
     border = np.concatenate([im[:40].reshape(-1, 3), im[-40:].reshape(-1, 3), im[:, :40].reshape(-1, 3), im[:, -40:].reshape(-1, 3)])
@@ -25,7 +25,10 @@ for fid, take in PICKS.items():
     # fill: everything not connected to the border through non-mark pixels
     ff = (1 - mk).copy()
     ffm = np.zeros((h + 2, w + 2), np.uint8)
-    cv2.floodFill(ff, ffm, (2, 2), 2)
+    for sx, sy in [(2, 2), (w - 3, 2), (2, h - 3), (w - 3, h - 3), (w // 2, 2), (2, h // 2)]:   # first seed on bare paper
+        if ff[sy, sx] == 1:                                                                     # (a speck in one corner
+            cv2.floodFill(ff, ffm, (sx, sy), 2)                                                 #  must not flip the fill)
+            break
     sil = (ff != 2).astype(np.uint8)
     n, lab, st, _ = cv2.connectedComponentsWithStats(sil)
     i = 1 + int(np.argmax(st[1:, cv2.CC_STAT_AREA]))

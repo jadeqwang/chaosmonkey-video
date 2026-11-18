@@ -1,56 +1,38 @@
-"""F1 (107.042-108.833) '石头里蹦出来 没有童年'.  ROOMS-26; fix round 2 (QA items 7 and 9).
+"""F1 (107.042-108.833) '石头里蹦出来 没有童年'.  BED+CAR v3, round 2.
 
-Hard cut on the pickup: 2026, dusk on the highway. The daughter in her car seat raps, deadpan (sd25 lip-sync).
-Fix 2: the clip's own amber passes are taken out (a low-frequency light ratio against the take's darkest plate:
-the static cabin keeps its detail, only the passing light goes), and ONE streetlight sweep slams across the cabin
-on the rap crash 107.975 (frame 2592): there within 4 frames, then it passes left to right. Reframed in comp
-(x1.30) so her face sits on the right third and the side window on the left carries the sweep. Car grade, fibre.
-Lyric unchanged (WenKai, top centre).
+The BACK seat: the daughter in her child seat, the EMPTY second seat at frame right. Kling v4 take of media/kf/v3/F1.jpg.
+Two framings of the same take (ctx.opts['face'] or env F1_FACE=1 picks the second):
+- default (media/comp/F1.mp4): the rap played on her BODY: hands chopping apart, feet kicking, shoulders bouncing; her face
+  is above the frame, so no unsynced singing mouth is on screen (REVISION_V3 section 2.6). Used because the lip transfer
+  did not pass the gate (see docs/logs/LOG_v3_bedcar.md, round 2).
+- face (media/comp/F1_face.mp4): tighter on her with the face in frame (about 127 px high at 540p), the LIPSYNC transfer
+  pasted into the take (picks.json F1.lips).
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _rooms26 import *
-from _car_grade import car_grade, amber_sweep
+from _bedcar3 import *
 
 T0, T1 = 107.04166666666667, 108.83333333333333
-FACES = [(960, 330, 260, 300), (960, 640, 260, 200)]
-T_CRASH = 107.975
-F_CRASH = frame_of(T_CRASH)                     # 2592
-Z, CX, CY = 1.30, 714, 470                     # face (960, 330) -> x 1280 (right third), y 358
+HANDS = (140, 400, 1210)       # x0, y0, width of the 16:9 window on the take (1080p px)
+FACE = (0, 20, 1440)
 
 
 def setup(ctx):
-    global B, P, WORDS, CLEAN
-    B, _ = base_for('F1', 'media/kf/F1.jpg', ctx)
-    P = Paper(ctx.W, ctx.H, 'aged', seed=31)
-    WORDS = words_of(ctx, '石头里蹦出来', 107.04)
-    CLEAN = None
-    if hasattr(B, 'f'):
-        # the darkest plate (no streetlight), as low-frequency light per channel
-        dark_i = np.argsort(B.f.reshape(B.n, -1).mean(1))[: max(3, B.n // 6)]
-        ref = B.f[dark_i].astype(F32).mean(0) / 255.0
-        CLEAN = cv2.GaussianBlur(ref, (0, 0), 30 * ctx.s) + 1e-3
-
-
-def unlight(f, ctx):
-    """Take the clip's passing amber out: scale each pixel by the darkest plate's low-frequency light over this frame's."""
-    if CLEAN is None:
-        return f
-    lf = cv2.GaussianBlur(f, (0, 0), 30 * ctx.s) + 1e-3
-    r = np.clip(CLEAN / lf, 0.45, 1.05)
-    return np.clip(f * r, 0, 1).astype(F32)
+    global B, P, R
+    face = str(ctx.opts.get('face', os.environ.get('F1_FACE', '0'))) not in ('0', 'False', '')
+    if not face:
+        os.environ['BEDCAR_NO_LIPS'] = '1'
+    B = Take('F1', ctx)
+    P = Paper(ctx.W, ctx.H, 'aged', seed=61)
+    R = FACE if face else HANDS
 
 
 def render(t, ctx):
-    fi = frame_of(t)
-    f = unlight(B.at(t), ctx)
-    f = car_grade(f, ctx, FACES, dark=0.66)
-    if fi >= F_CRASH:                           # the slam: full within 4 frames, then it passes
-        env = min(1.0, (fi - F_CRASH + 1) / 4.0)
-        f = amber_sweep(f, ctx, t, T_CRASH + 0.28, 0.80, angle=-28, width=440, gain=1.25 * env)
-    f = paper_fibre(f, P, 0.5)
-    f = move(f, ctx, Z, CX, CY)
-    lyric(f, ctx, sung(WORDS, t, tail=0.4, sep=''), x=0.5, y=0.065, px=30)
-    return f
+    x0, y0, w = R
+    z = 1920.0 / w
+    u = (t - T0) / (T1 - T0)
+    z2 = z * (1.0 + 0.03 * u)
+    cx, cy = x0 + w / 2, y0 + w * 9 / 32
+    return fin(move(B.at(t), ctx, z2, cx, cy), P)

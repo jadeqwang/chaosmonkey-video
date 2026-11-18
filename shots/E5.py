@@ -1,15 +1,15 @@
-"""E5 103.208-104.292 (26 f). Team ROOMS-88. (ps ps ps): extreme close, Mamas cupped hand and lips at little
-Jades ear (the keyframe puts the hand at her own mouth: reads as a whisper). Kling v4. No subtitle."""
-from shots._rooms88 import *
+"""E5 song frames 2477-2502 (26 f). ATTIC v3.
+'(ps ps ps)' 103.20: LAP_child_cu. Mama whispers behind a cupped hand at her ear; little Jade holds still, eyes sliding sideways and widening, shoulders coming up because it tickles.
+Kling v4 take on media/kf/v3/E5.jpg (pick + retime map: media/comp/attic3/picks.json, key E5)."""
+from shots._attic3 import *
 
 T0, T1 = 2477 / 24, 2503 / 24
-R = RoomShot(shot='E5', T0=T0, T1=T1, kf='E5', window=(1595, 490, 1817, 759), sign=(1706, 620, 160, -2.0),
-             keep=[(360, 340, 260, 300, 1.0), (1160, 380, 230, 280, 1.0)], floor=0.24, twos=True)
+S = AtticShot([Seg(T0, T1, 'E5', key='E5', floor=0.66, keep=[(760, 560, 420, 380)], cam=[(T0, 900, 560, 1.0), (T1, 880, 560, 1.05)])])
 
 
 def setup(ctx):
-    R.setup(ctx)
+    S.setup(ctx)
 
 
 def render(t, ctx):
-    return R.render(t)
+    return S.render(t)

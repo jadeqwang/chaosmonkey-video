@@ -26,7 +26,7 @@ RIG_H = 1450.0
 CIN = np.array([0.80, 0.20, 0.13], F32)
 
 # the leaf: outer rule box and the 3 x 3 cells (authoring px)
-LEAF = (86, 62, 1834, 1018)                      # x0, y0, x1, y1
+LEAF = (86, 46, 1834, 872)                       # x0, y0, x1, y1
 CELL_JOBS = ['读', '写', '算', '运', None, '战', '扫', '望', '磨']       # row-major; None = the original, centre
 EN = {'读': 'read', '写': 'write', '算': 'reckon', '运': 'carry', '战': 'spar', '扫': 'sweep', '望': 'watch',
       '磨': 'grind'}
@@ -378,7 +378,7 @@ class Leaf:
     """The whole swarm leaf. state per cell: pose index k (int), present (bool).
     draw(frame, steps, present, light) lays everything except seals/hairs (the shot script times those)."""
 
-    def __init__(self, ctx, rig, paper, leaf=LEAF, jobs=CELL_JOBS, cols=3, rows=3, fig_h=205, slips=True, seed=5):
+    def __init__(self, ctx, rig, paper, leaf=LEAF, jobs=CELL_JOBS, cols=3, rows=3, fig_h=184, slips=True, seed=5):
         self.ctx, self.rig, self.P = ctx, rig, paper
         self.W, self.H, self.s = ctx.W, ctx.H, ctx.s
         self.leaf, self.jobs, self.cols, self.rows = leaf, jobs, cols, rows

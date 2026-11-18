@@ -241,6 +241,43 @@ def render(shot, source, args, work, width, height, crf, short, layer=None, stat
     return output, state_out
 
 
+TAIL_FADE = 8      # frames: the last shot's final frame (the dark room after the neon) sinks to true black, then holds
+
+
+def render_tail(prev, n, work, width, height, crf):
+    """n frames after the last shot: its last frame fades to black over TAIL_FADE frames, then black."""
+    import av
+    with av.open(str(prev)) as container:
+        for fr in container.decode(video=0):
+            last = fr
+    base = np.asarray(last.to_image().convert('RGB'), np.float32)
+    key = hashlib.sha256(json.dumps([str(prev), prev.stat().st_mtime_ns, n, width, height, crf, TAIL_FADE]).encode()).hexdigest()[:20]
+    directory = work / f'END_{key}'
+    directory.mkdir(exist_ok=True)
+    output = directory / 'shot.mp4'
+    if output.exists():
+        return output
+    temp = directory / 'rendering.mp4'
+    enc = subprocess.Popen([FFMPEG, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s:v', f'{width}x{height}',
+                            '-r', str(FPS), '-i', 'pipe:0', '-an', '-frames:v', str(n),
+                            '-vf', 'scale=out_color_matrix=bt709,format=yuv420p,setsar=1,'
+                                   'setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709',
+                            '-c:v', 'libx264', '-preset', 'fast', '-crf', str(crf), '-threads', '2', '-pix_fmt', 'yuv420p',
+                            '-r', str(FPS), '-fps_mode', 'cfr', '-color_primaries', 'bt709', '-color_trc', 'bt709',
+                            '-colorspace', 'bt709', str(temp)], stdin=subprocess.PIPE)
+    for i in range(n):
+        k = max(0.0, 1 - (i + 1) / TAIL_FADE)
+        enc.stdin.write((base * k + 0.5).astype(np.uint8).tobytes())
+    enc.stdin.close()
+    if enc.wait() != 0:
+        raise RuntimeError('tail encoder failed')
+    stream = next(s for s in probe(temp, True)['streams'] if s['codec_type'] == 'video')
+    if int(stream['nb_read_frames']) != n:
+        raise RuntimeError('END: tail frame count mismatch')
+    temp.replace(output)
+    return output
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--name', required=True, type=safe_name)
@@ -249,6 +286,10 @@ def main():
     parser.add_argument('--only')
     parser.add_argument('--audio', type=Path, default=SONG)
     parser.add_argument('--clean', action='store_true')
+    parser.add_argument('--tail', choices=['none', 'black'], default='none',
+                        help="black: after the film's last shot, hold black to the end of the audio (ending B: the last "
+                             "note rings over black). The tail is listed in the manifest as END; shot frame counts "
+                             "in docs/shots.json are unchanged.")
     parser.add_argument('--lyrics', choices=['on', 'off'],
                         help='the film lyric layer (tools/cut/lyrics.py); default on for preview/master, off for animatic')
     args = parser.parse_args()
@@ -307,6 +348,20 @@ def main():
         manifest.append({**shot, 'cut_in_frame': frame, 'source_kind': source[0], 'short': short})
         frame += shot['frames']
         print(f"{shot['id']} {source[0]} {shot['frames']} frames" + (' SHORT' if short else ''), flush=True)
+    if args.tail == 'black' and shots[-1]['id'] == all_shots[-1]['id']:
+        last = shots[-1]
+        total = round(float(audio_info['format']['duration']) * FPS)       # mix_v2: 241.920 s x 24 = 5806
+        n_tail = total - last['out_frame']
+        if n_tail > 0:
+            out = render_tail(renders[-1], n_tail, work, width, height, crf)
+            renders.append(out)
+            manifest.append({'id': 'END', 'seq': last['seq'], 'in': last['out'], 'out': total / FPS,
+                             'in_frame': last['out_frame'], 'out_frame': total, 'frames': n_tail, 'dur': n_tail / FPS,
+                             'world': 'blank', 'desc': 'Black to the end of the audio.', 'lyrics': [],
+                             'cut_in_frame': frame, 'source_kind': 'tail', 'short': False})
+            shots = shots + [{'in_frame': last['out_frame'], 'out_frame': total}]   # audio span only
+            frame += n_tail
+            print(f'END tail {n_tail} frames (to {total} = {total/FPS:.3f} s)', flush=True)
     listing = work/'concat.txt'
     listing.write_text(''.join(f"file '{p}'\n" for p in renders))
     # Merge contiguous selections to keep audio continuous; disjoint --only shots

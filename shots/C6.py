@@ -1,35 +1,34 @@
-"""C6 pre-hook roll (57.042-58.667, 39 frames). Team MOUNTAIN.
+"""C6 pre-hook roll (57.042-58.667, 39 frames). BOOK team, v3 (REVISION_V3 §3.1).
 
-(a) 57.042-57.95: the mid view of the carved cliff (B_cliff_mid, 千字文 cut small in columns on its six faces): the
-light the characters caught runs UP the columns toward the summit as gold, column after column, right to left,
-the one time the mountain glows by itself; the camera drifts up with it.
-(b) 57.95-58.667: the egg on the summit (C4/C5b framing): it trembles on the 16th-note roll and fine cracks spread
-from its crown, building to the last frame before the crash (58.673; D1 = team STAGE's full-sheet ink throw):
-the last frame is the most cracked, pressed tight.
+The egg on the summit (C4/C5b framing). The points of light that read the columns inside the stone QUICKEN: they
+run down every column, faster and faster, and run together until each column is one line of light (gold: the one
+time the stone glows by itself). From 57.95 the egg trembles on the 16th-note roll and fine cracks spread from its
+crown; the last frame before the crash (58.673; D1 = STAGE's ink throw) is the most cracked, pressed tight.
 """
 import numpy as np
 
 from shots._mountain import *
-from shots.C4 import egg_layer
+from shots.C4 import egg_layer, egg_inner
 
 T0, T1 = 1369 / 24, 1408 / 24
-T_CUT = on_frame(57.95)   # fix2: floor frame
+T_CUT = on_frame(57.95)
 T_CRASH = 58.673
-MID_BLOCKS = [(2140, 1120, 150, 560), (1930, 1120, 140, 560), (1590, 660, 160, 1000), (1300, 430, 170, 1050),
-              (880, 480, 200, 1200), (610, 330, 150, 1050), (310, 450, 140, 1200)]
 
 
 def setup(ctx):
-    global CM, P, EGG, CRACKS, ROLL
-    raw = load_image(B + 'B_cliff_mid.png')
-    H, W = raw.shape[:2]
-    pm = Paper(W, H, 'new', seed=BOOK_PAPER_SEED)
-    rock = pm.rgb * key_paper(raw, lo=0.03)
-    CM = Cliff(rock, qianziwen(160), SEAL_FONT, size=34, region=MID_BLOCKS, seed=6, weather=0.25,
-               presence='plane', weight=0.02, paint=0.6, depth=1.2)
-    CM.prepare(fill=0.4, gold=True, gold_stagger=0.6)
+    global P, EGG, CRACKS, ROLL, INN, RUNS
     P = Paper(ctx.W, ctx.H, 'new', seed=BOOK_PAPER_SEED, breathe=1.0)
     EGG = egg_layer(ctx.W, ctx.H)
+    INN = egg_inner(EGG, ctx.s)
+    r0 = rng(31, 'runs')
+    # each column: successive runs, each quicker than the last, until they overlap into one line
+    RUNS = []
+    for c in range(len(INN.cols)):
+        t, dur = T0 - 0.2 + float(r0.uniform(0, 0.3)), 0.55
+        while t < T_CRASH:
+            RUNS.append((c, t, dur))
+            t += dur * 0.62
+            dur = max(0.09, dur * 0.72)
     # fine cracks from the crown of the egg: each a thin dry line arriving at its own time
     s = ctx.s
     d = blur(1 - EGG.min(axis=2), 6 * ctx.s)
@@ -63,21 +62,22 @@ def setup(ctx):
 
 
 def render(t, ctx):
-    if t < T_CUT:
-        g = ramp(t, T0, T_CUT - 0.08, 'linear')
-        cy = 1150 - 260 * ramp(t, T0, T_CUT, 'inout')
-        return view(None, 1150, cy, 1.0, ctx.W, ctx.H,
-                    render=lambda box: CM.render((305, 28, 0.7), fill=0.4, gold=g, ambient=0.8, warmth=0.6,
-                                                 gold_stagger=0.6, box=box))
     f = P.frame(t)
     lay_ink(f, EGG, 0, 0)
+    INN.lay(f, 1.0 + 0.6 * ramp(t, T0, T_CUT, 'linear'))
+    together = ramp(t, T0 + 0.35, T_CUT + 0.1, 'in')                # the trails stop fading: lines of light
+    for c, ts, dur in RUNS:
+        if ts <= t < ts + dur:
+            INN.read(f, c, (t - ts) / dur, ctx.s, trail=together)
+    if together >= 1:
+        for c in range(len(INN.cols)):
+            INN.read(f, c, 1.0, ctx.s, trail=1.0, spot=False)
     for st, t_on, dur in CRACKS:
         if t >= t_on:
             st.lay(f, min(1.0, (t - t_on) / dur))
-    # trembling: a small hard jolt on each roll hit, growing toward the crash
     k = ramp(t, T_CUT, T_CRASH, 'in')
     dx, dy = shake_offset(t, ROLL, amp=(1.5 + 5.0 * k) * ctx.s, dur=0.09) if ROLL else (0, 0)
     f = shaken(f, dx, dy)
-    z = 1.0 + 0.3 * ramp(t, T_CUT, T_CRASH, 'in')          # pressed tight toward the burst
+    z = 1.0 + 0.3 * ramp(t, T0, T_CRASH, 'in')             # pressed tight toward the burst
     ex, ey = EGG_C
     return view(f, ex + (ctx.W / 2 - ex) / z, ey + (ctx.H / 2 - ey) / z, z, ctx.W, ctx.H)

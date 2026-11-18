@@ -44,8 +44,55 @@ def strike_page(ctx):
     return full
 
 
+def hand_cutout(px):
+    """v3: the small hand that turns the pages (design/plates/H_v3_pages/hand/hand_1.png) as straight-alpha RGBA,
+    `px` wide. Matte = everything not connected to the border through the plate's own cream ground."""
+    im = load_image('design/plates/H_v3_pages/hand/hand_1.png')
+    g = np.median(im[:40].reshape(-1, 3), 0)
+    diff = np.abs(im - g[None, None]).max(axis=2)
+    bg = (blur(diff, 2.0) < 0.035).astype(np.uint8)
+    n, lab = cv2.connectedComponents(bg)
+    border = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
+    a = 1.0 - np.isin(lab, list(border)).astype(np.float32)
+    a = blur(cv2.erode(a, np.ones((5, 5), np.uint8)), 1.5)
+    rgba = np.dstack([im, a]).astype(np.float32)
+    k = px / im.shape[1]
+    return cv2.resize(rgba, (int(px), int(im.shape[0] * k)), interpolation=cv2.INTER_AREA)
+
+
+HAND_PINCH = (0.335, 0.455)                      # the pinch point, as a fraction of the cut-out
+
+
+def hand_pos(t, ctx):
+    """Frame position of the pinch point at t, or None when the hand is out of frame. It comes in from the lower
+    right, takes the outer bottom corner of the left page, carries it over on the leaf, lets go and withdraws."""
+    W, H = ctx.W, ctx.H
+    lw = PW * S
+    yb = OY + PH * S * 0.74
+    grab = np.array([OX + lw * 0.06, yb])
+    out = np.array([W * 0.70, H * 1.45])
+    for tl in LANDS:
+        tl = on_frame(tl)
+        ts = tl - 6 / 24.0
+        if ts - 14 / 24.0 <= t < ts:                             # reaching in
+            u = ease((t - (ts - 14 / 24.0)) / (14 / 24.0), 'out')
+            return out + (grab - out) * u
+        if ts <= t < tl:                                         # on the leaf's corner
+            j = min(2, int((t - ts) * 24.0 + 1e-6) // 2)
+            th = DRAW_THETA[j]
+            x, y = project(SPINE_X - math.cos(th) * lw * 0.94, yb, math.sin(th) * lw * 0.94, W, H)
+            return np.array([x, y])
+        land = np.array([SPINE_X + lw * 0.94, yb])
+        if tl <= t < tl + 5 / 24.0:                              # the page is down; the fingers rest on it
+            return land
+        if tl + 5 / 24.0 <= t < tl + 15 / 24.0:                  # withdrawing
+            u = ease((t - tl - 5 / 24.0) / (10 / 24.0), 'in')
+            return land + (out - land) * u
+    return None
+
+
 def setup(ctx):
-    global SPREADS, PAGES, LANDS, OX, OY, S, NIGHT_BG, L, WORDS, SPINE_X
+    global SPREADS, PAGES, LANDS, OX, OY, S, NIGHT_BG, L, WORDS, SPINE_X, HAND, INS
     ensure_ledger()
     W, H = ctx.W, ctx.H
     S = SC * ctx.s
@@ -71,6 +118,9 @@ def setup(ctx):
     LANDS = lands
     L = light_field(W, H, (W * 0.5, H * 0.53), 700 * ctx.s, ambient=0.07, gain=1.34, tilt=0, stretch=1.25, seed=21)
     WORDS = line_words(ctx, 'I turned each page', 217.2)
+    HAND = hand_cutout(900 * ctx.s)
+    from tools.ink.inscription import inscription
+    INS = inscription(ctx, 'K4', box=(1690, 150, 190, 640), ground='dark')     # v3: beside the ledger, on the dark
 
 
 def leaf_state(t):
@@ -156,6 +206,19 @@ def render(t, ctx):
         f = np.concatenate([new[:, :sx], old[:, sx:]], 1).copy()     # under the leaf: the next left page
         front, back = PAGES[2 * k + 1], PAGES[2 * k + 2]              # leaf = old left page / new right page
         draw_leaf(f, front, back, theta, ctx)
+    hp = hand_pos(t, ctx)
+    if hp is not None:                                            # v3: a small hand is SEEN turning the pages
+        hh, hw = HAND.shape[:2]
+        x, y = int(round(hp[0] - HAND_PINCH[0] * hw)), int(round(hp[1] - HAND_PINCH[1] * hh))
+        sh = np.zeros(f.shape[:2], np.float32)                    # its soft shadow on the page, away from the torch
+        a = HAND[..., 3]
+        x0, y0 = x + int(14 * ctx.s), y + int(18 * ctx.s)
+        a0, b0, a1, b1 = max(0, x0), max(0, y0), min(ctx.W, x0 + hw), min(ctx.H, y0 + hh)
+        if a1 > a0 and b1 > b0:
+            sh[b0:b1, a0:a1] = a[b0 - y0:b1 - y0, a0 - x0:a1 - x0]
+            f *= (1 - 0.38 * blur(sh, 9 * ctx.s))[..., None]
+        over(f, HAND, x, y)
     f = lit(f, L)
+    INS.draw(f)
     lyric(f, ctx, sung_words(WORDS, t, tail=1.2), y=0.955, px=28)
     return f

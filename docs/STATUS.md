@@ -173,3 +173,23 @@ Jade's notes on preview_v2 are in; brief: `docs/REVISION_V3.md`; team roster, sc
 `docs/TEAMS_V3.md`. Likeness pass done with Jade (v3 canon accepted). Done: characters, 3D blocking, sound mix v2.
 Running: research, book, faces, stage, lip-sync, attic, bedroom+car. Cap raised to $1,500 on Jade's word.
 Spend: TOTAL $229.14 of $1500 cap  (647 billed items; list-price estimates)
+
+## Checkpoint 17 — 2026-11-17 late evening — before an expected interruption
+Committed 0578318 (docs, briefs, tools, scripts; local only). Research DONE (`refs/paintings/MANIFEST_V3.md`; changes in
+REVISION_V3 §15). `/tmp` was 98% full: chaosmonkey-song scratch cleared with Jade's OK; teams told to use `work/tmp/`.
+Running: BOOK, FACES, STAGE, LIPSYNC, ATTIC, BED+CAR (logs `docs/logs/LOG_v3_*.md`, each with a CHECKPOINT block).
+To resume after an interruption: `docs/TEAMS_V3.md` ("how to resume"), then relaunch any team whose log has no DONE line.
+Then the lead's remaining work: splice, lyric layer (rap English, REVISION_V3 §7), extend L3 to 241.920, assemble
+preview_v3 with `media/sound/mix_v2.wav`, QA, notes page, report. Open with Jade: her parents' recheck of
+`design/text/lyrics_zh_v3.txt` (I2 line is the lead's proposal); mix v2 not yet listened to.
+
+## Checkpoint 18 — 2026-11-18 00:50 — preview_v3 DELIVERED FOR JADE'S REVIEW
+`previews/chaosmonkey_preview_v3_540p.mp4` (+ `_nolyrics`), 5806 frames, 4:01.9, mix v2 with ending B. Every shot re-made.
+QA and ranked remaining problems: `docs/QA_PREVIEW_V3.md`. Notes page: `review/preview_v3_notes.html`. Rebuild:
+`work/cut/build_v3.sh`. All teams DONE (logs `docs/logs/LOG_v3_*.md`); no agents or jobs running. Not watched in motion or
+listened to by anyone. Uncommitted since 0578318. Open with Jade: monkey costume A/B; inscription text (parents' recheck,
+I2 line); banquet name slips. TOTAL $361.81 of $1500 cap  (878 billed items; list-price estimates)
+
+## Checkpoint 19 — 2026-11-18 — handoff written
+`docs/HANDOFF.md` rewritten for the next session (state, Jade's standing direction, open decisions, weak points, how to
+work her notes, standing rules). Nothing else changed since checkpoint 18. Still waiting on Jade's review of preview_v3.

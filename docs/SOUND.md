@@ -303,7 +303,7 @@ D9 (shot 82.500-85.833, no voice in it): proposed exact times for the fall, all 
 (84.351 -> 85.014 are hits 0.70 and 1.00); the cue times are `events[].at` in `docs/sound_cues.json` and a rebuild takes 45 s. The strongest hit in the shot is 83.022 (1.0) and the build's fill starts 85.46.
 
 Other new times: A3 apron peak 11.922 (lifted off over the head, swish 11.68-12.04), apron on the hook 12.220, towel draped 12.400; C5 hair lifts in the blow 53.220, child scrunches 53.950 (cloth only);
-F3 the daughter's puff 112.146, little Jade's puff on the match cut 112.372; F4b abacus clicks on the beats 113.688, 114.135, 114.567, 115.002, 115.445, 115.882;
+F3 the daughter's puff 112.146, little Jade's puff on the match cut 112.372; F4b abacus clicks on the beats 114.567, 115.002, 115.445, 115.882 (113.688 and 114.135 removed 2026-11-18: they fell over the F4a mirror shot, before the leaf appears on frame 2744; previous mix kept as `media/sound/mix_v2_prev.wav`);
 F5 seals one per beat 116.320, 116.736, 117.200, 117.628; J1 fingertip press 189.620 (chop hole 189.505-189.585; the crashes start 189.790);
 L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last hit 235.833); 1988: pull from about 235.88, tuck on the beat 236.276; neon relay tick 237.840 unchanged.
 
@@ -338,8 +338,8 @@ L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last 
 | 21 | **seal_d8** | D8 | 79.930 | -8.0 -> -5.9 | 17.4 -> 15.3 (summed worst 10.9) | 315 Hz: +14 / +8 -> +6 / +3 | - | yes | band target; EQ 62:-9, 78:-9, 99:-7, 125:-6, 157:-3, 250:+2, 314:+2, 396:+2, 793:-4, 1000:-7, 1259:-9, 1587:-8 |
 | 22 | **neon_hum_e5** | E5-E6 | 103.20-107.04 | -30.6 -> -23.2 | 18.6 -> 19.0 (summed worst 11.7) | 158 Hz: +3 / -4 -> +3 / -2 | 8.0 | yes | follows the song in 63-389 Hz at 3 dB (median ride -26.5 dB); bus ride; EQ 62:-6, 78:-6, 157:+1, 314:-3, 396:-2 |
 | 23 | **whisper** | E5 | 103.20-104.28 | -24.6 -> -28.7 | 17.9 -> 26.8 (summed worst 16.3) | 397 Hz: +8 / -0 -> +7 / +2 | 10.9 | yes | follows the song in 253-2469 Hz at 5 dB (median ride -24.6 dB); bus ride; EQ 198:-4, 250:-2, 396:+2, 500:+2, 793:-2, 1000:-4, 1259:-2, 1587:-2, 2000:-4, 2519:-7, 3174:-8, 4000:-8, 5039:-8, 6349:-9, 8000:-10, 10079:-9 |
-| 24 | **car_cabin** | F1-F6 | 107.04-121.47 | -21.9 -> -18.3 | 19.5 -> 17.7 (summed worst 9.7) | 158 Hz: +14 / +7 -> +12 / +2 | 6.1 | yes | follows the song in 63-490 Hz at 8 dB (median ride -8.4 dB); bus ride; EQ 39:-5, 49:-6, 62:-6, 78:-4, 99:-2, 198:+1, 250:+2, 314:+2, 396:+1, 629:-2, 793:-4, 1000:-6, 1259:-5 |
-| 25 | **streetlights** | F1-F6 | 108.425, 110.175, 111.935, 113.688, 115.445, 116.320, 116.736, 117.200, 117.628, 118.938, 119.812, 120.687 | -30.3 -> -17.3 | 31.3 -> 21.1 (summed worst 12.6) | 198 Hz: +26 / +19 -> +14 / +6 | 6.3 | yes | band target; bus ride; EQ 31:+2, 49:-2, 62:-3, 78:-3, 99:-3, 125:-2, 198:+1, 250:+2, 314:+2, 396:+2, 500:+2, 629:+2, 793:+1, 1587:-2, 2000:-3, 2519:-2 |
+| 24 | **car_cabin** | F1-F6 | 107.04-121.47 | -21.9 -> -18.3 | 19.5 -> 17.6 (summed worst 9.7) | 158 Hz: +14 / +7 -> +12 / +2 | 6.1 | yes | follows the song in 63-490 Hz at 8 dB (median ride -8.4 dB); bus ride; EQ 39:-5, 49:-6, 62:-6, 78:-4, 99:-2, 198:+1, 250:+2, 314:+2, 396:+1, 629:-2, 793:-4, 1000:-6, 1259:-5 |
+| 25 | **streetlights** | F1-F6 | 108.425, 110.175, 111.935, 113.688, 115.445, 116.320, 116.736, 117.200, 117.628, 118.938, 119.812, 120.687 | -30.3 -> -17.3 | 31.3 -> 21.0 (summed worst 12.6) | 198 Hz: +26 / +19 -> +14 / +6 | 6.3 | yes | band target; bus ride; EQ 31:+2, 49:-2, 62:-3, 78:-3, 99:-3, 125:-2, 198:+1, 250:+2, 314:+2, 396:+2, 500:+2, 629:+2, 793:+1, 1587:-2, 2000:-3, 2519:-2 |
 | 26 | **margins_close** | G1 | 122.430, 122.460 | -18.5 -> -15.9 | 23.7 -> 19.6 (summed worst 13.7) | 500 Hz: +20 / +7 -> +16 / +7 | 7.5 | weak | floor; bus ride; EQ 125:-2, 157:-2, 629:-2, 793:-3, 1000:-3, 1259:-2, 1587:-1, 2000:-1, 3174:+1, 4000:+3 |
 | 27 | **margin_notches** | G2-G4 | 130.175, 133.690, 141.450 | -20.2 -> -15.7 | 22.6 -> 17.4 (summed worst 12.5) | 397 Hz: +16 / +0 -> +12 / -5 | 6.4 | yes | band target; bus ride; EQ 125:-5, 157:-5, 198:-2, 500:+1, 793:-2, 1000:-3, 1259:-2, 1587:-2, 2000:-2, 2519:-3, 3174:-4, 4000:-4 |
 | 28 | **room_yes** | G5 | 146.46-149.28 | -32.7 -> -19.3 | 18.1 -> 10.7 (summed worst 3.6) | 198 Hz: +14 / -7 -> +8 / -5 | 6.2 | yes | follows the song in 25-980 Hz at 2 dB (median ride -14.2 dB); bus ride; EQ 31:+5, 39:+5, 49:+5, 62:+4, 78:+2, 125:-2, 157:-1, 250:-2, 314:-4, 396:-3, 500:-3, 629:-3, 793:-6, 1000:-7, 1259:-9, 1587:-6 |
@@ -365,7 +365,7 @@ L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last 
 | 48 | **c5_hair_lift** (new) | C5 | 53.220 | - -> -23.4 | - -> 20.3 (summed worst 10.9) | 3175 Hz: new +14 / +5 | 7.3 | yes | band target (raised to the peak floor, hard limit floor); bus ride; EQ 314:-6, 396:-7, 500:-6, 629:-5, 793:-4, 1000:-4, 1259:-3, 1587:-3, 3174:+1, 4000:+2, 5039:+1, 6349:-2, 8000:-3 |
 | 49 | **c5_scrunch** (new) | C5 | 53.950 | - -> -23.5 | - -> 20.3 (summed worst 12.2) | 712 Hz: new +13 / +9 | 6.4 | weak | band target (raised to the peak floor, hard limit floor); bus ride; EQ 99:-6, 125:-8, 157:-8, 198:-6, 250:-5, 314:-3, 396:-3, 1259:-2, 1587:-2, 2000:-2, 2519:-2, 3174:-3, 4000:-2, 5039:-3, 6349:-2 |
 | 50 | **puffs_f3** (new) | F3 | 112.146, 112.372 | - -> -26.3 | - -> 25.0 (summed worst 14.5) | 4000 Hz: new +18 / +13 | 7.4 | weak | band target; bus ride; EQ 314:-4, 396:-7, 500:-6, 629:-4, 793:-3, 1000:-2, 1259:-2, 4000:+1, 5039:+2, 8000:-4, 10079:-4 |
-| 51 | **abacus_f4b** (new) | F4 | 113.688, 114.135, 114.567, 115.002, 115.445, 115.882 | - -> -14.4 | - -> 29.4 (summed worst 13.9) | 6350 Hz: new +14 / +1 | 6.4 | yes | band target; bus ride; EQ 2000:-6, 2519:-6, 3174:-4, 5039:+1, 6349:+1, 8000:-2, 10079:-5, 12699:-5 |
+| 51 | **abacus_f4b** (new) | F4 | 114.567, 115.002, 115.445, 115.882 | - -> -21.8 | - -> 32.7 (summed worst 13.9) | 6350 Hz: new +20 / +10 | 8.0 | weak | band target; bus ride; EQ 2000:-5, 2519:-6, 3174:-3, 5039:+1, 6349:+2, 8000:-1, 10079:-5, 12699:-5 |
 | 52 | **seals_f5** (new) | F5 | 116.320, 116.736, 117.200, 117.628 | - -> -20.8 | - -> 29.5 (summed worst 12.6) | 198 Hz: new +12 / +8 | 8.6 | weak | band target; bus ride; EQ 99:-6, 125:-6, 157:-2, 250:+2, 629:-1, 793:-4, 1000:-4 |
 | 53 | **climb_d9** (new) | D9 | 83.244 | - -> -6.3 | - -> 10.9 (summed worst 7.1) | 282 Hz: new +6 / -4 | - | yes | band target; EQ 49:-7, 62:-9, 78:-8, 99:-5, 125:-5, 157:-2, 250:+4, 314:+4, 396:+2, 629:-2, 793:-5, 1000:-6, 1259:-5, 1587:-4, 2000:-4, 2519:-4 |
 | 54 | **books_d9** (new) | D9 | 83.475, 83.798, 84.570 | - -> -11.2 | - -> 21.0 (summed worst 6.1) | 1587 Hz: new +6 / -6 | - | yes | band target; EQ 78:-8, 99:-10, 125:-10, 157:-9, 198:-6, 250:-5, 314:-5, 396:-5, 500:-5, 629:-4, 793:-4, 1000:-3, 4000:+2, 5039:+2, 8000:-4, 10079:-5 |
@@ -383,7 +383,7 @@ L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last 
 | c5_hair_lift | C5 | 53.220 | t:53.22 | C5: Mama's blow lifts the child's hair: one soft unvoiced puff of air in the 240 ms gap between 'blew' and 'once' (53.19-53.43). No voice. |
 | c5_scrunch | C5 | 53.950 | t:53.95 | C5: the child scrunches up at the blow: a quilt/cloth rustle in the gap 53.91-54.03 (the giggle is NOT sounded: cloth only). |
 | puffs_f3 | F3 | 112.146, 112.372 | hit:112.146, beat:112.372 | F3: the daughter puffs the hair off her palm (112.146, the hit under 口) and, on the match cut, little Jade does the same (112.372). |
-| abacus_f4b | F4 | 113.688, 114.135, 114.567, 115.002, 115.445, 115.882 | beat:113.688, beat:114.135, beat:114.567, beat:115.002, beat:115.445, beat:115.882 | F4b swarm: the abacus worker's beads click on the beats 113.688 .. 115.882 (every cell re-poses on the beat): a 2-3 click flick per beat, alternating sides. |
+| abacus_f4b | F4 | 114.567, 115.002, 115.445, 115.882 | beat:114.567, beat:115.002, beat:115.445, beat:115.882 | F4b swarm: the abacus worker's beads click on the beats 114.567 .. 115.882, the four inside F4b (every cell re-poses on the beat; the two earlier beats 113.688 and 114.135 fall over the F4a mirror shot and were removed for preview_v3): a 2-3 click flick per beat, alternating sides. |
 | seals_f5 | F5 | 116.320, 116.736, 117.200, 117.628 | beat:116.320, beat:116.736, beat:117.200, beat:117.628 | F5: each worker finishes and presses a small red seal (讫): one small seal press per beat on 116.320, 116.736, 117.200, 117.628, as the copies go dark; lowpassed at 1.8 kHz under the words they share beats with. |
 | climb_d9 | D9 | 83.244 | hit:83.244 | D9: little Jade steps up onto the stack of textbooks (83.244, a light step, after her 1 s of the pose). |
 | books_d9 | D9 | 83.475, 83.798, 84.570 | hit:83.475, hit:83.798, hit:84.570 | D9: the stack of textbooks: a wobble creak (83.475), the topple starting at the hit 83.798 (propose the picture's first tip of the stack here, 1.30 s after the shot's in-point 82.5) with the slide and spill running ~0.8 s, the last books settling at 84.570. |
@@ -445,9 +445,6 @@ L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last 
 | puffs_f3 | 112.146 | 一 | +86 |
 | puffs_f3 | 112.146 | 口 | +6 |
 | puffs_f3 | 112.372 | 气 | +12 |
-| abacus_f4b | 113.688 | 时 | +28 |
-| abacus_f4b | 113.688 | 在 | -72 |
-| abacus_f4b | 114.135 | 里 | +15 |
 | abacus_f4b | 114.567 | 一 | +7 |
 | abacus_f4b | 114.567 | 个 | -93 |
 | abacus_f4b | 115.002 | 是 | +122 |

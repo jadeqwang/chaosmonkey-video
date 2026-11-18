@@ -903,3 +903,368 @@
 {"ts": "2026-11-17T20:59:17Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25f0_1", "job": "chaosmonkey/ls3_c_sd25f0_1-711d3c2ca8", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
 {"ts": "2026-11-17T20:59:20Z", "model": "pruna/p-video-avatar", "tag": "ls3_b_pavD_1", "job": "chaosmonkey/ls3_b_pavD_1-e70102357b", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
 {"ts": "2026-11-17T20:59:21Z", "model": "pruna/p-video-avatar", "tag": "ls3_c_pavD_1", "job": "chaosmonkey/ls3_c_pavD_1-014516cd9a", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T20:59:40Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_1", "job": "chaosmonkey/ls3_b_sd25pre_1-83fd33272b", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T20:59:43Z", "model": "bytedance/seedance-2.0-mini", "tag": "ls3_b_sd20mini_1", "job": "chaosmonkey/ls3_b_sd20mini_1-a630cff44e", "event": "result", "ok": true, "est_usd": 0.36, "where": "box"}
+{"ts": "2026-11-17T21:00:04Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25pre_1", "job": "chaosmonkey/ls3_a_sd25pre_1-c598df150e", "event": "result", "ok": true, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T21:00:05Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25f0_1", "job": "chaosmonkey/ls3_a_sd25f0_1-73d1b9aa2a", "event": "result", "ok": true, "est_usd": 1.3872, "where": "box"}
+{"ts": "2026-11-17T21:00:24Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I4_jade_b", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:00:24Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F4a", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:00:24Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I1_end", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:00:24Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I3a_end", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T21:00:24Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T21:00:25Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F3a_end", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T21:00:25Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_1", "job": "chaosmonkey/ls3_a_sd25short_1-85d76db4c1", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:00:26Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:00:27Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F6b", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:01:40Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I4_jade_c", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T21:01:43Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_J1", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:01:45Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_ots", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:01:47Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_L2", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:01:50Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_L1", "ok": true, "est_usd": 0.3024, "where": "box"}
+{"ts": "2026-11-17T21:02:08Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_K1", "ok": true, "est_usd": 0.2896, "where": "box"}
+{"ts": "2026-11-17T21:02:17Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25f0_2", "job": "chaosmonkey/ls3_b_sd25f0_2-30b32880c7", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:02:26Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2256, "where": "box"}
+{"ts": "2026-11-17T21:02:32Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:02:32Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:02:32Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:02:33Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:02:33Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T21:02:34Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:02:35Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_2", "job": "chaosmonkey/ls3_b_sd25pre_2-3f436d6db0", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:02:35Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:03:08Z", "model": "klingai/kling-v4", "tag": "at3_A2_k4_t1", "job": "chaosmonkey/at3_A2_k4_t1-2c376a0cf3", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:03:09Z", "model": "klingai/kling-v4", "tag": "at3_A2_k4_t2", "job": "chaosmonkey/at3_A2_k4_t2-edcec3df43", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:03:27Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_2", "job": "chaosmonkey/ls3_c_sd25pre_2-4a1a271cb8", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:03:28Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25f0_2", "job": "chaosmonkey/ls3_c_sd25f0_2-f3b85acc3a", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:03:48Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:03:48Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:03:49Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:03:53Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:03:53Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:03:53Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:03:54Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:03:55Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:04:03Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25f0_2", "job": "chaosmonkey/ls3_a_sd25f0_2-644d638117", "event": "result", "ok": true, "est_usd": 1.3872, "where": "box"}
+{"ts": "2026-11-17T21:04:19Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25pre_2", "job": "chaosmonkey/ls3_a_sd25pre_2-a85a49d7f4", "event": "result", "ok": true, "est_usd": 1.6184, "where": "box"}
+{"ts": "2026-11-17T21:04:20Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_L2_end", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T21:04:21Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_J1_end", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:04:25Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_J4_2026", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:04:25Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F6b_end", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T21:04:31Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_I4_mama", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:04:46Z", "model": "google/nano-banana-pro", "tag": "bk3_page_I3b", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:04:54Z", "model": "google/nano-banana-pro", "tag": "bk3_page_K2b", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:04:56Z", "model": "google/nano-banana-pro", "tag": "bk3_page_K1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:04:58Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:04:59Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:05:03Z", "model": "google/nano-banana-pro", "tag": "bk3_page_I2_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:05:06Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:05:08Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:05:10Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:05:12Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:05:12Z", "model": "bytedance/seedream-5-pro", "tag": "stg3_model_v3b_fret_redscarf_sd5", "ok": true, "est_usd": 0.075, "where": "box"}
+{"ts": "2026-11-17T21:05:13Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:05:17Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:06:17Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:06:18Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:06:55Z", "model": "minimax/h3", "tag": "s3_d6pl_h3", "job": "chaosmonkey/s3_d6pl_h3-fe23e651da", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T21:07:06Z", "model": "klingai/kling-v4", "tag": "v3bc_F1_t1", "job": "chaosmonkey/v3bc_F1_t1-21db80cfb6", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:07Z", "model": "klingai/kling-v4", "tag": "v3bc_F1_t2", "job": "chaosmonkey/v3bc_F1_t2-d39d017b9f", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:08Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t1", "job": "chaosmonkey/at3_D9a_k4_t1-a7add2ce44", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:09Z", "model": "klingai/kling-v4", "tag": "v3bc_I4_t1", "job": "chaosmonkey/v3bc_I4_t1-e55abf46b2", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:11Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t2", "job": "chaosmonkey/at3_D9a_k4_t2-6ae0993ba4", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:12Z", "model": "klingai/kling-v4", "tag": "v3bc_I4_t2", "job": "chaosmonkey/v3bc_I4_t2-4b1a803f59", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:14Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t1", "job": "chaosmonkey/at3_D9b_k4_t1-c4c7300bc6", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:15Z", "model": "klingai/kling-v4", "tag": "v3bc_morph_t1", "job": "chaosmonkey/v3bc_morph_t1-9e3a4f935f", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:15Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_2", "job": "chaosmonkey/ls3_a_sd25short_2-6252b9dcd3", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:07:17Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t2", "job": "chaosmonkey/at3_D9b_k4_t2-213523a8c6", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:18Z", "model": "klingai/kling-v4", "tag": "v3bc_morph_t2", "job": "chaosmonkey/v3bc_morph_t2-1677cdde59", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:19Z", "model": "klingai/kling-v4", "tag": "at3_G5_k4_t1", "job": "chaosmonkey/at3_G5_k4_t1-7f18afaa15", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:20Z", "model": "klingai/kling-v4", "tag": "v3bc_I1_t1", "job": "chaosmonkey/v3bc_I1_t1-7e89e183ae", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:22Z", "model": "klingai/kling-v4", "tag": "at3_G5_k4_t2", "job": "chaosmonkey/at3_G5_k4_t2-8266e1417c", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:23Z", "model": "klingai/kling-v4", "tag": "v3bc_I1_t2", "job": "chaosmonkey/v3bc_I1_t2-3eaf656ddd", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:24Z", "model": "klingai/kling-v4", "tag": "at3_A3a_k4_t1", "job": "chaosmonkey/at3_A3a_k4_t1-a0fbb64e63", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:25Z", "model": "klingai/kling-v4", "tag": "v3bc_I3a_t1", "job": "chaosmonkey/v3bc_I3a_t1-f941599ca5", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:26Z", "model": "klingai/kling-v4", "tag": "at3_A3a_k4_t2", "job": "chaosmonkey/at3_A3a_k4_t2-f699484e2a", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:27Z", "model": "klingai/kling-v4", "tag": "v3bc_I3a_t2", "job": "chaosmonkey/v3bc_I3a_t2-a16c3b9516", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:29Z", "model": "klingai/kling-v4", "tag": "at3_A4_k4_t1", "job": "chaosmonkey/at3_A4_k4_t1-70b928059d", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:30Z", "model": "klingai/kling-v4", "tag": "v3bc_F3a_t1", "job": "chaosmonkey/v3bc_F3a_t1-949855285e", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:31Z", "model": "klingai/kling-v4", "tag": "at3_A4_k4_t2", "job": "chaosmonkey/at3_A4_k4_t2-77392222f4", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:32Z", "model": "klingai/kling-v4", "tag": "v3bc_F3a_t2", "job": "chaosmonkey/v3bc_F3a_t2-23b9eefd1d", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:34Z", "model": "klingai/kling-v4", "tag": "at3_B2a_k4_t1", "job": "chaosmonkey/at3_B2a_k4_t1-fed4f9be49", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:35Z", "model": "klingai/kling-v4", "tag": "v3bc_F6b_t1", "job": "chaosmonkey/v3bc_F6b_t1-9d63f97aed", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:36Z", "model": "klingai/kling-v4", "tag": "at3_B2a_k4_t2", "job": "chaosmonkey/at3_B2a_k4_t2-8a1bbcfe56", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:38Z", "model": "klingai/kling-v4", "tag": "v3bc_F6b_t2", "job": "chaosmonkey/v3bc_F6b_t2-40a63bf820", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:07:39Z", "model": "klingai/kling-v4", "tag": "at3_C5a_k4_t1", "job": "chaosmonkey/at3_C5a_k4_t1-83e629218e", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:40Z", "model": "klingai/kling-v4", "tag": "v3bc_F4a_t1", "job": "chaosmonkey/v3bc_F4a_t1-46552cdee4", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:42Z", "model": "klingai/kling-v4", "tag": "at3_C5a_k4_t2", "job": "chaosmonkey/at3_C5a_k4_t2-e64b4c11cd", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:43Z", "model": "klingai/kling-v4", "tag": "v3bc_F4a_t2", "job": "chaosmonkey/v3bc_F4a_t2-b3c1681dc9", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:44Z", "model": "klingai/kling-v4", "tag": "at3_D2d_k4_t1", "job": "chaosmonkey/at3_D2d_k4_t1-9d533690ef", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:45Z", "model": "klingai/kling-v4", "tag": "v3bc_K1_t1", "job": "chaosmonkey/v3bc_K1_t1-2803c5c422", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:46Z", "model": "klingai/kling-v4", "tag": "at3_D2d_k4_t2", "job": "chaosmonkey/at3_D2d_k4_t2-cd28e98058", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:47Z", "model": "klingai/kling-v4", "tag": "v3bc_K1_t2", "job": "chaosmonkey/v3bc_K1_t2-0689d33579", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:49Z", "model": "klingai/kling-v4", "tag": "at3_D3_k4_t1", "job": "chaosmonkey/at3_D3_k4_t1-a0ceb22e01", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:50Z", "model": "klingai/kling-v4", "tag": "v3bc_L1_t1", "job": "chaosmonkey/v3bc_L1_t1-17d2facba1", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:51Z", "model": "klingai/kling-v4", "tag": "at3_D3_k4_t2", "job": "chaosmonkey/at3_D3_k4_t2-7fe6a76bb5", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:07:52Z", "model": "klingai/kling-v4", "tag": "v3bc_L1_t2", "job": "chaosmonkey/v3bc_L1_t2-4fab64e52b", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:53Z", "model": "klingai/kling-v4", "tag": "at3_E5_k4_t1", "job": "chaosmonkey/at3_E5_k4_t1-a1f4e20213", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:55Z", "model": "klingai/kling-v4", "tag": "v3bc_L2_t1", "job": "chaosmonkey/v3bc_L2_t1-70149a1bee", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:56Z", "model": "klingai/kling-v4", "tag": "at3_E5_k4_t2", "job": "chaosmonkey/at3_E5_k4_t2-ca436faaf1", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:07:57Z", "model": "klingai/kling-v4", "tag": "v3bc_L2_t2", "job": "chaosmonkey/v3bc_L2_t2-ebb551c11a", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:07:59Z", "model": "klingai/kling-v4", "tag": "at3_E6_k4_t1", "job": "chaosmonkey/at3_E6_k4_t1-9aec431777", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:08:00Z", "model": "klingai/kling-v4", "tag": "v3bc_J4_t1", "job": "chaosmonkey/v3bc_J4_t1-3e4fad3514", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:08:01Z", "model": "klingai/kling-v4", "tag": "at3_E6_k4_t2", "job": "chaosmonkey/at3_E6_k4_t2-00d662cf86", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:08:02Z", "model": "klingai/kling-v4", "tag": "v3bc_J4_t2", "job": "chaosmonkey/v3bc_J4_t2-2e33b183ad", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:08:04Z", "model": "klingai/kling-v4", "tag": "at3_F3b_k4_t1", "job": "chaosmonkey/at3_F3b_k4_t1-ccc0a62ab7", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:08:05Z", "model": "klingai/kling-v4", "tag": "v3bc_J1_t1", "job": "chaosmonkey/v3bc_J1_t1-1f94a3a200", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:08:06Z", "model": "klingai/kling-v4", "tag": "at3_F3b_k4_t2", "job": "chaosmonkey/at3_F3b_k4_t2-11088a5872", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:08:08Z", "model": "klingai/kling-v4", "tag": "v3bc_J1_t2", "job": "chaosmonkey/v3bc_J1_t2-2ae62878d3", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:08:09Z", "model": "klingai/kling-v4", "tag": "v3bc_ots_t1", "job": "chaosmonkey/v3bc_ots_t1-aec8bd862a", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:08:14Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:08:16Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:08:17Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:08:18Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T21:09:42Z", "model": "klingai/kling-v4", "tag": "s3_d6pl_kling4", "job": "chaosmonkey/s3_d6pl_kling4-a44ed461a3", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:09:51Z", "model": "klingai/kling-v4", "tag": "at3_A3b_k4_t1", "job": "chaosmonkey/at3_A3b_k4_t1-6249837bf0", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:09:53Z", "model": "klingai/kling-v4", "tag": "at3_A3b_k4_t2", "job": "chaosmonkey/at3_A3b_k4_t2-8e4864b987", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:09:54Z", "model": "klingai/kling-v4", "tag": "at3_C2_k4_t1", "job": "chaosmonkey/at3_C2_k4_t1-443144ff50", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:09:56Z", "model": "klingai/kling-v4", "tag": "at3_C2_k4_t2", "job": "chaosmonkey/at3_C2_k4_t2-bd8f719846", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:09:57Z", "model": "klingai/kling-v4", "tag": "at3_G3_k4_t1", "job": "chaosmonkey/at3_G3_k4_t1-e1b56d6b2d", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:09:59Z", "model": "klingai/kling-v4", "tag": "at3_G3_k4_t2", "job": "chaosmonkey/at3_G3_k4_t2-4d8e6306d1", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:10:01Z", "model": "klingai/kling-v4", "tag": "at3_L2b_k4_t1", "job": "chaosmonkey/at3_L2b_k4_t1-8937904213", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:10:02Z", "model": "klingai/kling-v4", "tag": "at3_L2b_k4_t2", "job": "chaosmonkey/at3_L2b_k4_t2-181651b8f3", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:10:13Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25v2v_direct", "ok": false, "est_usd": 6.456, "where": "box"}
+{"ts": "2026-11-17T21:10:50Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2768, "where": "box"}
+{"ts": "2026-11-17T21:10:51Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:10:52Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2512, "where": "box"}
+{"ts": "2026-11-17T21:11:48Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_3", "job": "chaosmonkey/ls3_a_sd25short_3-6fd40bd333", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:11:55Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_4", "job": "chaosmonkey/ls3_a_sd25short_4-29d18e64e5", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:12:05Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_5", "job": "chaosmonkey/ls3_a_sd25short_5-dd3c97e12d", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:12:12Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short2_1", "job": "chaosmonkey/ls3_a_sd25short2_1-a5f24c08be", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:12:22Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short2_2", "job": "chaosmonkey/ls3_a_sd25short2_2-b20469ecf0", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:12:32Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short2_3", "job": "chaosmonkey/ls3_a_sd25short2_3-376b3d6d23", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:12:41Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_3", "job": "chaosmonkey/ls3_b_sd25pre_3-c9118e56cd", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:12:51Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_4", "job": "chaosmonkey/ls3_b_sd25pre_4-b25d4e2d67", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:13:00Z", "model": "bytedance/seedance-2.5", "tag": "ls3_d_sd25pre_1", "job": "chaosmonkey/ls3_d_sd25pre_1-499bfb0a70", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:13:10Z", "model": "bytedance/seedance-2.5", "tag": "ls3_d_sd25pre_2", "job": "chaosmonkey/ls3_d_sd25pre_2-c92788c9b9", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:13:17Z", "model": "bytedance/seedance-2.5", "tag": "ls3_d_sd25pre_3", "job": "chaosmonkey/ls3_d_sd25pre_3-1e745e5cbe", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:13:24Z", "model": "pruna/p-video-avatar", "tag": "ls3_d_pavN_1", "job": "chaosmonkey/ls3_d_pavN_1-a4496bacfa", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:13:28Z", "model": "klingai/kling-v4", "tag": "ls3_d_kling_1", "job": "chaosmonkey/ls3_d_kling_1-38405ef856", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:13:29Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_3", "job": "chaosmonkey/ls3_c_sd25pre_3-786baecce9", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:13:31Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_4", "job": "chaosmonkey/ls3_c_sd25pre_4-71c0a2e98e", "event": "submit", "ok": null, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:14:13Z", "model": "google/nano-banana-pro", "tag": "bk3_page_I2_a", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:14:23Z", "model": "google/nano-banana-pro", "tag": "bk3_page_K1", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:15:01Z", "model": "klingai/kling-v4", "tag": "at3_G5c_k4_t1", "job": "chaosmonkey/at3_G5c_k4_t1-f6b97b6571", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:15:02Z", "model": "klingai/kling-v4", "tag": "at3_G5c_k4_t2", "job": "chaosmonkey/at3_G5c_k4_t2-9e5bfca6d0", "event": "submit", "ok": null, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:15:04Z", "model": "klingai/kling-v4", "tag": "at3_J4_k4_t1", "job": "chaosmonkey/at3_J4_k4_t1-1a532cbc1b", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:15:05Z", "model": "klingai/kling-v4", "tag": "at3_J4_k4_t2", "job": "chaosmonkey/at3_J4_k4_t2-8cd3381854", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:15:07Z", "model": "klingai/kling-v4", "tag": "at3_B2b_k4_t1", "job": "chaosmonkey/at3_B2b_k4_t1-87b06632ab", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:16:52Z", "model": "klingai/kling-v4", "tag": "v3bc_F1_t2", "job": "chaosmonkey/v3bc_F1_t2-d39d017b9f", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:16:53Z", "model": "klingai/kling-v4", "tag": "v3bc_morph_t1", "job": "chaosmonkey/v3bc_morph_t1-9e3a4f935f", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:17:18Z", "model": "klingai/kling-v4", "tag": "v3bc_F1_t1", "job": "chaosmonkey/v3bc_F1_t1-21db80cfb6", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:17:43Z", "model": "klingai/kling-v4", "tag": "v3bc_I4_t1", "job": "chaosmonkey/v3bc_I4_t1-e55abf46b2", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:17:43Z", "model": "google/nano-banana-pro", "tag": "bk3_page_I2b", "ok": true, "est_usd": 0.24, "where": "box"}
+{"ts": "2026-11-17T21:17:44Z", "model": "klingai/kling-v4", "tag": "v3bc_morph_t2", "job": "chaosmonkey/v3bc_morph_t2-1677cdde59", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:18:42Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:18:47Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-17T21:18:57Z", "model": "klingai/kling-v4", "tag": "v3bc_I4_t2", "job": "chaosmonkey/v3bc_I4_t2-4b1a803f59", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:19:00Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t3", "job": "chaosmonkey/at3_D9a_k4_t3-9b7d6868e8", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:19:00Z", "model": "klingai/kling-v4", "tag": "v3bc_I1_t1", "job": "chaosmonkey/v3bc_I1_t1-7e89e183ae", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:19:02Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t4", "job": "chaosmonkey/at3_D9a_k4_t4-ac80edc0a2", "event": "submit", "ok": null, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:19:04Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t3", "job": "chaosmonkey/at3_D9b_k4_t3-87bc7f5d41", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:19:05Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t4", "job": "chaosmonkey/at3_D9b_k4_t4-f9c84d9671", "event": "submit", "ok": null, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:19:52Z", "model": "klingai/kling-v4", "tag": "at3_A2_k4_t1", "job": "chaosmonkey/at3_A2_k4_t1-2c376a0cf3", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:19:52Z", "model": "klingai/kling-v4", "tag": "at3_A2_k4_t2", "job": "chaosmonkey/at3_A2_k4_t2-edcec3df43", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:19:53Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t1", "job": "chaosmonkey/at3_D9a_k4_t1-a7add2ce44", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:19:54Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t2", "job": "chaosmonkey/at3_D9a_k4_t2-6ae0993ba4", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:19:55Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t1", "job": "chaosmonkey/at3_D9b_k4_t1-c4c7300bc6", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:19:56Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t2", "job": "chaosmonkey/at3_D9b_k4_t2-213523a8c6", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:20:24Z", "model": "klingai/kling-v4", "tag": "v3bc_I1_t2", "job": "chaosmonkey/v3bc_I1_t2-3eaf656ddd", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:20:25Z", "model": "klingai/kling-v4", "tag": "v3bc_I3a_t1", "job": "chaosmonkey/v3bc_I3a_t1-f941599ca5", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:21:12Z", "model": "klingai/kling-v4", "tag": "v3bc_I3a_t2", "job": "chaosmonkey/v3bc_I3a_t2-a16c3b9516", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:21:15Z", "model": "klingai/kling-v4", "tag": "at3_G5_k4_t1", "job": "chaosmonkey/at3_G5_k4_t1-7f18afaa15", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:23:23Z", "model": "klingai/kling-v4", "tag": "v3bc_F3a_t1", "job": "chaosmonkey/v3bc_F3a_t1-949855285e", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:24:07Z", "model": "klingai/kling-v4", "tag": "v3bc_F3a_t2", "job": "chaosmonkey/v3bc_F3a_t2-23b9eefd1d", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:25:34Z", "model": "klingai/kling-v4", "tag": "v3bc_F6b_t1", "job": "chaosmonkey/v3bc_F6b_t1-9d63f97aed", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:25:35Z", "model": "klingai/kling-v4", "tag": "v3bc_F6b_t2", "job": "chaosmonkey/v3bc_F6b_t2-40a63bf820", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:26:23Z", "model": "google/nano-banana-pro", "tag": "bk3_K4_hand", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T21:26:30Z", "model": "google/nano-banana-pro", "tag": "bk3_K4_hand", "ok": true, "est_usd": 0.1344, "where": "box"}
+{"ts": "2026-11-17T21:27:05Z", "model": "klingai/kling-v4", "tag": "at3_G5_k4_t2", "job": "chaosmonkey/at3_G5_k4_t2-8266e1417c", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:27:06Z", "model": "klingai/kling-v4", "tag": "at3_A3a_k4_t1", "job": "chaosmonkey/at3_A3a_k4_t1-a0fbb64e63", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:27:07Z", "model": "klingai/kling-v4", "tag": "at3_A3a_k4_t2", "job": "chaosmonkey/at3_A3a_k4_t2-f699484e2a", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:27:08Z", "model": "klingai/kling-v4", "tag": "at3_A4_k4_t1", "job": "chaosmonkey/at3_A4_k4_t1-70b928059d", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:27:09Z", "model": "klingai/kling-v4", "tag": "at3_A4_k4_t2", "job": "chaosmonkey/at3_A4_k4_t2-77392222f4", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:27:10Z", "model": "klingai/kling-v4", "tag": "at3_B2a_k4_t1", "job": "chaosmonkey/at3_B2a_k4_t1-fed4f9be49", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:27:11Z", "model": "klingai/kling-v4", "tag": "at3_B2a_k4_t2", "job": "chaosmonkey/at3_B2a_k4_t2-8a1bbcfe56", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:28:26Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_XUYANZHAO_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:28:30Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_CAOCAO_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:28:34Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_MONKEY_c", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T21:28:37Z", "model": "klingai/kling-v4", "tag": "v3bc_F4a_t1", "job": "chaosmonkey/v3bc_F4a_t1-46552cdee4", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:28:38Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_HUANGGAI_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:28:59Z", "model": "klingai/kling-v4", "tag": "v3bc_F4a_t2", "job": "chaosmonkey/v3bc_F4a_t2-b3c1681dc9", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:29:59Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_JIANGWEI_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:30:03Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_XIAHOUDUN_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:30:07Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHANGFEI_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:30:10Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_LIUJIN_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:31:38Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHOUCANG_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:31:38Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_JINQIANBAO_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:31:43Z", "model": "klingai/kling-v4", "tag": "v3bc_L1_t1", "job": "chaosmonkey/v3bc_L1_t1-17d2facba1", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:32:00Z", "model": "klingai/kling-v4", "tag": "ls_B1_act1", "job": "chaosmonkey/ls_B1_act1-caa0671f59", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:32:01Z", "model": "klingai/kling-v4", "tag": "ls_B1_act2", "job": "chaosmonkey/ls_B1_act2-680724252e", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:32:02Z", "model": "pruna/p-video-avatar", "tag": "ls_B1_drive", "job": "chaosmonkey/ls_B1_drive-53c5dd94bd", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:03Z", "model": "klingai/kling-v4", "tag": "ls_C3_act1", "job": "chaosmonkey/ls_C3_act1-f77b3d12ea", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:32:04Z", "model": "klingai/kling-v4", "tag": "ls_C3_act2", "job": "chaosmonkey/ls_C3_act2-fea8d68f66", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:32:04Z", "model": "klingai/kling-v4", "tag": "v3bc_K1_t1", "job": "chaosmonkey/v3bc_K1_t1-2803c5c422", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:32:05Z", "model": "pruna/p-video-avatar", "tag": "ls_C3_drive", "job": "chaosmonkey/ls_C3_drive-3c4a0e5f37", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:07Z", "model": "klingai/kling-v4", "tag": "ls_E1_act1", "job": "chaosmonkey/ls_E1_act1-8ab2f48ef8", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:32:08Z", "model": "klingai/kling-v4", "tag": "ls_E1_act2", "job": "chaosmonkey/ls_E1_act2-20996cd2c5", "event": "submit", "ok": null, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:32:09Z", "model": "pruna/p-video-avatar", "tag": "ls_E1_drive", "job": "chaosmonkey/ls_E1_drive-98cfac318b", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:10Z", "model": "klingai/kling-v4", "tag": "ls_E3_act1", "job": "chaosmonkey/ls_E3_act1-b23376f8c1", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:32:11Z", "model": "klingai/kling-v4", "tag": "ls_E3_act2", "job": "chaosmonkey/ls_E3_act2-e85cc9e2af", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:32:13Z", "model": "pruna/p-video-avatar", "tag": "ls_E3_drive", "job": "chaosmonkey/ls_E3_drive-34bebc4af9", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:14Z", "model": "klingai/kling-v4", "tag": "ls_G1_act1", "job": "chaosmonkey/ls_G1_act1-c13e7c3267", "event": "submit", "ok": null, "est_usd": 0.942, "where": "box"}
+{"ts": "2026-11-17T21:32:15Z", "model": "klingai/kling-v4", "tag": "ls_G1_act2", "job": "chaosmonkey/ls_G1_act2-45082316bb", "event": "submit", "ok": null, "est_usd": 0.942, "where": "box"}
+{"ts": "2026-11-17T21:32:16Z", "model": "pruna/p-video-avatar", "tag": "ls_G1_drive", "job": "chaosmonkey/ls_G1_drive-f0e51d1739", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:16Z", "model": "klingai/kling-v4", "tag": "at3_C5a_k4_t1", "job": "chaosmonkey/at3_C5a_k4_t1-83e629218e", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:32:17Z", "model": "klingai/kling-v4", "tag": "ls_G4_act1", "job": "chaosmonkey/ls_G4_act1-e82338c85e", "event": "submit", "ok": null, "est_usd": 1.41, "where": "box"}
+{"ts": "2026-11-17T21:32:18Z", "model": "klingai/kling-v4", "tag": "ls_G4_act2", "job": "chaosmonkey/ls_G4_act2-73e61f123b", "event": "submit", "ok": null, "est_usd": 1.41, "where": "box"}
+{"ts": "2026-11-17T21:32:20Z", "model": "pruna/p-video-avatar", "tag": "ls_G4_drive", "job": "chaosmonkey/ls_G4_drive-72feaa26f1", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:20Z", "model": "klingai/kling-v4", "tag": "at3_C5a_k4_t2", "job": "chaosmonkey/at3_C5a_k4_t2-e64b4c11cd", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:32:21Z", "model": "klingai/kling-v4", "tag": "ls_G5_act1", "job": "chaosmonkey/ls_G5_act1-3d8cfbd8b7", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:32:22Z", "model": "klingai/kling-v4", "tag": "ls_G5_act2", "job": "chaosmonkey/ls_G5_act2-28a34f2e4b", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:32:22Z", "model": "klingai/kling-v4", "tag": "at3_D2d_k4_t1", "job": "chaosmonkey/at3_D2d_k4_t1-9d533690ef", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:32:23Z", "model": "pruna/p-video-avatar", "tag": "ls_G5_drive", "job": "chaosmonkey/ls_G5_drive-e4e6eb55f1", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:32:24Z", "model": "klingai/kling-v4", "tag": "at3_D2d_k4_t2", "job": "chaosmonkey/at3_D2d_k4_t2-cd28e98058", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:32:25Z", "model": "klingai/kling-v4", "tag": "at3_D3_k4_t1", "job": "chaosmonkey/at3_D3_k4_t1-a0ceb22e01", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:32:27Z", "model": "klingai/kling-v4", "tag": "at3_E5_k4_t1", "job": "chaosmonkey/at3_E5_k4_t1-a1f4e20213", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:32:35Z", "model": "klingai/kling-v4", "tag": "v3bc_L1_t2", "job": "chaosmonkey/v3bc_L1_t2-4fab64e52b", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:32:57Z", "model": "klingai/kling-v4", "tag": "v3bc_L2_t1", "job": "chaosmonkey/v3bc_L2_t1-70149a1bee", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:32:57Z", "model": "klingai/kling-v4", "tag": "at3_D3_k4_t2", "job": "chaosmonkey/at3_D3_k4_t2-7fe6a76bb5", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:33:07Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_HUANGGAI_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:33:08Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_XUYANZHAO_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:33:18Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_MONKEY_d", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T21:33:19Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_CAOCAO_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:33:36Z", "model": "klingai/kling-v4", "tag": "v3bc_K1_t2", "job": "chaosmonkey/v3bc_K1_t2-0689d33579", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:33:42Z", "model": "minimax/h3", "tag": "bk3_alive_B3_h3_t1", "job": "chaosmonkey/bk3_alive_B3_h3_t1-d2fdbf4817", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T21:33:43Z", "model": "minimax/h3", "tag": "bk3_alive_I2_h3_t1", "job": "chaosmonkey/bk3_alive_I2_h3_t1-ae6d4f2788", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T21:33:45Z", "model": "minimax/h3", "tag": "bk3_alive_I3b_h3_t1", "job": "chaosmonkey/bk3_alive_I3b_h3_t1-ed0d2f87e7", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T21:33:46Z", "model": "minimax/h3", "tag": "bk3_alive_K1_h3_t1", "job": "chaosmonkey/bk3_alive_K1_h3_t1-6a4bced5de", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T21:33:47Z", "model": "minimax/h3", "tag": "bk3_alive_K2b_h3_t1", "job": "chaosmonkey/bk3_alive_K2b_h3_t1-1e1eea1fda", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T21:34:30Z", "model": "pruna/p-video-avatar", "tag": "ls_I4_drive", "job": "chaosmonkey/ls_I4_drive-bbc5dcef12", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:34:31Z", "model": "pruna/p-video-avatar", "tag": "ls_I3a_drive", "job": "chaosmonkey/ls_I3a_drive-41e0f2274b", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T21:34:42Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHANGFEI_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:34:43Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_JIANGWEI_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:34:49Z", "model": "klingai/kling-v4", "tag": "v3bc_L2_t2", "job": "chaosmonkey/v3bc_L2_t2-ebb551c11a", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:34:53Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_XIAHOUDUN_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:34:56Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_LIUJIN_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:35:06Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_TANGQIN_c", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:35:13Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_TANGQIN_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:35:14Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_SHIQIAN_d", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T21:35:16Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_SHIQIAN_c", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-17T21:35:49Z", "model": "klingai/kling-v4", "tag": "at3_E5_k4_t2", "job": "chaosmonkey/at3_E5_k4_t2-ca436faaf1", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:36:16Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_ZHOUCANG_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:36:18Z", "model": "openai/gpt-image-2", "tag": "lianpu_v3_JINQIANBAO_d", "ok": true, "est_usd": 0.2, "where": "box"}
+{"ts": "2026-11-17T21:36:34Z", "model": "klingai/kling-v4", "tag": "v3bc_J4_t1", "job": "chaosmonkey/v3bc_J4_t1-3e4fad3514", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:36:35Z", "model": "klingai/kling-v4", "tag": "v3bc_J1_t1", "job": "chaosmonkey/v3bc_J1_t1-1f94a3a200", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:37:25Z", "model": "klingai/kling-v4", "tag": "v3bc_J1_t2", "job": "chaosmonkey/v3bc_J1_t2-2ae62878d3", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T21:37:53Z", "model": "klingai/kling-v4", "tag": "at3_E6_k4_t1", "job": "chaosmonkey/at3_E6_k4_t1-9aec431777", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:37:53Z", "model": "klingai/kling-v4", "tag": "at3_E6_k4_t2", "job": "chaosmonkey/at3_E6_k4_t2-00d662cf86", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:37:55Z", "model": "klingai/kling-v4", "tag": "at3_F3b_k4_t1", "job": "chaosmonkey/at3_F3b_k4_t1-ccc0a62ab7", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:37:55Z", "model": "klingai/kling-v4", "tag": "at3_F3b_k4_t2", "job": "chaosmonkey/at3_F3b_k4_t2-11088a5872", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:37:56Z", "model": "klingai/kling-v4", "tag": "at3_A3b_k4_t1", "job": "chaosmonkey/at3_A3b_k4_t1-6249837bf0", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:37:56Z", "model": "klingai/kling-v4", "tag": "v3bc_J4_t2", "job": "chaosmonkey/v3bc_J4_t2-2e33b183ad", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:37:58Z", "model": "klingai/kling-v4", "tag": "at3_A3b_k4_t2", "job": "chaosmonkey/at3_A3b_k4_t2-8e4864b987", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:40:54Z", "model": "klingai/kling-v4", "tag": "at3_C2_k4_t1", "job": "chaosmonkey/at3_C2_k4_t1-443144ff50", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:40:55Z", "model": "klingai/kling-v4", "tag": "at3_C2_k4_t2", "job": "chaosmonkey/at3_C2_k4_t2-bd8f719846", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:40:56Z", "model": "klingai/kling-v4", "tag": "at3_G3_k4_t1", "job": "chaosmonkey/at3_G3_k4_t1-e1b56d6b2d", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:40:57Z", "model": "klingai/kling-v4", "tag": "at3_L2b_k4_t1", "job": "chaosmonkey/at3_L2b_k4_t1-8937904213", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:41:36Z", "model": "klingai/kling-v4", "tag": "v3bc_ots_t1", "job": "chaosmonkey/v3bc_ots_t1-aec8bd862a", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:46:40Z", "model": "klingai/kling-v4", "tag": "at3_L2b_k4_t2", "job": "chaosmonkey/at3_L2b_k4_t2-181651b8f3", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:50:38Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_3", "job": "chaosmonkey/ls3_a_sd25short_3-6fd40bd333", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:40Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_4", "job": "chaosmonkey/ls3_a_sd25short_4-29d18e64e5", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:41Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short_5", "job": "chaosmonkey/ls3_a_sd25short_5-dd3c97e12d", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:42Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short2_1", "job": "chaosmonkey/ls3_a_sd25short2_1-a5f24c08be", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:44Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short2_2", "job": "chaosmonkey/ls3_a_sd25short2_2-b20469ecf0", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:47Z", "model": "bytedance/seedance-2.5", "tag": "ls3_a_sd25short2_3", "job": "chaosmonkey/ls3_a_sd25short2_3-376b3d6d23", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:49Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_3", "job": "chaosmonkey/ls3_b_sd25pre_3-c9118e56cd", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:50Z", "model": "bytedance/seedance-2.5", "tag": "ls3_b_sd25pre_4", "job": "chaosmonkey/ls3_b_sd25pre_4-b25d4e2d67", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:51Z", "model": "bytedance/seedance-2.5", "tag": "ls3_d_sd25pre_1", "job": "chaosmonkey/ls3_d_sd25pre_1-499bfb0a70", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:52Z", "model": "bytedance/seedance-2.5", "tag": "ls3_d_sd25pre_2", "job": "chaosmonkey/ls3_d_sd25pre_2-c92788c9b9", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:53Z", "model": "bytedance/seedance-2.5", "tag": "ls3_d_sd25pre_3", "job": "chaosmonkey/ls3_d_sd25pre_3-1e745e5cbe", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:54Z", "model": "pruna/p-video-avatar", "tag": "ls3_d_pavN_1", "job": "chaosmonkey/ls3_d_pavN_1-a4496bacfa", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T21:50:55Z", "model": "klingai/kling-v4", "tag": "ls3_d_kling_1", "job": "chaosmonkey/ls3_d_kling_1-38405ef856", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:50:56Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_3", "job": "chaosmonkey/ls3_c_sd25pre_3-786baecce9", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:50:57Z", "model": "bytedance/seedance-2.5", "tag": "ls3_c_sd25pre_4", "job": "chaosmonkey/ls3_c_sd25pre_4-71c0a2e98e", "event": "result", "ok": true, "est_usd": 0.9248, "where": "box"}
+{"ts": "2026-11-17T21:52:27Z", "model": "klingai/kling-v4", "tag": "at3_J4_k4_t2", "job": "chaosmonkey/at3_J4_k4_t2-8cd3381854", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:52:28Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t3", "job": "chaosmonkey/at3_D9a_k4_t3-9b7d6868e8", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:52:33Z", "model": "pruna/p-video-avatar", "tag": "ls_B1_drive", "job": "chaosmonkey/ls_B1_drive-53c5dd94bd", "event": "result", "ok": true, "est_usd": 0.1761, "where": "box"}
+{"ts": "2026-11-17T21:53:18Z", "model": "klingai/kling-v4", "tag": "at3_D9a_k4_t4", "job": "chaosmonkey/at3_D9a_k4_t4-ac80edc0a2", "event": "result", "ok": true, "est_usd": 0.471, "where": "box"}
+{"ts": "2026-11-17T21:53:19Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t3", "job": "chaosmonkey/at3_D9b_k4_t3-87bc7f5d41", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:53:20Z", "model": "klingai/kling-v4", "tag": "at3_D9b_k4_t4", "job": "chaosmonkey/at3_D9b_k4_t4-f9c84d9671", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:57:16Z", "model": "klingai/kling-v4", "tag": "at3_G5c_k4_t1", "job": "chaosmonkey/at3_G5c_k4_t1-f6b97b6571", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:57:18Z", "model": "klingai/kling-v4", "tag": "at3_G5c_k4_t2", "job": "chaosmonkey/at3_G5c_k4_t2-9e5bfca6d0", "event": "result", "ok": true, "est_usd": 1.175, "where": "box"}
+{"ts": "2026-11-17T21:57:19Z", "model": "klingai/kling-v4", "tag": "at3_J4_k4_t1", "job": "chaosmonkey/at3_J4_k4_t1-1a532cbc1b", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:57:20Z", "model": "klingai/kling-v4", "tag": "at3_B2b_k4_t1", "job": "chaosmonkey/at3_B2b_k4_t1-87b06632ab", "event": "result", "ok": true, "est_usd": 0.785, "where": "box"}
+{"ts": "2026-11-17T21:59:45Z", "model": "klingai/kling-v4", "tag": "ls_B1_act1", "job": "chaosmonkey/ls_B1_act1-caa0671f59", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:59:47Z", "model": "klingai/kling-v4", "tag": "ls_B1_act2", "job": "chaosmonkey/ls_B1_act2-680724252e", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T21:59:48Z", "model": "klingai/kling-v4", "tag": "ls_C3_act1", "job": "chaosmonkey/ls_C3_act1-f77b3d12ea", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:59:49Z", "model": "klingai/kling-v4", "tag": "ls_C3_act2", "job": "chaosmonkey/ls_C3_act2-fea8d68f66", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:59:50Z", "model": "pruna/p-video-avatar", "tag": "ls_C3_drive", "job": "chaosmonkey/ls_C3_drive-3c4a0e5f37", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T21:59:50Z", "model": "klingai/kling-v4", "tag": "ls_E1_act1", "job": "chaosmonkey/ls_E1_act1-8ab2f48ef8", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:59:51Z", "model": "klingai/kling-v4", "tag": "ls_E1_act2", "job": "chaosmonkey/ls_E1_act2-20996cd2c5", "event": "result", "ok": true, "est_usd": 0.628, "where": "box"}
+{"ts": "2026-11-17T21:59:52Z", "model": "pruna/p-video-avatar", "tag": "ls_E1_drive", "job": "chaosmonkey/ls_E1_drive-98cfac318b", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T21:59:54Z", "model": "pruna/p-video-avatar", "tag": "ls_E3_drive", "job": "chaosmonkey/ls_E3_drive-34bebc4af9", "event": "result", "ok": true, "est_usd": 0.1761, "where": "box"}
+{"ts": "2026-11-17T21:59:57Z", "model": "pruna/p-video-avatar", "tag": "ls_G1_drive", "job": "chaosmonkey/ls_G1_drive-f0e51d1739", "event": "result", "ok": true, "est_usd": 0.1511, "where": "box"}
+{"ts": "2026-11-17T21:59:59Z", "model": "pruna/p-video-avatar", "tag": "ls_G4_drive", "job": "chaosmonkey/ls_G4_drive-72feaa26f1", "event": "result", "ok": true, "est_usd": 0.1511, "where": "box"}
+{"ts": "2026-11-17T22:05:22Z", "model": "klingai/kling-v4", "tag": "ls_E3_act1", "job": "chaosmonkey/ls_E3_act1-b23376f8c1", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T22:05:24Z", "model": "klingai/kling-v4", "tag": "ls_E3_act2", "job": "chaosmonkey/ls_E3_act2-e85cc9e2af", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T22:05:24Z", "model": "minimax/h3", "tag": "bk3_alive_B3_h3_t1", "job": "chaosmonkey/bk3_alive_B3_h3_t1-d2fdbf4817", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T22:05:25Z", "model": "klingai/kling-v4", "tag": "ls_G1_act1", "job": "chaosmonkey/ls_G1_act1-c13e7c3267", "event": "result", "ok": true, "est_usd": 0.942, "where": "box"}
+{"ts": "2026-11-17T22:05:25Z", "model": "klingai/kling-v4", "tag": "ls_G1_act1", "job": "chaosmonkey/ls_G1_act1-c13e7c3267", "event": "result", "ok": true, "est_usd": 0.942, "where": "box"}
+{"ts": "2026-11-17T22:05:26Z", "model": "klingai/kling-v4", "tag": "ls_G1_act2", "job": "chaosmonkey/ls_G1_act2-45082316bb", "event": "result", "ok": true, "est_usd": 0.942, "where": "box"}
+{"ts": "2026-11-17T22:05:28Z", "model": "klingai/kling-v4", "tag": "ls_G5_act1", "job": "chaosmonkey/ls_G5_act1-3d8cfbd8b7", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T22:05:30Z", "model": "pruna/p-video-avatar", "tag": "ls_G5_drive", "job": "chaosmonkey/ls_G5_drive-e4e6eb55f1", "event": "result", "ok": true, "est_usd": 0.0761, "where": "box"}
+{"ts": "2026-11-17T22:05:32Z", "model": "pruna/p-video-avatar", "tag": "ls_I4_drive", "job": "chaosmonkey/ls_I4_drive-bbc5dcef12", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T22:05:33Z", "model": "pruna/p-video-avatar", "tag": "ls_I3a_drive", "job": "chaosmonkey/ls_I3a_drive-41e0f2274b", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-17T22:05:58Z", "model": "minimax/h3", "tag": "bk3_alive_I2_h3_t1", "job": "chaosmonkey/bk3_alive_I2_h3_t1-ae6d4f2788", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T22:07:04Z", "model": "minimax/h3", "tag": "bk3_alive_I3b_h3_t1", "job": "chaosmonkey/bk3_alive_I3b_h3_t1-ed0d2f87e7", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T22:07:05Z", "model": "minimax/h3", "tag": "bk3_alive_K1_h3_t1", "job": "chaosmonkey/bk3_alive_K1_h3_t1-6a4bced5de", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T22:08:08Z", "model": "minimax/h3", "tag": "bk3_alive_K2b_h3_t1", "job": "chaosmonkey/bk3_alive_K2b_h3_t1-1e1eea1fda", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-17T22:08:54Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T22:08:57Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2384, "where": "box"}
+{"ts": "2026-11-17T22:09:10Z", "model": "klingai/kling-v4", "tag": "ls_B1c_act1", "job": "chaosmonkey/ls_B1c_act1-9ce114e639", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T22:09:12Z", "model": "klingai/kling-v4", "tag": "ls_B1c_act2", "job": "chaosmonkey/ls_B1c_act2-07be78d12b", "event": "submit", "ok": null, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-17T22:09:13Z", "model": "pruna/p-video-avatar", "tag": "ls_B1c_drive", "job": "chaosmonkey/ls_B1c_drive-977dd0db13", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-17T22:16:41Z", "model": "klingai/kling-v4", "tag": "ls_G4_act1", "job": "chaosmonkey/ls_G4_act1-e82338c85e", "event": "result", "ok": true, "est_usd": 1.41, "where": "box"}
+{"ts": "2026-11-17T22:16:43Z", "model": "klingai/kling-v4", "tag": "ls_G4_act2", "job": "chaosmonkey/ls_G4_act2-73e61f123b", "event": "result", "ok": true, "est_usd": 1.41, "where": "box"}
+{"ts": "2026-11-17T22:16:44Z", "model": "klingai/kling-v4", "tag": "ls_G5_act2", "job": "chaosmonkey/ls_G5_act2-28a34f2e4b", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-17T22:16:45Z", "model": "pruna/p-video-avatar", "tag": "ls_B1c_drive", "job": "chaosmonkey/ls_B1c_drive-977dd0db13", "event": "result", "ok": true, "est_usd": 0.1761, "where": "box"}
+{"ts": "2026-11-17T22:20:23Z", "model": "klingai/kling-v4", "tag": "ls_B1c_act1", "job": "chaosmonkey/ls_B1c_act1-9ce114e639", "event": "result", "ok": true, "est_usd": 1.099, "where": "box"}
+{"ts": "2026-11-18T01:39:20Z", "model": "pruna/p-video-avatar", "tag": "ls_F1_drive", "job": "chaosmonkey/ls_F1_drive-5b00d8996c", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-18T01:39:22Z", "model": "pruna/p-video-avatar", "tag": "ls_I1_drive", "job": "chaosmonkey/ls_I1_drive-81fd35fde6", "event": "submit", "ok": null, "est_usd": 0.125, "where": "box"}
+{"ts": "2026-11-18T01:41:36Z", "model": "minimax/h3", "tag": "bk3_alive_B3_h3_t2", "job": "chaosmonkey/bk3_alive_B3_h3_t2-663791f2e7", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:41:37Z", "model": "minimax/h3", "tag": "bk3_alive_B3_h3_t3", "job": "chaosmonkey/bk3_alive_B3_h3_t3-e231888b05", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:41:38Z", "model": "minimax/h3", "tag": "bk3_alive_C5b_h3_t1", "job": "chaosmonkey/bk3_alive_C5b_h3_t1-60dba1454c", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:41:40Z", "model": "minimax/h3", "tag": "bk3_alive_C5b_h3_t2", "job": "chaosmonkey/bk3_alive_C5b_h3_t2-ff24155ca2", "event": "submit", "ok": null, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:41:55Z", "model": "pruna/p-video-avatar", "tag": "ls_I1_drive", "job": "chaosmonkey/ls_I1_drive-81fd35fde6", "event": "result", "ok": true, "est_usd": 0.1011, "where": "box"}
+{"ts": "2026-11-18T01:42:10Z", "model": "pruna/p-video-avatar", "tag": "ls_F1_drive", "job": "chaosmonkey/ls_F1_drive-5b00d8996c", "event": "result", "ok": true, "est_usd": 0.0761, "where": "box"}
+{"ts": "2026-11-18T01:47:19Z", "model": "minimax/h3", "tag": "bk3_alive_B3_h3_t3", "job": "chaosmonkey/bk3_alive_B3_h3_t3-e231888b05", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:48:11Z", "model": "minimax/h3", "tag": "bk3_alive_B3_h3_t2", "job": "chaosmonkey/bk3_alive_B3_h3_t2-663791f2e7", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:48:12Z", "model": "minimax/h3", "tag": "bk3_alive_C5b_h3_t1", "job": "chaosmonkey/bk3_alive_C5b_h3_t1-60dba1454c", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T01:48:28Z", "model": "minimax/h3", "tag": "bk3_alive_C5b_h3_t2", "job": "chaosmonkey/bk3_alive_C5b_h3_t2-ff24155ca2", "event": "result", "ok": true, "est_usd": 0.65, "where": "box"}
+{"ts": "2026-11-18T02:37:06Z", "model": "openai/gpt-image-2", "tag": "v3bc_kf_F2", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-18T02:37:29Z", "model": "klingai/kling-v4", "tag": "v3bc_F2_t1", "job": "chaosmonkey/v3bc_F2_t1-f48877f66f", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:37:33Z", "model": "klingai/kling-v4", "tag": "v3bc_F2_t2", "job": "chaosmonkey/v3bc_F2_t2-1cf2b1ccc6", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:37:50Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-18T02:37:50Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.264, "where": "box"}
+{"ts": "2026-11-18T02:39:21Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-18T02:39:21Z", "model": "openai/gpt-image-2", "tag": "attic3_kf", "ok": true, "est_usd": 0.2128, "where": "box"}
+{"ts": "2026-11-18T02:39:38Z", "model": "klingai/kling-v4", "tag": "at3_L2m_k4_t1", "job": "chaosmonkey/at3_L2m_k4_t1-a75b0bd7d3", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:39:39Z", "model": "klingai/kling-v4", "tag": "at3_L2m_k4_t2", "job": "chaosmonkey/at3_L2m_k4_t2-f18ac4b64a", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:39:40Z", "model": "klingai/kling-v4", "tag": "at3_L2w_k4_t1", "job": "chaosmonkey/at3_L2w_k4_t1-8aaa612dab", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:39:41Z", "model": "klingai/kling-v4", "tag": "at3_L2w_k4_t2", "job": "chaosmonkey/at3_L2w_k4_t2-f86bcff28d", "event": "submit", "ok": null, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:45:38Z", "model": "klingai/kling-v4", "tag": "v3bc_F2_t1", "job": "chaosmonkey/v3bc_F2_t1-f48877f66f", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:45:39Z", "model": "klingai/kling-v4", "tag": "v3bc_F2_t2", "job": "chaosmonkey/v3bc_F2_t2-1cf2b1ccc6", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:47:23Z", "model": "klingai/kling-v4", "tag": "at3_L2m_k4_t1", "job": "chaosmonkey/at3_L2m_k4_t1-a75b0bd7d3", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:47:25Z", "model": "klingai/kling-v4", "tag": "at3_L2w_k4_t1", "job": "chaosmonkey/at3_L2w_k4_t1-8aaa612dab", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:47:26Z", "model": "klingai/kling-v4", "tag": "at3_L2w_k4_t2", "job": "chaosmonkey/at3_L2w_k4_t2-f86bcff28d", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}
+{"ts": "2026-11-18T02:48:30Z", "model": "klingai/kling-v4", "tag": "at3_L2m_k4_t2", "job": "chaosmonkey/at3_L2m_k4_t2-f18ac4b64a", "event": "result", "ok": true, "est_usd": 0.705, "where": "box"}

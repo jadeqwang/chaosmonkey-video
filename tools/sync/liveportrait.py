@@ -34,14 +34,14 @@ def sessions():
     if not _S:
         os.makedirs(MODELS, exist_ok=True)
         so = ort.SessionOptions()
-        so.intra_op_num_threads = int(os.environ.get('LIVEPORTRAIT_THREADS', '4'))
+        so.intra_op_num_threads = int(os.environ.get('LIVEPORTRAIT_THREADS', '12'))
         for p in PARTS:
             f = os.path.join(MODELS, f'live_portrait_{p}.onnx')
             if not os.path.exists(f):
                 print('downloading', os.path.basename(f), flush=True)
                 urllib.request.urlretrieve(URL.format(p), f + '.part')
                 os.replace(f + '.part', f)
-            _S[p] = ort.InferenceSession(f, so, providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+            _S[p] = ort.InferenceSession(f, so, providers=['CPUExecutionProvider'])
     return _S
 
 
@@ -57,11 +57,11 @@ def crop_face(frame, lm5, scale=1.5, size=512):
 class Face:
     """A face crop's appearance features and implicit keypoints, with the pose they decompose into."""
 
-    def __init__(self, crop):
+    def __init__(self, crop, motion_only=False):
         S = sessions()
         x = cv2.resize(crop, (256, 256), interpolation=cv2.INTER_AREA)[:, :, ::-1] / 255.0
         x = np.expand_dims(x.transpose(2, 0, 1), 0).astype(np.float32)
-        self.fv = S['feature_extractor'].run(None, {'input': x})[0]
+        self.fv = None if motion_only else S['feature_extractor'].run(None, {'input': x})[0]
         p, y, r, self.sc, self.tr, self.ex, self.mp = S['motion_extractor'].run(None, {'input': x})
         self.R = Rotation.from_euler('xyz', [p, y, r], degrees=True).as_matrix().astype(np.float32)
         self.kp = (self.sc * (self.mp @ self.R.T + self.ex) + self.tr).astype(np.float32)

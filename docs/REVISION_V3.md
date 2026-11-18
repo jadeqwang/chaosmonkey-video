@@ -402,3 +402,29 @@ This is now the governing feel for every shot inside the book, and it relaxes th
   F3b in the attic matches that angle for the match cut.
 - E5 (the whisper) uses `LAP_child_cu`. L1 must be re-blocked in the keyframe as: asleep in Jade's lap.
 - The last third of the over-shoulder push is a 2D warp on the page quads into the BOOK team's flat page.
+
+## 15. Reference research landed (`refs/paintings/MANIFEST_V3.md`, `refs/paintings/v3/`) and what it changes
+- **I3b, the gods' table (corrects §12):** tradition almost never seats the gods in rows at a table. The banquet picture
+  is: the Queen Mother behind a long table on a terrace before a screen and fans, peaches in stemmed dishes, the
+  immortals ARRIVING over waves and on clouds; and in the novel the banquet is seen before it starts: the tables laid,
+  the monkey alone among them. Stage I3b that way: the laid table on its terrace, a name slip at every place, the
+  immortals approaching in rank on clouds, one place with no slip. Refs: `04_peach_banquet_gods/lacma_*` (layout
+  only; do not republish), `yongle_palace_chaoyuan_tu_segment3.jpg`, the Eighty-seven Immortals crops for line.
+- **I2, fighting the gods:** set in cloud with no ground line; the monkey is the smallest figure and the only
+  diagonal; the host comes in groups under banners, known by attribute (Nezha's fire-wheels, Li Jing's pagoda, Erlang
+  with blade, hawk and hound). Use the defiant stand inside the ring of thunder generals, then the host scattered.
+  (In the novel he is captured in the end; winning is the mother's telling and the 1950s opera's. Keep the lyric.)
+- **D6, the Buddha's palm:** five finger-pillars rising from cloud with rays behind, the monkey tiny beside them; the
+  viewer sees they are fingers before he does. Ref: `02_buddha_palm_wuxingshan/ehon_saiyuki_1806_*` (Japanese, PD).
+- **K1/K2b, the underworld:** asleep under a pine; two fetchers lead his soul away on a rope (body in solid ink, soul
+  and fetchers in dotted ghost-line: use this device); the gate 幽冥界; the hall with the kings aside, the judge and
+  the ledger at a desk, the monkey with the brush. Refs in `05_underworld/`.
+- **Yellow monkey:** yellow quilted jacket with black key-fret pattern and leopard-fur trim, red scarf, soft
+  yellow-and-black knotted cap, red peach face on white with gold-ringed eyes. Opera photos are reference-only.
+- **E2 troop:** `06_monkey_troop/` (separate readable silhouettes; real grooming behaviour from the Mori Sosen leaves).
+- **Inscription placement:** top corner opposite the picture's mass, two to five columns, level tops, a seal at the
+  end, small characters, no frame (`07_inscriptions/`).
+
+## 16. Temp files
+`/tmp` is a 16 GB RAM disk and is 98% full. Do not write temp files there: use `work/tmp/` in the repo
+(`export TMPDIR=$PWD/work/tmp`), and clean up what you put there.

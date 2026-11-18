@@ -60,44 +60,40 @@ version of Wang Ximeng (fewer layers than the real scroll).
 | id | file | px | shots | notes |
 |---|---|---|---|---|
 | F-leaf | `F_album_leaf_empty.png` (full bleed) / `F_album_leaf_empty_rgba.png` (sheet with worn round corners and a soft deckle, 120 px transparent pad) | 3600x2400 (+pad) | H1, H2, H3, H4 | **Built in code** on `Paper('aged')`: faint hand-ruled 6x4 grid inside a thin double rule, foxing and tide lines, all cells bare. Cell rects, row-major, in `F_album_grid.json` (cell 510x475 px from (270, 230)); the bare cell is row 3, col 4 (index 15) as in the bake-off. Fit a face so its 1120 px face box is ≈ 0.8 of the cell height (scale ≈ 0.34). |
-| F-faces | `faces/F01..F23.png` + `faces/Fxx_mask.png` | 1400x1400 each | H1-H4, J4 (row) | gpt-image-2 at 1536, all generated against F01 as the shape reference, then **normalised in code: the face (cap to chin) is exactly 1120 px tall, centred**; sheet around the face replaced by its flat median paper tone. Masks = face silhouette (for stamping and for the rubbing flip). Prompts beside each file. `F_faces.json` lists family, mask and face box. |
-| F-builds | `builds/Fxx_1_ground.png`, `_2_colour.png`, `_3_lines.png` (= final), `_lines_mask.png` | 1400x1400 | H1 (paint-on per beat) | **Built in code** from the final face for F01, F04, F08, F09, F11, F16: (1) pale white ground over the whole face, cap and ears kept; (2) colour fields with the black lines inpainted away; (3) the black lines. Registered pixel for pixel: cross-dissolve or wipe between stages; `lines_mask` lets the black land as one stroke on the gong. |
+| F-faces v3 | `v3/faces/<ID>.png` + `<ID>_mask.png`; index `F_faces_v3.json` (id, file, mask, face box, take); cell map `shots/faces_lib.ALBUM` | 1400x1400 each | H1-H4 | **v3 (current): every face is the conventional 脸谱 of a named character**, checked against sources (`docs/logs/LOG_v3_faces_verify.md`; first pass `LOG_v3_faces.md`). gpt-image-2 1536 high via `v3/gen_faces.py` (prompts `v3/faces_v3.json`; F01 as outline ref; CC0 Qing album crops as pattern refs for 包拯, 二郎神, 时迁, 孙悟空), candidates in `v3/_cand/` (all takes kept, picks in `v3/picks.json`), **normalised in code** by `v3/normalise.py` (face cap-to-chin 1120 px, centred). Previous normalised set in `v3/faces/_v3a/`. The face build stages and wear are made in code (`faces_lib._paint_surface`). |
+| F-faces v1/v2 | `faces/F01..F23.png` (+ masks, `F_faces.json`), `builds/` | 1400x1400 | (none now) | The v2 "original design" faces, superseded by v3 (audit in `LOG_v3_faces.md` §3). F01 is still the head-outline reference for generation. |
 
-| face | family / colour | face % of sheet | build |
-|---|---|---|---|
-| F01 | 整脸 red | 36.6 | 3-stage |
-| F02 | 整脸 black | 36.6 | |
-| F03 | 整脸 purple | 36.6 | |
-| F04 | 三块瓦 blue | 36.6 | 3-stage |
-| F05 | 花三块瓦 green | 36.7 | |
-| F06 | 尖三块瓦 yellow | 36.6 | |
-| F07 | 十字门 black | 36.6 | |
-| F08 | 花十字门 red | 36.6 | 3-stage |
-| F09 | 六分脸 red | 36.5 | 3-stage |
-| F10 | 六分脸 slate | 36.6 | |
-| F11 | 碎花脸 multicolour | 36.6 | 3-stage |
-| F12 | 碎脸 blue-green | 36.6 | |
-| F13 | 歪脸 crooked | 36.6 | |
-| F14 | 丑角 豆腐块 | 36.6 | |
-| F15 | 丑角 date-pit | 36.6 | |
-| F16 | 神仙脸 gold | 36.6 | 3-stage |
-| F17 | 神仙脸 silver | 36.6 | |
-| F18 | 僧道脸 monk | 36.6 | |
-| F19 | 太监脸 eunuch | 34.9 | |
-| F20 | 元宝脸 ingot | 36.6 | |
-| F21 | 水白脸 water-white | 64.1 | |
-| F22 | 油白脸 oil-white | 36.6 | |
-| F23 | 整脸 green | 36.6 | |
+The v3 leaf (row-major 6 x 4; cell 15 bare, the child stands there):
 
-Families covered: 整脸 (red, black, purple, green), 三块瓦 (blue 正, green 花, yellow 尖), 十字门 (black, red 花), 六分脸
-(red, slate), 碎花脸 / 碎脸, 歪脸 (F13, deliberately asymmetric), 丑角 豆腐块 (F14) and a second clown patch (F15),
-神仙脸 gold (F16) and silver (F17), 僧道脸 (F18, round brows and relic dot), 太监脸 (F19), 元宝脸 (F20), 水白 (F21, the
-"white = treacherous" type), 油白 (F22). No monkey face (the monkey is not in the categories). All original; F02 avoids
-Bao Zheng's crescent, F07 avoids Zhang Fei's butterfly. No labels anywhere.
+| cell | id | character | 谱式, colour | meaning in the tradition |
+|---|---|---|---|---|
+| 0 | ZHANGFEI | 张飞 | 黑十字门 (蝴蝶脸), laughing | black: rough, blunt, upright |
+| 1 | BAOZHENG | 包拯 | 黑整脸, white crescent | black: upright, impartial |
+| 2 | DIANWEI | 典韦 | 黄花三块瓦, halberds in the brows | yellow: fierce, ruthless |
+| 3 | CAOCAO | 曹操 (**threat**) | 水白整脸, pink 印堂 | white: treacherous |
+| 4 | XUYANZHAO | 徐延昭 | 紫六分脸 | purple: steadfast, loyal |
+| 5 | HUANGGAI | 黄盖 | 红六分脸 (老脸) | red: loyal old general |
+| 6 | CHENGYAOJIN | 程咬金 | 绿碎脸 | green: rash, impetuous |
+| 7 | JIANGWEI | 姜维 | 红三块瓦, taiji on the forehead | red: loyal; taiji: resourceful |
+| 8 | DOUERDUN | 窦尔敦 | 蓝花三块瓦, double hooks on the brows | blue: staunch, unbending |
+| 9 | GAODENG | 高登 | 油白三块瓦 | oil-white: overbearing |
+| 10 | GUANYU | 关羽 (**tool**) | 红整脸, one mole (破脸) | red: loyal and brave |
+| 11 | ZHENGEN | 郑恩 | 黑歪脸, 雌雄眼 | crooked face |
+| 12 | LUZHISHEN | 鲁智深 | 白僧脸, red 圆光, 螳螂眉 | the monk's face |
+| 13 | TANGQIN | 汤勤 (**trick**) | 文丑, square 豆腐块 | the clown: scheming |
+| 14 | KID | 娃娃生 / 哪吒 (**kid**) | 俊扮 (unpainted), red dot at 印堂 | a child has no pattern |
+| 16 | MONKEY | 孙悟空 | 象形脸, 倒栽桃: red inverted peach, gold eyes, cloud curl | the monkey's own face, beside the child's cell |
+| 17 | LIUJIN | 刘瑾 | 红太监脸, 舍利珠, white lower lip | eunuch; the red is satire |
+| 18 | ZHOUCANG | 周仓 | 花元宝脸, 淡青 forehead | the ingot face |
+| 19 | ERLANG | 二郎神 | 金三块瓦, third eye | gold: gods |
+| 20 | JINQIANBAO | 金钱豹 | gold 神怪脸, leopard head, coins | gold: spirits |
+| 21 | ZHONGKUI | 钟馗 | 花元宝脸, red forehead, bat | the demon-queller |
+| 22 | XIAHOUDUN | 夏侯惇 | 蓝三块瓦, red dot under his left eye | blue: fierce |
+| 23 | SHIQIAN | 时迁 | 武丑, kite-shaped 筝形 patch | the martial clown, the thief |
 
-Weak: the hand is a crisp, graphic album style (gpt-image-2), flatter than a real court album; the faces share one
-head shape, which is what the grid needs but less varied than real lianpu. F14/F15 clown patches are plain. F19 was
-regenerated (first version had a cartoon red disc; rejected copy in `_rejects/`).
+No face carries writing (the monkey's 卍/佛 variants and 项羽's 寿 avoided). Silver is not used (no silver face is
+attested by two sources; 木吒 dropped). Weak: all faces share one head outline (the grid needs it); fine line work is
+below 540p at the full-leaf framing; 鲁智深 lacks the small 戒疤 dots.
 
 ---
 

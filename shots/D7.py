@@ -31,7 +31,7 @@ def setup(ctx):
     POS = (int(CENTER[0] * s - CL.w * SC / 2), int(CENTER[1] * s - CL.h * SC / 2))
     RT = KeyRetime([(T0, SRC['start']), (T_CUT, SRC['cut']), (T_HIT, SRC['hit']), (T_HIT + 8 / 24, SRC['hit']),
                     (T1 + 0.05, SRC['end'])], twos=[(T0, T_CUT)], duration=CL.duration)
-    STAIN = ctx.cache('s3_d7_stain', lambda: RingStain(CL, 4, 76), deps=['work/ink_clips/s3_d7_sd20/meta.json'])
+    STAIN = ctx.cache('s3_d7_stain2', lambda: RingStain(CL, 4, 76), deps=['work/ink_clips/s3_d7_sd20/meta.json'])
     SEAL = seals(s)
     MED = Mediums(ctx.W, ctx.H, seed=8)
 

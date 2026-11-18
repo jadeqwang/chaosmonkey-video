@@ -1,67 +1,95 @@
-"""D4 '一通百通' (67.917-69.292, 33 frames). Team MOUNTAIN.
+"""D4 '一通百通' (67.917-69.292, 33 frames). BOOK team, v3 (REVISION_V3 §3.2).
 
-(a) one carved character, 通 (千字文 line 117 右通廣內), fills the frame: chisel facets on the V-cut walls, the
-raking light swings onto it and it catches on '通' (68.09). (b) hard cut wider on '百' (68.53): the column block
-around it, and the ten characters nearest it light one after another (each its own pool of raking light) through
-the second '通' (68.77). Warm light only; the gold is reserved for the strike itself (C6/D5).
+(a) 67.917: ONE carved character, 通 (千字文 line 117 右通廣內), fills the frame. A breath of mist (bare paper; the same
+    water sleeve as Mama's breath in C5) drifts in from the right and touches it; on '通' (68.09) it lights: gold runs
+    into the cut.
+(b) cut wide on '百' (68.53) to the cliff face (shots/_tong.py: the mid cliff, 千字文 1-160). The light does not spread:
+    it JUMPS. From 通 a fine gold thread shoots to every carved character that shares 辶 with it (道 遐 邇 過 隨 連 造 退
+    逸 逐 達 途 遵), wherever it is; on the second '通' (68.77) each of those passes it on through its OTHER component
+    (道 -> 首 ..., IDS data). D5 continues from this frame.
 """
 import numpy as np
 
 from shots._mountain import *
+from shots import _tong
 
 T0, T1 = 1630 / 24, 1663 / 24
-T_TONG, T_BAI, T_TONG2 = (on_frame(x) for x in (68.09, 68.53, 68.77))   # fix2: floor frames
+T_TONG, T_BAI, T_TONG2 = (on_frame(x) for x in (68.09, 68.53, 68.77))
+TIMES = [68.53, 69.50, 70.146, 70.594, 71.029, 71.471, 71.925, 72.356]      # generation start times (D4 + D5)
+STAGGER = [0.68, 0.50, 0.36, 0.3, 0.3, 0.3]      # each generation's jumps dealt one after another: every jump is seen
+T_BASE, T_SPAN = 68.0, 5.0
+Z_WIDE = 0.66
+THREAD_GENS = 3
+
+
+def build_wide(ctx):
+    """Shared by D4(b) and D5: the carved mid cliff, the chain and its schedule."""
+    C, cells, paper = _tong.build_mid()
+    chars = [c for c in qianziwen(160) if c in cells]
+    gens = _tong.chain(chars, per_jump=2, pos=cells)
+    t_lit, edges = _tong.schedule(gens, TIMES, STAGGER)
+    t_lit['通'] = T_BASE
+    rest = [c for c in chars if c not in t_lit]
+    for c in rest:                                              # never reached by a true jump: lit with the gong
+        t_lit[c] = 72.805
+    _tong.set_lit(C, cells, t_lit, T_BASE, T_SPAN, C.size)
+    C.prepare(fill=0.4)
+    n = sum(len(g) for g in gens[:THREAD_GENS])
+    E = [(cells[s][0], cells[s][1], cells[d][0], cells[d][1], t, g) for s, d, t, g in edges[:n]]
+    return dict(C=C, cells=cells, paper=paper, edges=E, gens=gens, n_rest=len(rest))
+
+
+def wide_frame(S, t, cx, cy, z, ctx, t_end=None):
+    C = S['C']
+    g = _tong.progress(t, T_BASE, T_SPAN)
+    f = view(None, cx, cy, z, ctx.W, ctx.H,
+             render=lambda box: C.render((312, 24, 0.8), fill=0.4, gold=g, ambient=0.86, warmth=0.6, box=box))
+    zz = z * ctx.W / 1920.0
+    _tong.threads(f, t, S['edges'], lambda x, y: ((x - cx) * zz + ctx.W / 2, (y - cy) * zz + ctx.H / 2), ctx.s,
+                  t_end=t_end)
+    return f
+
+
+def start_cam(S):
+    """Wide enough that most of the first jumps land in frame: between 通 and the middle of its 辶 family."""
+    x, y = S['cells']['通']
+    tg = [S['cells'][d] for _, d, _ in S['gens'][0]]
+    mx, my = sum(p[0] for p in tg) / len(tg), sum(p[1] for p in tg) / len(tg)
+    C = S['C']
+    cx, cy = 0.4 * x + 0.6 * mx, 0.4 * y + 0.6 * my
+    hw, hh = 960 / Z_WIDE, 540 / Z_WIDE
+    return min(max(cx, hw - 200), C.W - hw + 700), min(max(cy, hh - 150), C.H - hh)
 
 
 def setup(ctx):
-    global CC, CW, POOLS
+    global CC, S, SLEEVE, PC, XX, YY
     raw = load_image(B + 'B_cliff_run.png')
-    q = qianziwen(160)
-    i = q.index('通')
-    # (a) close: a 960x540 patch of the plane around canvas x 7300, enlarged 2x (the paint is soft, the cut is sharp)
-    patch = raw[330:870, 6820:7780]
-    patch = cv2.resize(patch, (1920, 1080), interpolation=cv2.INTER_CUBIC)
-    pc = Paper(1920, 1080, 'new', seed=BOOK_PAPER_SEED, scale=2.0)
-    rock_c = onto_paper(patch, pc, ground=np.percentile(raw.reshape(-1, 3), 97, axis=0))
-    CC = Cliff(rock_c, '通', SEAL_FONT, size=820, region=(550, 120, 820, 840), seed=9, weather=0.22, chips=0.08,  # fix2: was 0.12/0.0 (bevel read digital)
-               jitter=0.0, weight=0.012, paint=0.8, depth=0.7, streaks=0.25, grime=0.5)
-    CC.prepare(fill=0.95)
-    # (b) wide: the block of five columns, 通 in the middle
-    win = raw[100:1180, 6340:8260]
-    pw = Paper(1920, 1080, 'new', seed=BOOK_PAPER_SEED + 1)
-    rock_w = onto_paper(win, pw, ground=np.percentile(raw.reshape(-1, 3), 97, axis=0))
-    text = q[i - 12:i + 13]
-    CW = Cliff(rock_w, text, SEAL_FONT, size=170, region=(380, 80, 1160, 940), rows=5, seed=4, weather=0.3,
-               presence='plane', chips=0.3, streaks=0.4, jitter=0.03, weight=0.02, paint=0.8, depth=1.3)
-    CW.prepare(fill=0.6)
-    ci = [k for k, c in enumerate(CW.cells) if c[0] == '通'][0]
-    cx0, cy0 = CW.cells[ci][1], CW.cells[ci][2]
-    order = sorted(range(len(CW.cells)), key=lambda k: (CW.cells[k][1] - cx0) ** 2 + (CW.cells[k][2] - cy0) ** 2)
-    yy, xx = np.mgrid[0:1080, 0:1920].astype(np.float32)
-    POOLS = []
-    for n, k in enumerate(order[:11]):
-        _, x, y, _, _ = CW.cells[k]
-        g = np.exp(-(((xx - x) / 130) ** 2 + ((yy - y) / 120) ** 2)).astype(np.float32)
-        t_on = T_BAI - 0.02 if n == 0 else T_BAI + 0.03 + (T_TONG2 - T_BAI + 0.05) * (n - 1) / 9.0
-        POOLS.append((g, t_on))
+    patch = cv2.resize(raw[330:870, 6820:7780], (1920, 1080), interpolation=cv2.INTER_CUBIC)
+    PC = Paper(1920, 1080, 'new', seed=BOOK_PAPER_SEED, scale=2.0)
+    rock_c = onto_paper(patch, PC, ground=np.percentile(raw.reshape(-1, 3), 97, axis=0))
+    CC = Cliff(rock_c, '通', SEAL_FONT, size=820, region=(550, 120, 820, 840), seed=9, weather=0.04, chips=0.0,
+               jitter=0.0, weight=0.016, paint=0.35, depth=0.45, streaks=0.2, grime=0.3)
+    CC.prepare(fill=0.55, gold=True)
+    L = 4200
+    band_ = mist_band(L, 1080, 250, 760, seed=11, softness=0.5, wisp=0.5)
+    xs = np.arange(L, dtype=np.float32)[None, :]
+    SLEEVE = (band_ * smoothstep(0, 620, xs) * smoothstep(L, L - 1500, xs)).astype(np.float32)
+    YY, XX = np.mgrid[0:1080, 0:1920].astype(np.float32)
+    S = build_wide(ctx)
+    print('D4 chain: generations', [len(g) for g in S['gens']], 'unreached', S['n_rest'])
 
 
 def render(t, ctx):
-    if t < T_BAI:
-        k = ramp(t, T0, T_TONG, 'out')
-        az = 335 - 30 * ramp(t, T0, T1, 'linear')           # the light keeps swinging slowly across, from above right
-        amb = 0.94 - 0.44 * k
-        f = CC.render((az % 360, 14, 1.0), fill=0.95, ambient=amb, warmth=0.8,
-                      pool=np.full((1, 1), (0.96 + 0.03 * k - amb) / (1 - amb), np.float32))
-    else:
-        pool = np.zeros((1080, 1920), np.float32)
-        for g, t_on in POOLS:
-            if t >= t_on:
-                pool = np.maximum(pool, g * (0.75 + 0.25 * ramp(t, t_on, t_on + 0.06, 'out')))   # fix2: lit on its frame
-        amb = 0.94 - 0.44 * pool
-        flat = 0.94 + 0.04 * pool                               # flat rock barely changes: the light is in the cuts
-        f = CW.render((335, 11, 1.0), fill=0.6, ambient=amb, warmth=0.8,
-                      pool=np.clip((flat - amb) / np.maximum(1 - amb, 1e-3), 0, None))
-    if f.shape[1] != ctx.W:
-        f = cv2.resize(f, (ctx.W, ctx.H), interpolation=cv2.INTER_AREA)
-    return f
+    if t < T_BAI - 1e-9:
+        g = ramp(t, T_TONG, T_TONG + 0.36, 'out') if t >= T_TONG - 1e-9 else None
+        f = CC.render((325, 22, 1.0), fill=0.55, ambient=0.84, warmth=0.8, gold=g, gold_stagger=0.0)
+        # the breath: its head reaches the character just before '通' and rolls on across it
+        u = ramp(t, T0 - 0.25, T_BAI + 0.1, 'linear')
+        off = 1920 - u * 2600
+        wave = 30 * np.sin((XX - off) / 860 * 2 * np.pi - t * 2.2) + 70 * np.exp(-((XX - off) / 480) ** 2)
+        a = cv2.remap(SLEEVE, (XX - off).astype(np.float32), (YY + wave).astype(np.float32), cv2.INTER_LINEAR,
+                      borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+        f += (PC.rgb - f) * (np.clip(a, 0, 1) * 0.86)[..., None]
+        return f if f.shape[1] == ctx.W else cv2.resize(f, (ctx.W, ctx.H), interpolation=cv2.INTER_AREA)
+    cx, cy = start_cam(S)
+    return wide_frame(S, t, cx, cy, Z_WIDE, ctx)

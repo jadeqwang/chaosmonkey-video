@@ -63,6 +63,22 @@ class Palm:
         from tools.ink import fbm, blur, density_of, ink_T
         self.ctx = ctx
         W, H, s = ctx.W, ctx.H, ctx.s
+        # the rays behind the pillars (as in the 1806 leaf): fine dry ink lines fanning up from behind the hand,
+        # drawn only on bare paper (never across a finger)
+        import cv2, math
+        T0_ = palm_T(W, H)
+        d = np.zeros((H, W), np.float32)
+        r = np.random.RandomState(4)
+        ox, oy = 0.275 * W, 0.80 * H
+        for k in range(34):
+            a = math.radians(-166 + k * (128 / 33) + r.uniform(-1.2, 1.2))
+            r0, r1 = (0.23 + r.uniform(0, 0.05)) * W, (0.34 + r.uniform(0, 0.13)) * W
+            p0 = (int((ox + r0 * math.cos(a)) * 8), int((oy + r0 * math.sin(a)) * 8))
+            p1 = (int((ox + r1 * math.cos(a)) * 8), int((oy + r1 * math.sin(a)) * 8))
+            cv2.line(d, p0, p1, 1.0, max(1, int(round(1.6 * s))), cv2.LINE_AA, shift=3)
+        free = 1 - np.clip(blur((1 - T0_.min(axis=2) > 0.04).astype(np.float32), 6 * s) * 3, 0, 1)
+        d = d * free * (0.55 + 0.6 * fbm(H, W, 22 * s, 3, 'rays')) * 0.24
+        self.rays = ink_T(np.clip(d, 0, 1))
         self.clip = None
         if os.path.exists(clip_store + '/meta.json') and os.path.exists(clip_store + '/travel.json'):
             self.clip = Clip(clip_store)
@@ -90,11 +106,16 @@ class Palm:
         from tools.ink import lay_ink
         W, H, s = self.ctx.W, self.ctx.H, self.ctx.s
         u = min(max((t - t0) / (t1 - t0), 0.0), 1.0)
+        if self.clip is None:
+            M = np.float32([[1, 0, self.TRAVEL * s * (u - 0.5) * 0.12], [0, 1, 0]])
+            f *= cv2.warpAffine(self.rays, M, (W, H), borderMode=cv2.BORDER_CONSTANT, borderValue=(1, 1, 1))
         if self.clip is not None:
             src = 0.35 + u * (min(self.clip.duration, 5.0) - 0.6)
             a = self.clip.at(src, blend=True)
-            f *= np.clip(resize(a, W, H), 0, 1)
             dx = float(np.interp(src, self.travel['src'], self.travel['dx'])) * W / self.clip.w
+            M = np.float32([[1, 0, dx], [0, 1, 0]])                      # the rays ride with the pillars
+            f *= cv2.warpAffine(self.rays, M, (W, H), borderMode=cv2.BORDER_CONSTANT, borderValue=(1, 1, 1))
+            f *= np.clip(resize(a, W, H), 0, 1)
             return dx
         tr = self.TRAVEL * s * (u - 0.5)
         for k, (L, p) in enumerate(zip(self.layers, self.par)):
@@ -114,7 +135,7 @@ class RingStain:
     (飞白 rings and sweeps the model painted and then lets fade), with the figure itself (yellow wash, dense black)
     masked out frame by frame. Built once (ctx.cache) at half the store size; .lay(frame, src, sc, pos)."""
 
-    def __init__(self, cl, f0, f1, step=2, keep=0.55):
+    def __init__(self, cl, f0, f1, step=2, keep=0.7):
         import cv2
         self.f0, self.step, self.keep, self.fps = f0, step, keep, cl.fps
         h, w = cl.h // 2, cl.w // 2
@@ -126,8 +147,8 @@ class RingStain:
             T = cv2.resize(np.clip(cl.frame(i), 0, 1), (w, h), interpolation=cv2.INTER_AREA)
             grey = 1 - T.max(axis=2)                              # carbon ink only (yellow wash has a bright R)
             sat = T.max(axis=2) - T.min(axis=2)
-            body = cv2.dilate(((sat > 0.22) | (grey > 0.62)).astype(np.uint8), ker)
-            d = np.where(body > 0, 0, np.clip(grey, 0, 0.6))
+            body = cv2.dilate(((sat > 0.22) | (grey > 0.46)).astype(np.uint8), ker)
+            d = np.where(body > 0, 0, np.clip(grey, 0, 0.45))
             cum = np.maximum(cum, cv2.GaussianBlur(d.astype(np.float32), (0, 0), 2.0))
             self.maps.append((cum * 255).astype(np.uint8))
 
@@ -135,7 +156,9 @@ class RingStain:
         i = int((src * self.fps - self.f0) / self.step)
         if i < 0:
             return None
-        return self.maps[min(i, len(self.maps) - 1)].astype(np.float32) / 255 * self.keep
+        import cv2
+        m = self.maps[min(i, len(self.maps) - 1)].astype(np.float32) / 255 * self.keep
+        return cv2.GaussianBlur(m, (0, 0), 5.0)
 
     def lay(self, f, src, sc, pos, cl):
         from tools.ink import ink_T

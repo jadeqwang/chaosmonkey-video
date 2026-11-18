@@ -1,21 +1,19 @@
 # LOG v3 FACES team (bridge H1-H4), preview_v3
 
-## CHECKPOINT 14:57
-- **Done:** research (subagent, finished; refs + licences in `refs/lianpu_v3/SOURCES.txt`, text-free crops in
-  `refs/lianpu_v3/crops/`); archetype mapping decided (section 1); all 23 faces regenerated as named real 脸谱
-  (`design/plates/F_lianpu/v3/`: prompts `faces_v3.json`, generator `gen_faces.py`, candidates + prompt txt in `_cand/`,
-  picks `picks.json` (all take a, TANGQIN take b), normaliser `normalise.py` -> `v3/faces/`, index
-  `design/plates/F_lianpu/F_faces_v3.json`); child back view with v3 hair (`v3/child/child_back_a.png`);
-  `shots/faces_lib.py` rewritten for v3 (ALBUM cell map, painted surface for wide framings, `FaceMediums`, new child);
-  `shots/H1.py` `H2.py` `H3.py` edited (medium switch in H1/H2, named cells); v2 copies in `shots/_v2`, `media/comp/_v2`.
-- **In progress:** tuning the three media on test frames (scratchpad stills); then full renders of H1-H4.
-- **Next:** render H1 H2 H3 H4 `--fresh`, review sheets `work/review/comp_v3/H1..H4.jpg`, fix, write per-shot notes.
-- **Pending relay jobs:** none (all generation was synchronous `cf.py`, gpt-image-2).
-- **Spend so far:** about $5.0 (25 gpt-image-2 calls at ~$0.2). Ceiling $30.
-- **Decisions:** tool = 关羽, threat = 曹操, trick = 汤勤 (豆腐块; 蒋干's patch shape is disputed between sources), kid = the
-  unpainted 娃娃生 face (哪吒), no monkey face on the leaf, silver = 木吒 (weakly attested, flagged). Medium switch uses the
-  BOOK team's `tools/ink/medium.py` grounds through a faces wrapper (gouache lighter than paper needs its own mark maps).
-- **Open questions for the lead:** none blocking. Director may prefer 黄盖 for "tool" (see notes under the table).
+> **Superseded in part (2026-11-17, verify pass):** see `docs/logs/LOG_v3_faces_verify.md`. 11 faces repainted after a
+> source check, 孙悟空 added in cell 16, 时迁 moved to cell 23, 木吒 (silver) dropped. Tables below are the v3a state.
+
+## CHECKPOINT 15:06
+- **Done:** everything: H1 H2 H3 H4 rendered (158 / 152 / 80 / 79 frames, 960x540, 24 fps, checked with ffprobe), review
+  sheets `work/review/comp_v3/H1..H4.jpg` looked at, mapping table (section 1), album table (2), audit (3), sources (4),
+  per-shot notes (5). See `## DONE` at the end.
+- **In progress / next:** nothing. **Pending relay jobs:** none (all generation was synchronous `cf.py`).
+- **Spend:** $5.04 (25 gpt-image-2 calls, tags `lianpu_v3_*` in `media/genlog.jsonl`). Ceiling $30.
+- **Decisions:** tool = 关羽, threat = 曹操, trick = 汤勤 (豆腐块), kid = the unpainted 娃娃生 face; no monkey face on the leaf;
+  silver = 木吒 (weakly attested). Medium switch goes through the BOOK team's `tools/ink/medium.py` grounds via
+  `faces_lib.FaceMediums` (opaque gouache lighter than the paper needs its own mark maps).
+- **Open for the lead:** `design/plates/PLATES.md` group F still describes the v2 faces (not edited: not my file).
+  Temp files: scratchpad cleaned, nothing left in `/tmp` or `work/tmp` from this team.
 
 Render: `PY -m tools.ink.run shots/<ID>.py --t0 IN --t1 OUT --size 960x540 --fresh --out media/comp/<ID>.mp4`.
 v2 comps and scripts are in `media/comp/_v2/`, `shots/_v2/` (H1-H4 and `faces_lib.py`).
@@ -125,3 +123,22 @@ characters" (acc. 30.76.299, CC0) and the 昇平署脸谱 court album (National 
 files and licences in `refs/lianpu_v3/SOURCES.txt`. No copyrighted photograph was passed to any model.
 Points worth knowing: 丑 really is called 小花脸 / 三花脸; 娃娃生 are 俊扮 (unpainted); neither 哪吒 nor 红孩儿 has a
 standard 脸谱; 刘瑾's red and 晁盖's yellow are skin tones, not the colour code; silver is the weakest colour.
+
+## 5. Per shot
+
+Re-render one shot: `work/faces_v3/render.sh H1` (times from `docs/shots.json`); sheet: `PY work/faces_v3/sheet.py H1`.
+
+| shot | status | frames | what changed from v2 | still weak |
+|---|---|---|---|---|
+| H1 | done | 158 | All ten faces are named 脸谱 (opens on 窦尔敦 on the crash, then 曹操, 汤勤, 二郎神, 关羽, 包拯, 金钱豹, 程咬金, 刘瑾, 夏侯惇). The two 2-frame rubbing flips and four mis-registrations are gone; four medium switches, 4 frames each, hard in and out, no shake during a switch: 151.675 paper-cut, 152.978 rubbing, 154.714 shadow puppet, 155.810 paper-cut (two per bar at most; the bridge has no measured breakbeat chops, so these are the strongest measured off-beat kick/snare hits, as in v2) | In the shadow-puppet frame the water-white face is only an outline (white = openwork), correct but thin. The 3-frame build of a face still shows a mottled colour stage for 2 frames at the closest framings |
+| H2 | done | 152 | 13 more named faces; three switches: 159.277 paper-cut, 160.143 rubbing (on the cut to the full leaf), 160.583 shadow puppet. Wide framings: broad brush passes, thinned patches and the leaf's foxing run across the paint; faces vary slightly in size and tilt | At the full leaf a face is 60-90 px: it now reads as hand-coloured on old paper, but fine line work is below the resolution of 540p. All 23 share one head outline (the generation reference), so the grid is more regular than a real album |
+| H3 | done | 80 | The four words land on 关羽 / 曹操 / 汤勤 / the unpainted child face, each with its plain cinnabar seal. Tighter framings on the first three so each word has one face and the child face is not seen before "kid". Child figure redrawn with the v3 hair, darker and larger (290 leaf px) | A neighbour's edge is in frame on each close framing (the leaf is a grid). The plain seals carry no character (as v2) |
+| H4 | done | 79 | Same leaf with the new faces; child as H3; pull-out and inscription unchanged | At the final framing the child is about 14 px tall: a mark more than a figure. The half-ponytail reads in H3 and the first second of H4 only |
+
+Code: `shots/faces_lib.py` (`ALBUM`, `_paint_surface` v3 passes and wear, `FaceMediums`, `child_figure`), `shots/H1.py`,
+`H2.py`, `H3.py`, `H4.py`. `mis_at` (mis-registration) is deleted; `Album.render(mis=...)` is no longer called.
+Not verified: 1920x1080 render of the new code (540p only this pass); playback in motion (judged from stills and sheets).
+
+## DONE 15:06
+
+Final report sent to the lead: mapping table = section 1; per shot = section 5; spend $5.04 of $30.

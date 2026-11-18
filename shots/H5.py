@@ -9,32 +9,41 @@ A loose gold brush ring floats behind her head, not touching it (no group-G plat
 import numpy as np
 
 from shots._mountain import *
-from shots import B4 as _b4
+from shots._v2 import B4 as _b4          # v3: the v2 carved cliff (B4 itself was rebuilt)
 
 T0, T1 = 4062 / 24, 4146 / 24
 CX, CY, Z = 7320, 640, 0.85
 
 
 def setup(ctx):
-    global C, XS, SH, RING, PAPER_RING
+    global C, XS, SH, RING, PAPER_RING, INS, VEIL, PFR
     _b4.setup(ctx)
     C, XS = _b4.C, _b4.XS
     H, W = C.H, C.W
     # the child's shadow, in canvas space: feet near the bottom of the frame, lower left
     m = load_mask(ROOT / 'work/mountain/child_back_mask.png')
-    hpx = 820                                                  # canvas px tall (about 545 px in frame)
+    hpx = 900                                                  # canvas px tall (about 545 px in frame)
     m = cv2.resize(m, (int(m.shape[1] * hpx / m.shape[0]), hpx), interpolation=cv2.INTER_AREA)
     fx0 = CX - 960 / Z                                         # canvas x of the frame's left edge
-    x0, y0 = 6250, int(CY + 540 / Z - hpx + 40)              # over the lower half of the block 成歲律召
+    # v3 (lead): a child-shaped BLANK in lit writing again, and the ring clear of characters. The raking light comes
+    # from the upper right, so her cast shadow slants down to the left: the head (and the ring) fall in the uncarved
+    # gap between two inscription blocks (x 6560-7100), the body falls across the columns of the block on the left.
+    LEAN = 0.30                                                # px of x per px of y
+    HEAD_X = 6695
+    hy_m = hpx * 0.11
+    Msh = np.float32([[1, -LEAN, LEAN * hpx], [0, 1, 0]])
+    m = cv2.warpAffine(m, Msh, (m.shape[1] + int(LEAN * hpx), hpx), flags=cv2.INTER_LINEAR)
+    head_col = (m.shape[1] - int(LEAN * hpx)) / 2.0 + LEAN * (hpx - hy_m)      # the head's x inside the slanted mask
+    x0, y0 = int(HEAD_X - head_col), int(CY + 540 / Z - hpx + 40)
     SH = np.zeros((H, W), np.float32)
     h_, w_ = min(hpx, H - y0), m.shape[1]
     SH[y0:y0 + h_, x0:x0 + w_] = m[:h_]
     SH = blur(SH, 2.5)                                         # fix2: a crisper cast shadow (child-shaped blank)
     # the ring: one loose dry stroke of gold around where her head is, in frame space
     s = ctx.s
-    hx = ((x0 + w_ / 2) - CX) * Z + 960
+    hx = (HEAD_X - CX) * Z + 960
     hy = ((y0 + hpx * 0.11) - CY) * Z + 540
-    R = 150
+    R = 110                                                    # stays inside the gap: no character under it
     r = rng(5, 'ring')
     pts = []
     for k in range(15):
@@ -42,6 +51,21 @@ def setup(ctx):
         rr = R * (1 + 0.05 * np.sin(3 * a) + r.normal(0, 0.012))
         pts.append(((hx + rr * np.cos(a)) * s, (hy - 8 + rr * 0.86 * np.sin(a)) * s, 0.55 + 0.4 * np.sin(k / 14 * np.pi)))
     PAPER_RING = Paper(ctx.W, ctx.H, 'new', seed=BOOK_PAPER_SEED)
+    # v3: static inscription on a veil of mist at the right edge (as B4)
+    from tools.ink.inscription import inscription
+    PFR = PAPER_RING
+    yy, xx = np.mgrid[0:ctx.H, 0:ctx.W].astype(np.float32)
+    nn = fbm(ctx.H, ctx.W, 260 * ctx.s, 31, 'veil', octaves=3) - 0.5
+    VEIL = smoothstep(0.775, 0.865, xx / ctx.W + nn * 0.10).astype(np.float32)
+    INS = inscription(ctx, 'H5', box=(1640, 120, 220, 720), paper=PFR)
+    # v3 (§3.1): she is made of the same stuff as the stone: inside her shadow the same faint columns lie like
+    # inclusions (her own, not the cliff's), and points of light read down them
+    from shots._carve import Inner
+    shf = view(None, CX, CY, Z, ctx.W, ctx.H, render=lambda box: _win2(SH, box))
+    global INN, SHF
+    SHF = np.clip(shf, 0, 1).astype(np.float32)
+    INN = Inner((SHF > 0.5).astype(np.float32), qianziwen(160), SEAL_FONT, 40 * ctx.s, seed=8, density=0.20, start=120,
+                inset=int(16 * ctx.s))
     RING = stroke(pts, width=9 * s, seed=12, paper=PAPER_RING, density=0.9, dry=0.45, dry_end=0.9, tint=GOLD)
 
 
@@ -68,12 +92,30 @@ def render(t, ctx):
     # fix2: inside her shadow the writing is NOT lit: the cinnabar in the cuts goes dull, no red reads there
     sh = view(None, CX, CY, Z, ctx.W, ctx.H, render=lambda box: _win2(SH * bnd, box))
     if sh.max() > 0.01:
-        a = np.clip(sh * 1.15, 0, 1)[..., None]
-        lum = luma(f)[..., None]
-        dull = lum * np.array([0.93, 0.88, 0.80], np.float32) * 0.92       # unlit stone, warm, no cinnabar
-        f = f * (1 - a) + dull * a
+        a = np.clip(sh * 1.15, 0, 1)
+        pres = float(a.max())
+        sc = ctx.s
+        # smooth translucent stone: pale, a little light inside, the rock's fissures only just showing through, and
+        # a soft wet rim like the ring stroke the stone itself is drawn with
+        inner = smoothstep(0.35, 1.0, blur(SHF, 26 * sc))
+        through = blur(f, 9 * sc)
+        pale = PFR.rgb * np.array([0.965, 0.97, 0.965], np.float32) * (0.90 + 0.08 * inner)[..., None]
+        stone = 0.80 * pale + 0.20 * through
+        rim = SHF * (1 - smoothstep(0.50, 0.97, blur(SHF, 5 * sc)))
+        stone = stone * (1 - 0.30 * rim[..., None] * (0.7 + 0.6 * fbm(ctx.H, ctx.W, 30 * sc, 6, 'h5rim')[..., None]))
+        g = f.copy()
+        g[:] = stone
+        INN.lay(g, 1.0)
+        for k in range(min(5, len(INN.cols))):
+            ts = 170.2 + 0.45 * k
+            u = (t - ts) / 1.05
+            if 0 <= u < 1.3:
+                INN.read(g, k, min(u, 1.0), sc, strength=1.0 if u <= 1 else max(0.0, 1 - (u - 1) / 0.3))
+        f = f + (g - f) * a[..., None]
     # the ring is there from the moment the light passes her
     p = ramp(t, 170.6, 171.6, 'sine')
     if p > 0:
         RING.lay(f, p)
+    f += (PFR.rgb - f) * VEIL[..., None]
+    INS.draw(f)
     return f

@@ -1,19 +1,23 @@
-"""D9 82.500-85.833 (80 f). Team ROOMS-88. Little Jade on her mat holds the look-out pose copied from the page;
-Mama laughing. Kling v4 (wobble + laugh); the compositor pulls back out of the stage to the room (zoom 1.25 -> 1.0)
-and the open book on the mat carries the birth page. Sign in the window."""
-from shots._rooms88 import *
+"""D9 82.500-85.833 (80 f). ATTIC v3. The fall. One wide, low camera, the window and the blade sign behind the action.
+A beat of the look-out pose beside the stack, then she climbs the crooked stack of textbooks to do it higher (on the
+stack 83.244), wobbles (83.475), the stack goes (83.798), she comes down (84.127) into Mama's lunging arms (catch
+84.351), the last books settle (84.570); Mama: alarm, relief, then a laugh she tries to hide. This fall is what
+'do what mama says' answers in G4. Two Kling v4 clips retimed piecewise to those cues: D9a (D9_0 -> D9_a) and
+D9b (D9_a -> D9_b -> D9_c)."""
+from shots._attic3 import *
 
-T0, T1 = 1980 / 24, 2060 / 24
-R = RoomShot(shot='D9', T0=T0, T1=T1, kf='D9', page=dict(kind='birth', roi=(1150, 920, 1410, 1065), tl=(-1, -1), cthr=22),
-             window=(1610, 190, 1840, 600), sign=(1725, 380, 200, 0.0),
-             keep=[(820, 500, 140, 170, 1.0), (1380, 300, 110, 140, 1.0), (1380, 600, 200, 330, 0.7)], floor=0.24,
-             twos=True, cam=[(1980 / 24, 1250, 520, 1.25), (85.3, 1050, 540, 1.0)],
-             still_cam=[(1980 / 24, 1250, 520, 1.25), (85.3, 1050, 540, 1.0)])
+T0, TS, T1 = 1980 / 24, 83.4, 2060 / 24
+W_ = (1550, 271, 1730, 495)
+K = [(1250, 330, 280, 330), (640, 430, 260, 300), (1150, 620, 420, 330)]
+S = AtticShot([Seg(T0, TS, 'D9_0', key='D9a', window=(1560, 271, 1750, 495), guide='v3_D9_a', floor=0.6, keep=K,
+                   cam=[(T0, 1040, 520, 1.16), (TS, 1040, 520, 1.16)]),
+               Seg(TS, T1, 'D9_a', key='D9b', window=W_, guide='v3_D9_a', floor=0.6, keep=K,
+                   cam=[(TS, 1040, 520, 1.16), (84.4, 1040, 560, 1.16), (T1, 1080, 600, 1.3)])])
 
 
 def setup(ctx):
-    R.setup(ctx)
+    S.setup(ctx)
 
 
 def render(t, ctx):
-    return R.render(t)
+    return S.render(t)

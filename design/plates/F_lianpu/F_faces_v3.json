@@ -25,12 +25,12 @@
     1400
    ],
    "face_box_xywh": [
-    269,
-    140,
-    862,
-    1119
+    272,
+    141,
+    855,
+    1118
    ],
-   "take": "a"
+   "take": "d"
   },
   "ZHANGFEI": {
    "name": "Zhang Fei (the black cross-gate 'butterfly' face, hei shizimen)",
@@ -41,12 +41,12 @@
     1400
    ],
    "face_box_xywh": [
-    272,
-    141,
-    855,
+    271,
+    140,
+    857,
     1118
    ],
-   "take": "a"
+   "take": "d"
   },
   "BAOZHENG": {
    "name": "Bao Zheng (the black whole-face, hei zheng lian)",
@@ -89,12 +89,12 @@
     1400
    ],
    "face_box_xywh": [
-    269,
+    277,
     141,
-    861,
-    1117
+    845,
+    1118
    ],
-   "take": "a"
+   "take": "d"
   },
   "HUANGGAI": {
    "name": "Huang Gai (the old-red six-tenths face, lao hong liu fen lian, an old loyal general)",
@@ -105,12 +105,12 @@
     1400
    ],
    "face_box_xywh": [
-    269,
+    270,
     141,
-    861,
+    859,
     1118
    ],
-   "take": "a"
+   "take": "d"
   },
   "CHENGYAOJIN": {
    "name": "Cheng Yaojin (the green fragmented face, lv sui lian)",
@@ -137,12 +137,12 @@
     1400
    ],
    "face_box_xywh": [
-    262,
-    141,
-    875,
+    271,
+    140,
+    857,
     1118
    ],
-   "take": "a"
+   "take": "d"
   },
   "DOUERDUN": {
    "name": "Dou Erdun (the blue flowered three-tile face, lan hua san kuai wa)",
@@ -217,12 +217,12 @@
     1400
    ],
    "face_box_xywh": [
-    274,
+    269,
     140,
-    851,
-    1118
+    861,
+    1119
    ],
-   "take": "b"
+   "take": "c"
   },
   "KID": {
    "name": "a child role (wawa sheng, like the boy Nezha): the face that is NOT painted with a pattern",
@@ -249,12 +249,12 @@
     1400
    ],
    "face_box_xywh": [
-    268,
-    141,
-    863,
-    1118
+    271,
+    140,
+    857,
+    1119
    ],
-   "take": "a"
+   "take": "d"
   },
   "LIUJIN": {
    "name": "Liu Jin (the red eunuch face, taijian lian)",
@@ -265,12 +265,12 @@
     1400
    ],
    "face_box_xywh": [
-    273,
+    275,
     140,
-    853,
+    850,
     1119
    ],
-   "take": "a"
+   "take": "c"
   },
   "ZHOUCANG": {
    "name": "Zhou Cang (the flowered ingot face, hua yuanbao lian)",
@@ -281,12 +281,12 @@
     1400
    ],
    "face_box_xywh": [
-    269,
+    270,
     140,
-    861,
+    859,
     1119
    ],
-   "take": "a"
+   "take": "d"
   },
   "ERLANG": {
    "name": "Erlang Shen, Yang Jian (the gold three-tile god face)",
@@ -313,12 +313,12 @@
     1400
    ],
    "face_box_xywh": [
-    266,
+    271,
     140,
-    867,
+    857,
     1119
    ],
-   "take": "a"
+   "take": "c"
   },
   "ZHONGKUI": {
    "name": "Zhong Kui the demon-queller (the flowered ingot face, hua yuanbao lian)",
@@ -345,28 +345,28 @@
     1400
    ],
    "face_box_xywh": [
-    267,
+    269,
     140,
-    866,
-    1119
+    861,
+    1118
    ],
-   "take": "a"
+   "take": "d"
   },
-  "MUZHA": {
-   "name": "Muzha, a celestial warrior (a silver god face)",
-   "file": "v3/faces/MUZHA.png",
-   "mask": "v3/faces/MUZHA_mask.png",
+  "MONKEY": {
+   "name": "Sun Wukong, the Monkey King (the monkey face, hou lian: the inverted-peach type)",
+   "file": "v3/faces/MONKEY.png",
+   "mask": "v3/faces/MONKEY_mask.png",
    "size": [
     1400,
     1400
    ],
    "face_box_xywh": [
-    255,
-    140,
-    889,
+    280,
+    141,
+    839,
     1118
    ],
-   "take": "a"
+   "take": "d"
   }
  }
 }

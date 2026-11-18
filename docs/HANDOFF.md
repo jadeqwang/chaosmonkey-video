@@ -1,186 +1,127 @@
 # Chaos Monkey: handoff to the next session
 
-Written 2026-11-17 by Claude (Fable 5.2), the lead of the first pass, for whichever session receives Jade's notes.
+Written 2026-11-18 by Claude (Fable 5.2), lead of the preview_v2 and preview_v3 passes. It replaces the handoff of
+17 Nov (in git at `ca11e64`; its acting direction was carried into `docs/REVISION_V3.md` and still holds).
 
 ## Where things stand
 
-- Jade has watched `previews/chaosmonkey_preview_v2_540p.mp4` (complete 540p cut, 65 shots, 3:58). Her verdict:
-  **"overall I think this is a pretty good start."** The direction (opera stage, traditional-twin glitch, painted people)
-  has not been rejected; her answer to it is question 1 on the notes page.
-- She is writing notes in `review/preview_v2_notes.html` and will paste the result into the next session. Nothing has
-  been regenerated since the preview except two characters' sheets (below).
-- Spend: $176.20 of the $600 cap. No 1080p render exists; do not make one until she asks (notes page, question 8).
-- Branch `claude/video-production`, last commit `3034547`. Everything since is uncommitted: commit only if Jade asks.
+- **preview_v3 is delivered and waiting for Jade's review.** She has not yet said anything about it.
+  - `previews/chaosmonkey_preview_v3_540p.mp4` (lyrics on) and `..._540p_nolyrics.mp4`: 960x540, 24 fps, 5806 frames,
+    4:01.9, sound `media/sound/mix_v2.wav` with ending B.
+  - Her notes page: `review/preview_v3_notes.html`. She will paste its "Copy everything" output into the session.
+- All 65 shots were re-made against her preview_v2 notes. The cut is verified by measurement (frame counts, sync, no
+  slates, no duplicated frames). **Nobody has watched it in motion or listened to the mix**: every check was on frames,
+  contact sheets and numbers. Do not tell her otherwise.
+- No agents, relay jobs, cron jobs or tmux Codex jobs are running. All team logs end in DONE.
+- Spend: **$361.81 of the $1,500 cap** (`tools/gen/spend.py`, ledger `docs/spend_ledger.jsonl`).
+- Git: branch `claude/video-production`, last commit `0578318` (local only, never pushed). Everything since is
+  uncommitted, about 150 changed or new paths, including every v3 shot script. I offered a commit; she has not answered.
+- No 1080p master exists. Do not make one until she asks.
 
-Read in this order: this file, `docs/MORNING.md` (what the film is, what is weak), `docs/TREATMENT.md`,
-`docs/QA_PREVIEW_V2.md`, `design/characters/CANON.md` section 0, then `docs/STATUS.md` for history.
+## Read in this order
 
-## What Jade has said so far (17 Nov)
+1. This file.
+2. `docs/REVISION_V3.md`: the governing brief. §1 story arc, §2 changed rules, §3 concepts, §5 shot table, §7 rap
+   English, §10 her preview_v2 notes verbatim, §13 stepping into the painting, §14 blocking decisions, §15 research.
+3. `docs/QA_PREVIEW_V3.md`: what is in the cut, the splice table, and the ranked list of remaining problems.
+4. `docs/STATUS.md` checkpoints 16 to 18 for history; `docs/TEAMS_V3.md` for team scopes and the checkpoint rule.
+5. As needed: `design/characters/CANON.md` §00 (v3 canon), `docs/LAYOUT_V3.md` (3D blocking), `docs/LIPSYNC_V3.md`
+   (lip-sync recipe), `docs/SOUND.md` "v2", team logs `docs/logs/LOG_v3_*.md`.
 
-1. **The little girls are less cute than their references.** My reading, not yet confirmed by her: I wrote cuteness out
-   (see 3), gave little Jade a heavy fringe, the night grades grey the skin, and the lip-sync model ages faces.
-2. **Hair: little Jade and adult Jade must not have bangs covering the forehead**; curtained to the sides, almost like
-   layers. Sheets redrawn, see below.
-3. **"All the deadpan unsmiling makes them look lifeless and have no action direction."** She asked for better, more
-   natural acting direction. That is the section "Acting" below, and it overrides every "deadpan" in `docs/shots.yaml`,
-   `design/characters/CANON.md`, `docs/KEYFRAME_BRIEF.md` and the brainstorm.
-4. Earlier, from the sound note: she liked the diegetic sound layer of Hold Fire; whether this film's layer works is
-   question 7 on the notes page.
+## What Jade wants (standing direction)
 
-## The notes she will send
+- **Story arc, kept subtle.** Little Jade is mischievous and "a full click smarter than both her parents". Mama's
+  parenting is do-what-you're-told, as a light response to a child who climbs and falls. Jade's parenting encourages
+  independence: fight the gods and win, ask for a seat at the table.
+- **Acting must be alive.** Each shot gets a want and an action in timed beats, never a mood. Never write deadpan,
+  unsmiling, neutral. Stillness is reserved for "Yes", the bare column at the end, and the two light switches.
+- **Both storytimes: child on the parent's lap, book in front of them.** Inconsistent scenes are blocked in three.js first.
+- **Inside the book:** "stepping into a Chinese landscape painting that feels 3d once you're in it", with brushstrokes
+  that come to life.
+- **Inscriptions:** where the novel has the line, use the novel's words. All Chinese on screen is typeset, never drawn
+  by a model.
+- **Title:** "Chaos Monkey" / 混沌猴 / "Jade Wang" (English name only, no Chinese name).
+- **Likeness:** hair on little Jade and Jade is curtained to the sides, no fringe over the forehead. Accepted heads:
+  LJ-1/LJ-2, D-1/D-2, M-1/M-2, J-1/J-3 (`work/sheets_v3/`, `review/likeness_v3.html`). Jacket lettering (RARE EARTH on
+  the back, 1420 MHz in the circle) is added in code, REVISION_V3 §12.
+- **Working style:** do a likeness pass with her before re-animating anything with a changed face. Mechanical work may
+  go to Codex through tmux or to smaller models. Teams checkpoint to files. "Don't worry about budget" for reshoots,
+  within the cap.
 
-One block of text from the page's "Copy everything" button, in three parts:
+## Decisions waiting on her
 
-- **TIMESTAMPED NOTES**: `- 1:16.25  D7  hook1: text`. The time is the song clock, the ID is the shot
-  (`docs/shots.json`; the script is `shots/<ID>.py`, the render `media/comp/<ID>.mp4`).
-- **LIKENESSES**: per person, where it goes wrong (my sheet, the film frames, or both), ticked causes, her own words,
-  notes on single frames (`B1 0:17.00: …`), and her verdict on the redrawn sheets ("Use these" / "Close; fix…" / "Not right").
-- **DECISIONS**: eight questions (direction, lip-sync approach, lyrics over the carved cliffs, ending mix, opening neon,
-  the rap's English, sound layer, what next).
-
-How to work through them:
-
-1. Sort every note to a shot and a kind: sheet/likeness, acting/retake, comp (timing, grade, text), cut (length, order),
-   sound. Write the list where she can check it before spending.
-2. If she did not approve the redrawn sheets, fix them first: nothing with little Jade or Jade should be regenerated
-   against sheets she has not accepted.
-3. Likeness and acting changes mean new keyframes (`media/kf/`), then new clips, then the comp re-render. Comp-only
-   notes are cheap: edit `shots/<ID>.py` and re-render.
-4. Rebuild and QA as in "To resume" in `docs/MORNING.md`. Rebuild the notes page for the new cut with
-   `tools/review/notes_page.py --name preview_v3` (it expects `previews/chaosmonkey_<name>_540p[_nolyrics].mp4`).
-
-## Redrawn sheets (little Jade and Jade)
-
-New files, old ones left in place for comparison. Jade has not seen them yet; they are on the notes page under each
-character with a three-way verdict.
-
-| | New sheet | Crops for prompts |
+| Question | State | My recommendation |
 |---|---|---|
-| Little Jade | `design/characters/little_jade/lj_A_turnaround_v2.jpg`, `lj_B_poses_v2.jpg`, `lj_C_expressions_mouths_v2.jpg` | `design/characters/refs/lj_heads_v2.jpg`, `lj_full_v2.jpg` |
-| Jade | `design/characters/jade/jade_A_turnaround_v2.jpg`, `jade_B_expressions_details_v2.jpg` | `design/characters/refs/jade_heads_v2.jpg`, `jade_upper_v2.jpg` |
+| Monkey costume | A (all yellow, `design/characters/monkey/v3/monkey_v3_model_sheet.jpg`) is in the shots; B is `monkey_v3b_ALT_fret_leopard_redscarf.jpg` | B. About $12, six stage clips to re-make. |
+| Inscription text | `design/text/lyrics_zh_v3.txt`, her own proofread; her parents will recheck | Wait for their changes, then re-render the affected book pages (comp only, no generation). |
+| "You'd fight the gods and win" (I2) | In the cut: 强者为尊该让我 / 英雄只此敢争先, my proposal from chapter 7, **quoted from memory and not yet checked against the 100-chapter text** | Check the characters against a source before anything final. Fallback: 敢战天兵 / 战必胜. |
+| Banquet name slips (I3b) | 佛老 菩萨 罗汉 [bare] 观音 圣帝 玄灵, chosen by the BOOK team | Hers to confirm. She also asked whether a banquet seat reads as a seat at the table of power; the staging answer is in REVISION_V3 §15. |
+| Medium switch and swarm | Paper-cut, rubbing and shadow-puppet switches replace the glitch; the agent swarm is a ruled album leaf with name slips, not car windows | Ask whether both read as intended. |
+| Sound | mix v2: layer louder, ending B, two early abacus clicks removed (`mix_v2_prev.wav` kept) | Needs her ears. |
+| Commit | Offered | Commit only on her word; never push. |
 
-What changed: open forehead with side-swept layers on both; little Jade also has larger glossy eyes with a highlight,
-visible blush, and expression and pose sheets that are acted (rapt, asking, grinning, indignant, sceptical, sleepy)
-where the old ones were ten versions of a flat face. Prompts are beside each file; the new prompt blocks are in
-`CANON.md` section 0.
+## Known weak points, most important first
 
-Things to know:
+Full list with frame numbers in `docs/QA_PREVIEW_V3.md`.
 
-- **A v1 image in the references brings the fringe back.** It happened on the first attempt at the pose sheet. Pass no v1
-  sheet, crop or keyframe of either character, and not the top row of the twins sheet.
-- Every shot with little Jade or adult Jade carries the old hair, so every one needs a new keyframe: A3, B1, B2, C3, D3,
-  D9, E1, E3, E5, E6, F3 (second half), F4, G1, G3, G5, I1, I4, K1, L1. C2, G4, I2, L2 are hands only.
-- Little Jade's front view on the turnaround lies flatter than the others; use the three-quarter view and the expression
-  heads for hair.
-- Not redrawn: the daughter and Mama. The daughter's prompt block still says "deadpan, watchful, unimpressed" and her
-  sheets were drawn to it, so she likely needs the same treatment (ask Jade, or read her likeness notes). Mama reads
-  35 to 40 in several shots where she should be about 30.
-- Adult Jade's first sheet was made from a photo of her that she supplied for that purpose. The redraw did not resend
-  it (it edited the painted sheet). Do not send her photo to any service again without asking her.
+1. **F2 (car window) colour:** blue-violet cabin between two warm amber shots; the puppet screen is the brightest
+   thing in the sequence.
+2. **Neon sign:** now one red 酒家 blade sign everywhere, but in the close attic shots it reads as facing the window
+   instead of as a perpendicular wedge.
+3. **Lip-sync is unjudged in motion.** F1 failed the numeric gate and I accepted it on the frame strip. G4 passes on
+   the threshold after three takes. J4 (split screen) and F4a (mirror) are not synced at all.
+4. **H5 ("made of the telling"):** the child's shadow is a pale blob. BOOK moved it off the writing; I had it put
+   back; it is still weak.
+5. **G2:** the painted margin page is brighter than the room shots around it.
+6. **Carry-overs:** long near-still ledger shots (K3 to K5); no push into I3b; B2's push has no breathing under it;
+   D9's climb has a jump.
+7. **Sound:** the 1988 blanket cue plays over a quilt that is already tucked. Cues were timed to the first build, so
+   re-time any that moved (`docs/sound_cues.json`, `tools/audio/sfx/build_v2.py`).
+8. Lyric residue burned into B4, H3, C1, D6 plates.
 
-## Acting
+## How to work her notes
 
-### What went wrong
+1. Sort every note to a shot and a kind: likeness, acting retake, comp (timing, grade, text), cut, sound. Write the
+   list into a new `docs/REVISION_V4.md` before spending; quote her notes verbatim in it, as §10 of REVISION_V3 does.
+2. Likeness changes first, with her, before any re-animation.
+3. Comp-only notes are free: edit `shots/<ID>.py` and re-render. Acting notes mean a new keyframe, a new Kling take,
+   then lip-sync if the shot sings.
+4. If you launch teams, reuse `docs/TEAMS_V3.md`: one log per team with a CHECKPOINT block rewritten at least every
+   20 minutes, prompts and specs in files, relay jobs collectable by ID, a DONE line at the end. Two kinds of
+   interruption killed teams in this pass (an auth drop and usage limits); every one resumed cleanly from its log.
+5. Rebuild: `work/cut/build_v3.sh` (about 4 minutes; splice, both cuts, contact sheets, verification, notes page).
+   For a new cut copy it to `build_v4.sh` and change the names.
 
-I took one phrase from the brainstorm, the family's "resting oblivious face", and wrote it into every prompt as
-"deadpan, watchful, unsmiling", and I listed "reads cute" as a fault to guard against. The models obeyed. A face told
-only what not to do has nothing to do, so both girls stand and stare, and the adults got little more. It also
-flattened the story: "Yes" at 2:28 is the moment a lively child goes quiet, and it cannot land if she has been quiet
-all along.
+## Pipeline facts worth knowing
 
-### How to direct instead
-
-- **Give each shot a want and an action, never a mood.** "She wants the story to start, so she tugs the blanket up and
-  looks at the book, then at Mama" can be performed. "Deadpan" cannot.
-- **Write it as beats in time**, matched to the measured words in `analysis/timing.json`: what she does before the line,
-  on the stressed word, and after it. Video models follow "first… then… on the last word…" well.
-- **Children act with the whole body.** Feet kick, hands fidget with a cuff, the head tilts, the weight shifts, they look
-  at the thing and then check the adult's face. Ask for one of these in every shot with a child.
-- **Eyes lead.** Say where she looks and when the look changes. Ask for blinks and breathing in any hold over a second.
-- **Reactions matter as much as lines.** Whoever is not singing is listening, and listening is visible: leaning in,
-  mouthing a word, a suppressed laugh.
-- **Humour comes from understatement inside a lively child**, used once or twice (the sideways look at 1:46, the raised
-  eyebrow at 3:03), not from a blank face throughout.
-- **Smiles are allowed and wanted.** This is a bedtime story between people who love each other. Both rooms should feel
-  warm before they feel anything else.
-- **Never write** deadpan, unsmiling, flat, expressionless, neutral, unimpressed, "never cute". For lip-sync start
-  frames, replace "mouth closed, neutral" with a relaxed, slightly open, about-to-speak face.
-- **Stillness is saved for three places**: "Yes" (2:26 to 2:29), the bare column at the end (3:44 to 3:48), and the two
-  switches. They work because nothing else is still.
-- The one-thing-moves rule in the treatment is about the painted pages. In the rooms, people may move like people.
-
-The pose sheet (`lj_B_poses_v2.jpg`) and the expression sheets are drawn to these and can be passed as references for
-the matching shots.
-
-### Shot by shot
-
-Times are in-points. The words are the line sung in the shot.
-
-**1988, the attic**
-
-| Shot | Line | Play it as |
-|---|---|---|
-| A3 0:09 | (none) | She hears the stairs before the door opens: head turns, she scrambles up onto her knees, blanket in both fists. Mama comes up tired, drying her hands, and softens when she sees her still awake. |
-| B1 0:15 | "妈妈, will you tell me before I sleep / how 孙悟空 came to be?" | She is bargaining for a story. Starts with the book hugged to her chest, holds it out on "tell me", bounces once on "孙悟空", then watches Mama's face for the yes. Hopeful, a little sly. |
-| B2 0:22 | "On 花果山, where the cliffs run steep" | Mama settles, licks a finger, opens the book and slips into a storyteller's voice: eyebrows up, a hand rising to draw the cliff in the air. Little Jade wriggles in under her arm and cranes at the page. |
-| C2 0:45 | "Monkey!" | She cannot wait: both hands shoot into the light, she half stands, grinning at her own shadow. |
-| C3 0:46 | "Not yet, that's just the start" | Mama laughs through the line and lowers the small hands with one finger. Little Jade lets them be lowered, then sneaks them up again an inch; caught, she grins. |
-| C5 0:52 | "the wind blew once, and that was all" | Mama fills her cheeks, glances sideways to make sure she is being watched, and blows across the page, lips rounded, eyes following the dust. It must not read as "shh": no finger near the mouth. |
-| D3 1:04 | "No cradle, no lullaby, no song" | Mama shakes her head slowly, one "no" each, mock-solemn. Little Jade mirrors the head shake half a beat late, lips moving on "no song". |
-| D9 1:22 | (none) | She has copied the page: one leg up, hand shading her eyes, wobbling, tongue between her teeth, very proud. She loses balance and hops. Mama claps once and laughs with her head back. |
-| E1 1:25 | "The monkey had a memory just like you" | Mama leans in close and taps her nose on "you". Little Jade goes cross-eyed at the finger, scrunches her nose and giggles. |
-| E3 1:33 | "Names and faces, I lose a few / but a spell I'd remember well" | Honest and unbothered: a big child's shrug with palms up on "lose a few", then she sits up straight and taps her own temple on "remember well", sure of herself. Behind her Mama smiles into the book. |
-| E5 1:43 | "(ps ps ps)" | Mama cups a hand at her ear. Little Jade holds very still to hear, eyes sliding sideways and widening, then her shoulders come up because it tickles. |
-| E6 1:44 | "a secret only he could hear" | She pulls back and gives Mama the sideways look: one eyebrow, a pressed smile, "is that true?". Mama hides a laugh behind her hand. On the rap pickup her eyes go wide. |
-| G1 2:01 | "Why does he wear a band of gold…" | A real question that has started to worry her. Brows drawn, she touches her own forehead with two fingertips, looks from the page to Mama, and waits for the answer. |
-| G3 2:14 | "It isn't fair, it isn't fair / I don't want it in his hair" | Indignant, close to tears. She puts her hand flat over the monkey to protect him, lower lip out, shaking her head on the second "fair", voice of a child arguing with the rules. |
-| G4 2:21 | "Then 听话, or you'll get one to wear…" | Shadows only. Mama's ring of finger and thumb comes down slowly and teasing; the child's shadow shrinks, shoulders up, chin tucked. Mama means it as a joke. It lands as more. |
-| G5 2:26 | "Yes" | The stillness. She was mid-protest: the breath she took to argue goes out, her eyes drop, come back up to Mama, and hold. A small swallow, then "Yes", barely moving her lips. Blink once, after. |
-
-**2026, the car**
-
-| Shot | Line | Play it as |
-|---|---|---|
-| F1 1:47 | "石头里蹦出来 没有童年" | She is performing for the front seat and knows she is good. Hands chop the beat like small karate cuts, apart, never palms together; chin leads; feet kick the car seat in time; a grin breaks through between phrases. |
-| F3 1:51 | "拔一把毫毛 吹一口气" | She pinches one hair between finger and thumb, squints at it with total seriousness, then puffs it off her palm with her cheeks full and watches where it goes, delighted. Then 1988: little Jade doing exactly the same, same joy. |
-| F4 1:52 | "千百个我 同时在这里…" | In the mirror Jade catches her daughter's eye and joins in, eyes smiling, head nodding the beat; the daughter points at the mirror and sings louder at her. |
-
-**2026, the bedroom**
-
-| Shot | Line | Play it as |
-|---|---|---|
-| I1 2:57 | "Mischievous baby, Monkey's twin, / you'd fight the gods and win" | Jade reads it like a dare, flashlight under her chin for a second, eyebrows up. The daughter, on her tummy with her feet in the air, pushes up on her elbows. |
-| I2 3:00 | (hands) | Two hands race to make the monkey; the small one gets there second and bumps the big one on purpose. |
-| I3 3:03 | "You think I'd ask for a seat at the table?" | Scornful and funny: she leans back, one eyebrow up, a puff of breath on "ask", then looks to see if it landed. This is where the understatement lives. |
-| I4 3:07 | "Wouldn't you? You're able." | Jade answers gently and with full certainty. A small smile on "Wouldn't you", then she leans in and holds her daughter's eyes on "You're able". Warm, not grave. |
-| J1 3:09 | (none) | The fingertip hovers, hesitates, then presses, the way a child presses a lift button. |
-| K1 3:23 | "Do you want to know how he never died…" | Jade lowers her voice to a secret and turns the book toward her. The daughter is already nodding, fast, before the question ends, and shuffles closer on her knees. |
-| K2 3:30 | "He opened the Book of Life and Death" | She has the big book in both arms, chin over the top of it, and says it with relish, eyes huge, pausing before "Death" for effect. |
-| K4 3:37 | (page turns) | A small hand must be seen turning the pages: a lick of the finger, pages turned too many at a time, then one at a time. |
-| L1 3:48 | (none) | Asleep the way children sleep: mouth open, one arm flung over Jade's arm, a foot off the bed. Jade looks down at her, then at the blank column, and breathes out. |
-| L2 3:53 | (click) | Her thumb rests on the switch a moment longer than needed. |
-
-Mama throughout: about 30, tired from the restaurant downstairs and glad to be upstairs. She performs the story with her
-hands and voices; she is funny. Her sternness at 2:21 is half play, which is what makes it sad.
-
-## Other open issues
-
-Ranked in `docs/QA_PREVIEW_V2.md` and `docs/MORNING.md`. The largest that Jade's notes may not mention because she was
-watching for story:
-
-- Lip-sync softens painted faces toward a 3D look and sync is loose (Seedance 2.5). K1, G3 and F4 play as off-screen
-  voice. Her choice of approach is question 2.
-- The opera faces in the bridge look digital at wide framings.
-- Takes already known to be wrong: F1 (praying hands, ginger hair), C5 (reads "shh"), K4 (no hand), D2d (shallow bow).
-- Holds that drag: G2, E2, K4. L1's pull-back warps the room. B4 to B5 jumps in paper tone.
+- Python: `/home/jade/Documents/halys-video/.venv/bin/python`. Generation: `tools/gen/cf.py`, `gen.py`, `spend.py`.
+- **gpt-image-2 holds the faces; nano-banana-pro does not.** Keyframes go through gpt-image-2. Any v1 or v2 image of
+  little Jade or Jade in the references brings the fringe back: pass only v3 material.
+- Acted takes: Kling v4. Comps: `tools/ink`, one script per shot in `shots/`, output `media/comp/<ID>.mp4` at the
+  exact frame count in `docs/shots.json`.
+- Lip-sync (`docs/LIPSYNC_V3.md`): Kling take, then `pruna/p-video-avatar` to drive, then `tools/sync/lp_lips.py`
+  (LivePortrait ONNX) to transfer only the mouth, then `tools/review/lipsync_gate.py`. Wrapper
+  `tools/gen/lipsync_take.py`. The face must be about 150 px or more at 720p. Adults: `--rgain 0.55 --shape 0.2
+  --mask mouth --delay 2`. With two faces in frame, crop to the singer first, or the mouth lands on the other person
+  (it did, on Mama, in E3 and G1).
+- Helpers: `tools/ink/inscription.py` (`inscription(ctx, key, box=..., paper=P)`, font Ma Shan Zheng, reads
+  `design/text/lyrics_zh_v3.txt`); `tools/ink/medium.py` (`Mediums`, `pick_chops`).
+- Splices are defined in `tools/cut/splice.py`; the table and the reasons are in QA_PREVIEW_V3 §2. `media/comp/I2.mp4`
+  is the old v2 shot and is not used (the slot is `pages/I2_full`). `media/comp/F1.mp4` is the face-synced version;
+  `F1_body.mp4` is the fallback.
+- v2 backups: `media/comp/_v2/`, `shots/_v2/`.
+- Opera faces: checked against sources by a separate agent (`docs/logs/LOG_v3_faces_verify.md`); three were wrong and
+  nine were repainted; 木吒 was removed; the monkey's face sits in cell 16 beside the bare cell. Opera photographs are
+  reference only, never model inputs.
+- `/tmp` is a 16 GB RAM disk and filled once. Teams use `work/tmp/` (shared, emptied between runs). It is at 42% now.
 
 ## Standing rules
 
-- Spend cap $600 (`tools/gen/spend.py`). 540p passes until Jade asks for the master.
-- Her name, email, photos and project details stay out of requests to outside services unless she asks.
-- Commit only when she asks; never push without being asked. Never deploy, modify or delete the Cloudflare Worker
-  `rare-earth-v3-relay` or its KV namespaces; never print Cloudflare secrets.
+- Spend cap $1,500. 540p passes until Jade asks for the master.
+- Her name, email, photos and project details stay out of requests to outside services unless she asks. Never send
+  `design/characters/_src/jade_face_photo.jpg` or any real photo to any service without asking her first.
+- Commit only when she asks; never push without being asked.
+- Never deploy, modify or delete the Cloudflare Worker `rare-earth-v3-relay` or its KV namespaces; never print
+  Cloudflare secrets.
 - Codex runs headless with `< /dev/null` under `flock /tmp/chaosmonkey-codex.lock`, never with sandbox-bypass flags.
-- Python is `/home/jade/Documents/halys-video/.venv/bin/python`. Tool calls and model choices are in
-  `docs/PIPELINE_RECON.md` and `docs/VIDEO_BAKEOFF.md`.
-- All Chinese text on screen is typeset from `design/text/`, never drawn by a model.
+- All Chinese on screen is typeset from `design/text/`, never drawn by a model.

@@ -1,17 +1,16 @@
-"""C3 46.167-49.625 (83 f). Team ROOMS-88. Not yet, that is just the start: Mama, amused, lowers little Jades
-raised hands with one finger. Seedance 2.5 lip-sync, first+last frame (C3 -> C3_end). Sign in the window upper right.
-The book on the floor is closed (red cover): no page."""
-from shots._rooms88 import *
+"""C3 song frames 1108-1190 (83 f). ATTIC v3. Sings on camera: Mama.
+'Not yet, that's just the start': lap, close. Mama sings it laughing with her eyes and lowers the small raised hands with one finger; little Jade sneaks them up an inch, is caught, grins up at her.
+Acted Kling v4 take on media/kf/v3/C3.jpg + lip transfer (docs/LIPSYNC_V3.md), clip frame 0 at T0 (shift 0).
+Pick: media/comp/attic3/picks.json key C3 (falls back to the keyframe as a still if no take is picked)."""
+from shots._attic3 import *
 
 T0, T1 = 1108 / 24, 1191 / 24
-R = RoomShot(shot='C3', T0=T0, T1=T1, kf='C3', window=(1673, 94, 1920, 498), sign=(1800, 290, 220, -6.0),
-             keep=[(660, 250, 150, 180, 1.0), (1160, 420, 130, 160, 1.0), (900, 560, 200, 160, 0.8)], floor=0.24,
-             lyrics=[("Not yet, that's just the start", (560, 40, 800, 44))])
+S = AtticShot([Seg(T0, T1, 'C3', key='C3', tmap=[[T0, 0.0], [T0 + 4, 4.0]], floor=0.64, keep=[(946, 270, 300, 300), (1207, 590, 300, 300)], cam=[(T0, 1010, 500, 1.0), (T1, 1020, 480, 1.07)])])
 
 
 def setup(ctx):
-    R.setup(ctx)
+    S.setup(ctx)
 
 
 def render(t, ctx):
-    return R.render(t)
+    return S.render(t)

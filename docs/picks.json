@@ -33,5 +33,15 @@
   "src": "media/comp/spliced/K2.mp4",
   "in": 0.0,
   "rate": 1.0
+ },
+ "I2": {
+  "src": "media/comp/spliced/I2.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "L3": {
+  "src": "media/comp/spliced/L3.mp4",
+  "in": 0.0,
+  "rate": 1.0
  }
 }

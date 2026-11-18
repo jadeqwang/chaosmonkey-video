@@ -22,7 +22,8 @@ GARAMOND = 'refs/fonts/eb-garamond/EBGaramond[wght].ttf'
 LINE = 'Tool or threat, trick or kid'
 NOUNS = ['Tool', 'threat', 'trick', 'kid']
 # cell, face height share of frame, anchor of the face in frame
-SHOTS = [(10, 0.66, (0.36, 0.50)), (3, 0.74, (0.64, 0.52)), (13, 0.62, (0.35, 0.47)), (14, 0.60, (0.31, 0.50))]
+# v3: tighter on the first three so each word has ONE face (the kid face is not seen before its word)
+SHOTS = [(10, 0.84, (0.40, 0.50)), (3, 0.84, (0.60, 0.52)), (13, 0.80, (0.60, 0.48)), (14, 0.60, (0.31, 0.50))]
 WIDEN = 165.54
 
 
@@ -34,7 +35,7 @@ def setup(ctx):
     AL = Album(ctx, album_plan(tm))
     CAMS = [cams_frame_face(c, fh, anc) for c, fh, anc in SHOTS]
     SEAL = category_seal()
-    CHILD = child_figure(ctx, 640, strength=1.7)
+    CHILD = child_figure(ctx, 640, strength=2.3)
     INS = None
     from tools.ink.opts import lyrics_on
     if lyrics_on(ctx):

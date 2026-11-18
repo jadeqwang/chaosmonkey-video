@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the local review page for a preview cut: timestamped notes, likeness notes, decisions.
 
-  python tools/review/notes_page.py [--name preview_v2]
+  python tools/review/notes_page.py [--name preview_v3]
 
 Writes review/<name>_notes.html and review/likeness/*.jpg (film stills and downscaled reference sheets).
 Everything is local: the page reads the video from previews/ and keeps notes in the browser's localStorage.
@@ -15,69 +15,83 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 
-# character -> her references, my canon sheets, and (shot, seconds into the shot) for the film stills
+# character -> her references, the accepted v3 head sheet, and (shot, seconds into the shot) for the film stills (preview_v3)
+V3_NOTE = ("The sheet on the right is the v3 head sheet you accepted on 17 Nov; every room shot in this cut was re-shot "
+           "from it. The frames below are from this cut.")
 CHARS = [
-    dict(id="little_jade", name="Little Jade, 1988 (age 5)", kind="girl",
-         noted="Already noted (17 Nov): no bangs covering the forehead; hair curtained to the sides, almost like layers. The redrawn sheets are below; the film frames still show the old hair.",
-         new=["design/characters/little_jade/lj_A_turnaround_v2.jpg", "design/characters/little_jade/lj_C_expressions_mouths_v2.jpg",
-              "design/characters/little_jade/lj_B_poses_v2.jpg"],
+    dict(id="little_jade", name="Little Jade, 1988 (age 5)", kind="girl", noted=V3_NOTE,
          refs=["inputs/ref_merge_little_jade_face.jpg", "inputs/ref_merge_little_jade_fullbody.jpg"],
-         canon=["design/characters/little_jade/lj_C_expressions_mouths.jpg",
-                "design/characters/little_jade/lj_A_turnaround.jpg"],
-         stills=[("A3", 1.5), ("B1", 1.5), ("B1", 5.0), ("B2", 2.0), ("C3", 1.5), ("D3", 2.2), ("D9", 1.5),
-                 ("E1", 2.7), ("E3", 1.5), ("E3", 5.0), ("E6", 1.0), ("E6", 2.6), ("F3", 1.4), ("G1", 2.0), ("G3", 1.0), ("G3", 5.8),
-                 ("G5", 1.0), ("G5", 2.4)]),
-    dict(id="daughter", name="The daughter, 2026 (age 4)", kind="girl",
+         canon=["design/characters/little_jade/lj_H_heads_v3.jpg"],
+         stills=[("A2", 2.5), ("A3", 1.0), ("A4", 1.5), ("B1", 1.5), ("B1", 5.0), ("B2", 1.5), ("C3", 1.5), ("C5", 1.6),
+                 ("D3", 2.2), ("D9", 0.6), ("D9", 2.6), ("E1", 2.7), ("E3", 1.5), ("E3", 5.0), ("E5", 0.6), ("E6", 1.2),
+                 ("F3", 1.4), ("G1", 2.0), ("G4", 3.0), ("G5", 1.0), ("G5", 2.4), ("J4", 3.6)]),
+    dict(id="daughter", name="The daughter, 2026 (age 4)", kind="girl", noted=V3_NOTE,
          refs=["inputs/ref_moongazing_daughter_strawberry_dress_sheet.jpg"],
-         canon=["design/characters/daughter/daughter_A_turnaround.jpg",
-                "design/characters/daughter/daughter_B_poses_mouths.jpg"],
-         stills=[("F1", 0.4), ("F1", 1.3), ("F3", 0.4), ("F3", 0.9), ("F4", 0.8), ("I1", 1.5), ("I3", 0.4),
-                 ("I3", 1.2), ("K1", 2.0), ("K1", 5.5), ("K2", 0.7), ("L1", 3.8)]),
-    dict(id="mama", name="Mama, 1988 (about 30)", kind="adult",
+         canon=["design/characters/daughter/daughter_H_heads_v3.jpg"],
+         stills=[("F1", 0.4), ("F1", 1.3), ("F3", 0.4), ("F3", 0.9), ("F4", 0.8), ("F6", 2.6), ("F6", 3.2), ("I1", 1.5),
+                 ("I3", 0.4), ("I3", 1.2), ("K1", 0.8), ("K1", 1.8), ("L1", 3.8)]),
+    dict(id="mama", name="Mama, 1988 (35)", kind="adult", noted=V3_NOTE,
          refs=["inputs/ref_moongazing_teahouse_jade_mom_daughter.png"],
-         canon=["design/characters/mama/mama_A_turnaround.jpg", "design/characters/mama/mama_B_expressions.jpg"],
-         stills=[("A3", 2.4), ("B2", 1.0), ("B2", 3.0), ("C3", 2.5), ("C5", 1.5), ("D3", 2.8), ("D9", 2.5),
-                 ("E1", 1.2), ("E5", 0.5), ("E6", 1.8), ("I4", 0.15)]),
-    dict(id="jade", name="Jade, 2026", kind="adult",
-         noted="Already noted (17 Nov): no bangs covering the forehead; hair curtained to the sides, almost like layers. The redrawn sheets are below; the film frames still show the old hair.",
-         new=["design/characters/jade/jade_A_turnaround_v2.jpg", "design/characters/jade/jade_B_expressions_details_v2.jpg"],
+         canon=["design/characters/mama/mama_H_heads_v3.jpg"],
+         stills=[("A3", 2.4), ("B2", 1.0), ("C3", 2.5), ("C5", 1.5), ("D3", 2.8), ("D9", 2.8), ("E1", 1.2), ("E6", 1.8),
+                 ("G4", 1.5), ("G4", 4.0), ("I4", 0.1), ("L3", 0.6)]),
+    dict(id="jade", name="Jade, 2026", kind="adult", noted=V3_NOTE,
          refs=["inputs/ref_moongazing_jade_singing_watercolor_first_frame.jpg",
                "inputs/ref_moongazing_teahouse_jade_mom_daughter.png"],
-         canon=["design/characters/jade/jade_A_turnaround.jpg", "design/characters/jade/jade_B_expressions_details.jpg"],
-         stills=[("F4", 1.6), ("I1", 0.8), ("I1", 2.4), ("I4", 2.0), ("I4", 2.6), ("K1", 1.0), ("K1", 4.0),
-                 ("L1", 4.2)]),
+         canon=["design/characters/jade/jade_H_heads_v3.jpg"],
+         stills=[("F4", 0.8), ("I1", 0.8), ("I1", 1.8), ("I4", 1.2), ("I4", 2.0), ("K1", 1.0), ("L1", 2.0), ("L1", 4.2),
+                 ("L2", 2.0)]),
 ]
 
+# The questions open after preview_v3. imgs: [(path, caption)] shown under the question; times are in the cut.
 DECISIONS = [
-    dict(id="direction", title="1. Is the direction right?",
-         why="Three big calls: the paper becomes an opera stage in the loud sections; every glitch is done through "
-             "a traditional twin (the frozen pose with a seal, mis-registered woodblock, rubbing flip, shadow "
-             "puppets); people are painted in the storybook's line-and-wash hand.",
-         opts=["Yes, keep going", "Mostly (say what to change)", "No (say why)"]),
-    dict(id="lipsync", title="2. Lip-sync",
-         why="The lip-sync model softens the painted faces toward a 3D-render look and the sync is loose. "
-             "Three shots (3:23, 2:14, 1:52) play as an off-screen voice.",
-         opts=["Keep singing faces; find a better method", "Cut more lines to hands, pages and shadows",
-               "A mix (say which lines must be sung on screen)"]),
-    dict(id="cliff_lyrics", title="3. Lyrics over the carved cliffs (0:29, 0:56, 1:10, 2:50)",
-         why="On those four shots the lyric line sits on top of carved writing.",
-         opts=["Keep the lyric there", "Drop the lyric on those four", "Drop on-screen lyrics everywhere"]),
-    dict(id="ending", title="4. The ending's sound",
-         why="The preview uses A. The others are media/sound/mix_v1_endB.wav and mix_v1_endC.wav.",
-         opts=["A: the song's own hard cut", "B: the last note rings out for 3 more seconds",
-               "C: hard cut, then 3 seconds of faint room tone", "Haven't compared yet"]),
-    dict(id="neon", title="5. The opening's neon (0:00 to 0:15)",
-         why="After a late change the attic is darker and the window stays mostly red; the earlier version cycled "
-             "from red to cold blue.",
-         opts=["Fine as it is", "Bring back the red-to-blue cycle"]),
-    dict(id="rap_english", title="6. The English under the rap (1:47 to 2:01)",
-         why="It is my working translation, not yours.",
-         opts=["Fine", "I'll correct it (write the lines below)", "No English under the rap"]),
-    dict(id="sound", title="7. The sound-design layer",
-         why="47 cues sit under the song (seal thumps, brush, paper, neon hum, the flashlight click).",
-         opts=["Good", "Too loud", "Too quiet, I barely heard it", "Remove (say which)"]),
-    dict(id="next", title="8. What next",
-         why="A third 540p pass with your notes, or go to the 1080p master.",
+    dict(id="monkey_costume", title="1. The monkey's costume: A or B",
+         why="You asked to try the Peking opera monkey in yellow. The cut uses A (all yellow, pompom cap, yellow scarf) in "
+             "every stage shot: 0:58 to 1:22 (birth, four bows, the Buddha's palm, staff flower, look-out) and 3:12 to 3:16. "
+             "B is the alternative from the costume research: key-fret pattern on the jacket, leopard-fur trim, red scarf. "
+             "The dark ink monkey of preview_v2 can also be restored.",
+         imgs=[("design/characters/monkey/v3/monkey_v3_model_sheet.jpg", "A: all yellow (in this cut)"),
+               ("design/characters/monkey/v3/monkey_v3b_ALT_fret_leopard_redscarf.jpg", "B: key-fret, leopard trim, red scarf")],
+         opts=["A: all yellow", "B: key-fret, leopard trim, red scarf", "Something between (say what)",
+               "Go back to the dark ink monkey of preview_v2"]),
+    dict(id="medium_switch", title="2. The medium switch (it replaces the glitch)",
+         why="On the breakbeat chops the same pose is shown for 4 or 5 held frames as a red paper-cut, a stone rubbing "
+             "(white on black, torn paper edge) or a leather shadow puppet, then back to ink. Look at 0:43 to 0:45 (the "
+             "stone splits), 0:59 to 1:00 (birth), 1:15 to 1:21 (palm, staff, look-out), 2:30 to 2:49 (the faces) and "
+             "3:20 to 3:21. You said the old glitch read as errors: does this read as intended?",
+         opts=["Yes, it reads as intentional", "Sometimes (say where it still looks like a mistake)",
+               "No, still reads as an error", "Too short to read: hold longer"]),
+    dict(id="swarm", title="3. The swarm on an album leaf (1:54 to 2:00)",
+         why="The brief asked for the copies in the car's windows. The stage team put them on a ruled album leaf instead, "
+             "full frame, lit like passing streetlights: nine cells, one job and one name slip each (读 写 算 运 战 扫 望 磨), "
+             "the original in the middle (我) with a red thread to each, a seal 讫 as each finishes. Their reason: in the "
+             "panes the grid and the threads did not read. The car is kept only by the light and by the cuts before and after "
+             "(the shadow on the window at 1:48, the mirror at 1:52).",
+         opts=["Keep the album leaf", "Put it back in the car windows", "Leaf, but show the car around it",
+               "Neither reads as an agent swarm yet (say why)"]),
+    dict(id="lipsync", title="4. Lip-sync on the singing shots",
+         why="New method (an acted take, then only the mouth is transferred), and every singing face was measured before it "
+             "shipped. On camera: 0:16 little Jade, 0:46 and 1:26 Mama, 1:33 little Jade, 1:47 the daughter's rap, "
+             "2:01 little Jade, 2:21 Mama (borderline), 2:28 'Yes', 2:57 you, 3:03 the daughter, 3:08 you. "
+             "The teams judged stills and strips, not playback, so this needs your eye in motion.",
+         opts=["Good enough everywhere", "Mostly; these are off (list the times)", "Still not acceptable",
+               "Fewer singing faces: play more lines on hands, pages and listeners"]),
+    dict(id="sound", title="5. The sound layer (mix v2) and ending B",
+         why="The diegetic layer was raised (you barely heard it in v2) and new cues were added: apron and towel on the hook "
+             "0:12, the breath in her hair 0:53, the book stack falling 1:23, the hair-puffs 1:52, abacus clicks and small "
+             "seals 1:53 to 1:58, the page press 3:09, the blankets 3:55. The ending is B: the neon hum cuts at 3:57.8 "
+             "and the last note rings about 3 s over black, to 4:01.9.",
+         opts=["Good", "Still too quiet", "Too loud now", "Layer fine; change the ending (say how)",
+               "Remove or change some cues (say which)"]),
+    dict(id="inscriptions", title="6. The Chinese inscriptions: text and font",
+         why="Every sung line over a book or stage page now has its inscription painted into the page (vertical, right to "
+             "left, one seal 悟空), from your proofread file; the font is Ma Shan Zheng. Your parents were going to "
+             "recheck the wording. The English lyric line was moved wherever it would have touched an inscription.",
+         opts=["Text and font are right", "Font is right; text changes (write them below)",
+               "Text is right; try another brush font", "Both need work", "Too many inscriptions: keep fewer (say which)"]),
+    dict(id="next", title="7. What next",
+         why="Every shot in this cut is a v3 shot. Either another 540p pass with your notes, or the 1080p master with "
+             "the notes applied.",
          opts=["Another 540p pass with my notes", "1080p master with my notes applied"]),
 ]
 
@@ -220,6 +234,7 @@ function box(st, ph){ const ta=document.createElement('textarea'); ta.placeholde
 function renderDec(){ const b=$('decisions'); b.innerHTML='';
   D.decisions.forEach(d=>{ const st=S.dec[d.id]||(S.dec[d.id]={pick:null,text:''}); const el=document.createElement('div'); el.className='dec';
     const h=document.createElement('h3'); h.textContent=d.title; const p=document.createElement('p'); p.textContent=d.why; el.append(h,p);
+    if(d.imgs&&d.imgs.length){ const g=document.createElement('div'); g.className='pair'; d.imgs.forEach(([path,cap])=>g.append(fig(path,cap))); el.append(g); }
     choice(el,'dec_'+d.id,'radio',d.opts,st); el.append(box(st,'anything to add (optional)')); b.append(el); }); }
 function fig(path, cap){ const f=document.createElement('figure'); const a=document.createElement('a'); a.href=path; a.target='_blank';
   const im=document.createElement('img'); im.src=path; im.loading='lazy'; a.append(im); const c=document.createElement('figcaption'); c.textContent=cap; f.append(c,a); return f; }
@@ -232,7 +247,7 @@ function renderLike(){ const b=$('chars'); b.innerHTML='';
     c.refs.forEach(r=>L.append(fig(r,'Your reference'))); c.canon.forEach(r=>R.append(fig(r,"Claude's sheet (what every shot was drawn from)")));
     pair.append(L,R); el.append(pair);
     if(c.new.length){ const st2=S.like[c.id+'_new']||(S.like[c.id+'_new']={pick:null,text:''}); const nb=document.createElement('div');
-      const hh=document.createElement('h3'); hh.textContent='Redrawn sheets (17 Nov): new hair, livelier faces'; nb.append(hh);
+      const hh=document.createElement('h3'); hh.textContent='Redrawn sheets'; nb.append(hh);
       const g2=document.createElement('div'); g2.className='pair'; c.new.forEach(r=>g2.append(fig(r,'Redrawn'))); nb.append(g2);
       choice(nb,'new_'+c.id,'radio',NEWOPTS,st2); nb.append(box(st2,'what to change in the redrawn sheets')); el.append(nb); }
     const cols=document.createElement('div'); cols.className='cols';
@@ -276,9 +291,36 @@ load(); renderNotes(); renderDec(); renderLike(); out(); tick();
 """
 
 
+def v3_descriptions():
+    """Shot descriptions shown under the video: the 'new direction' of docs/REVISION_V3.md section 5 (the brief the
+    cut was shot to) in front of the shot list's own description."""
+    import re
+    out, text = {}, (ROOT / "docs/REVISION_V3.md").read_text()
+    sec = text[text.index("## 5. Shot by shot"):text.index("## 6.")]
+    for line in sec.splitlines():
+        m = re.match(r"\|\s*([A-L]\d[^|]*)\|(.*)\|\s*$", line)
+        if not m:
+            continue
+        ids = re.findall(r"\b([A-L]\d)\b", re.sub(r"\(.*?\)", "", m.group(1)))
+        d = re.sub(r"\*\*|`", "", m.group(2)).strip()
+        for i in ids:
+            out[i] = d
+    return out
+
+
+def describe(shot, v3):
+    """The v3 direction; where it only points elsewhere ('As v2', '3.2.') the shot list's description follows it."""
+    d = v3.get(shot["id"])
+    if not d:
+        return shot["desc"]
+    if len(d) < 90 or d.startswith("As v2"):
+        return f"v3 brief: {d}  (Shot list: {shot['desc']})"
+    return f"v3 brief: {d}"
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--name", default="preview_v2")
+    ap.add_argument("--name", default="preview_v3")
     a = ap.parse_args()
     name = a.name
     clean = ROOT / f"previews/chaosmonkey_{name}_540p_nolyrics.mp4"
@@ -294,7 +336,7 @@ def main():
     def small(rel):
         src = ROOT / rel
         dst = img_dir / (src.stem + ".jpg")
-        if not dst.exists():
+        if not dst.exists() or dst.stat().st_mtime < src.stat().st_mtime:
             im = Image.open(src).convert("RGB")
             im.thumbnail((1800, 1800), Image.LANCZOS)
             im.save(dst, quality=90)
@@ -307,18 +349,22 @@ def main():
             s = by_id[sid]
             t = round(min(s["in"] + dt, s["out"] - 1 / 24), 3)
             dst = img_dir / f"{name}_{sid}_{int(round(t * 24)):05d}.jpg"
-            if not dst.exists():
+            if not dst.exists() or dst.stat().st_mtime < clean.stat().st_mtime:      # a rebuilt cut refreshes its stills
                 subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t:.3f}", "-i", str(clean), "-frames:v", "1",
                                 "-q:v", "2", str(dst)], check=True)
             stills.append(dict(shot=sid, t=t, img=f"likeness/{dst.name}"))
         chars.append(dict(id=c["id"], name=c["name"], kind=c["kind"], noted=c.get("noted", ""), new=[small(r) for r in c.get("new", [])], refs=[small(r) for r in c["refs"]],
                           canon=[small(r) for r in c["canon"]], stills=stills))
 
+    decisions = [dict(d, imgs=[[small(pth), cap] for pth, cap in d.get("imgs", [])]) for d in DECISIONS]
+    desc = v3_descriptions()
+    end = max(s["out"] for s in shots)
     data = dict(
-        shots=[dict(id=s["id"], **{"in": round(s["in"], 4)}, desc=s["desc"]) for s in shots],
+        shots=[dict(id=s["id"], **{"in": round(s["in"], 4)}, desc=describe(s, desc)) for s in shots]
+              + [dict(id="END", **{"in": round(end, 4)}, desc="Black to the end of the audio: the last note rings out (ending B).")],
         sections=[[s["start"], s["name"]] for s in timing["sections"]],
         lines=[dict(start=l["start"], end=l["end"], text=l["text"]) for l in timing["lines"]],
-        decisions=DECISIONS, causes=CAUSES, chars=chars,
+        decisions=decisions, causes=CAUSES, chars=chars,
     )
     sources = (f'<option value="../{lyr.relative_to(ROOT)}">{name}, lyrics on</option>'
                f'<option value="../{clean.relative_to(ROOT)}">{name}, no lyrics</option>')

@@ -1,26 +1,31 @@
-"""J3  192.833-196.625  drop 2: "before the day had warmed (warmed)" (stage team).
+"""J3  192.833-196.625  drop 2: "before the day had warmed (warmed)" (STAGE team, v3: the yellow monkey; staging as v2).
 
-The full staff form across the blue-green heaven (D_heaven_mid, its densest window, ~73 % marks), the monkey larger
-and wilder than in the hook. Motion: Kling v4 first+last frame clip (canon 11 overhead sweep -> canon 12 thrust,
-media/gen/stage/clips/stg_j3_kling4.mp4), keyed, on twos. The staff tip writes a dry-brush stroke that STAYS
-(StaffTrail tracked from the clip). The page cuts between 1988 (new paper, lit cinnabar by the neon) and 2026 (aged
-paper under the flashlight) on the strongest drum hits (no chops are measured inside this shot): red -> white 193.459
--> red 194.103 -> white 194.963. The last sweep runs across that last cut: one stroke begun on the red page,
-finished on the white. Thrust lands in 亮相 on 195.181 with a 倉; the echo "(warmed)" 195.650 re-presses it fainter.
-A slow pull-back on the plate continues the J2-J5 pull-back.
+The full staff form across the blue-green heaven (D_heaven_mid, its densest window), the monkey larger and wilder
+than in the hook. Motion: Kling v4 first+last (v3 canon 11 overhead sweep -> 12 thrust,
+media/gen/stage/v3/clips/s3_j3_kling4.mp4), keyed, on twos. What the staff writes STAYS (RingStain: the running
+maximum of the model's own wet dry-brush sweeps, laid by its living brush; v2 drew keypointed ellipses).
+The page is the 1988 page (new paper under the red neon) until the kick 194.963, then the 2026 page (aged paper
+under the flashlight): ONE cut, and the last great sweep runs across it: begun on the red page, finished on the
+white (v2 cut red/white three times; with the medium switches that would be four changes of picture in two bars).
+Medium switches (same pose, 4 held frames, on the strongest measured hits; no chops are measured in this shot):
+red paper-cut on the snare 193.459, stone rubbing on the kick 194.103. Thrust lands in 亮相 on 195.181 with a 倉;
+the echo "(warmed)" 195.650 re-presses it fainter. A slow pull-back on the plate continues the J2-J5 pull-back.
+No Chinese inscription: the heaven fills the page (no blank), and the lyric layer carries the line.
+v2: shots/_v2/J3.py, media/comp/_v2/J3.mp4.
 """
 import os
 import numpy as np
 
 from tools.ink import *
 from tools.ink.video import Clip
-from tools.ink.roto import StaffTrail
-from tools.stage.stage import heaven, seals, KeyRetime, lyrics_on, LATIN, PAPER_SEED, ring_path, sweep_to_tip
+from tools.stage.stage import heaven
+from tools.stage.stage3 import *
 
 T0, T1 = 192.833333, 196.625
-CUTS = [on_frame(x) for x in (193.459, 194.103, 194.963)]   # fix2: on the frames containing the hits           # red -> white -> red -> white
+CUTS = [on_frame(194.963)]                           # red (1988) -> white (2026), once
+SWITCH = [(193.459, 'papercut'), (194.103, 'rubbing')]
 T_LIANG, T_ECHO = on_frame(195.181), on_frame(195.650)
-SRC_SWEEP0, SRC_LIANG, SRC_END = 3.00, 3.85, 4.5     # measured: big sweep f72-f88, set f92     # clip times: last sweep starts / thrust set / tail
+SRC_SWEEP0, SRC_LIANG, SRC_END = 78 / 24, 95 / 24, 4.6     # last sweep starts / thrust set / tail
 T_SWEEP0 = 194.70
 SCALE = 1.12
 from tools.ink.light import NEON_RED, TORCH as TORCH_C
@@ -28,27 +33,19 @@ CENTER = (960, 600)
 
 
 def setup(ctx):
-    global PN, PA, HN, HA, CL, RT, POS, SC, TRAIL, NF, FL, SEAL, INS, ECHO_POS, SEAL_POS
+    global PN, PA, HN, HA, CL, RT, POS, SC, STAIN, NF, FL, SEAL, INS, ECHO_POS, SEAL_POS, MED
     s, W, H = ctx.s, ctx.W, ctx.H
     PN = Paper(W, H, 'new', seed=PAPER_SEED + 2)
     PA = Paper(W, H, 'aged', seed=PAPER_SEED + 2)
     HV = heaven(W, H)
     HN, HA = HV, aged_ink(HV, PA, 0.8)
-    CL = Clip('work/ink_clips/stg_j3')
+    CL = clip('s3_j3_kling4')
+    MED = Mediums(W, H, seed=10)
     SC = SCALE * s * 1920 / CL.w
     POS = (int(CENTER[0] * s - CL.w * SC / 2), int(CENTER[1] * s - CL.h * SC / 2))
     RT = KeyRetime([(T0, 0.25), (T_SWEEP0, SRC_SWEEP0), (T_LIANG, SRC_LIANG), (T_LIANG + 8 / 24, SRC_LIANG),
                     (T1 + 0.05, SRC_END)], twos=[(T0, T_LIANG)], duration=CL.duration)
-    # 'staff' tracking locks onto his legs in these clips: the staff end is keypointed from the figure instead
-    dep = ['work/ink_clips/stg_j3/meta.json']
-    spin = ctx.cache('stg_j3_spin2', lambda: ring_path(CL, 0.3, 1.3, 470, 1.5, 0.0, squash=0.30, follow=0.3,
-                                                      offset=(0, -240)), deps=dep)
-    low = ctx.cache('stg_j3_low', lambda: ring_path(CL, 1.5, 2.3, 540, 0.8, 2.6, squash=0.45, follow=0.6,
-                                                    offset=(0, 150)), deps=dep)
-    last = ctx.cache('stg_j3_last', lambda: sweep_to_tip(CL, SRC_SWEEP0, SRC_LIANG, int(SRC_LIANG * CL.fps)), deps=dep)
-    TRAIL = [StaffTrail(spin, width=26 * s, scale=SC, pos=POS, paper=PN, seed=3, density=0.7, dry=0.65, chunk=900),
-             StaffTrail(low, width=30 * s, scale=SC, pos=POS, paper=PN, seed=4, density=0.75, dry=0.6, chunk=900),
-             StaffTrail(last, width=44 * s, scale=SC, pos=POS, paper=PN, seed=5, density=0.9, dry=0.55, chunk=4000)]
+    STAIN = ctx.cache('s3_j3_stain2', lambda: RingStain(CL, 6, 92, keep=0.8), deps=['work/ink_clips/s3_j3_kling4/meta.json'])
     # fix round 2 (QA 14): the 1988 red is LIGHT raking across the painting from the window (upper right), not a
     # filter: strong falloff to dark warm ink on the far side, the paper's tooth catching it, hot near the window
     global RED_L, WHITE_L
@@ -89,18 +86,28 @@ def render(t, ctx):
     s = ctx.s
     red = page_red(t)
     P, Hp = (PN, HN) if red else (PA, HA)
+    tp = hold_t(t, SWITCH)
+    sw = medium_at(t, SWITCH, 4) is not None
     f = P.frame(t)
-    f *= pull(Hp, t, s)
-    src = RT.src(t)
-    for tr in TRAIL:
-        tr.lay(f, src)
-    a = CL.at(src)
-    L = np.clip(resize(a, int(round(CL.w * SC)), int(round(CL.h * SC))), 0, 1)
+    hv = pull(Hp, tp, s)
+    if sw:                                   # in the other medium the heaven is a few ridge lines, he is the image
+        hv = 1 - (1 - hv) * 0.22
+    f *= hv
+    src = RT.src(tp)
+    STAIN.lay(f, src, SC, POS, CL)
+    L = layer(CL, src, SC)
+    # he is painted in body colour over the landscape (the yellow wash would vanish into the blue-green):
+    # the paper is reserved under his silhouette, as a painter leaves the figure's place bare
+    m = np.ones((ctx.H, ctx.W, 3), np.float32)
+    lay_ink(m, L, POS[0], POS[1])
+    k = np.clip((blur((1 - m.min(axis=2) > 0.10).astype(np.float32), 5 * s) - 0.35) / 0.3, 0, 1)[..., None]
+    f = f * (1 - k) + P.frame(t) * k
     lay_ink(f, L, POS[0], POS[1])
     strike(f, SEAL['cang'], t, T_LIANG, SEAL_POS, overshoot=0.16)
     echoes(f, SEAL['cang'], t, [(T_ECHO, ECHO_POS)], first=0.62, seed=21)
     if lyrics_on(ctx):
         INS.draw(f, t)
+    f = switched(MED, f, t, SWITCH, P.rgb)
     if os.environ.get('STAGE_NOLIGHT'):
         return f                                      # QA: coverage of the page itself, before the room's light
     f = np.clip(f * (RED_L if red else WHITE_L), 0, 0.985)

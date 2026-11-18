@@ -30,7 +30,9 @@ PAGE_RECT = (BARE_X - FX / SC, Y0, BARE_X - FX / SC + 1920 / SC, Y0 + 1080 / SC)
 
 
 def setup(ctx):
-    global F, WORDS
+    global F, WORDS, INS
+    from tools.ink.inscription import inscription
+    INS = inscription(ctx, 'K5', box=(300, 150, 100, 700), ground='dark')      # v3: static, on the dark beyond the book
     ensure_ledger()
     W, H = ctx.W, ctx.H
     s = SC * ctx.s
@@ -53,5 +55,6 @@ def setup(ctx):
 
 def render(t, ctx):
     f = F.copy()
+    INS.draw(f)
     lyric(f, ctx, sung_words(WORDS, t, tail=1.0), y=0.955, x=0.63, px=28)
     return f

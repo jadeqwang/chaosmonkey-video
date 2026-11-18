@@ -1,32 +1,24 @@
-"""I3a (182.958-184.625; I3b by team HEAVEN starts at 184.6 = frame 4431) 'You think I'd ask for a seat at the table?'
-ROOMS-26.
+"""I3a (182.958-184.625; I3b by team BOOK starts at frame 4431) "You think I'd ask for a seat at the table?"  BED+CAR v3.
 
-The daughter's deadpan close-up, face off-centre right, looking left to her mother; she sings (sd25 lip-sync on our own
-keyframe media/kf/I3a.jpg, painted for this shot: alt/I3a_v1). Bedroom grade: the flashlight's white bounce from the
-page below, the wall to dark violet wash; a touch of line/wash flattening; paper fibre.
+LAP_child_cu: the daughter in Jade's lap, a little HESITANT: eyes on the page for "You think", then she tips her head
+back against her mother's chest to look up at her on "I'd ask" (183.93), really asking. Kling v4 first+last
+(media/kf/v3/I3a.jpg -> I3a_end.jpg). The arc's first beat (REVISION_V3 section 1): the child doubts herself.
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _rooms26 import *
-from _bed_grade import bed_grade, bed_field
+from _bedcar3 import *
 
 T0, T1 = 182.95833333333334, 184.625
-FACES = [(1130, 430, 330, 420, 0.82)]
 
 
 def setup(ctx):
-    global B, P, FLD, WORDS
-    B, _ = base_for('I3a', 'media/kf/I3a.jpg', ctx)
+    global B, P
+    B = Take('I3a', ctx)
     P = Paper(ctx.W, ctx.H, 'aged', seed=37)
-    FLD = bed_field(ctx, (1100, 2600), 300, FACES, amb=0.34, stretch=1.3, key='I3a')
-    WORDS = words_of(ctx, 'You think I', 182.9)
 
 
 def render(t, ctx):
-    f = flatten(B.at(t), ctx, 0.35)
-    f = bed_grade(f, ctx, (1100, 2600), 300, field=FLD)
-    f = paper_fibre(f, P, 0.6)
-    lyric(f, ctx, sung(WORDS, t, tail=0.6), x=0.40, y=0.88, px=26)
-    return f
+    f = push(B.at(t), ctx, t, T0, T1, 1.0, 1.03, cx=960, cy=470, kind='linear')
+    return fin(f, P)
