@@ -35,8 +35,10 @@ from dsp import (ROOT, SR, N, db2a, a2db, lp, hp, peq, fades, stereo, pan as dpa
 import sounds
 
 P = lambda *a: os.path.join(ROOT, *a)  # noqa
-SONG = P("inputs", "Chaos Monkey - reformatted for duet.wav")
-VOCALS = P("work", "stems", "vocals.wav")
+# v4: song / vocal stem / timing are overridable for the v4 song ("Yes" one beat late); defaults = the v1/v2 inputs
+SONG = os.environ.get("CM_SONG") or P("inputs", "Chaos Monkey - reformatted for duet.wav")
+VOCALS = os.environ.get("CM_VOCALS") or P("work", "stems", "vocals.wav")
+TIMING = os.environ.get("CM_TIMING") or P("analysis", "timing.json")
 CUES = P("docs", "sound_cues_v1.json")
 OUTD = P("media", "sound")
 WORK = P("work", "sound")
@@ -58,7 +60,7 @@ EXT_B = 3.6                 # ending B: seconds added after 238.320
 # ------------------------------------------------------------------------------------------------ anchors
 class Anchors:
     def __init__(self):
-        self.tm = json.load(open(P("analysis", "timing.json")))
+        self.tm = json.load(open(TIMING))
         self.hits = np.array([h["t"] for h in self.tm["hits"]])
         self.beats = np.array([b["t"] for b in self.tm["beats"]])
         self.chops = [c["start"] for c in self.tm["hit_events"]["chops"]]

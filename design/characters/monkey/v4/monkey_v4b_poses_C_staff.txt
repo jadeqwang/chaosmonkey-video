@@ -1,0 +1,16 @@
+model: openai/gpt-image-2
+params: {"size": "3840x2160", "quality": "high", "output_format": "jpeg"}
+refs: ['design/characters/monkey/v3/monkey_v3b_ALT_fret_leopard_redscarf.jpg']
+secs: 70
+
+PROMPT:
+An animation keyframe pose sheet: the same monkey performer painted four times in one row, full body, head to boots, each figure filling most of the sheet's height, a staff-fighting form (Peking-opera martial dance with the staff).
+The monkey is ONE fixed character, exactly the one on the attached model sheet: Sun Wukong as a lean, wiry Peking-opera martial performer with long arms, painted in quick calligraphic black ink line and transparent gamboge-yellow wash on cream xuan paper. Keep every costume detail of the sheet in every figure: the yellow jacket and yellow wide trousers covered with a black angular key-fret (meander) pattern in broken ink lines; bands of leopard-spot fur (ochre with black spots) at the collar, along the jacket front, at the cuffs and on the short flap skirt below the black sash; a cinnabar-red silk scarf knotted at the throat over a thin white collar, its two ends loose; the soft yellow cloth cap with the black knot pattern on the front, a row of small yellow pompoms across the brow and a tuft on top; black cloth boots with white soles. Face as on the sheet: a white face with black fur around it, the heart-shaped cinnabar-red field around both eyes running down the nose, gold eyes with black pupils ringed in black, a small down-turned mouth, round ears. Hands: dark brown monkey hands with exactly five fingers each, clearly drawn, no extra fingers, no webbing. The staff: a long thin dark staff a little taller than he is, with a short gold band at each end.
+Style: the same hand as the model sheet: ink line of changing weight, matte wash pooling at the edges, flecks of bare paper; a painting, not a costume photograph, not a doll, not 3D, not anime. Every figure the same size, the same proportions and the same costume, separated by generous bare paper so each can be cut out cleanly; no figure touches or overlaps another; the staff of one figure never crosses another figure. Plain unsized cream xuan paper, evenly lit, flat scan: no shadow under the feet, no ground line, no background, no border, no seal, no text, no labels, no numbers.
+The four poses, left to right:
+1. Staff flower: standing square to the viewer, knees a little bent, spinning the staff in front of his body, gripped in the middle by the right hand, the staff diagonal across his chest, the left hand open beside it ready to take it.
+2. Staff flower overhead: the staff spinning flat above his head, held in the middle by the raised right hand, the left arm out to the side for balance, one foot lifted, scarf ends swinging.
+3. Overhead strike: both hands on the staff raised high above his head and behind, body arched back, about to bring it down, weight on the back leg, the front foot reaching forward.
+4. Low sweep: dropped into a deep crouch on the bent right leg with the left leg stretched out straight to the side, sweeping the staff low and level along the ground with both hands, looking along it.
+
+The attached image is his model sheet (front, side, back views and a face close-up): match its design, colours, face and painting hand exactly; only the poses are new.

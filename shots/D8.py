@@ -1,12 +1,15 @@
-"""D8  79.292-82.500  the look-out perch (STAGE team, v3: the yellow monkey; staging as v2).
+"""D8  79.292-82.500  the look-out perch (STAGE team, v4: costume B; staging as v2/v3).
 
 He plants the staff, goes up it and perches on top with a hand shading his eyes (搭凉棚), looking out over the
 unpainted sea (bare paper to the left). The hand goes up to his brow exactly on the snare 80.806 = 亮相 (freeze 8
 frames) with the seal 倉; on that hit the pose is shown for 4 held frames as a stone rubbing (medium switch). From
 81.45 his ink, the yellow, the staff and the seal sink back into the paper and the shot ends on nearly bare paper for
 the attic cut (D9).
-Motion: Kling v4 first+last (v3 canon 12 -> 08), media/gen/stage/v3/clips/s3_d8_kling4.mp4, keyed, on twos.
-v2: shots/_v2/D8.py, media/comp/_v2/D8.mp4.
+v4 motion: Kling v4 multi-keyframe (costume-B 03 lunge -> 13 plant -> 14 low -> 15 high -> 16 perched, one staff
+length in all keyframes), media/gen/stage/v4/clips/s4_d8_k4a.mp4, keyed (pick of 3, blind rank 1). Fix for v3's
+teleport frames: every climbing phase is a keyframe, so the climb is continuous in the source; the shot starts with the
+staff already planted (clip f19; the abrupt swing-up at f16-17 is never shown) and is NOT put on twos (every source
+pose is shown, ~2.1x). v3: shots/_v3/D8.py, media/comp/_v3/D8.mp4. v2: shots/_v2/D8.py.
 """
 import numpy as np
 
@@ -15,11 +18,11 @@ from tools.stage.stage3 import *
 
 T0, T1 = 79.291667, 82.5
 T_HIT = on_frame(80.806)
-SRC = dict(start=6 / 24, up=60 / 24, perch=100 / 24, end=4.6)      # on top by `up`, hand at his brow by `perch`
+SRC = dict(start=19 / 24, up=73 / 24, perch=91 / 24, end=100 / 24)      # on top by `up`, hand at his brow by `perch`
 T_UP = on_frame(80.36)
 T_DIS0, T_DIS1 = 81.45, 82.45
 SWITCH = [(80.806, 'rubbing')]
-SCALE = 0.92
+SCALE = 1.0
 STAFF_FOOT = (1270, 1040)
 
 
@@ -27,13 +30,13 @@ def setup(ctx):
     global P, CL, RT, POS, SEAL, SEAL_POS, SC, DEN, FIB, COLR, MED
     s = ctx.s
     P = Paper(ctx.W, ctx.H, 'new', seed=PAPER_SEED)
-    CL = clip('s3_d8_kling4')
+    CL = clip('s4_d8_k4a')
     SC = SCALE * s * 1920 / CL.w
     b = clip_bbox(CL, int(SRC['end'] * CL.fps))
     foot = ((b[0] + b[2]) / 2, b[3])
     POS = (int(STAFF_FOOT[0] * s - foot[0] * SC), int(STAFF_FOOT[1] * s - foot[1] * SC))
     RT = KeyRetime([(T0, SRC['start']), (T_UP, SRC['up']), (T_HIT, SRC['perch']), (T_HIT + 8 / 24, SRC['perch']),
-                    (T_DIS0, SRC['end'])], twos=[(T0, T_HIT)], duration=CL.duration)
+                    (T_DIS0, SRC['end'])], duration=CL.duration)
     SEAL = seals(s)
     SEAL_POS = ((STAFF_FOOT[0] + 300) * s, (STAFF_FOOT[1] - 640) * s)
     full = np.ones((ctx.H, ctx.W, 3), np.float32)

@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/ql_range_far_2.png",
+ "w": 3072,
+ "h": 1280,
+ "aspect": 2.4,
+ "paper_rgb": [
+  239.0,
+  230.0,
+  214.0
+ ],
+ "bbox_px": [
+  72,
+  6,
+  3061,
+  1225
+ ]
+}

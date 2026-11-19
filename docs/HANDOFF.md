@@ -1,127 +1,140 @@
 # Chaos Monkey: handoff to the next session
 
-Written 2026-11-18 by Claude (Fable 5.2), lead of the preview_v2 and preview_v3 passes. It replaces the handoff of
-17 Nov (in git at `ca11e64`; its acting direction was carried into `docs/REVISION_V3.md` and still holds).
+Written 2026-11-19 by Claude (Fable 5.2), lead of the preview_v2, v3 and v4 passes. It replaces the handoff of
+18 Nov (in git at `fabcc64`; its v3 detail is superseded by the files named below).
 
-## Where things stand
+**You are receiving Jade's timestamped notes on preview_v4 together with this file.** Her one-line verdict on the
+cut was "massive improvement". Your job is the next pass (preview_v5, 540p) against those notes.
 
-- **preview_v3 is delivered and waiting for Jade's review.** She has not yet said anything about it.
-  - `previews/chaosmonkey_preview_v3_540p.mp4` (lyrics on) and `..._540p_nolyrics.mp4`: 960x540, 24 fps, 5806 frames,
-    4:01.9, sound `media/sound/mix_v2.wav` with ending B.
-  - Her notes page: `review/preview_v3_notes.html`. She will paste its "Copy everything" output into the session.
-- All 65 shots were re-made against her preview_v2 notes. The cut is verified by measurement (frame counts, sync, no
-  slates, no duplicated frames). **Nobody has watched it in motion or listened to the mix**: every check was on frames,
-  contact sheets and numbers. Do not tell her otherwise.
-- No agents, relay jobs, cron jobs or tmux Codex jobs are running. All team logs end in DONE.
-- Spend: **$361.81 of the $1,500 cap** (`tools/gen/spend.py`, ledger `docs/spend_ledger.jsonl`).
-- Git: branch `claude/video-production`, last commit `0578318` (local only, never pushed). Everything since is
-  uncommitted, about 150 changed or new paths, including every v3 shot script. I offered a commit; she has not answered.
-- No 1080p master exists. Do not make one until she asks.
+## 1. Where things stand
 
-## Read in this order
+- **preview_v4 is delivered and she has watched it.** `previews/chaosmonkey_preview_v4_540p.mp4` (+ `_nolyrics`):
+  960x540, 24 fps, 5806 frames, 4:01.9, audio `media/sound/mix_v3b.wav`.
+- Her review pages (she may paste their "Copy everything" output, or may only send timestamped notes):
+  - `review/preview_v4_notes.html`: 11 questions and a proofread table for 33 new Chinese lines.
+  - `review/sing_v4/index.html`: all 16 singing shots with sound, a sync-offset slider and verdict buttons.
+  - `review/f1_ab/index.html`: four takes of the F1 rap line, same controls.
+- Nothing is running: no agents, relay jobs, cron jobs or tmux/Codex jobs. All team logs end in DONE.
+- Spend: **$838.42 of the $1,500 cap** (`tools/gen/spend.py`); v4 cost $476.61. About $660 is left: enough for one
+  more pass of this size, not two. No 1080p master exists; do not make one until she asks.
+- Git: branch `claude/video-production`, last commit `fabcc64` (pushed). **184 paths are uncommitted**, the whole v4
+  pass. I offered a commit twice; she has not answered. Ask once, early; commit only on her word.
+
+## 2. Read in this order
 
 1. This file.
-2. `docs/REVISION_V3.md`: the governing brief. §1 story arc, §2 changed rules, §3 concepts, §5 shot table, §7 rap
-   English, §10 her preview_v2 notes verbatim, §13 stepping into the painting, §14 blocking decisions, §15 research.
-3. `docs/QA_PREVIEW_V3.md`: what is in the cut, the splice table, and the ranked list of remaining problems.
-4. `docs/STATUS.md` checkpoints 16 to 18 for history; `docs/TEAMS_V3.md` for team scopes and the checkpoint rule.
-5. As needed: `design/characters/CANON.md` §00 (v3 canon), `docs/LAYOUT_V3.md` (3D blocking), `docs/LIPSYNC_V3.md`
-   (lip-sync recipe), `docs/SOUND.md` "v2", team logs `docs/logs/LOG_v3_*.md`.
+2. `docs/REVISION_V4.md`: the v4 brief. §1 the five global rules, §3 hero-shot concepts, §5 shot table, §10 her
+   preview_v3 notes verbatim, §12 decisions made during the pass.
+3. `docs/QA_PREVIEW_V4.md`: what is in the cut, splice table, calligraphy placement, §5 the 22 ranked problems.
+4. `docs/LIPSYNC_V4.md` and `work/review/sing_v4/audit.md`: the lip-sync recipe and where it fails.
+5. `docs/TEAMS_V4.md`: roster, checkpoint rule, image-generation route. `docs/SETS_V4.md`: the 3D rooms.
+6. As needed: `docs/STATUS.md` checkpoints 20 to 23, team logs `docs/logs/LOG_v4_*.md`, `docs/SOUND.md` "v3"/"v3b",
+   `design/characters/CANON.md`, `docs/REVISION_V3.md` (story arc §1, acting direction, still in force).
 
-## What Jade wants (standing direction)
+## 3. How to work her notes
 
-- **Story arc, kept subtle.** Little Jade is mischievous and "a full click smarter than both her parents". Mama's
-  parenting is do-what-you're-told, as a light response to a child who climbs and falls. Jade's parenting encourages
-  independence: fight the gods and win, ask for a seat at the table.
-- **Acting must be alive.** Each shot gets a want and an action in timed beats, never a mood. Never write deadpan,
-  unsmiling, neutral. Stillness is reserved for "Yes", the bare column at the end, and the two light switches.
-- **Both storytimes: child on the parent's lap, book in front of them.** Inconsistent scenes are blocked in three.js first.
-- **Inside the book:** "stepping into a Chinese landscape painting that feels 3d once you're in it", with brushstrokes
-  that come to life.
-- **Inscriptions:** where the novel has the line, use the novel's words. All Chinese on screen is typeset, never drawn
-  by a model.
-- **Title:** "Chaos Monkey" / 混沌猴 / "Jade Wang" (English name only, no Chinese name).
-- **Likeness:** hair on little Jade and Jade is curtained to the sides, no fringe over the forehead. Accepted heads:
-  LJ-1/LJ-2, D-1/D-2, M-1/M-2, J-1/J-3 (`work/sheets_v3/`, `review/likeness_v3.html`). Jacket lettering (RARE EARTH on
-  the back, 1420 MHz in the circle) is added in code, REVISION_V3 §12.
-- **Working style:** do a likeness pass with her before re-animating anything with a changed face. Mechanical work may
-  go to Codex through tmux or to smaller models. Teams checkpoint to files. "Don't worry about budget" for reshoots,
-  within the cap.
+1. **Map each timestamp to a shot** with `docs/shots.json` (frame = seconds x 24; slots that are two shots are in the
+   splice table, QA_PREVIEW_V4 §3). Sort each note to a kind: lip-sync, acting retake, keyframe/blocking, comp (timing,
+   grade, text), calligraphy text, cut, sound.
+2. **Write `docs/REVISION_V5.md` before spending anything**, with her notes verbatim in it (as §10 of REVISION_V4).
+   Decisions you take during the pass go in a last section as you take them.
+3. Cross-check her notes against QA_PREVIEW_V4 §5. Where she did not mention a known problem, do not assume she
+   accepts it; list those and ask in one batch at the end, not one at a time.
+4. Comp, text and cut notes are free (edit `shots/<ID>.py`, `design/text/*`, re-render). Acting notes cost a keyframe
+   (Codex), a Kling take, and the animate pass if the shot sings.
+5. Teams: copy `docs/TEAMS_V4.md` to `TEAMS_V5.md`. Opus team leads, Sonnet for mechanical work. She asked me to
+   "delegate generously to smaller models" to protect the Fable limit. Agent IDs from this session will not resume in
+   yours; relaunch from the logs.
+6. Rebuild: `work/cut/build_v4.sh` (splice, both cuts, verification, notes page); copy to `build_v5.sh`.
+   Singing page: `tools/review/sing_page_v4.py --refresh <ID>`.
 
-## Decisions waiting on her
+## 4. What she has decided (do not reopen)
 
-| Question | State | My recommendation |
-|---|---|---|
-| Monkey costume | A (all yellow, `design/characters/monkey/v3/monkey_v3_model_sheet.jpg`) is in the shots; B is `monkey_v3b_ALT_fret_leopard_redscarf.jpg` | B. About $12, six stage clips to re-make. |
-| Inscription text | `design/text/lyrics_zh_v3.txt`, her own proofread; her parents will recheck | Wait for their changes, then re-render the affected book pages (comp only, no generation). |
-| "You'd fight the gods and win" (I2) | In the cut: 强者为尊该让我 / 英雄只此敢争先, my proposal from chapter 7, **quoted from memory and not yet checked against the 100-chapter text** | Check the characters against a source before anything final. Fallback: 敢战天兵 / 战必胜. |
-| Banquet name slips (I3b) | 佛老 菩萨 罗汉 [bare] 观音 圣帝 玄灵, chosen by the BOOK team | Hers to confirm. She also asked whether a banquet seat reads as a seat at the table of power; the staging answer is in REVISION_V3 §15. |
-| Medium switch and swarm | Paper-cut, rubbing and shadow-puppet switches replace the glitch; the agent swarm is a ruled album leaf with name slips, not car windows | Ask whether both read as intended. |
-| Sound | mix v2: layer louder, ending B, two early abacus clicks removed (`mix_v2_prev.wav` kept) | Needs her ears. |
-| Commit | Offered | Commit only on her word; never push. |
+- Vision is right; the work is execution. Bar: "the most impressive thing that anyone on Twitter has seen". Not limited
+  to 2D. "Not worry about token costs", within the cap.
+- **Rooms and bodies are built in 3D first** (`layout/`, three.js), cameras placed, keyframes checked against the
+  render (`tools/review/set_check.py`). L2 is the reference bedroom blocking.
+- **All lip-sync is done by video models.** No mouth transplant, no compositing of mouths.
+- **Chinese lyrics in calligraphy on every sung line**; one export, no separate subtitled version. Typeset only
+  (Ma Shan Zheng), never drawn by a model.
+- Costume B for the monkey (key-fret, leopard trim, red scarf). Little Jade's hair as in E6: two little ponytails,
+  half up, no fringe.
+- "Yes" (G5) one beat late: approved by ear. E3's sword-hand cast: approved. The mirror shot is reused as the last
+  rap line (F6b). Ending B. Inscription text and font are right.
+- Medium switches must read as intentional. The album leaf stays.
 
-## Known weak points, most important first
+## 5. Waiting on her (check whether her notes answer these)
 
-Full list with frame numbers in `docs/QA_PREVIEW_V3.md`.
+| Item | State |
+|---|---|
+| Singing-shot verdicts and offsets | Audit: FAIL C3, G1, K2a; SUSPECT G4, I4, J4. I held all retakes for her verdicts. |
+| F1 take | `F1_new_a` is in the cut (`media/comp/F1.mp4`); alternates `F1_b`, `F1_ar9`, `F1_alt`. None fully passes. |
+| F3b retake | The permission check refused it. **Do not run it without her yes.** Prompt: `work/attic4/notes/EF.md`. |
+| Chinese proofread | 33 new lines, `review/lyrics_zh_v4_proof.md`. My doubts: C2 猴子/石猴, G5 好/嗯, H3, D3, K1b 幽冥界, G2c 听话, "Wouldn't you? You're able." |
+| Mix | `mix_v3.wav` approved by ear. `mix_v3b.wav` (nine faint cues re-timed) is in the cut; she has now heard it but has not said. |
+| Commit | See §1. |
+| Two older points | 小龙女 is from 神雕侠侣, not 射雕英雄传 (she accepted the cast anyway). "Fight the gods and win" couplet in I2 was quoted from memory; check it against the 100-chapter text before any master. |
 
-1. **F2 (car window) colour:** blue-violet cabin between two warm amber shots; the puppet screen is the brightest
-   thing in the sequence.
-2. **Neon sign:** now one red 酒家 blade sign everywhere, but in the close attic shots it reads as facing the window
-   instead of as a perpendicular wedge.
-3. **Lip-sync is unjudged in motion.** F1 failed the numeric gate and I accepted it on the frame strip. G4 passes on
-   the threshold after three takes. J4 (split screen) and F4a (mirror) are not synced at all.
-4. **H5 ("made of the telling"):** the child's shadow is a pale blob. BOOK moved it off the writing; I had it put
-   back; it is still weak.
-5. **G2:** the painted margin page is brighter than the room shots around it.
-6. **Carry-overs:** long near-still ledger shots (K3 to K5); no push into I3b; B2's push has no breathing under it;
-   D9's climb has a jump.
-7. **Sound:** the 1988 blanket cue plays over a quilt that is already tucked. Cues were timed to the first build, so
-   re-time any that moved (`docs/sound_cues.json`, `tools/audio/sfx/build_v2.py`).
-8. Lyric residue burned into B4, H3, C1, D6 plates.
+## 6. Known problems in preview_v4, most serious first
 
-## How to work her notes
+Full list with frames: QA_PREVIEW_V4 §5.
 
-1. Sort every note to a shot and a kind: likeness, acting retake, comp (timing, grade, text), cut, sound. Write the
-   list into a new `docs/REVISION_V4.md` before spending; quote her notes verbatim in it, as §10 of REVISION_V3 does.
-2. Likeness changes first, with her, before any re-animation.
-3. Comp-only notes are free: edit `shots/<ID>.py` and re-render. Acting notes mean a new keyframe, a new Kling take,
-   then lip-sync if the shot sings.
-4. If you launch teams, reuse `docs/TEAMS_V3.md`: one log per team with a CHECKPOINT block rewritten at least every
-   20 minutes, prompts and specs in files, relay jobs collectable by ID, a DONE line at the end. Two kinds of
-   interruption killed teams in this pass (an auth drop and usage limits); every one resumed cleanly from its log.
-5. Rebuild: `work/cut/build_v3.sh` (about 4 minutes; splice, both cuts, contact sheets, verification, notes page).
-   For a new cut copy it to `build_v4.sh` and change the names.
+1. **Lip-sync is the weakest area.** See §7.
+2. **G1, G4:** faces are about 80 px; the recipe needs about 240. They need closer framing, not more seeds.
+3. **J4:** little Jade's arms go up about 0.9 s before the gong.
+4. **E3:** second line is a held pose in a wider angle with her mouth closed while the line is sung.
+5. **D6 into D7:** hard cut from night blue to bare paper.
+6. **F3b:** poor hair-puff match cut.
+7. **B3, J2:** the dolly into the page and the "suddenly 3D" moment are better than v3 and still below the bar.
+8. **K1:** page calligraphy is fixed to the screen over a panning page; the line's last 1.4 s has no Chinese.
 
-## Pipeline facts worth knowing
+## 7. Lessons from this pass
 
-- Python: `/home/jade/Documents/halys-video/.venv/bin/python`. Generation: `tools/gen/cf.py`, `gen.py`, `spend.py`.
-- **gpt-image-2 holds the faces; nano-banana-pro does not.** Keyframes go through gpt-image-2. Any v1 or v2 image of
-  little Jade or Jade in the references brings the fringe back: pass only v3 material.
-- Acted takes: Kling v4. Comps: `tools/ink`, one script per shot in `shots/`, output `media/comp/<ID>.mp4` at the
-  exact frame count in `docs/shots.json`.
-- Lip-sync (`docs/LIPSYNC_V3.md`): Kling take, then `pruna/p-video-avatar` to drive, then `tools/sync/lp_lips.py`
-  (LivePortrait ONNX) to transfer only the mouth, then `tools/review/lipsync_gate.py`. Wrapper
-  `tools/gen/lipsync_take.py`. The face must be about 150 px or more at 720p. Adults: `--rgain 0.55 --shape 0.2
-  --mask mouth --delay 2`. With two faces in frame, crop to the singer first, or the mouth lands on the other person
-  (it did, on Mama, in E3 and G1).
-- Helpers: `tools/ink/inscription.py` (`inscription(ctx, key, box=..., paper=P)`, font Ma Shan Zheng, reads
-  `design/text/lyrics_zh_v3.txt`); `tools/ink/medium.py` (`Mediums`, `pick_chops`).
-- Splices are defined in `tools/cut/splice.py`; the table and the reasons are in QA_PREVIEW_V3 §2. `media/comp/I2.mp4`
-  is the old v2 shot and is not used (the slot is `pages/I2_full`). `media/comp/F1.mp4` is the face-synced version;
-  `F1_body.mp4` is the fallback.
-- v2 backups: `media/comp/_v2/`, `shots/_v2/`.
-- Opera faces: checked against sources by a separate agent (`docs/logs/LOG_v3_faces_verify.md`); three were wrong and
-  nine were repainted; 木吒 was removed; the monkey's face sits in cell 16 beside the bare cell. Opera photographs are
-  reference only, never model inputs.
-- `/tmp` is a 16 GB RAM disk and filled once. Teams use `work/tmp/` (shared, emptied between runs). It is at 42% now.
+- **Frame strips do not judge lip-sync or hands.** I passed F1 on strips; she found a still mouth through six syllables
+  and fingers changing shape frame to frame within one viewing. Nobody but her watches in motion, and the test browser
+  here cannot play H.264. Say so plainly in every report, and give her anything that sings on a page with sound and an
+  offset slider (copy `review/f1_ab/index.html`), never as a bare mp4.
+- **Lip-sync recipe:** Kling v4 acts silently, then `pruna/p-video-animate` re-renders the character to the vocal stem
+  (`tools/gen/lipsync_v4.py`). Known behaviour of the animate model:
+  - Cold start: the mouth stays still at the head of the clip. Fix: splice a sung run-up before the line and discard
+    those frames. Applied to F1 only; I4 and K2a likely need it.
+  - It drops large gestures and redraws hands. Keep the arm clear of hair and face; keep gestures small in sung shots.
+  - Face size: about 240 px at 720p, 350 for the rap.
+  - Lip-sync audio must come from the edited song (`work/stems/vocals_v4.wav`, timing `analysis/timing_v4.json`).
+  - Seedance re-performs the song with a random lag; `runwayml/aleph-2` fails with a billing error.
+- **Painted keyframes joined by Kling multi-keyframe flights beat pure 3D** for the painted world. WORLD's two 3D rounds
+  of D4 to D6 failed the bar; the keyframe flight (`tools/dflight/`, `tools/swarm4/`) made the two best shots in the cut.
+  3D is for rooms, bodies and camera placement.
+- **Send work back.** H6 took three rounds and D4 to D6 three; the accepted versions were the third.
+- **Interruptions:** a usage limit and a spend limit each killed every running team. All resumed from their logs
+  because of the checkpoint rule. Keep it: every agent writes plan, prompts, job IDs and picks to files as it goes.
+- **Shared files:** WORLD overwrote one of BOOK's page plates. Give each team its own output names.
 
-## Standing rules
+## 8. Pipeline facts
 
-- Spend cap $1,500. 540p passes until Jade asks for the master.
-- Her name, email, photos and project details stay out of requests to outside services unless she asks. Never send
-  `design/characters/_src/jade_face_photo.jpg` or any real photo to any service without asking her first.
+- Python: `/home/jade/Documents/halys-video/.venv/bin/python`. `export TMPDIR=$PWD/work/tmp` (`/tmp` is a 16 GB RAM disk).
+- Generation: `tools/gen/cf.py`, `gen.py`, `vgen.py`, `spend.py`; ledger `docs/spend_ledger.jsonl`.
+- **Images go through Codex first** (her paid plan): `codex exec -s workspace-write --skip-git-repo-check "<prompt> ...
+  save to <abs path>" < /dev/null` under `flock /tmp/chaosmonkey-codex.lock`; prompt before any `-i` images; no
+  sandbox-bypass flags. Cloudflare gpt-image-2 only where Codex cannot do the job. Video models stay on Cloudflare.
+- gpt-image-2 holds the faces. Pass only v3/v4 character material as reference; older images bring the fringe back.
+- Comps: one script per shot in `shots/`, output `media/comp/<ID>.mp4`, 960x540, 24 fps, exact frame count, no audio.
+  Backups: `media/comp/_v3/`, `shots/_v3/`, `media/comp/_world_r2/`, candidates in `media/comp/_cand/`.
+- Calligraphy: inscriptions `tools/ink/inscription.py`; room overlay `tools/cut/roomcal.py` with
+  `design/text/roomcal_v4.tsv`; text `design/text/lyrics_zh_v4.txt`. English layer `tools/cut/lyrics.py`.
+- Cut: `tools/cut/splice.py`, `assemble.py`, `work/cut/verify_v4.py`. G5 is one 78-frame shot over song frames
+  3515 to 3593 (the "Yes" attack is frame 3583).
+- Headless page checks: playwright-core at `/home/jade/Documents/1-music-shipped/moongazing/render/node_modules/`,
+  Chrome at `/opt/google/chrome/chrome`.
+
+## 9. Standing rules
+
+- Spend cap $1,500. 540p until she asks for the master.
+- Her name, email, photos and project details stay out of requests to outside services. Never send
+  `design/characters/_src/jade_face_photo.jpg` or any real photo anywhere without asking her first.
 - Commit only when she asks; never push without being asked.
+- A job the permission check refuses is hers to approve. No agent, and not the lead, re-submits it.
 - Never deploy, modify or delete the Cloudflare Worker `rare-earth-v3-relay` or its KV namespaces; never print
   Cloudflare secrets.
-- Codex runs headless with `< /dev/null` under `flock /tmp/chaosmonkey-codex.lock`, never with sandbox-bypass flags.
-- All Chinese on screen is typeset from `design/text/`, never drawn by a model.
+- All Chinese on screen is typeset from `design/text/`.
+- Subagents checkpoint to local files. Temp files in `work/tmp/`.

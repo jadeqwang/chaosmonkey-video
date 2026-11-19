@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/hgs_shoulder_r_1.png",
+ "w": 1280,
+ "h": 3072,
+ "aspect": 0.4166666666666667,
+ "paper_rgb": [
+  239.0,
+  227.0,
+  208.0
+ ],
+ "bbox_px": [
+  0,
+  0,
+  1279,
+  3071
+ ]
+}

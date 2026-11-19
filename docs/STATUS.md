@@ -193,3 +193,39 @@ I2 line); banquet name slips. TOTAL $361.81 of $1500 cap  (878 billed items; lis
 ## Checkpoint 19 — 2026-11-18 — handoff written
 `docs/HANDOFF.md` rewritten for the next session (state, Jade's standing direction, open decisions, weak points, how to
 work her notes, standing rules). Nothing else changed since checkpoint 18. Still waiting on Jade's review of preview_v3.
+
+## Checkpoint 20 — 2026-11-18 — Jade's preview_v3 notes in; preview_v4 pass launched
+Committed and pushed `fabcc64` (origin/claude/video-production) on Jade's word. Her notes: `docs/REVISION_V4.md` §10
+(verbatim); the brief is that file; roster and resume procedure: `docs/TEAMS_V4.md`. Decisions: costume B; medium switch
+reads as intentional; sound mix v2 good; inscription text and font right; lip-sync still not acceptable (must come from
+a video model, mouth transplant retired); swarm: think bigger; another 540p pass.
+Phase 1 running (Opus team leads): SETS, LIPSYNC, WORLD, SWARM, BOOK, STAGE, SOUND; logs `docs/logs/LOG_v4_*.md`.
+Phase 2 (ATTIC, BED+CAR) starts when SETS logs READY and LIPSYNC logs READY. Phase 3: CUT.
+To resume: read REVISION_V4, TEAMS_V4, each LOG_v4; relaunch any team without a DONE line from its CHECKPOINT.
+Spend at launch: $361.81 of $1,500.
+
+## Checkpoint 21 — 2026-11-18 evening — phase 2 launched
+SOUND task 1 DONE ("Yes" one beat late: `media/sound/mix_v3.wav`, `analysis/timing_v4.json`; G5 now runs through G6's
+slot, REVISION_V4 §12; cue re-timing waits for the picture). SETS DONE (`docs/SETS_V4.md`; 23 v3 room shots fail the
+set check, `work/review/set_check/v3/SUMMARY.md`). LIPSYNC has a provisional recipe (`docs/LIPSYNC_V4.md`), still running.
+Running: LIPSYNC, WORLD, SWARM, BOOK, STAGE, and now ATTIC and BED+CAR. Then CUT. Spend $506.30 of $1,500 at 19:30.
+
+## Checkpoint 22 — 2026-11-18 late evening
+DONE (logs have DONE): SOUND task 1, SETS, STAGE, LIPSYNC (final recipe: Kling act + pruna/p-video-animate,
+`docs/LIPSYNC_V4.md`), SWARM (F2, F4/F5/F6a one 176-frame shot: accepted), BED+CAR (12 shots; F6b is the mirror shot;
+F1 weak: ar9 in the slot, `F1_alt` kept), BOOK (all shots; lead sent H6 back for one round: the strand must become
+the monkey, tail attached), WORLD round 1 (lead sent it back: round 2 = painted/video-model pass over the 3D flights).
+Running: WORLD round 2, BOOK H6 fix, ATTIC, CUT preparation (`docs/logs/LOG_v4_cut.md`).
+Jade this evening: mix_v3 "Yes" approved by ear; E3 sword-hand cast good; mirror shot back in the rap (F6b);
+subagents must checkpoint to files; gpt-image through Codex before Cloudflare (`docs/TEAMS_V4.md`).
+Two account-limit stops so far; every team resumed from its transcript/log.
+TOTAL $813.45 of $1500 cap  (1549 billed items; list-price estimates)
+
+## Checkpoint 23 — 2026-11-19 — preview_v4 built (CUT)
+`previews/chaosmonkey_preview_v4_540p.mp4` (+ `_nolyrics`), = `media/cut/preview_v4*.mp4`; audio `media/sound/mix_v3b.wav`
+(lead; song bit-identical to the ear-approved mix_v3, effects re-timed, unheard). Chinese calligraphy in every room (one export, no
+rednote version): `design/text/lyrics_zh_v4.txt` (33 new lines for Jade's proofread: `review/lyrics_zh_v4_proof.md`),
+`tools/cut/roomcal.py`, `design/text/roomcal_v4.tsv`. Verified by number: 5806 f, CFR, 65 shots + END on their frames, audio
+r 0.9999, no duplicated boundary frame, G5 spans the G6 slot. Notes page `review/preview_v4_notes.html` (11 questions + proofread
+table). QA `docs/QA_PREVIEW_V4.md` (ranked problems; nobody has watched the cut). Build `work/cut/build_v4.sh`; log
+`docs/logs/LOG_v4_cut.md`. Spend (tools/gen/spend.py): TOTAL $838.42 of $1500 cap (CUT $0).

@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/pillar_stacked_2.png",
+ "w": 1280,
+ "h": 3072,
+ "aspect": 0.4166666666666667,
+ "paper_rgb": [
+  238.0,
+  227.0,
+  213.0
+ ],
+ "bbox_px": [
+  29,
+  59,
+  1188,
+  3068
+ ]
+}

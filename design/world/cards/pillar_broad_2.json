@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/pillar_broad_2.png",
+ "w": 1280,
+ "h": 3072,
+ "aspect": 0.4166666666666667,
+ "paper_rgb": [
+  240.0,
+  229.0,
+  213.0
+ ],
+ "bbox_px": [
+  60,
+  71,
+  1259,
+  3071
+ ]
+}

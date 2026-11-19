@@ -18,18 +18,36 @@ v3 table (preview_v3; sources: docs/logs/LOG_v3_{attic,bedcar,book,stage}.md, su
                             The slot "L2" (5597-5660) is BED+CAR's L2.mp4 alone (63 f, last frame 5659).
 K1 is BED+CAR's K1.mp4 alone (it renders BOOK's shots/K1page.py for 4973-5053; pages/K1_full.mp4 is the same frames).
 EXPECT pins the frames taken from each part; a part that changes length stops the build instead of moving a cut.
+
+v4 table (preview_v4; sources: docs/logs/LOG_v4_*.md DONE/CHECKPOINT blocks; REVISION_V4 §12). Output media/comp/spliced_v4/,
+picks docs/picks_v4.json (v3's docs/picks.json and media/comp/spliced/ are left as they were), report
+work/cut/splice_report_v4.json. Differences from v3:
+  F4 = F4                   83   SWARM's single comp (s0-82 of F4F5F6a.mp4); no F4a/F4b. F5 = F5.mp4 (43) unspliced.
+  F6 = F6a + F6b            50 + 33, cut on 2882: F6a = swarm s126-175; F6b is now the MIRROR shot (BED+CAR)
+  G5 + G6 = G5.mp4          78 f over both slots (song frames 3515-3592; REVISION_V4 §12): the G5 slot takes frames 0-67, the
+                            G6 slot frames 68-77 of the same file (a pick with an in-point: no re-encode, no shots.json edit).
+                            If G5.mp4 is not 78 f, v3's arrangement stays (G5 68 f + G6 blank) and the report says so.
+  B2's internal cut (lap -> over the shoulder) moved to 24.6 s (frame 591): not a splice, a lyric PART.
+  Unchanged: C5 D2 F3 I2 I3 K2 L3 (same parts, same counts; D2 still takes the first 65 of 80).
 """
 import json, subprocess, sys, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+VERSION = 'v4'
 SPLICES = {
-    "C5": ["C5a", "C5b"], "D2": ["D2", "D2d"], "F3": ["F3a", "F3b"], "F4": ["F4a", "F4b"],
+    "C5": ["C5a", "C5b"], "D2": ["D2", "D2d"], "F3": ["F3a", "F3b"],
     "F6": ["F6a", "F6b"], "I2": ["pages/I2_full"], "I3": ["I3a", "I3b"], "K2": ["K2a", "K2b"],
     "L3": ["L2b", "L3"],
 }
-EXPECT = {"C5": [57, 58], "D2": [65, 15], "F3": [29, 12], "F4": [38, 45], "F6": [50, 33], "I2": [66],
+EXPECT = {"C5": [57, 58], "D2": [65, 15], "F3": [29, 12], "F6": [50, 33], "I2": [66],
           "I3": [40, 57], "K2": [38, 40], "L3": [26, 34]}
+# one source over two slots: slot -> (file, first frame used). G5's file is 78 f; G5 slot = 0..67, G6 slot = 68..77.
+SPAN = {"G5": ("G5", 0), "G6": ("G5", 68)}
+SPAN_NEED = {"G5": 78}               # the file must have exactly this many frames, otherwise the v3 arrangement stays
+OUT_DIR = "media/comp/spliced_v4"
+PICKS = "docs/picks_v4.json"
+REPORT = "work/cut/splice_report_v4.json"
 
 def nframes(p):
     out = subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v", "-show_entries",
@@ -38,9 +56,9 @@ def nframes(p):
 
 def main():
     shots = {s["id"]: s for s in json.load(open(ROOT / "docs/shots.json"))["shots"]}
-    comp = ROOT / "media/comp"; out_dir = comp / "spliced"; out_dir.mkdir(exist_ok=True)
-    picks_p = ROOT / "docs/picks.json"
-    picks = json.load(open(picks_p)) if picks_p.exists() else {}
+    comp = ROOT / "media/comp"; out_dir = ROOT / OUT_DIR; out_dir.mkdir(exist_ok=True)
+    picks_p = ROOT / PICKS
+    picks = {}                                      # rebuilt from the table every run (no stale entries)
     report, bad = {}, []
     for sid, parts in SPLICES.items():
         need = shots[sid]["frames"]
@@ -55,7 +73,7 @@ def main():
             take[0] = max(1, counts[0] - (total - need))
         pad = need - sum(take)
         if take != EXPECT.get(sid, take) or pad > 0:
-            print(f"{sid}: parts {counts} -> take {take} pad {max(pad,0)}: NOT the v3 table {EXPECT.get(sid)}"); bad.append(sid)
+            print(f"{sid}: parts {counts} -> take {take} pad {max(pad,0)}: NOT the {VERSION} table {EXPECT.get(sid)}"); bad.append(sid)
         filt, labels = [], []
         for i, n in enumerate(take):
             filt.append(f"[{i}:v]trim=end_frame={n},setpts=N/(24*TB),scale=960:540,setsar=1[v{i}]")
@@ -75,9 +93,25 @@ def main():
                        "mtimes": [time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.stat().st_mtime)) for p in paths]}
         print(f"{sid}: parts {counts} -> take {take} pad {max(pad,0)} = {got}/{need}  cut frames {cuts}" + ("  HELD" if pad > 0 else ""))
         if got != need: bad.append(sid)
+    for sid, (src, first) in SPAN.items():
+        p = comp / f"{src}.mp4"
+        n = nframes(p) if p.exists() else 0
+        need = SPAN_NEED.get(src)
+        if need is not None and n != need:
+            print(f"{sid}: {src}.mp4 has {n} f, not {need}: v3 arrangement kept for this slot  ** MARKER: G5/G6 NOT v4 **")
+            report[sid] = {"span": src, "have": n, "kept_v3": True}
+            continue
+        f0 = shots[sid]["in_frame"]
+        picks[sid] = {"src": str(p.relative_to(ROOT)), "in": first / 24.0, "rate": 1.0,
+                      "label": src}
+        report[sid] = {"span": src, "have": n, "first": first, "frames": shots[sid]["frames"],
+                       "song_frames": [f0, f0 + shots[sid]["frames"] - 1],
+                       "mtime": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.stat().st_mtime))}
+        print(f"{sid}: {src}.mp4 frames {first}-{first + shots[sid]['frames'] - 1} (of {n}) on song frames "
+              f"{f0}-{f0 + shots[sid]['frames'] - 1}")
     json.dump(picks, open(picks_p, "w"), indent=1)
     (ROOT / "work/cut").mkdir(parents=True, exist_ok=True)
-    json.dump(report, open(ROOT / "work/cut/splice_report.json", "w"), indent=1)
+    json.dump(report, open(ROOT / REPORT, "w"), indent=1)
     if bad:
         print("SPLICE PROBLEMS:", sorted(set(bad))); return 1
 

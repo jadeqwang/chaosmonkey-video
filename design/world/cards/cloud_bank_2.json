@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/cloud_bank_2.png",
+ "w": 3072,
+ "h": 1280,
+ "aspect": 2.4,
+ "paper_rgb": [
+  240.0,
+  229.0,
+  210.0
+ ],
+ "bbox_px": [
+  0,
+  0,
+  3067,
+  1279
+ ]
+}

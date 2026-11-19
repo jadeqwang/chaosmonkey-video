@@ -1,14 +1,14 @@
-"""L1 (228.750-233.208) after the last line.  BED+CAR v3.
+"""L1 (228.750-233.208) after the last line.  BED+CAR v4.
 
-The daughter asleep in Jade's lap (mouth open, one arm flung over Jade's arm, a foot out), the book closed on the rug, the
-flashlight lying beside it still on. Jade looks down at her, glances at the book, breathes out, and lays her cheek on the
-curls. No pull-back, no warp: a locked frame with a 3 % push. Kling v4 take of media/kf/v3/L1.jpg.
+Take('L1') = v4bc L1 t4 (daughter asleep in Jade's lap, Jade breathing out and laying her cheek on the curls). Very slow locked
+push 1.00 -> 1.03 about the centre of the two of them (measured on the 1080p frame: group bbox x 620-1390, y 70-940 -> (1005, 505)).
+No warp, no mouth work; paper finish only. No calligraphy.
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _bedcar3 import *
+from _bedcar4 import *
 
 T0, T1 = 228.75, 233.20833333333334
 
@@ -20,4 +20,4 @@ def setup(ctx):
 
 
 def render(t, ctx):
-    return fin(push(B.at(t), ctx, t, T0, T1, 1.0, 1.03, cx=1100, cy=560, kind='linear'), P)
+    return fin(push(B.at(t), ctx, t, T0, T1, 1.0, 1.03, cx=1005, cy=505, kind='linear'), P)

@@ -1,21 +1,32 @@
-"""K2b 'He opened the Book of Life and Death' (212.125-213.792, 40 frames). BOOK team, v3 (REVISION_V3 §3.5, §15).
+"""K2b 'He opened the Book of Life and Death' (212.125-213.792, 40 frames). BOOK v4 (LEDGER sub-team).
 
-The hall of the Ten Kings (plate H_v3_pages/K2b_1): the kings standing aside in a knot, the judge and his clerk at the
-desk, the monkey ON the desk with the brush over the open ledger. From the whole spread (LAP_ots_push_end framing) the
-camera pushes to the ledger; K3 is the ledger close. Static inscription 拿过生死簿 beside the curtain.
-
-v3 alive pass (§13): the page moves: a minimax/h3 clip animated from this very page (locked camera, spec
-media/gen/specs/bk3_alive_*.json) replaces the still inside the full-spread framing; camera, torch and all typeset
-writing outside that are ours. Remove `clip=` to return to the still page.
+v4 (REVISION_V4 §5 K2): the ledger is turned a quarter-turn on the desk (columns vertical on screen) and the monkey (costume
+B) draws ONE stroke straight down a column toward the viewer; the camera plunges from the whole spread to the ledger and the
+shot ends mid-stroke, matching K3's stroke (same screen column x~0.70, same direction, same speed). See work/book4/LEDGER/NOTES.md.
+First-frame framing (whole spread, LAP_ots_push_end) is unchanged from v3 (WORLD's K1->K2b contract).
 """
-from shots._pages3 import *
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from shots._book4_k2b import LedgerShot
 
 T0, T1 = 5091 / 24, 5131 / 24
+CLIP = os.environ.get('K2B_CLIP', 'media/gen/bk4_K2b_h3_t2_adbdd75890.mp4')       # the pick (take 2)
+CLIP_START = float(os.environ.get('K2B_START', '0'))
+FOCUS = (2015, 1312)
+Z1 = 3.4
+TIP = (2128, 1300)
+
+
+# out frame -> clip frame: the clip's own pace through the plunge, then the stroke itself run ~4.8x (one fast breath),
+# smeared by temporal blur; the shot's last frame lands mid-stroke (head ~65% down the column)
+KEYS = [(0, 0), (31, 29), (39.5, 72)]
 
 
 def setup(ctx):
     global PS
-    PS = PageShot(ctx, 'K2b', T0, T1, z1=1.5, focus=(2400, 1330), radius=(2600, 900), hold=0.1, clip='media/gen/bk3_alive_K2b_h3_t1_1e1eea1fda.mp4')
+    PS = LedgerShot(ctx, T0, T1, CLIP or None, CLIP_START, FOCUS, Z1, TIP, clip_keys=KEYS)
 
 
 def render(t, ctx):

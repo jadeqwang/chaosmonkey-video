@@ -1,11 +1,14 @@
-"""G5 song frames 3515-3582 (68 f). ATTIC v3. Sings on camera: little Jade (one word).
-'Yes' (148.72), over Mama's off-camera 'no less'. Her face on the centre line inside the narrowest strip: lip held, eyes down; up and away; back up to Mama, holds; the smallest 'Yes'; a blink after, and something kept back at the corner of her mouth. Not defeated: deciding. The margins snap open at 149.285.
-Acted Kling v4 take on media/kf/v3/G5c.jpg + lip transfer (docs/LIPSYNC_V3.md), clip frame 0 at T0 (shift 0).
-Pick: media/comp/attic3/picks.json key G5 (falls back to the keyframe as a still if no take is picked)."""
-from shots._attic3 import *
+"""G5 song frames 3515-3592 (78 f, 146.458-149.708: runs through G6's slot). ATTIC v4. Little Jade alone, 85 mm close-up (v4_G5).
+She does not mouth Mama's off-camera 'no more, no less'; her eyes go away and think, back to Mama, a small nod, then the late 'Yes'
+(attack 149.306). Take = Seedance act (at4ls_G5_5, motion only) -> p-video-animate with the edited vocal (vocals_v4.wav, 146.0-148.9 muted)
+= ls4w_G5_asrc5s1, frame 0 = song 145.652, shift 0. Full frame, no margins."""
+from shots._attic4 import *
 
-T0, T1 = 3515 / 24, 3583 / 24
-S = AtticShot([Seg(T0, T1, 'G5c', key='G5', tmap=[[T0, 0.0], [T0 + 3, 3.0]], floor=0.66, keep=[(960, 600, 340, 380)], cam=[(T0, 960, 540, 1.0), (T1, 960, 540, 1.0)])], margins=True, margin_state=soft_margins(0.4))
+T0, T1 = 146.4583333, 149.7083333
+PLACE = 145.652
+
+S = AtticShot([Seg4(T0, T1, 'G5', key='G5', tmap=[[T0, T0 - PLACE], [T1, T1 - PLACE]], floor=0.66, keep=[(900, 560, 420, 420)],
+                    cam=[(T0, 960, 540, 1.0), (T1, 960, 540, 1.0)])], margins=False)
 
 
 def setup(ctx):
@@ -14,3 +17,4 @@ def setup(ctx):
 
 def render(t, ctx):
     return S.render(t)
+# v4 swap pick a1s2

@@ -1,4 +1,4 @@
-"""J3  192.833-196.625  drop 2: "before the day had warmed (warmed)" (STAGE team, v3: the yellow monkey; staging as v2).
+"""J3  192.833-196.625  drop 2: "before the day had warmed (warmed)" (STAGE team, v4: costume B; staging as v2/v3).
 
 The full staff form across the blue-green heaven (D_heaven_mid, its densest window), the monkey larger and wilder
 than in the hook. Motion: Kling v4 first+last (v3 canon 11 overhead sweep -> 12 thrust,
@@ -11,7 +11,11 @@ Medium switches (same pose, 4 held frames, on the strongest measured hits; no ch
 red paper-cut on the snare 193.459, stone rubbing on the kick 194.103. Thrust lands in 亮相 on 195.181 with a 倉;
 the echo "(warmed)" 195.650 re-presses it fainter. A slow pull-back on the plate continues the J2-J5 pull-back.
 No Chinese inscription: the heaven fills the page (no blank), and the lyric layer carries the line.
-v2: shots/_v2/J3.py, media/comp/_v2/J3.mp4.
+v4: Kling v4 multi-keyframe on costume B (11 overhead strike -> 12 low sweep -> 10 overhead spin -> 03 lunge),
+media/gen/stage/v4/clips/s4_j3_k4a.mp4 (pick of 3, blind rank 1). The 亮相 is the take's clean thrust at f97-99; its
+later re-pose (f100-104, hand/staff morph) is never shown. Fix for "the yellow read orange under the red light": the
+figure is lit by the neon's brightness in a warm white (FIG_TINT), the paper and heaven keep the full red.
+v3: shots/_v3/J3.py, media/comp/_v3/J3.mp4. v2: shots/_v2/J3.py, media/comp/_v2/J3.mp4.
 """
 import os
 import numpy as np
@@ -25,11 +29,14 @@ T0, T1 = 192.833333, 196.625
 CUTS = [on_frame(194.963)]                           # red (1988) -> white (2026), once
 SWITCH = [(193.459, 'papercut'), (194.103, 'rubbing')]
 T_LIANG, T_ECHO = on_frame(195.181), on_frame(195.650)
-SRC_SWEEP0, SRC_LIANG, SRC_END = 78 / 24, 95 / 24, 4.6     # last sweep starts / thrust set / tail
+SRC_SWEEP0, SRC_LIANG, SRC_END = 84 / 24, 97 / 24, 99 / 24     # last sweep starts / thrust set / tail
 T_SWEEP0 = 194.70
 SCALE = 1.12
 from tools.ink.light import NEON_RED, TORCH as TORCH_C
 CENTER = (960, 600)
+FIG_TINT = np.array([1.0, 0.93, 0.74], np.float32)     # warm white: neon spill, not a red filter, on the figure
+FIG_GAIN, FIG_MIX = 1.75, 0.85
+SW_NEUTRAL = 0.6                 # in a medium switch the print is shown under a mostly neutral warm light (v3: tinted red)
 
 
 def setup(ctx):
@@ -39,13 +46,13 @@ def setup(ctx):
     PA = Paper(W, H, 'aged', seed=PAPER_SEED + 2)
     HV = heaven(W, H)
     HN, HA = HV, aged_ink(HV, PA, 0.8)
-    CL = clip('s3_j3_kling4')
+    CL = clip('s4_j3_k4a')
     MED = Mediums(W, H, seed=10)
     SC = SCALE * s * 1920 / CL.w
     POS = (int(CENTER[0] * s - CL.w * SC / 2), int(CENTER[1] * s - CL.h * SC / 2))
     RT = KeyRetime([(T0, 0.25), (T_SWEEP0, SRC_SWEEP0), (T_LIANG, SRC_LIANG), (T_LIANG + 8 / 24, SRC_LIANG),
                     (T1 + 0.05, SRC_END)], twos=[(T0, T_LIANG)], duration=CL.duration)
-    STAIN = ctx.cache('s3_j3_stain2', lambda: RingStain(CL, 6, 92, keep=0.8), deps=['work/ink_clips/s3_j3_kling4/meta.json'])
+    STAIN = ctx.cache('s4_j3_stain', lambda: RingStain(CL, 6, 97, keep=0.8), deps=['work/ink_clips/s4_j3_k4a/meta.json'])
     # fix round 2 (QA 14): the 1988 red is LIGHT raking across the painting from the window (upper right), not a
     # filter: strong falloff to dark warm ink on the far side, the paper's tooth catching it, hot near the window
     global RED_L, WHITE_L
@@ -94,7 +101,8 @@ def render(t, ctx):
         hv = 1 - (1 - hv) * 0.22
     f *= hv
     src = RT.src(tp)
-    STAIN.lay(f, src, SC, POS, CL)
+    if not sw:                                   # the print shows the figure only
+        STAIN.lay(f, src, SC, POS, CL)
     L = layer(CL, src, SC)
     # he is painted in body colour over the landscape (the yellow wash would vanish into the blue-green):
     # the paper is reserved under his silhouette, as a painter leaves the figure's place bare
@@ -110,5 +118,17 @@ def render(t, ctx):
     f = switched(MED, f, t, SWITCH, P.rgb)
     if os.environ.get('STAGE_NOLIGHT'):
         return f                                      # QA: coverage of the page itself, before the room's light
-    f = np.clip(f * (RED_L if red else WHITE_L), 0, 0.985)
+    if red:
+        # v4 fix (yellow read orange): the figure takes the neon's brightness but a warm-white colour, so the 藤黄
+        # stays yellow; the paper and the heaven keep the full red. k = the figure's reserved silhouette.
+        lum = RED_L.mean(axis=2, keepdims=True)
+        fig_l = np.clip(lum * FIG_GAIN, 0, 1.25) * FIG_TINT[None, None]
+        if sw:
+            neu = np.clip(lum * 1.45, 0, 1.15) * FIG_TINT[None, None]
+            f = np.clip(f * (RED_L * (1 - SW_NEUTRAL) + neu * SW_NEUTRAL), 0, 0.985)
+        else:
+            kk = k * FIG_MIX
+            f = np.clip(f * (RED_L * (1 - kk) + fig_l * kk), 0, 0.985)
+    else:
+        f = np.clip(f * WHITE_L, 0, 0.985)
     return shaken(f, *shake_offset(t, [T_LIANG], amp=8 * s, dur=0.22))

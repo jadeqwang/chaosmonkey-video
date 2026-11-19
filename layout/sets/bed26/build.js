@@ -6,6 +6,8 @@ import { aim } from '../../engine/aim.js';
 import { ROOM, BED, BED_TOP, RUG, WINDOW, SHELF, NIGHTSTAND, LIGHTS } from './layout.js';
 import { coverBlanket, cardOverPage, handShadows } from '../../engine/props.js';
 import { pushEnd, levelRoll } from '../../engine/lap.js';
+import { buildBody } from '../../engine/body.js';
+import { room4, quiltOnBed, BED4_TOP, WINDOW4, ROOM4, DOOR4 } from './v4.js';
 
 const WALL = { grey: 0.72, col: 0x5a5c70 }, FLOOR = { grey: 0.5, col: 0x4a3c34 }, WOOD = { grey: 0.6, col: 0x9a8a78 };
 
@@ -132,7 +134,7 @@ function buildV1(shot, { makeCam }) {
 // Lap storytime, hand-shadow cards lit by the real flashlight, push-end camera, the blanket being pulled up, richer sidecar.
 function buildV3(shot, { makeCam }) {
   const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
-  root.add(room(shot));
+  if (shot.v4) { root.add(room4(shot)); if (shot.bedQuilt !== false) quiltOnBed(root); } else root.add(room(shot));
   let flash = null, cards = [];
   const extra = (t, figs, book) => {
     if (t.startsWith('flash:')) { if (!flash) return V(0.4, 0.6, 0.1); return ({ grip: flash.grip, switch: flash.switchAt, lens: flash.lens, front: flash.lens.clone().addScaledVector(flash.axis, 0.2) })[t.slice(6)]?.clone() || null; }
@@ -144,10 +146,11 @@ function buildV3(shot, { makeCam }) {
       return p.addScaledVector(dir, hgt / Math.max(dir.dot(book.n), 0.05)); }
     return null;
   };
-  let { figs, book } = stage(shot.figs, shot.book, extra);
+  const SO = shot.v4 ? { builder: buildBody } : {};
+  let { figs, book } = stage(shot.figs, shot.book, extra, SO);
   for (let k = 0; k < 2; k++) { flash = shot.flashlight ? flashlightFor(shot.flashlight, figs, book) : null;
     cards = flash && book && book.pages ? (shot.cards || []).map((c) => cardOverPage(c, book, flash.lens)) : [];
-    ({ figs, book } = stage(shot.figs, shot.book, extra)); }
+    ({ figs, book } = stage(shot.figs, shot.book, extra, SO)); }
   if (shot.flashlight) flash = flashlightFor(shot.flashlight, figs, book);
   if (flash && book && book.pages) cards = (shot.cards || []).map((c) => cardOverPage(c, book, flash.lens));
   if (shot.hide) root.traverse((o) => { if (o.isMesh && shot.hide.includes(o.userData.label)) o.visible = false; });
@@ -156,7 +159,7 @@ function buildV3(shot, { makeCam }) {
   if (flash) root.add(flash.group);
   for (const c of cards) root.add(c.mesh);
   let blanketInfo = null;
-  if (shot.pull && figs[shot.pull.who]) { blanketInfo = coverBlanket(figs[shot.pull.who].userData.P, BED_TOP, { grey: 0.78, col: 0x8fa2c0 }, { upTo: shot.pull.upTo ?? 0.8, halfW: 0.3 }); root.add(blanketInfo.group); }
+  if (shot.pull && figs[shot.pull.who]) { blanketInfo = coverBlanket(figs[shot.pull.who].userData.P, shot.v4 ? BED4_TOP : BED_TOP, shot.v4 ? { grey: 0.8, col: 0xc8c0d8 } : { grey: 0.78, col: 0x8fa2c0 }, { upTo: shot.pull.upTo ?? 0.8, halfW: 0.3 }); root.add(blanketInfo.group); }
   if (shot.push) { const from = { ...shot.push.fromShot }; Object.assign(from, solveCamera(from, figs, book, aim)); const pe = pushEnd(from.pos, book, shot.lens, shot.push.fill); shot.pos = pe.pos; shot.target = pe.target;
     shot.pushInfo = { start_position: from.pos, start_target: from.target, start_distance_to_gutter_m: +pe.startDist.toFixed(3), end_distance_to_gutter_m: +pe.dist.toFixed(3), swing_onto_page_normal_deg: +pe.swing.toFixed(1) }; }
   else Object.assign(shot, solveCamera(shot, figs, book, aim));
@@ -166,14 +169,17 @@ function buildV3(shot, { makeCam }) {
   const on = !!(flash && flash.on);
   const lights = [];
   if (flash) lights.push({ name: 'flashlight', kind: 'spot (small handheld LED)', pos: flash.lens, aim: flash.lens.clone().addScaledVector(flash.axis, 1), color: '#fff4e6', on });
-  lights.push({ name: 'window_blind', kind: 'blue night glow through slats', pos: V(LIGHTS.moon.pos), color: '#6070a0', on: true });
+  lights.push({ name: 'window_blind', kind: 'blue night glow through slats', pos: shot.v4 ? V(WINDOW4.x, 1.5, ROOM4.z0 - 0.8) : V(LIGHTS.moon.pos), color: '#6070a0', on: true });
+  const DOORL = V(DOOR4.x + 1.0, 1.9, (DOOR4.z0 + DOOR4.z1) / 2);
+  if (shot.v4) lights.push({ name: 'door_hall', kind: 'warm tungsten spill from the hallway through the open door (frame right in L2)', pos: DOORL, aim: V(0.2, 0.3, -0.6), color: '#ffb468', on: shot.doorLight !== false });
   const rig = (mode) => {
     const L = []; if (mode === 'none') return L; const white = mode !== 'lit';
     if (on) { const s = new THREE.SpotLight(white ? 0xffffff : LIGHTS.flashlight.color, mode === 'lit' ? 9 : mode === 'mask' ? 6 : 2.4, 0, rad(shot.flashCone ?? 24), 0.35, mode === 'lit' ? 1.6 : 0);
       s.position.copy(flash.lens).addScaledVector(flash.axis, 0.012); s.target.position.copy(flash.lens).addScaledVector(flash.axis, 1); s.castShadow = true; s.shadow.camera.near = 0.02; s.shadow.camera.far = 6; s.shadow.bias = -0.0002; L.push(s);
       if (mode === 'lit' && book) { const b = new THREE.PointLight(0xfff0dc, 0.22, 1.6, 1.5); b.position.copy(book.at).addScaledVector(book.n, 0.1); L.push(b); } }
     if (mode === 'mask') return L;
-    if (mode === 'lit') { const m = new THREE.SpotLight(0x5868a0, 1.2, 0, rad(40), 0.8, 1.2); m.position.set(...LIGHTS.moon.pos); m.target.position.set(0.4, 0.3, 0.2); L.push(m); }
+    if (mode === 'lit') { const m = new THREE.SpotLight(0x5868a0, 1.2, 0, rad(40), 0.8, 1.2); if (shot.v4) { m.position.set(WINDOW4.x, 1.5, ROOM4.z0 - 0.6); m.target.position.set(-0.2, 0.4, -0.2); } else { m.position.set(...LIGHTS.moon.pos); m.target.position.set(0.4, 0.3, 0.2); } L.push(m); }
+    if (shot.v4 && shot.doorLight !== false) { const d = new THREE.SpotLight(white ? 0xffffff : 0xffb468, mode === 'lit' ? (shot.doorI ?? 7) : 0.9, 0, rad(55), 0.5, mode === 'lit' ? 1.3 : 0); d.position.copy(DOORL); d.target.position.set(0.2, 0.3, -0.6); d.castShadow = true; d.shadow.camera.near = 0.2; d.shadow.camera.far = 8; L.push(d); }
     L.push(new THREE.AmbientLight(white ? 0xffffff : 0x1a2238, mode === 'lit' ? (shot.amb ?? 0.35) : (on ? 1.5 : 1.9)));
     if (white) { const d = new THREE.DirectionalLight(0xffffff, 1.0); d.position.set(-1, 3, 2); L.push(d); }
     return L;
@@ -187,6 +193,6 @@ function buildV3(shot, { makeCam }) {
     if (shot.pushInfo) out.push = { ...shot.pushInfo, note: 'end of the push that starts at v3_LAP_ots; book.spread px here is the target of the move' };
     if (shot.serves) out.serves = shot.serves;
     return out; };
-  return { set: 'bed26', scene, root, cam, rig, near: shot.near ?? 0.2, far: shot.far ?? 6, figs, book, panes: { window: (() => { const W = WINDOW, z = ROOM.z0 + 0.04; return [V(W.x - W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill, z), V(W.x - W.w / 2, W.sill, z)]; })() }, lights,
+  return { set: 'bed26', scene, root, cam, rig, near: shot.near ?? 0.2, far: shot.far ?? 6, figs, book, panes: { window: (() => { const W = shot.v4 ? { ...WINDOW4 } : WINDOW, z = (shot.v4 ? ROOM4.z0 : ROOM.z0) + 0.04; return [V(W.x - W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill + W.h, z), V(W.x + W.w / 2, W.sill, z), V(W.x - W.w / 2, W.sill, z)]; })() }, lights,
     header: shot.header || '', shadowLine: !!shadow, shadowPolys: shadow ? shadow.polys : null, subject: book ? book.at : null, litBg: 0x020204, extra: extraOut };
 }

@@ -279,7 +279,8 @@ def main():
     res["n_bilabials"], res["n_words"] = nb, sum(1 for x in ev if x["kind"] == "V" and x["tag"] == "vowel")
     if res["n_words"] < 5:
         env_ok = False; res["env_trust"] = False
-    scan = {s: score_point(g, ev, t0 + s / FPS) for s in range(-12, 13)}
+    R = int(o.get("scan", 12))          # --scan N: search +-N frames (v4: 18 for Seedance, whose lag reaches +-700 ms)
+    scan = {s: score_point(g, ev, t0 + s / FPS) for s in range(-R, R + 1)}
     top = max(scan.values())
     plateau = [s for s in scan if scan[s] >= top - 0.015]
     best = min(plateau, key=lambda s: abs(s - float(np.mean(plateau))))      # centre of the plateau

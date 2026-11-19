@@ -1,11 +1,12 @@
-"""E3 song frames 2232-2397 (166 f). ATTIC v3. Sings on camera: little Jade.
-'Names and faces, I lose a few / but a spell I'd remember well': lap. A big shrug with palms up on 'lose a few' (94.9), sits up and taps her temple on 'remember well' (97.3-99.1), sure of herself; Mama smiling above her.
-Acted Kling v4 take on media/kf/v3/E3.jpg + lip transfer (docs/LIPSYNC_V3.md), clip frame 0 at T0 (shift 0).
-Pick: media/comp/attic3/picks.json key E3 (falls back to the keyframe as a still if no take is picked)."""
-from shots._attic3 import *
+"""E3 ATTIC v4: cut inside the shot at song frame 2304 (96.000, the breath).
+E3a (72f): shipped two-pass singing take from the crop of E3.jpg. E3b (94f): Kling act take t3, wider three-quarter angle, sword-hand cast, mouth not the subject."""
+from shots._attic4 import *
 
-T0, T1 = 2232 / 24, 2398 / 24
-S = AtticShot([Seg(T0, T1, 'E3', key='E3', tmap=[[T0, 0.0], [T0 + 7, 7.0]], floor=0.64, keep=[(1064, 510, 320, 320), (900, 230, 300, 280)], cam=[(T0, 1000, 500, 1.0), (T1, 1010, 480, 1.09)])])
+T0, TC, T1 = 2232 / 24, 2304 / 24, 2398 / 24
+S = AtticShot([
+    Seg4(T0, TC, 'E3_crop', clip='media/gen/ls4w_E3_asrc1s1_ae0d17999b.mp4', tmap=[[91.49, 0.0], [91.49 + 10, 10.0]], cam=crop_cam(T0, TC)),
+    Seg4(TC, T1, 'E3b2', clip='media/gen/at4_E3b2_k4_t2_b0ac14e677.mp4', tmap=[[96.0, 0.0], [96.0 + 10, 10.0]], cam=crop_cam(TC, T1)),
+])
 
 
 def setup(ctx):

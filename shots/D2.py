@@ -1,4 +1,4 @@
-"""D2  61.083-64.417  "He bowed four ways before the day had warmed" (STAGE team, v3: the yellow monkey).
+"""D2  61.083-64.417  "He bowed four ways before the day had warmed" (STAGE team, v4: costume B).
 
 Jade: "the animation could be smoother here, can we have a video model do it?" The four bows are now ONE performed
 movement from a video model (Kling v4 from the v3 canon 亮相, media/gen/stage/v3/clips/s3_d2_kling4ff.mp4), keyed
@@ -8,14 +8,17 @@ retimed so each bow's lowest point lands on its beat (61.321, 62.205, 63.090, 63
 The wind-up for the first bow is in D1's last 21 frames (same clip, tools/stage/stage3.d2_retime).
 Static inscription: key D2. From 63.817 the attic team's D2d (little Jade copies the last bow) may replace the tail.
 Takes: s3_d2_kling4 (first+last: only S, W, N), s3_d2_sd20 (E S W N but steps on threes): see LOG_v3_stage.
-v2 (hard re-poses of canon stills): shots/_v2/D2.py, media/comp/_v2/D2.mp4.
+v4: costume B, Kling v4 MULTI-KEYFRAME take (tools/stage/submit_v4.py): every bow is a pinned keyframe drawn as a
+real 抱拳 bow (fist covered by the palm at the chest, a deep fold from the hips) in its own direction, so no bow can be
+shallow or a palms-forward push. Take: stage4.D2_TAKE (default s4_d2_k4a; nadirs measured by tools/stage/d2nadir4.py).
+v3: shots/_v3/D2.py, media/comp/_v3/D2.mp4. v2 (hard re-poses of canon stills): shots/_v2/D2.py, media/comp/_v2/D2.mp4.
 """
 import numpy as np
 
 from tools.ink import *
 from tools.ink.inscription import inscription
 from tools.stage.stage import T_GONG
-from tools.stage.stage3 import *
+from tools.stage.stage4 import *
 
 T0, T1 = 61.083333, 64.416667
 SEAL_POS = (1410, 500)                  # D1's 倉

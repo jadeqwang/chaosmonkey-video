@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Singing takes, the v3 way (docs/LIPSYNC_V3.md): acted take + lip driver + local lip transfer + gate.
+"""RETIRED in v4 (REVISION_V4 §1.2: no transferred mouths). Use tools/gen/lipsync_v4.py. Kept as the record.
+Singing takes, the v3 way (docs/LIPSYNC_V3.md): acted take + lip driver + local lip transfer + gate.
 
     PY=/home/jade/Documents/halys-video/.venv/bin/python
     $PY tools/gen/lipsync_take.py act   SHOT KEYFRAME.jpg "acting prompt with timed beats" --t0 T --dur D [--takes 2] [--res 720p]

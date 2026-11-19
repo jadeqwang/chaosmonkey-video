@@ -1,0 +1,48 @@
+# Room calligraphy placement table (tools/cut/roomcal.py). One row per unit and sung line. Regions at 960x540:
+# the block (columns + seal) sits inside x,y,w,h, aligned to the region's side (L: left edge, R: right edge, C: centre),
+# top-aligned. halo 0..0.5 = faint dark halo strength. ground dark (light on dark, default) | paper (ink). f0/f1 override
+# the window (song frames). status: final = comp final + side measured; prov = comp not final (ATTIC, WORLD r2, BOOK H6)
+# or side not yet measured. Re-render after any change: nothing is baked into a comp.
+unit	line	key	cols	side	x	y	w	h	halo	ground	f0	f1	status	note
+B1	0	B1a		L	24	52	150	330	0	dark			final	ATTIC named no side
+B1	1	B1b		L	24	52	150	330	0	dark			final	
+B2a	2	B3	0	R	786	40	150	330	0	dark			final	reuses B3 col 1 (the page inscription carries the line from B3)
+C2	7	C2		R	786	100	150	330	0	dark			final	
+C3	8	C3		L	24	52	150	330	0	dark			final	ATTIC: calligraphy C3 LEFT
+C5a	10	C5		R	786	40	150	330	0	dark			final	reuses C5 (C5b's inscription)
+D3	14	D3		R	786	40	150	330	0	dark			final	ATTIC: no free calligraphy side
+E1	17	E1		R	786	40	150	330	0	dark			final	
+E3a	19	E3a		R	786	40	150	330	0	dark			final	
+E3b	20	E3b		R	786	40	150	330	0	dark			final	
+E6	23	E6		R	786	40	150	330	0	dark			final	
+F1	24	F1		L	24	52	150	330	0	dark			final	BED+CAR: LEFT (headrest)
+F2	25	F2		L	14	54	150	330	0.3	dark			final	
+F3a	27	F3		L	24	52	150	330	0	dark			final	
+F3b	27	F3		L	24	52	150	330	0	dark			final	
+F4	28	F4a		R	786	20	150	330	0.2	dark			final	
+F4	29	F4b		R	786	20	150	330	0.2	dark			final	
+F5	30	F5		R	786	20	150	330	0	dark			final	
+F6a	31	F6a		R	786	20	150	330	0	dark			final	
+F6b	33	F6b		R	786	40	150	330	0.3	dark			final	BED+CAR: RIGHT/middle
+G1	34	G1a		R	610	40	150	330	0	dark			final	
+G1	35	G1b		R	610	40	150	330	0	dark			final	
+G3	40	G3a		R	786	40	150	330	0	paper			final	
+G3	41	G3b		R	786	40	150	330	0	paper			final	
+G4	42	G4a		L	90	52	150	330	0	dark			final	
+G4	43	G4b		L	90	52	150	330	0	dark			final	
+G5	43	G4b		L	90	52	150	330	0	dark			final	
+G5	44	G5		L	90	52	150	330	0	dark			final	
+G5b	44	G5		L	90	52	150	330	0	dark			final	
+H3	45	H3		L	750	36	75	300	0	paper		3966	final	CUT: measured per frame (paper-difference): x750-825 is bare in all three face holds 3903-3965; the pull-back (3966-) has no bare full-height strip, so the line leaves 0.6 s early
+H4	46	H4		L	690	30	120	240	0	paper		4010	final	CUT: part A in the empty cell right of the girl while the camera is close (3983-4010); the grid then shrinks through masks
+H4	46	H4		R	860	40	86	300	0	paper	4016		final	CUT: part B on the felt right of the album once it has pulled back (album right edge x<=850 from ~4020)
+I1	49	I1		L	30	238	150	330	0	dark			final	BED+CAR: LEFT
+I3a	51	I3		L	24	52	150	330	0	dark			final	reuses I3 (I3b's inscription); BED+CAR: LEFT
+I4	52	I4		L	24	52	150	330	0	dark			final	BED+CAR: LEFT (designed dark)
+J3	56	J3		L	24	52	150	330	0.3	dark			final	 | CUT: paper-cut flash 4645-4649 is pale: 5 frames where the light text is faint
+J4	58	J4		L	24	52	150	330	0.2	dark			final	
+K1a	62	K1a		L	24	52	150	330	0	dark		4950	final	BED+CAR: LEFT (nightstand/wall x0-350 y400-900 @1920) | CUT: f1=4950 (the bright page fills the left from ~4955)
+K1b	63	K1b		R	480	150	150	330	0	paper		5019	final	page part: ink, screen-fixed over a panning page (weak point, lead 19 Nov); from ~5020 the officials walk into every free spot, so the line leaves 1.4 s early
+K2a	64	K2		L	24	80	150	330	0	dark			final	reuses K2 (K2b's inscription); BED+CAR: LEFT
+L1	67	K5		L	24	90	150	330	0	dark			final	reuses K5 (K5's inscription); BED+CAR: upper-left wall x110-420 y0-130 @1920
+B3	3	B3	1	L	40	30	120	345	0	paper	640		prov	CUT: B3 inscription flies out of frame by ~f637 (WORLD dolly); its column 2 carries line 3, set in ink in the bare sky top-left for the rest of the line. Drop this row if WORLD r2 keeps the inscription in view (e.g. as a tablet in space)

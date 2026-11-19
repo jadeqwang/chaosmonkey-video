@@ -1,4 +1,4 @@
-# live /ai/run probe 2026-11-17T06:45Z
+# live /ai/run probe 2026-11-18T23:34Z
 model	status	valid_fields
 alibaba/hh1-i2v	live	image, prompt, negative_prompt, resolution, duration, seed, watermark
 alibaba/hh1-t2v	live	prompt, resolution, ratio, duration, seed, watermark
@@ -25,6 +25,9 @@ bria/fibo-edit-1.5	live	images, instruction, structured_instruction, mask, aspec
 bria/fibo-generate-1.5	live	prompt, images, structured_prompt, resolution, aspect_ratio, seed, output_type, ip_signal, prompt_content_moderation, visual_input_content_moderation, visual_output_content_moderation
 bria/remove-background	live	image, preserve_alpha, visual_input_content_moderation, visual_output_content_moderation
 bria/v-rmbg-3.0	live	video, background_color, output_container_and_codec, auto_zoom, preserve_audio, spill_suppression
+bytedance/seedance-1-pro	live	prompt, image, last_frame_image, duration, resolution, aspect_ratio, fps, camera_fixed, watermark, seed, use_virtual_avatar
+bytedance/seedance-1-pro-fast	live	prompt, image, last_frame_image, duration, resolution, aspect_ratio, fps, camera_fixed, watermark, seed, use_virtual_avatar
+bytedance/seedance-1.5-pro	live	prompt, image, last_frame_image, duration, resolution, aspect_ratio, fps, camera_fixed, generate_audio, watermark, seed, use_virtual_avatar
 bytedance/seedance-2.0	live	prompt, image, reference_video, last_frame_image, reference_images, duration, resolution, aspect_ratio, fps, camera_fixed, generate_audio, watermark, seed, use_virtual_avatar
 bytedance/seedance-2.0-fast	live	prompt, image, reference_video, last_frame_image, reference_images, duration, resolution, aspect_ratio, fps, camera_fixed, generate_audio, watermark, seed, use_virtual_avatar
 bytedance/seedance-2.0-mini	live	prompt, image, reference_video, last_frame_image, reference_images, duration, resolution, aspect_ratio, fps, camera_fixed, generate_audio, watermark, seed, use_virtual_avatar, reference_audio
@@ -45,33 +48,48 @@ google/gemini-3.8-flash-tts	live	text, voice, temperature, topP, topK, maxOutput
 google/gemini-omni-1.1-flash	live	text, image, last_frame, reference_images, video, audio, previous_interaction_id, aspect_ratio, resolution
 google/gemini-omni-1.2-flash	live	text, image, last_frame, reference_images, video, audio, previous_interaction_id, aspect_ratio, resolution
 google/gemini-omni-flash	live	text, image, last_frame, reference_images, video, audio, previous_interaction_id, aspect_ratio, resolution
+google/lyria-3	live	prompt, image
+google/lyria-3-pro	live	prompt, image
+google/lyria-3.5	live	prompt, image
 google/nano-banana	live	prompt, image_input, aspect_ratio, output_format, image_size
 google/nano-banana-2	live	prompt, image_input, aspect_ratio, output_format, resolution, google_search, image_search
 google/nano-banana-2-lite	live	prompt, image_input, aspect_ratio, output_format, resolution
 google/nano-banana-2.1	live	prompt, image_input, aspect_ratio, output_format, resolution, google_search, image_search
 google/nano-banana-pro	live	prompt, image_input, aspect_ratio, output_format, image_size
-google/veo-3.1	live	prompt, image_input, duration, aspect_ratio, resolution, generate_audio
-google/veo-3.1-fast	live	prompt, image_input, duration, aspect_ratio, resolution, generate_audio
+google/veo-3.1	live	prompt, image_input, duration, aspect_ratio, resolution, generate_audio, last_frame, negative_prompt, seed, reference_images
+google/veo-3.1-fast	live	prompt, image_input, duration, aspect_ratio, resolution, generate_audio, last_frame, negative_prompt, seed
 inworld/tts-1.5-max	live	text, voice_id, output_format, bit_rate, sample_rate, speaking_rate, temperature, timestamp_type, apply_text_normalization
 inworld/tts-1.5-mini	live	text, voice_id, output_format, bit_rate, sample_rate, speaking_rate, temperature, timestamp_type, apply_text_normalization
 inworld/tts-2	live	text, voice_id, output_format, bit_rate, sample_rate, speaking_rate, temperature, timestamp_type, apply_text_normalization
+klingai/kling-v2-6-motion-control	live	prompt, image_url, video_url, character_orientation, audio, resolution
 klingai/kling-v3	live	prompt, negative_prompt, image_input, duration, aspect_ratio, sound
 klingai/kling-v3-image	live	prompt, negative_prompt, image, resolution, aspect_ratio
+klingai/kling-v3-motion-control	live	prompt, image_url, video_url, character_orientation, audio, resolution
 klingai/kling-v3-omni	live	prompt, negative_prompt, image_input, duration, aspect_ratio, sound
 klingai/kling-v4	live	prompt, first_frame, middle_frames, last_frame, duration, aspect_ratio, resolution
 klingai/kling-v4-flash	live	prompt, duration, aspect_ratio, resolution
+klingai/kling-v4-image	live	prompt, images, n, resolution, aspect_ratio
 krea/krea-2-large	live	prompt, aspect_ratio, resolution, seed, styles, image_style_references, creativity, intensity, complexity, movement, moodboards
 krea/krea-2-medium	live	prompt, aspect_ratio, resolution, seed, styles, image_style_references, creativity, intensity, complexity, movement, moodboards
 krea/krea-2-medium-turbo	live	prompt, aspect_ratio, resolution, seed, styles, image_style_references, creativity, intensity, complexity, movement, moodboards
 krea/krea-3	live	prompt, image_urls, thinking_mode, resolution, aspect_ratio, seed, negative_prompt, regional_edit
+kwaivgi/kling-v2.6	live	prompt, negative_prompt, aspect_ratio, duration, mode, sound
+lightricks/ltx-2-3-fast	live	prompt, image_uri, last_frame_uri, duration, resolution, fps, generate_audio
+lightricks/ltx-2-3-pro	live	prompt, image_uri, last_frame_uri, duration, resolution, fps, generate_audio
 lightricks/ltx-2-5-fast	live	prompt, image_uri, last_frame_uri, duration, resolution, fps, generate_audio
 minimax/h3	live	content, resolution, duration, ratio, callback_url
 minimax/h3-highspeed	live	content, duration, ratio, callback_url, resolution
+minimax/h3-image	live	prompt, images, n, size, aspect_ratio, area, disable_prompt_enhanced, output_format, output_compression
+minimax/h3-image-highspeed	live	prompt, images, n, size, aspect_ratio, area, disable_prompt_enhanced, output_format, output_compression
 minimax/h3-lite	live	content, duration, ratio, callback_url, resolution
 minimax/h3-max	live	content, duration, ratio, callback_url, resolution, extra.prompt_expansion_mode
 minimax/hailuo-2.3	live	prompt, first_frame_image, prompt_optimizer, fast_pretreatment, duration, resolution
 minimax/hailuo-2.3-fast	live	first_frame_image, prompt, prompt_optimizer, fast_pretreatment, duration, resolution
 minimax/music-2.6	live	prompt, lyrics, sample_rate, bitrate, format, lyrics_optimizer, is_instrumental
+minimax/speech-02-hd	live	text, voice_id, speed, volume, pitch, emotion, format, sample_rate
+minimax/speech-02-turbo	live	text, voice_id, speed, volume, pitch, emotion, format, sample_rate
+minimax/speech-2.6-hd	live	text, voice_id, speed, volume, pitch, emotion, format, sample_rate
+minimax/speech-2.6-turbo	live	text, voice_id, speed, volume, pitch, emotion, format, sample_rate
 minimax/speech-2.8-hd	live	text, voice_id, speed, volume, pitch, emotion, format, sample_rate
 minimax/speech-2.8-turbo	live	text, voice_id, speed, volume, pitch, emotion, format, sample_rate
 openai/gpt-4o-transcribe	live	file, language, prompt, temperature
@@ -79,6 +97,8 @@ openai/gpt-image-1.5	live	Model execution failed (User Input Error): Required va
 openai/gpt-image-2	live	Model execution failed (User Input Error): Required value missing: prompt
 openai/gpt-image-2.5-flare	live	Model execution failed (User Input Error): Required value missing: prompt
 openai/gpt-image-2.5-sunburst	live	Model execution failed (User Input Error): Required value missing: prompt
+openai/gpt-image-2.6-flare	live	Model execution failed (User Input Error): Required value missing: prompt
+openai/gpt-image-2.6-sunburst	live	Model execution failed (User Input Error): Required value missing: prompt
 openai/tts-1	live	text, voice, response_format, speed
 openai/tts-1-hd	live	text, voice, response_format, speed
 pixverse/v5.6	live	prompt, negative_prompt, image_input, duration, aspect_ratio, quality, seed, motion_mode, generate_audio

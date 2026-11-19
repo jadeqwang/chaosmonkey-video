@@ -342,12 +342,110 @@ def s_puff(rng):
     return norm(pan(y, 0.0), db2a(-3)), "synth: puff of air: BP 0.6-6 kHz noise (attack 15 ms, tau 90 ms) + LP 300 Hz air body; unvoiced, 0.35 s"
 
 
+# ---------------------------------------------------------------- v4 (mix_v3b) sources: synthesised, seeded, $0
+def s_gale(rng):
+    """A gale gust that takes hair: 2.2 s, pink noise LP 1.2 kHz body + a swirling BP band (centre wandering 700-2200 Hz),
+    fast 0.25 s rise, held, 0.9 s release, panned R -> L."""
+    d = 2.2
+    n = N(d)
+    t = np.arange(n) / SR
+    body = lp(pink(n, rng), 1200, 2)
+    w = white(n, rng)
+    a, b = bp(w, 600, 1300, 2), bp(w, 1300, 2600, 2)
+    k = 0.5 + 0.5 * np.sin(2 * np.pi * 0.9 * t + 1.0)
+    swirl = (a * (1 - k) + b * k) * 0.45
+    env = np.minimum(t / 0.25, 1) ** 1.5 * np.minimum((d - t) / 0.9, 1) ** 1.2 * (1 + 0.2 * np.sin(2 * np.pi * 3.1 * t))
+    y = (body + swirl) * env
+    return norm(pan(y, np.linspace(0.5, -0.6, n)), db2a(-3)), "synth: gale gust: pink noise LP 1.2 kHz + swirling BP band (600-1300 <-> 1300-2600 Hz at 0.9 Hz), 0.25 s rise, 0.9 s release, 3 Hz buffeting, R -> L; 2.2 s"
+
+
+def s_ember(rng):
+    """A character catching light like an ember: soft low 'thup' (LP 220 Hz, tau 45 ms), an airy flare (BP 1-5 kHz, 0.25 s
+    swell) and a few fine crackle grains (HP 3 kHz) dying away; 0.9 s."""
+    d = 0.9
+    n = N(d)
+    t = np.arange(n) / SR
+    thup = lp(white(n, rng), 220, 2) * np.exp(-t / 0.045) * 1.2
+    flare = bp(white(n, rng), 1000, 5000, 2) * np.sin(np.pi * np.clip(t / 0.5, 0, 1)) ** 2 * 0.5
+    cr = hp(white(n, rng), 3000, 2) * (rng.random(n) < 0.004) * 2.0 * np.exp(-t / 0.3)
+    y = (thup + flare + cr) * np.minimum((d - t) / 0.1, 1)
+    return norm(pan(y, 0.0), db2a(-3)), "synth: ember catch: LP 220 Hz thup (tau 45 ms) + BP 1-5 kHz flare swell (0.5 s) + sparse HP 3 kHz crackle grains (tau 0.3 s); 0.9 s"
+
+
+def s_arc(rng):
+    """Five thin light arcs (0.32 s each, one per 0.5 s): a high whoosh 900 -> 7000 Hz with a faint glassy tick at its end."""
+    out = np.zeros((2, N(2.5)))
+    for j in range(5):
+        y = s_whoosh(rng, 0.32, 900, 7000)
+        m = N(0.006)
+        y[-m:] += bp(white(m, rng), 4000, 9000, 2) * 0.6
+        side = 0.5 if j % 2 == 0 else -0.5
+        st = pan(y, np.linspace(-side, side, len(y)))
+        i = N(0.5 * j)
+        out[:, i:i + st.shape[1]] += st
+    return norm(out, db2a(-3)), "synth: five thin arcs at 0/.5/1/1.5/2 s: 0.32 s white-noise whoosh rising 900 -> 7000 Hz with a 6 ms BP 4-9 kHz tick at the end, alternating L->R / R->L"
+
+
+def s_depth_pop(rng):
+    """The flat page pops into depth: a low whump (sine 120 -> 45 Hz, 160 ms), a paper snap at 0, an air rush that opens and
+    closes (pink BP 200 Hz -> 3 kHz, 0.7 s); 1.0 s."""
+    d = 1.0
+    n = N(d)
+    t = np.arange(n) / SR
+    f = 45 + 75 * np.exp(-t / 0.05)
+    whump = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.08)
+    m = N(0.04)
+    snap = np.zeros(n)
+    snap[:m] = hp(white(m, rng), 1800, 2) * np.exp(-np.arange(m) / SR / 0.008)
+    x = np.clip(t / 0.7, 0, 1)
+    rush = bp(pink(n, rng), 200, 3000, 2) * np.sin(np.pi * x) ** 2 * (x < 1) * 0.8
+    y = whump + 0.6 * snap + rush
+    return norm(pan(y, 0.0), db2a(-3)), "synth: depth pop: sine whump 120 -> 45 Hz (tau 80 ms) + HP 1.8 kHz paper snap (8 ms) + pink BP 200-3000 Hz air rush (sin^2, 0.7 s); 1.0 s"
+
+
+def s_draught(rng):
+    """A draught through a room: very soft brown/pink air, LP 700 Hz, slow swells (0.23 / 0.41 Hz), 8 s."""
+    d = 8.0
+    n = N(d)
+    t = np.arange(n) / SR
+    y = lp(0.6 * pink(n, rng) + 0.4 * brown(n, rng), 700, 2)
+    y = y * (0.65 + 0.2 * np.sin(2 * np.pi * 0.23 * t) + 0.15 * np.sin(2 * np.pi * 0.41 * t + 2.0))
+    return norm(pan(y, np.linspace(-0.3, 0.3, n)), db2a(-6)), "synth: draught: pink+brown noise LP 700 Hz, slow swells 0.23/0.41 Hz, drifting L -> R; 8 s"
+
+
+def s_dolly_air(rng):
+    """The camera moving into the painted valley: soft air (pink LP 1.5 kHz) with three passes (pines/rocks by the lens:
+    gaussian swells with the low-pass opening to 3 kHz at 0.8, 1.7, 2.6 s), 3.3 s."""
+    d = 3.3
+    n = N(d)
+    t = np.arange(n) / SR
+    w = pink(n, rng)
+    lo, hi = lp(w, 900, 2), lp(w, 3000, 2)
+    k = sum(np.exp(-((t - c) / 0.18) ** 2) for c in (0.8, 1.7, 2.6))
+    k = np.clip(k, 0, 1)
+    y = (lo * (1 - k) + hi * k) * (0.5 + 0.5 * k) * np.minimum(t / 0.4, 1) * np.minimum((d - t) / 0.5, 1)
+    p = np.zeros(n)
+    for j, c in enumerate((0.8, 1.7, 2.6)):
+        p += np.exp(-((t - c) / 0.25) ** 2) * (0.6 if j % 2 == 0 else -0.6)
+    return norm(pan(y, np.clip(p, -0.6, 0.6)), db2a(-3)), "synth: dolly air: pink noise crossfading LP 900 Hz <-> 3 kHz with three passing swells (0.8/1.7/2.6 s, alternating sides); 3.3 s"
+
+
+def s_brush_rev(rng):
+    """A wet stroke un-writing itself: the wet brush stroke reversed (lift-off first, the press last), softened."""
+    y, _ = s_brush_wet(rng)
+    y = stereo(y)[:, ::-1]
+    y = lp(y, 5000, 2)
+    return norm(y, db2a(-3)), "synth: s_brush_wet reversed (the stroke retracts into the press), LP 5 kHz; 0.5 s"
+
+
 SYNTH = {
     "cloth_swish": s_cloth_swish, "puff": s_puff,
     "neon_hum": s_neon_hum, "relay_tick": s_relay_tick, "room_attic": s_room_attic, "room_bed": s_room_bed,
     "breath": s_breath, "sleeve_wind": s_sleeve_wind, "whisper": s_whisper, "staff_whoosh": s_staff_whoosh,
     "streetlight": s_streetlight, "hair_air": s_hair_air, "dab": s_dab, "flip": s_flip, "brush_wet": s_brush_wet,
     "fingertip": s_fingertip, "egg": s_egg,
+    "gale": s_gale, "ember": s_ember, "arc": s_arc, "depth_pop": s_depth_pop, "draught": s_draught, "dolly_air": s_dolly_air,
+    "brush_rev": s_brush_rev,
 }
 
 

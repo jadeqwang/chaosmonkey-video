@@ -8,6 +8,8 @@ import { signV3, signSpec, neonSource, hooksV3, hookPoint, bookStack } from './v
 import { coverBlanket, cardOverPage, handShadows } from '../../engine/props.js';
 import { projectOutline, spreadUV, hull } from '../../engine/stage.js';
 import { pushEnd, levelRoll } from '../../engine/lap.js';
+import { buildBody } from '../../engine/body.js';
+import { matsAndPillows, textbooks4, piano4, quilt4, fallenWorld } from './v4.js';
 
 const WOOD = { grey: 0.45, col: 0x5a3f2a }, WOOD_D = { grey: 0.32, col: 0x3d2a1c }, FLOOR = { grey: 0.55, col: 0x6a4a30 };
 const PLASTER = { grey: 0.7, col: 0x8a7f72 }, ROOF = { grey: 0.38, col: 0x4a3a2c };
@@ -124,6 +126,7 @@ function room(shot) {
 
 function props(shot) {
   const g = new THREE.Group();
+  if (shot.v4) { matsAndPillows(g); textbooks4(g, shot.textbooks4 || 'stack'); piano4(g); } else
   for (const [who, M] of Object.entries(MATS)) {
     const cx = (M.x0 + M.x1) / 2, cz = (M.z0 + M.z1) / 2;
     g.add(tag(box(M.x1 - M.x0, M.t, M.z1 - M.z0, FABRIC(0.8, 0x9a8f78), [cx, M.t / 2, cz]), `sleeping mat (${who === 'mama' ? 'Mama' : 'little Jade'})`));
@@ -131,13 +134,13 @@ function props(shot) {
     const p = box(PILLOW.w, PILLOW.t, PILLOW.d, FABRIC(0.9, 0xd8d0c0), [cx + (pil.dx || 0), M.t + PILLOW.t / 2, M.z0 + 0.22 + (pil.dz || 0)]); p.rotation.y = rad(pil.yaw ?? (who === 'mama' ? 4 : -6)); p.scale.set(1, 1, 1);
     g.add(tag(p, 'pillow'));
   }
-  if (shot.textbooks) bookStack(g, shot.textbooks); else
+  if (shot.v4) {} else if (shot.textbooks) bookStack(g, shot.textbooks); else
   // textbooks
   { const [x, z] = PROPS.textbooks.at; let y = 0;
     for (let k = 0; k < PROPS.textbooks.n; k++) { const t = 0.022 + (k % 3) * 0.008, w = 0.19 + (k % 2) * 0.03, d = 0.26 - (k % 3) * 0.02;
       const b = box(w, t, d, FABRIC(0.3 + (k % 4) * 0.12, [0x3a5a7a, 0x7a3a2a, 0x4a6a3a, 0xa08a50][k % 4]), [x + ((k * 13) % 5 - 2) * 0.006, y + t / 2, z]); b.rotation.y = rad(((k * 37) % 21) - 10); g.add(tag(b, 'stack of textbooks')); y += t; } }
   // piano-keys printout: two A4 sheets, 2 octaves, black keys printed
-  { const { at: [x, z], yaw, w, d } = PROPS.piano; const grp = new THREE.Group(); grp.position.set(x, 0.001, z); grp.rotation.y = rad(yaw);
+  if (!shot.v4) { const { at: [x, z], yaw, w, d } = PROPS.piano; const grp = new THREE.Group(); grp.position.set(x, 0.001, z); grp.rotation.y = rad(yaw);
     grp.add(box(w, 0.0008, d, { grey: 0.98, col: 0xf0ece0, recvShadowLine: false }, [0, 0.0004, 0]));
     const n = 14, kw = w / n; for (let k = 1; k < n; k++) grp.add(box(0.0015, 0.0011, d * 0.96, { grey: 0.15, col: 0x222222 }, [-w / 2 + k * kw, 0.0006, 0]));
     const blk = [0, 1, 3, 4, 5, 7, 8, 10, 11, 12]; for (const k of blk) grp.add(box(kw * 0.6, 0.0012, d * 0.58, { grey: 0.08, col: 0x111111 }, [-w / 2 + (k + 1) * kw, 0.0007, -d * 0.21]));
@@ -270,6 +273,7 @@ function buildV3(shot, { makeCam }) {
   const extra = (t, figs, book) => {
     if (t === 'neon') return neonP.clone();
     if (t.startsWith('hook:')) return hookPoint(+t.slice(5));
+    if (t.startsWith('fallen:')) { const [px, pz] = fallenWorld(+t.slice(7)); return V(px, 0.05, pz); }   // v4: a fallen textbook
     if (t.startsWith('card:')) { const [, i, part] = t.split(':'); const c = cards[+i]; if (!c) return V(2.4, 0.5, -1.5); return (part === 'centre' ? c.centre : c.base).clone(); }
     if (t.startsWith('ray:')) { const parts = t.split(':'); const d = Number(parts.pop()); const name = parts.slice(1).join(':');
       let p; try { p = namedPoint(name, figs, book); } catch (e) { return null; }
@@ -280,14 +284,16 @@ function buildV3(shot, { makeCam }) {
       return p.addScaledVector(dir, hgt / Math.max(dir.dot(book.n), 0.05)); }
     return null;
   };
-  let { figs, book } = stage(shot.figs, shot.book, extra);
+  const SO = shot.v4 ? { builder: buildBody } : {};
+  let { figs, book } = stage(shot.figs, shot.book, extra, SO);
   const mkCards = () => (shot.cards || []).map((c) => cardOverPage(c, book, neonP));
-  if (book && book.pages) { src = neonSource(S, book.at); neonP = src.pos; cards = mkCards(); ({ figs, book } = stage(shot.figs, shot.book, extra)); src = neonSource(S, book.at); neonP = src.pos; cards = mkCards(); ({ figs, book } = stage(shot.figs, shot.book, extra)); }
+  if (book && book.pages) { src = neonSource(S, book.at); neonP = src.pos; cards = mkCards(); ({ figs, book } = stage(shot.figs, shot.book, extra, SO)); src = neonSource(S, book.at); neonP = src.pos; cards = mkCards(); ({ figs, book } = stage(shot.figs, shot.book, extra, SO)); }
   if (shot.hide) root.traverse((o) => { if (o.isMesh && shot.hide.includes(o.userData.label)) o.visible = false; });
   for (const f of Object.values(figs)) root.add(f);
   if (book) root.add(book.group);
   for (const c of cards) root.add(c.mesh);
-  for (const b of shot.blankets || [{ who: 'mama', mode: 'folded' }, { who: 'littleJade', mode: 'aside' }]) { const m = blanket(b, figs); if (m) root.add(m); }
+  if (shot.v4) for (const q of shot.quilts || [{ who: 'mama', mode: 'folded' }, { who: 'littleJade', mode: 'aside' }]) root.add(quilt4(q, figs).group);
+  else for (const b of shot.blankets || [{ who: 'mama', mode: 'folded' }, { who: 'littleJade', mode: 'aside' }]) { const m = blanket(b, figs); if (m) root.add(m); }
   if (shot.push) { const from = { ...shot.push.fromShot }; Object.assign(from, solveCamera(from, figs, book, aim)); const pe = pushEnd(from.pos, book, shot.lens, shot.push.fill); shot.pos = pe.pos; shot.target = pe.target; shot.pushInfo = { start_position: from.pos, start_target: from.target, start_distance_to_gutter_m: +pe.startDist.toFixed(3), end_distance_to_gutter_m: +pe.dist.toFixed(3), swing_onto_page_normal_deg: +pe.swing.toFixed(1) }; }
   else Object.assign(shot, solveCamera(shot, figs, book, aim));
   if (shot.push) shot.roll = levelRoll(shot.pos, shot.target, book, 1); else if (shot.levelBook && book) shot.roll = levelRoll(shot.pos, shot.target, book, shot.levelBook);

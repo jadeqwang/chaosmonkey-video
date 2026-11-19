@@ -6,6 +6,7 @@ import { mk, box, cyl, ball, quad, slab, tag, V, rad, UP, basisQ } from '../../e
 import { stage, solveCamera, hideParts, namedPoint } from '../../engine/stage.js';
 import { aim } from '../../engine/aim.js';
 import { CAR, ROAD, lampsAt, LIGHTS } from './layout.js';
+import { buildBody } from '../../engine/body.js';
 
 const TRIM = { grey: 0.45, col: 0x3a3a42 }, SEAT = { grey: 0.32, col: 0x2a2a30 }, HEADLINER = { grey: 0.7, col: 0x8a8890 }, DASH = { grey: 0.25, col: 0x202024 };
 
@@ -108,7 +109,7 @@ export function build(shot, { makeCam }) {
   const scene = new THREE.Scene(); const root = new THREE.Group(); scene.add(root);
   const t = shot.street?.t ?? 0;
   const { g: cab, panes } = cabin(shot); root.add(cab); root.add(outside(t));
-  const { figs, book } = stage(shot.figs, null, () => null);
+  const { figs, book } = stage(shot.figs, null, () => null, shot.v4 ? { builder: buildBody } : {});
   for (const f of Object.values(figs)) root.add(f);
   hideParts(shot.hideParts, figs);
   // camera: 'mirror' search finds where a camera must stand to see both faces in the rear-view mirror

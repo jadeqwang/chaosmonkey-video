@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/hgs_ledge_near_2.png",
+ "w": 3072,
+ "h": 1728,
+ "aspect": 1.7777777777777777,
+ "paper_rgb": [
+  238.0,
+  227.0,
+  209.0
+ ],
+ "bbox_px": [
+  377,
+  30,
+  3026,
+  1727
+ ]
+}

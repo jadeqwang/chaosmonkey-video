@@ -158,7 +158,7 @@ class RingStain:
             return None
         import cv2
         m = self.maps[min(i, len(self.maps) - 1)].astype(np.float32) / 255 * self.keep
-        return cv2.GaussianBlur(m, (0, 0), 5.0)
+        return cv2.GaussianBlur(m, (0, 0), getattr(self, 'soft', 5.0))
 
     def lay(self, f, src, sc, pos, cl):
         from tools.ink import ink_T

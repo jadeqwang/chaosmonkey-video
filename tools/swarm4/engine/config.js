@@ -1,0 +1,43 @@
+// Engine defaults. A candidate JSON overrides any of these (deep merge; arrays replace).
+export const DEFAULTS = {
+  name: 'A', frames: 176, fps: 24, t0: 112.75, aspect: 16 / 9,
+  beats: [1.5, 12.0, 22.5, 33.2, 43.6, 54.0, 64.7, 75.2, 85.7, 95.7, 106.8, 117.1, 127.6, 138.0, 148.5, 159.0, 169.5],
+  terrain: {},
+  look: {
+    light_dir: [-0.45, 0.62, 0.65], moon_col: '#b9c6d8', moon_i: 1.45,
+    amb_top: '#404e6a', amb_low: '#1e2232',
+    azurite: '#3c6f88', malachite: '#4b8a68', ochre: "#8e6842", ochre_dark: "#3b2f27",
+    ink: '#0d0e12', gold: '#e8b860', lantern_col: '#ffb060',
+    lantern_ground: 2.2, ink_weight: 1.3, gold_strength: 0.9, cun: 1.0, green: 1.0,
+    valley_y: 20, peak_y: 680,
+    haze_col: '#4f5a7a', haze_dist: 3000, haze_max: 0.88,
+    mist_col: '#7a8294', mist_y: 40, mist_h: 120, mist_amt: 0.85,
+    sky_zenith: '#070a1e', sky_horizon: '#4f5a7a', moon_dir: [0.35, 0.42, -0.84], moon_disc: '#e9e4cc', moon_halo: 0.8,
+  },
+  range_light: [[0, 1], [86, 1], [126, 0.12], [176, 0.1]],     // [s, factor]: the range darkens as the branches seal
+  outline: [[0, 0], [100, 0], [130, 1], [176, 1]],
+  post: { bloom: 0.9, bloom_radius: 0.55, bloom_threshold: 1.0, exposure: 1.15, paper_grain: 0.07, vignette: 0.42,
+    paper_tint: '#f0e6d2', saturation: 0.92, lift: '#0c0d12', ink_bleed: 0.35, grain_seed: 3 },
+  mist: {
+    on: true, video: null,
+    color: '#7f8796', lit: 0.35,
+    layers: [
+      { y: 8, size: 80000, density: 0.8, scale: 0.0011, speed: [0.4, 0.1], soft: 40, fade: [30000, 40000], thr: -0.25 },
+      { y: 45, size: 11000, density: 0.6, scale: 0.0017, speed: [0.6, 0.15], soft: 50, thr: -0.05 },
+      { y: 95, size: 11000, density: 0.45, scale: 0.0023, speed: [0.9, -0.2], soft: 45, thr: 0.05 },
+      { y: 150, size: 11000, density: 0.22, scale: 0.002, speed: [-0.5, 0.4], soft: 40, thr: 0.15 },
+    ],
+  },
+  pines: { count: 7000, size: [3, 7.5], min_up: 0.85, min_y: 150, seed: 5 },
+  silhouette: { image: null, center: [0.5, 0.5], height: 0.9 },
+  tree: { counts: [1, 8, 64, 512, 2048], jobs: ['读', '写', '算', '运', '战', '扫', '望', '磨'], other_job_frac: 0.2, seed: 11,
+    edge_frac: 0.62, min_sep: 2.5, flat_min: 0.55, flat_search: 5, parent_search_frac: 0.6,
+    parent_pull: [0, 0.55, 0.25, 0, 0], parent_below: [0, 45, 12, 4, 0], parent_min_dist: [0, 70, 25, 8, 0], parent_search: [0, 1.1, 0.8, 0.6, 0.6] },
+  spawn: { root_hair: { from: [-7, 1.2, -1], s0: 0, land: 4.5 }, root_appear: 5, blow: [12.0, 22.5, 33.2, 43.6],
+    flight: [6, 6, 7, 8], stagger: [1, 2.5, 3, 3], pluck_lead: 4, blow_hold: 4, arc: 0.22 },
+  work: { beats: [33.2, 43.6, 54.0, 64.7, 75.2], offsets: [0, 2, 4, 6, 8], until: 85.7 },
+  seal: { beats: [85.7, 95.7, 106.8, 117.1], branches: [[0, 4], [1, 5], [2, 6], [3, 7]], hop: 3, jitter: 0.8,
+    vortex: [22, 19, 15, 10], vortex_jitter: 0.25, hairs_per_monkey: 2, hair_trail: 1.6 },
+  second: { land: 131, dist: 2.6, az: 0, seal_left: 153.9, seal_right: 169.5 },
+  root: { sit: 90, height: 1.5 },
+};

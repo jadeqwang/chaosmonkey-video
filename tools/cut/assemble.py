@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw
 from common import ROOT, FPS, FFMPEG, FONT, SONG, run, probe, tc, wrap, font, safe_name
 import numpy as np
 import lyrics as lyric_layer
+import roomcal
 
 
 def resolve_source(shot, picks):
@@ -76,7 +77,7 @@ def burn_in(shot, args, width, height, short, kind):
         layer = label('SHORT', short_font)
         fixed.append((layer, (width-layer.width-20, 20)))
     if args.profile == 'animatic' or (args.profile == 'preview' and not args.clean):
-        fixed.append((label(shot['id'], id_font), (20, 18)))
+        fixed.append((label(getattr(args, 'labels', {}).get(shot['id']) or shot['id'], id_font), (20, 18)))
     lyrics = []
     if args.profile == 'animatic':
         for line in shot['lyrics']:
@@ -169,15 +170,20 @@ def measure_frames(decode_cmd, width, height, count, fn):
             raise
 
 
-def render(shot, source, args, work, width, height, crf, short, layer=None, state_in=None):
-    """Returns (path, lyric state out). With a lyric layer, the shot's lyrics are composited after the picture."""
+def render(shot, source, args, work, width, height, crf, short, layer=None, state_in=None, cal=None):
+    """Returns (path, lyric state out). With a lyric layer, the shot's lyrics are composited after the picture.
+    With cal (tools/cut/roomcal.py), the Chinese calligraphy is laid on the picture first (it belongs to the picture:
+    both the lyric and the clean cut carry it), then the lyric layer, then the burn-ins."""
     kind, path, start, rate = source
     plan = layer.plan(shot) if layer is not None else None
+    cplan = cal.plan(shot) if cal is not None else None
     params = {'shot': shot, 'source': str(path), 'mtime': path.stat().st_mtime_ns if path else None,
               'size': path.stat().st_size if path else None, 'start': start, 'rate': rate,
               'profile': args.profile, 'clean': args.clean, 'short': short,
               'font': FONT.stat().st_mtime_ns,
               'lyrics': (lyric_layer.code_hash(), layer.signature(plan, state_in)) if layer is not None else None,
+              'calligraphy': (roomcal.code_hash(), cal.signature(cplan)) if cplan is not None else None,
+              'label': getattr(args, 'labels', {}).get(shot['id']),
               'code': hashlib.sha256(Path(__file__).read_bytes() + (ROOT/'tools/cut/common.py').read_bytes()).hexdigest()}
     key = hashlib.sha256(json.dumps(params, sort_keys=True).encode()).hexdigest()[:20]
     directory = work / f"{shot['id']}_{key}"
@@ -222,14 +228,21 @@ def render(shot, source, args, work, width, height, crf, short, layer=None, stat
                   '-color_trc', 'bt709', '-colorspace', 'bt709', temp]
     paint = burn_in(shot, args, width, height, short, kind)
     state_out, look = state_in, None
+    if cplan is not None:
+        cpaint = cal.painter(cplan)
+        burn0 = paint
+        paint = lambda im, i: burn0(cpaint(im, i), i)
     if plan is not None:
         stats = []
         measure_frames(cmd, width, height, n, lambda rgb, i: stats.append(layer.measure(plan, rgb, i)))
         look = layer.decide(plan, stats, state_in)
         state_out = look['ground']
         lyr = layer.painter(plan, look)
-        burn = paint
-        paint = lambda im, i: burn(lyr(im, i), i)          # the lyric goes on the laid shot; burn-ins on top
+        burn = burn_in(shot, args, width, height, short, kind)
+        if cplan is not None:                           # picture -> calligraphy -> lyric -> burn-ins
+            paint = lambda im, i: burn(lyr(cpaint(im, i), i), i)
+        else:
+            paint = lambda im, i: burn(lyr(im, i), i)      # the lyric goes on the laid shot; burn-ins on top
     encode_frames(cmd, encode_cmd, paint, width, height, n)
     stream = next(s for s in probe(temp, True)['streams'] if s['codec_type'] == 'video')
     if int(stream['nb_read_frames']) != n:
@@ -290,11 +303,18 @@ def main():
                         help="black: after the film's last shot, hold black to the end of the audio (ending B: the last "
                              "note rings over black). The tail is listed in the manifest as END; shot frame counts "
                              "in docs/shots.json are unchanged.")
+    parser.add_argument('--picks', type=Path, default=ROOT/'docs/picks.json',
+                        help='picks file (v4: docs/picks_v4.json, written by splice.py)')
+    parser.add_argument('--calligraphy', choices=['on', 'off'],
+                        help='the Chinese calligraphy overlay (tools/cut/roomcal.py, REVISION_V4 §1.3); default on for '
+                             'preview/master, off for animatic. Part of the picture: on in both the lyric and the clean cut.')
     parser.add_argument('--lyrics', choices=['on', 'off'],
                         help='the film lyric layer (tools/cut/lyrics.py); default on for preview/master, off for animatic')
     args = parser.parse_args()
     if args.lyrics is None:
         args.lyrics = 'off' if args.profile == 'animatic' else 'on'
+    if args.calligraphy is None:
+        args.calligraphy = 'off' if args.profile == 'animatic' else 'on'
     data = json.loads((ROOT/'docs/shots.json').read_text())
     shots = all_shots = data['shots']
     ids = [s['id'] for s in shots]
@@ -316,8 +336,9 @@ def main():
     audio_info = probe(args.audio)
     if float(audio_info['format']['duration']) + 1/FPS < max(s['out'] for s in shots):
         raise ValueError('Audio is too short for selected song-clock range')
-    picks_path = ROOT/'docs/picks.json'
+    picks_path = args.picks if args.picks.is_absolute() else ROOT/args.picks
     picks = json.loads(picks_path.read_text()) if picks_path.exists() else {}
+    args.labels = {k: v['label'] for k, v in picks.items() if v.get('label')}   # burn-in id (G6's slot shows G5)
     sources = [resolve_source(s, picks) for s in shots]
     shorts = []
     for shot, (kind, path, start, rate) in zip(shots, sources):
@@ -341,9 +362,12 @@ def main():
     manifest = []
     frame = 0
     layer = lyric_layer.LyricLayer(all_shots, width, height) if args.lyrics == 'on' else None
+    cal = roomcal.RoomCal(all_shots, width, height) if args.calligraphy == 'on' else None
+    if cal is not None and cal.problems:
+        raise ValueError('calligraphy table: ' + '; '.join(cal.problems))
     state = None
     for shot, source, short in zip(shots, sources, shorts):
-        out, state = render(shot, source, args, work, width, height, crf, short, layer, state)
+        out, state = render(shot, source, args, work, width, height, crf, short, layer, state, cal)
         renders.append(out)
         manifest.append({**shot, 'cut_in_frame': frame, 'source_kind': source[0], 'short': short})
         frame += shot['frames']
@@ -391,7 +415,8 @@ def main():
         raise RuntimeError('Final verification failed: video format/tags')
     temp.replace(destination)
     (work/'manifest.json').write_text(json.dumps({'name':args.name, 'profile':args.profile,'fps':FPS,'frames':frame,
-                                                'lyrics':args.lyrics,
+                                                'lyrics':args.lyrics, 'calligraphy':args.calligraphy,
+                                                'picks':str(picks_path),
                                                 'shots':manifest},ensure_ascii=False,indent=2)+'\n')
     print(f'Verified {destination}: {frame} frames, video {video["duration"]}s, audio {audio["duration"]}s')
 

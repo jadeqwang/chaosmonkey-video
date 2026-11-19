@@ -1,10 +1,11 @@
-"""A3 9.708-12.583 (69 f). ATTIC v3. She hears the stairs: from behind little Jade (pushing herself up, head to the
+"""A3 9.708-12.583 (69 f). ATTIC v4 (A3a re-made from the v4 set: tired Mama wipes her hands in the lit door, hook rail empty, window not in
+frame; A3b = the v3 segments kept EXACTLY, apron 11.68-12.04, hook 12.220, towel 12.400). Earlier v3 note: She hears the stairs: from behind little Jade (pushing herself up, head to the
 door) across the dark attic, Mama comes up into the warm stair door, tired, wiping her hands on her apron (A3a, to
 11.25). Then at the hook rail (A3b): she lifts the apron off over her head (11.68-12.04), hangs it on the first hook
 (12.220), drapes the towel on the second (12.400), and turns, softening, as she sees the child awake.
 Kling v4: A3a single; A3b first+last (A3b -> A3b_end). 'RARE EARTH' is typeset under the pale-blue circle on the back
 of little Jade's jacket in A3a (tracked to the circle; REVISION_V3 §12)."""
-from shots._attic3 import *
+from shots._attic4 import *
 from shots._attic3 import SANS_NARROW, _glyph_mask
 
 T0, TC, T1 = 233 / 24, 270 / 24, 302 / 24
@@ -49,8 +50,8 @@ def rare_earth(f, t, i, sg):
     return f
 
 
-S = AtticShot([Seg(T0, TC, 'A3a', key='A3a', window=(1690, 325, 1855, 629), wedge=(0.50, 0.74), floor=0.6,
-                   keep=[(735, 290, 150, 300), (1040, 760, 380, 320)], cam=[(T0, 960, 540, 1.0), (TC, 940, 520, 1.05)]),
+S = AtticShot([Seg4(T0, TC, 'A3a', key='A3a', tmap=[[T0, 0.0], [TC, TC - T0]], floor=0.6,
+                    keep=[(780, 150, 190, 380), (800, 430, 450, 650)], cam=[(T0, 960, 540, 1.0), (TC, 940, 520, 1.05)]),
                Seg(TC, T1, 'A3b', key='A3b', window=(1669, 554, 1892, 857), guide='v3_D9_a', floor=0.62,
                    keep=[(760, 360, 360, 420), (1150, 500, 300, 420)], cam=[(TC, 900, 540, 1.06), (T1, 880, 520, 1.12)])],
               pre=rare_earth)

@@ -25,7 +25,7 @@ export const CAST = {
   jade: { name: 'Jade', h: 1.65, kind: 'adult', skin: 0xe3b692, hair: 0x0e0d0f, top: 0xf1efe8, band: 0xe8792c, legs: 0x2c3140, hairStyle: 'long', sleeves: 'long' },
   daughter: { name: 'daughter', h: 1.02, kind: 'child4', skin: 0xe9c0a0, hair: 0x231a14, top: 0xf2a7b8, legs: 0xe9c0a0, hairStyle: 'pigtails', sleeves: 'short', dress: true },
 };
-const PROP = {
+export const PROP = {
   adult: { hip: 0.52, sh: 0.82, head: 0.135, shW: 0.112, hipW: 0.056, ua: 0.186, fa: 0.146, hand: 0.108, foot: 0.15, wk: 0.72, chestW: 0.19, chestD: 0.125 },
   child5: { hip: 0.46, sh: 0.785, head: 0.172, shW: 0.112, hipW: 0.052, ua: 0.172, fa: 0.138, hand: 0.10, foot: 0.155, wk: 0.8, chestW: 0.19, chestD: 0.14 },
   child4: { hip: 0.45, sh: 0.78, head: 0.182, shW: 0.112, hipW: 0.052, ua: 0.17, fa: 0.136, hand: 0.10, foot: 0.155, wk: 0.8, chestW: 0.19, chestD: 0.145 },
@@ -49,6 +49,8 @@ export const HANDS = {
   monkeyHead: { mitt: [55, 70], idx: [-5, 0], spread: -6, thumb: [[0.05, 0.45, 0.89], [0.0, 0.2, 0.98]] },
   // the second hand: a raised paw / arm under the jaw
   monkeyPaw: { mitt: [20, 30], idx: [10, 20], spread: 14, thumb: [[0.7, 0.7, 0.1], [0.75, 0.65, 0.1]] },
+  // v4: index + middle extended together (sword-hand 剑指, the rapper's counting hand), ring + little curled, thumb over them
+  two: { mitt: [95, 95], mid: [0, 2], idx: [0, 2], spread: 2, thumb: [[0.1, 0.6, 0.78], [-0.5, 0.35, 0.75]] },
   thumbsUp: { mitt: [100, 100], idx: [100, 100], spread: 0, thumb: [[0.1, 0.99, 0.0], [0.05, 1, 0.0]] },
 };
 

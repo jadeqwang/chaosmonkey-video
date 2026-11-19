@@ -1,46 +1,37 @@
-"""L3 (second part) song frames 5686-5719 (34 f), after L2b (5660-5685). ATTIC v3, round 2. Continuous with L2b: the
-same night, the camera pulled back and up (keyframe media/kf/v3/L2w.jpg, the L2b painting extended outward): Mama still
-kneeling beside her, a hand on the quilt, breathing; the scattered books; the blade sign's wedge in the window. At
-237.840 (f5709) the neon goes off hard: the red light leaves the room (computed from the lit frame: red pool removed,
-the glass a cold grey for two frames), then the room sinks to night black. Kling v4 on L2w (pick key L2w)."""
-from shots._attic3 import *
-from shots._attic3 import finish, paper_tex, camera_move
-
-CAM = [(5686 / 24, 1130, 700, 1.6), (5720 / 24, 1120, 690, 1.5)]      # the wide is very wide: sit closer, easing back
+"""L3 song frames 5686-5719 (34 f), after L2b. ATTIC v4. The A1 wide camera: both asleep (Mama on her mat under the beige quilt, little
+Jade beside her), the nine fallen books on the boards at the lower right. Neon off on frame 5709 (237.840): hard cut to the painted
+L3_off (window cold blue-grey, no red anywhere), two frames of bare cold glass, then the room sinks. CUT does the 3 s ring-out
+over black. Kling take of breathing sleep (pick key L3) until the neon goes off; a still is acceptable."""
+from shots._attic4 import *
+from shots._attic3 import finish, paper_tex
 
 T0, T1 = 5686 / 24, 5720 / 24
-WINDOW = (1455, 425, 1600, 580)
+WINDOW = (1313, 213, 1646, 523)
 T_OFF = 237.840
-SG = Seg(T0, T1, 'L2w', key='L2w', window=WINDOW, wedge=(0.50, 0.78), floor=0.62,
-         keep=[(1270, 620, 320, 240)], tmap=[[T0, 0.4], [T1, 0.4 + 34 / 24]])
+SG = Seg4(T0, T1, 'L3', key='L3', tmap=[[T0, 0.0], [T1, T1 - T0]], window=WINDOW, wedge=(0.57, 0.75), floor=0.62,
+          keep=[(900, 470, 520, 300)])
 
 
 def setup(ctx):
-    global TEX, F_OFF
+    global TEX, F_OFF, OFFKF, GOFF
     SG.setup(ctx)
     TEX = paper_tex(ctx.W, ctx.H)
     F_OFF = math.ceil(T_OFF * 24 - 1e-6)
-
-
-def unlit(f, s):
-    """The same frame with the neon gone: the red excess is taken out, what is left is a dim cold-warm night."""
-    l = (f[..., 0] * 0.25 + f[..., 1] * 0.6 + f[..., 2] * 0.15)[..., None]
-    red = np.clip(f[..., :1] - np.maximum(f[..., 1:2], f[..., 2:3]), 0, 1)
-    g = np.minimum(f, l * np.array([0.95, 1.0, 1.08], F32)) * (1 - 0.75 * np.clip(red * 3.0, 0, 1))
-    return (g * 0.42).astype(F32)
+    OFFKF = kf4('L3_off', ctx.W, ctx.H)
+    GOFF = grade_field(OFFKF, floor=0.62)
 
 
 def render(t, ctx):
     k = round(t * 24)
-    f, i = SG.frame(t)
     if k < F_OFF:
+        f, i = SG.frame(t)
         hum = 1.0 - 0.04 * (0.5 + 0.5 * math.sin(2 * math.pi * 50 / 6.0 * t))        # a faint mains flutter
         f = SG.blade.apply(f, t, on=hum)
-        return camera_move(finish(f, SG.G, TEX), t, CAM)
+        return finish(f, SG.G, TEX)
     d = k - F_OFF
+    g = OFFKF.copy()
     x0, y0, x1, y1 = [int(v * ctx.s) for v in WINDOW]
-    g = unlit(f, ctx.s)
     if d < 2:                                                    # the bare glass, cold grey, for two frames
-        g[y0:y1, x0:x1] = np.maximum(g[y0:y1, x0:x1], f[y0:y1, x0:x1].mean(axis=2, keepdims=True) * np.array([0.42, 0.46, 0.52], F32))
-    g = finish(g, SG.G, TEX)
-    return camera_move(g * (1.0 if d < 2 else max(0.25, 1.0 - 0.12 * (d - 1))), t, CAM)
+        g[y0:y1, x0:x1] = np.maximum(g[y0:y1, x0:x1], g[y0:y1, x0:x1].mean(axis=2, keepdims=True) * np.array([1.6, 1.8, 2.2], F32))
+    g = finish(g, GOFF, TEX)
+    return g * (1.0 if d < 2 else max(0.3, 1.0 - 0.07 * (d - 1)))

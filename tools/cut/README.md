@@ -43,3 +43,14 @@ frames and is listed in the manifest as `END`, so the frame counts in `docs/shot
 the rap's English is the director's (REVISION_V3 section 7); `PARTS` and `OVERRIDES` were re-set for the v3 pictures
 and their painted inscriptions. `work/cut/verify_v3.py` writes `work/cut/preview_v3/verify.txt` and `sources.txt`
 (every source file with its mtime).
+
+**preview_v4.** `work/cut/build_v4.sh [name]` (default `preview_v4`; `preview_v4_trial` = same build, not copied to
+`previews/`, no notes page). `splice.py` holds the v4 table (F4 single comp, F6 = F6a + mirror F6b, G5.mp4 spans the G5
+and G6 slots by an in-point) and writes `docs/picks_v4.json` / `media/comp/spliced_v4/` (v3's picks and splices are left
+alone); `assemble.py --picks`, `--calligraphy on|off`. **Calligraphy** (`roomcal.py`, REVISION_V4 §1.3): the Chinese of
+every sung line not already in a page inscription, laid on the picture at assembly in both cuts: text
+`design/text/lyrics_zh_v4.txt`, placement `design/text/roomcal_v4.tsv` (unit, line, key, region, side, halo, ground
+dark|paper, optional f0/f1). Look constants at the top of `roomcal.py` (26 px at 540p, warm paper-white, 6-frame fades,
+白文 seal). `roomcal.py --proof` draws every row on its frames; `--check` lists collisions with the English lyric layer.
+`lyrics.py` v4: `analysis/timing_v4.json`, the rap is set in English only (no Chinese row). `work/cut/verify_v4.py
+--name N` checks counts, CFR, audio vs `mix_v3.wav` (incl. the moved "Yes"), slates, duplicated frames at boundaries.

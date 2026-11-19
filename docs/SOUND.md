@@ -473,3 +473,121 @@ L2 blanket pull up 2026: pull 235.33-235.78, tuck 235.780 (just before the last 
 | ending B | length 241.920 s; layer peak after 237.94: -38.4 dBFS (the tick's room tail only); the song's own tails (last note 'line' and the D drone, same as v1 B) |
 
 <!-- AUTO_V2:END -->
+
+## v3 mix (preview_v4): G5 "Yes" one beat late
+
+Jade on preview_v3: *"...Yes" Can you edit the audio so that the "yes" falls a beat late?* Done by measurement; nobody on the
+project can listen, so everything below is a number or a plot.
+
+- **Old / new.** "Yes" 148.720-149.270 -> **149.152-149.702** (timing-file convention, alignment start). Word attack (first 10 ms
+  RMS within 6 dB of its peak): 148.874 -> **149.306**. Shift = one beat of the local grid, beats 148.865 -> 149.297 = **0.432 s =
+  20736 samples** (drums are out here; the grid is the fit between the measured beats 146.274 and 149.720, 138.9 BPM). The
+  attack sat 9 ms after beat 3 of bar 86 and now sits 9 ms after beat 4. One beat is the only musical option: a full bar or
+  half-bar runs into the bridge crash (149.720); one beat ends the word at 149.702 and the song's own cut of the word
+  (originally 149.285, into the near-silence) lands at 149.717, under the crash.
+- **What it does to the song.** The 0.24 s near-silence 149.285-149.525 is now filled by the word; the pause moves in front of
+  it: the song is < -50 dBFS 148.645-149.195 (0.55 s) between "less" and "Yes". The bridge's swell (from ~149.59) now runs
+  under the word's final "s".
+- **Method** (`tools/audio/yes_shift_v4.py`). The BS-RoFormer split in `work/stems/` (local, `tools/audio/stems.py`; the
+  supplied Suno stems belong to another render, see AUDIO_MAP) is complementary: song = vocals + instrumental to -172 dB.
+  Edit: `song - w*V + shift(w*V)`, V the vocal stem, w = 1 over 148.69-149.40 with raised-cosine ramps 148.62-148.69 (vocal
+  stem <= -58 dBFS, between "less" and the word) and 149.40-149.50 (<= -95 dBFS). Additive, smooth window, integer-sample
+  shift: no splice point and no resampling, so nothing to click; the change starts and ends at exactly 0.
+  Output `inputs/Chaos Monkey - reformatted for duet - v4 yes late.wav` (PCM_16 like the original, which is untouched) and
+  `work/stems/vocals_v4.wav` (vocal stem with the word moved, for the builder's vocal rules).
+- **Checks** (`tools/audio/yes_verify_v4.py` -> `work/sound_v4/verify.json`): 0 changed samples outside 148.626-149.879
+  (subtraction of the 16-bit files); edited = instrumental stem + moved vocal to -104 dB (16-bit rounding). Ghost at the old
+  place: the residue there is the instrumental stem, which sits *under* the backing of the neighbouring word-free gaps in every
+  band (vowel band 500-1100 Hz: -64 dBFS vs -55/-57; 5-9 kHz: -103/-110 vs -92/-98), against the word's -33 dBFS; spectral-shape
+  similarity residue vs word at lag 0 = 0.17 vs median 0.16 at +-50-300 ms lags (the same test with the word planted 30 / 40 dB
+  down reads 0.80 / 0.56, so a ghost 40 dB under the word would have shown). No new HF transients (2 ms frames > 12 dB over
+  their neighbourhood: 0, same as the original). Side effect: the backing is thinner where the word was (instrumental stem
+  -60..-77 dBFS in the speech band against ~-55 around it): the separator assigned some of the riser residue to the word, so
+  the pause is a touch darker than the backing around it. In the mix the v2 attic room bed covers it (400 ms: about -49 LUFS
+  in the pause).
+- **mix_v3** (`build_v2.py --tag v3 --reuse-layer media/sound/layer_v2.wav` with CM_SONG / CM_VOCALS / CM_TIMING set, see the
+  builder's docstring): mix_v3 = mix_v2 + (edited song - song), ending B re-made from the edited song; the v2 layer is
+  unchanged (it is a smooth -50..-63 dBFS room bed there, cut to 0 at 149.285, no duck at the old word). mix_v3 is
+  bit-identical to mix_v2 outside 148.626-149.879, and equals edited song + layer_v2 exactly inside. Integrated loudness
+  -15.84 LUFS (mix_v2 -15.84), true peak -1.37 dBTP (mix_v2 -1.37), ffmpeg ebur128 -15.8 LUFS / LRA 7.5 / -1.4 dBTP for both;
+  no peak guard needed; `work/sound/qa_v3.json`.
+- **Timing**: `analysis/timing_v4.json` (`tools/audio/timing_v4.py`): the word, its line, sections `silence` (now 148.55-149.152,
+  the pause) and `yes` (149.152-149.72), silences, the removed 149.295 chop and the sync points; every changed entry has a
+  `v4` field. Beats, hits and all other words are copied.
+- **Review** (`tools/audio/yes_review_v4.py`): `work/review/sound_v4/` excerpts 144.2-154.2 s before/after (mix and song alone),
+  `yes_AB_mix_v2_then_mix_v3.wav`, `spectrogram_before_after.png` (song, edit difference, vocal), `spectrogram_mix_v2_vs_mix_v3.png`
+  (with momentary loudness), `envelope_vocal_band.png`.
+
+### Adding / re-timing cues for mix_v3 (task 2)
+1. `cp docs/sound_cues.json docs/sound_cues_v3.json`; edit times / add cues there (same schema as v2: `events[].at` or
+   `start`/`end` anchors `t:`, `beat:`, `hit:`, `word:<line>:<word>`, `shot:`...; `new: true` and `picture_dependent: true` for
+   picture cues). Anchors resolve against `analysis/timing_v4.json`, where the silence `149.285` no longer exists: in the v3 sheet
+   change the `end` of `room_yes` and `neon_hum_yes` from `silence:149.285:start` to `t:149.285` (or end them before the moved word).
+   `ZERO_SPANS` in build_layer.py still keeps 149.285-149.525 at zero, which is now under the word: fine (nothing should sit there).
+2. `CM_SONG="inputs/Chaos Monkey - reformatted for duet - v4 yes late.wav" CM_VOCALS=work/stems/vocals_v4.wav
+   CM_TIMING=analysis/timing_v4.json CM_CUES=docs/sound_cues_v3.json $PY tools/audio/sfx/build_v2.py --tag v3`
+   -> `media/sound/mix_v3.wav`, `layer_v3.wav`, `work/sound/qa_v3.json`, `work/sound/SOUND_v3_auto.md` (the v2 block here is never
+   overwritten). This re-fits every cue against the edited song and the moved vocal.
+
+
+## v3b mix (preview_v4 picture): cues re-timed and new-action cues
+
+Built 2026-11-18 by `tools/audio/sfx/build_v2.py --tag v3b` (edited song with the moved 'Yes', `work/stems/vocals_v4.wav`,
+`analysis/timing_v4.json`, cue sheet `docs/sound_cues_v3.json` made by `tools/audio/sfx/cues_v3.py` from the approved v2 sheet).
+Output `media/sound/mix_v3b.wav` + `layer_v3b.wav` (mix_v3.wav and layer_v2.wav kept); QA `work/sound/qa_v3b.json`, generated
+per-cue block `work/sound/SOUND_v3b_auto.md`, checks `work/sound/verify_v3b.json` (`tools/audio/sfx/verify_v3b.py`).
+Same rules as v2 (song untouched, layer >= 6 dB under the vocal stem in every word frame, peak guard on the layer only). New
+sources are synthesised locally in `tools/audio/sfx/sounds.py` ($0, nothing sent anywhere): gale, ember, arc, depth_pop, draught,
+dolly_air, brush_rev. Cue list from `docs/logs/LOG_v4_cut.md` "CUES FOR SOUND" + the lead's updates.
+
+Nobody can listen. Measured:
+- **Song bit-identical under the layer**: mix_v3b - layer_v3b, rounded to 16 bit, equals the edited song in all 11035200 samples per channel
+  of 0-229.90 s (0 mismatches; max float error 0.0); after 229.90 it is ending B as approved in v2, and
+  (mix - layer) is identical between mix_v3b and mix_v3 (max diff 0.0).
+- **Loudness / true peak**: mix_v3 -15.84 LUFS / -1.37 dBTP -> **mix_v3b -15.83 LUFS / -1.37 dBTP** (ffmpeg ebur128 both
+  -15.8 LUFS, LRA 7.5, -1.4 dBTP); clipped samples 0.
+- **Layer level as approved**: layer v2 -30.36 LUFS -> v3b -30.51 LUFS; layer under the song (400 ms, median where the layer
+  sounds) 17.3 dB (v2) -> 17.2 dB; vocal rule min margin 6.1 dB (rule 6).
+- **Unchanged cues stay unchanged**: outside the windows of the changed cues (159.5 s of layer) layer_v3b - layer_v2 is -125.8 dB
+  rel. the layer (99.43 % of samples bit-identical, max diff 2.4e-07); 45 cues have identical times and peaks;
+  three moved <= 1 dB in peak through the summed-layer rules next to re-timed/new neighbours: margin_notches -15.7 -> -16.2, c5_hair_lift -23.4 -> -22.4, c5_scrunch -23.5 -> -23.6 dBFS.
+- *audible (model)* = v2's rule (band margin median <= 12 dB or p10 <= 6 dB); 'weak' ones sit under loud song (rap, drop 2) or were
+  meant faint (E3 cloth, K4 draught). A model, not ears.
+- Not changed on purpose: seal_d1 59.126 (D1 completes 59.559, but the echo 'born' starts 59.60 and would bury a seal there); land_d6
+  75.025 is the D-flight landing (the bloom is light; the feet carry it); J4 gong (seal_echoes 198.74) kept; F1 none; F6b: no v2 cue was
+  a hair catch (nothing to remove). Not cued (no physical sound or PROV): B1 turn, C2 hands, E1 nose tap, E4 beckon, G4 book (PROV, under
+  'Then 听话'), J5 collapse (PROV; flips_j5 already on its start). PROV shots to re-check when final: B3, D4-D6 (WORLD r2 vs D-flight),
+  E3, H6, J2, J4, J5.
+
+### Cues changed in v3b (old -> new)
+
+| shot | cue | old time (s) | new time (s) | what | peak dBFS | under song (400 ms, median) | band margin med / p10 | audible (model) |
+|---|---|---|---|---|---|---|---|---|
+| C5 | breath | 52.55-54.45 | 53.10-54.55 | Mama's breath now leaves her lips at 53.22 (C5a); the breath rises 0.18 s so it is there on 53.22 and runs into the wind | -18.1 | 15.4 | 9.8 / 3.6 | yes |
+| C5 | sleeve_wind | 54.60-57.20 | 54.50-56.70 | the wind flow enters C5b at the left edge 54.505 and its ribbons cross the egg to ~56.4 (BOOK flow contract) | -17.5 | 14.2 | 12.0 / 8.4 | yes |
+| F4 | abacus_f4b | 114.567 115.002 115.445 115.882 | 113.247 113.688 114.133 + the same four | F4 lantern flares on the beat wave (= the old abacus clicks), three earlier beats added | -22.0 | 34.2 | 20.4 / 11.1 | weak |
+| H6 | hair_air | 172.90-177.10 (hair_air) | 172.76-174.40 (gale) | H6 round 3: the gale takes the girl's hair and a strand works loose in the first 36 f (172.76-174.25); the growth and the somersault get their own cues | -16.0 | 16.4 | 12.9 / 5.8 | yes |
+| K4 | ledger_pages | 218.75 219.80 220.23 | 218.22 219.40 220.30 220.92 | K4 no hand: a leaf lands 218.22 ('page'); leaf 2 lifts 219.40, hangs and falls back 220.30; goes over and lands 220.92 ('looked') | -18.0 | 27.8 | 6.6 / -13.6 | yes |
+| J1 | fingertip_j1 | 189.62 | 189.52 | J1: the fingertip dips at ~189.50-189.55; the character lights from 189.62 | -27.0 | 26.3 | 8.1 / -6.1 | yes |
+| K3 | brush_strike | 216.060 | 216.165 | K3: the bloom on 'single breath' is at ~216.2: nearest hit 216.165 | -21.5 | 17.0 | 2.0 / -7.8 | yes |
+| G5 | room_yes | 149.285 (silence anchor) | 149.285 (t:) | same end; the 'Yes' now starts 149.152, the bed is 40 dB under it | -19.3 | 10.7 | 7.5 / -5.3 | yes |
+| G5 | neon_hum_yes | 149.285 (silence anchor) | 149.285 (t:) | same end; the 'Yes' now starts 149.152, the bed is 40 dB under it | -23.6 | 15.1 | -1.0 / -29.4 | yes |
+| B3 | dolly_b3 | - | 26.145-29.29 | B3 3D dolly: page air + pines passing the lens | -15.0 | 15.4 | 12.7 / 5.8 | yes |
+| D4 | ember_d4 | - | 68.09 | D4 ember on 通 | -10.7 | 15.4 | 8.8 / -5.6 | yes |
+| D5 | arcs_d5 | - | 70.594 71.029 71.471 71.925 72.356 | D5 frontier light arcs on the beats | -19.9 | 15.0 | 6.7 / -2.5 | yes |
+| E3 | cloth_e3 | - | 96.00 | E3 small cloth move (no cast whoosh) | -24.3 | 23.7 | 17.1 / 9.4 | weak |
+| F2 | flips_f2 | - | 108.84 109.30 109.74 110.175 110.38 110.80 | F2 shadow-puppet re-poses | -13.9 | 23.6 | 15.2 / 8.1 | weak |
+| F4 | spawn_air_f4 | - | 112.76-114.30 | F4 spawn: hairs stream in (air) | -20.9 | 19.1 | 14.4 / 8.2 | weak |
+| F4 | spawn_puffs_f4 | - | 112.85 113.03 113.47 113.90 | F4 spawn: plucking/blowing puffs | -20.3 | 28.4 | 14.9 / 8.0 | weak |
+| F5 | gale_f5 | - | 117.70-118.40 | F5->F6a hair gale streams back | -20.0 | 18.6 | 9.4 / -3.2 | yes |
+| F6a | inkpuff_f6a | - | 117.958 118.125 | F6a twin ink puff | -17.4 | 13.7 | 10.0 / 5.3 | yes |
+| F6a | seals_f6a | - | 119.157 119.812 | F6a 真 seals (left, right) | -18.7 | 24.3 | 20.1 / 4.4 | yes |
+| G2 | ink_g2 | - | 130.175 133.690 | G2 听话 inks in | -22.7 | 12.6 | 4.9 / -0.2 | yes |
+| H5 | strokes_h5 | - | 169.25-172.75 | H5 strokes lift off and stream | -16.5 | 20.5 | 14.7 / 9.1 | weak |
+| H6 | grow_h6 | - | 174.400 174.824 175.160 175.595 | H6 monkey grows from the strand (3 strokes + scarf) | -18.9 | 16.4 | 12.7 / 6.4 | weak |
+| H6 | somersault_h6 | - | 176.334 | H6 somersault out left | -17.8 | 17.9 | 10.1 / -0.1 | yes |
+| J2 | pop_j2 | - | 190.885 | J2 pop into depth | -15.8 | 16.6 | 14.8 / 7.8 | weak |
+| K2b-K3 | strike_k3 | - | 213.40 213.807 | K2b stroke run + K3 wet strike | -18.9 | 13.0 | 9.8 / -1.6 | yes |
+| K4 | draught_k4 | - | 217.20-224.18 | K4 draught (page-turning air) | -26.0 | 25.7 | 18.9 / 6.1 | weak |
+| K4 | stir_k4 | - | 222.75 223.35 223.95 | K4 last leaf stirs | -18.0 | 16.3 | 8.2 / -15.1 | yes |
+| K5 | unwrite_k5 | - | 224.67 225.37 226.07 | K5 the line un-writes | -26.1 | 14.5 | 6.1 / -12.2 | yes |

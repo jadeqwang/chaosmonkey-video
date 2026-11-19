@@ -23,14 +23,15 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
 FPS = 24
-TIMING = ROOT / 'analysis/timing.json'
+TIMING = ROOT / 'analysis/timing_v4.json'      # v4: the song with the 'Yes' one beat late (REVISION_V4 §12); v3 used timing.json
 
 # ------------------------------------------------------------------------------------------------ what is shown
 # Never shown: the parenthetical echoes, "(ps ps ps)" (never subtitled: a rule of the film), and the two 一通百通 lines
 # (art inscriptions in the picture, D4/D5 and J5). Everything else in `lines` is shown, "Monkey!" and "Yes" included.
 HIDE_PARENTHESES = True
 HIDE_TEXTS = {'一通百通'}
-# The rap (107.04-121.47): the Chinese line with the director's English beneath it, smaller (REVISION_V3 section 7).
+# The rap (107.04-121.47): v3 set the Chinese line with the director's English beneath it. v4 (REVISION_V4 §1.3): the
+# Chinese row is gone (the room calligraphy, tools/cut/roomcal.py, carries the sung words); only the English is set.
 RAP_RANGE = (107.0, 121.47)
 RAP_ENGLISH = {
     '石头里蹦出来 没有童年': 'Burst out of a stone, no childhood',
@@ -54,7 +55,8 @@ LATIN_PX = 60                # EB Garamond 60 px at 1080p: x-height 24 px (12 px
 LATIN_WEIGHT = 500           # variable-font weight axis (400 regular .. 800); a touch heavier for 540p
 CJK_MATCH = 1.18             # CJK ideograph ink height = this x the Latin cap height (optical match)
 CJK_SPACE_EM = 0.45          # a space between two CJK characters, in CJK em
-RAP_EN_SCALE = 0.80          # the working English under a rap line, relative to LATIN_PX
+RAP_EN_SCALE = 1.00          # the rap's English, relative to LATIN_PX (v3: 0.80 under the Chinese row; v4 it is the row)
+RAP_CHINESE_ROW = False      # v4: no sans-serif Chinese row under/over the rap
 LEADING = 1.28               # baseline-to-baseline distance, in the row's px
 RAP_LEADING = 1.55           # from a rap line's last Chinese row to its English row, in the English row's px
 BASELINE_Y = 0.86            # baseline of the LAST row, fraction of frame height (lower third)
@@ -99,12 +101,15 @@ DEFAULT = dict(x=0.5, align='c', y=BASELINE_Y, scale=1.0, maxw=None, ground=None
 # Units: shots spliced from parts (tools/cut/splice.py) or cut internally are scheduled, placed and lit per part.
 # (id, first frame, world). A line never crosses a room <-> book/stage cut inside a shot either.
 PARTS = {
-    'B2': [('B2a', 535, 'attic88'), ('B2b', 588, 'attic88')],       # v3: lap two-shot, then over the shoulder onto the page
+    'B2': [('B2a', 535, 'attic88'), ('B2b', 591, 'attic88')],       # v4: lap two-shot to 24.6 s, then over the shoulder onto the page
     'C5': [('C5a', 1254, 'attic88'), ('C5b', 1311, 'book')],
     'D2': [('D2', 1466, 'stage'), ('D2d', 1531, 'attic88')],
     'F3': [('F3a', 2665, 'car26'), ('F3b', 2694, 'attic88')],
-    'F4': [('F4a', 2706, 'car26'), ('F4b', 2744, 'car26')],
-    'F6': [('F6a', 2832, 'car26'), ('F6b', 2882, 'car26')],
+    'F4': [('F4', 2706, 'book')],                                   # v4: SWARM's one shot (painted world), F4 = s0-82
+    'F5': [('F5', 2789, 'book')],                                   #     s83-125
+    'F6': [('F6a', 2832, 'book'), ('F6b', 2882, 'car26')],          #     s126-175, then the mirror shot (REVISION_V4 §12)
+    'G6': [('G5b', 3583, 'attic88')],
+    'E3': [('E3a', 2232, 'attic88'), ('E3b', 2304, 'attic88')],    # v4: synced face, then the wide held sword-hand pose (ATTIC)                               # v4: G5 runs through G6's slot (one 78-f shot, §12)
     'I2': [('I2', 4325, 'book')],                                   # v3: BOOK's page comp fills the slot
     'K1': [('K1a', 4889, 'bed26'), ('K1b', 4973, 'book')],          # v3: BOOK's K1 page from 207.208
     'I4': [('I4', 4488, 'bed26'), ('I4b', 4545, 'bed26')],           # v3: from 189.375 the page and fingertip (J1's view)
@@ -143,9 +148,10 @@ OVERRIDES = {
     'F2':  dict(align=L, x=0.025, y=0.90, maxw=0.38),           # (v2 comp) door panel, off the child and the puppet pane
     'F3a': dict(align=L, x=0.025, y=0.90, maxw=0.30),           # dark door and seat edge left, off the palm and the dress
     'F3b': dict(align=L, x=0.03, y=0.93, maxw=0.30),            # 12 f: dark floor lower left, off the palm and the faces
-    'F4b': dict(y=0.965, scale=0.9),                            # the bare band under the album leaf (leaf ends at y 0.81)
-    'F5':  dict(y=0.985, scale=0.8),                            # three rows (the English wraps): smaller and lower to clear the rule
-    'F6a': dict(y=0.985, scale=0.8),                            # the bare band under the leaf (ends at y 0.80)
+    'F4':  dict(x=0.62, y=0.95),                                # v4 swarm: right of the spawning monkey (f0), calligraphy is top right
+    'E4':  dict(align=L, x=0.04, y=0.93, maxw=0.30),           # v4: bare paper lower left, off the monkey and his tail
+    'F5':  dict(y=0.97, scale=0.85, maxw=0.72),                 # v4 swarm: one row along the bottom (no leaf any more)
+    'F6a': dict(y=0.975, scale=0.85, maxw=0.72),                # v4: one row under the 真 seal on the rock between the twins
     'F6b': dict(x=0.30, y=0.90),                                # dark door left, off the laughing child
     'G1':  dict(align=L, x=0.12, y=0.88, maxw=0.20),            # dark attic left; off faces and book
     'G1:35': dict(align=L, x=0.17, y=0.965, maxw=0.20),         # the margins have closed to x 0.15: dark floor inside the strip
@@ -154,13 +160,15 @@ OVERRIDES = {
     'G2:38': dict(align=L, x=0.735, y=0.88, maxw=0.25, ground='paper'),
     'G2':  dict(align=L, x=0.745, y=0.88, maxw=0.23, ground='paper'),
     'G3':  dict(align=L, x=0.665, maxw=0.30, ground='paper'),
-    'G4':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),
-    'G5':  dict(align=L, x=0.635, maxw=0.32, ground='paper'),
+    'G4':  dict(align=L, x=0.03, y=0.95, maxw=0.40, delay=14),  # v4: G4 opens to full frame; dark floor lower left, off the fallen books
+    'G4:43': dict(align=R, x=0.975, y=0.94, maxw=0.32),        # after the push in: dark pillow/floor right, off faces and the lifted finger
+    'G5':  dict(align=R, x=0.975, y=0.94, maxw=0.30),          # v4 full-frame close-up: right, off her face (G6's slot = unit G5b)
+    'G5b': dict(align=R, x=0.975, y=0.94, maxw=0.30),
     'H3':  dict(y=0.97, scale=0.9, mist=0.5),                   # under the big faces' chins, on the rule between the rows
     'H4':  dict(y=0.965, scale=0.9, mist=0.5),                  # under the album's bottom row (pull-back)
     'H5':  dict(align=R, x=0.975, y=0.90, maxw=0.20),           # the mist veil right, under the inscription, off the carving
     'H6':  dict(align=R, x=0.95, y=0.90, scale=0.8),            # the emptiest frame: small, lower right, under the inscription
-    'I1':  dict(align=L, x=0.025, y=0.88, maxw=0.30, delay=12), # after the white-in; the dark bedside left
+    'I1':  dict(align=L, x=0.12, y=0.955, maxw=0.40, delay=12), # v4: after the white-in; right of the calligraphy (lower left)
     'I2':  dict(x=0.62, y=0.93, maxw=0.40),                     # bare cloud lower centre: right of the couplet, under the host
     'I3a': dict(align=L, x=0.02, y=0.82, maxw=0.20),             # the dark bedside left, off the child's face and the sleeves
     'I3b': dict(align=L, x=0.04, y=0.95, maxw=0.42, mist=0.4), # bare cloud lower left, under the inscription and its seal
@@ -273,10 +281,13 @@ class Setting:
         maxw = self._maxw()
         for shrink in np.linspace(1.0, MIN_SCALE, 9):
             px = LATIN_PX * k * shrink
-            main = self._rows(line.text, list(range(len(line.tokens))), px, italic, maxw)
-            extra = []
-            if line.english:
-                extra = self._rows(line.english, None, px * RAP_EN_SCALE, italic, maxw)
+            if line.english and not RAP_CHINESE_ROW:
+                main, extra = self._rows(line.english, None, px * RAP_EN_SCALE, italic, maxw), []
+            else:
+                main = self._rows(line.text, list(range(len(line.tokens))), px, italic, maxw)
+                extra = []
+                if line.english:
+                    extra = self._rows(line.english, None, px * RAP_EN_SCALE, italic, maxw)
             rows = main + extra
             if max(r[2] for r in rows) <= maxw or shrink == MIN_SCALE:
                 break

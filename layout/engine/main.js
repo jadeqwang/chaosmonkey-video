@@ -10,10 +10,15 @@ const { build, buildV3 } = await import(`../sets/${SET}/build.js`);
 const { SHOTS: SHOTS_V1 } = await import(`../sets/${SET}/shots.js`);
 let SHOTS = SHOTS_V1;
 try { const m = await import(`../sets/${SET}/shots_v3.js`); SHOTS = SHOTS_V1.concat(m.SHOTS); } catch (e) { if (!/Failed to fetch|404|not found/i.test(String(e))) throw e; }   // v3 setups (ids prefixed v3_)
+try { const m = await import(`../sets/${SET}/shots_v4.js`); SHOTS = SHOTS.concat(m.SHOTS); } catch (e) { if (!/Failed to fetch|404|not found/i.test(String(e))) throw e; }   // v4 setups (ids prefixed v4_)
+import { JOINTS } from './body.js';
 const SHOT = Object.fromEntries(SHOTS.map((s) => [s.id, s]));
 
 // 35 mm still-camera convention: lens in mm across a 36 mm wide frame
 export function makeCam(c) {
+  if (c.ortho) { // plan / elevation views: c.ortho = { w: metres across the frame }
+    const w = c.ortho.w, h = w * H / W; const cam = new THREE.OrthographicCamera(-w / 2, w / 2, h / 2, -h / 2, c.near ?? 0.05, c.far ?? 200);
+    cam.position.set(...c.pos); cam.up.set(...(c.up || [0, 1, 0])); cam.lookAt(new THREE.Vector3(...c.target)); cam.updateMatrixWorld(); cam.updateProjectionMatrix(); return cam; }
   const hfov = 2 * Math.atan(18 / c.lens), vfov = 2 * Math.atan(Math.tan(hfov / 2) * H / W);
   const cam = new THREE.PerspectiveCamera(vfov * 180 / Math.PI, W / H, c.near ?? 0.05, c.far ?? 200);
   cam.position.set(...c.pos); cam.up.set(0, 1, 0); cam.lookAt(new THREE.Vector3(...c.target));
@@ -72,6 +77,7 @@ function labelOverlay(b, canvas, shot) {
     for (const poly of b.shadowPolys.px) { g.beginPath(); poly.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.closePath(); g.stroke(); } g.restore(); }
 }
 
+function namedPt(t, b) { const [w, part] = t.split(':'); if (w === 'book') return b.book.anchors[part].clone(); return b.figs[w].userData.P[part].clone(); }
 window.shotList = () => SHOTS.map((s) => s.id);
 window.renderShot = (id, mode) => {
   const b = get(id); const c = R.render(b, mode === 'label' ? 'label' : mode);
@@ -85,7 +91,7 @@ window.sidecar = (id) => {
   const visOf = (p, who) => { const m = idp.meshAt(p.x, p.y); return !!m && m.userData.who === who; };
   const out = { shot: id, set: b.set, w: W, h: H, desc: shot.desc || '',
     camera: { position: r2(cam.position.toArray()), target: shot.target, lens_mm: shot.lens, frame_width_mm: 36,
-      hfov_deg: +(2 * Math.atan(18 / shot.lens) * 180 / Math.PI).toFixed(3), vfov_deg: +cam.fov.toFixed(3), roll_deg: shot.roll || 0,
+      hfov_deg: shot.ortho ? null : +(2 * Math.atan(18 / shot.lens) * 180 / Math.PI).toFixed(3), vfov_deg: shot.ortho ? null : +cam.fov.toFixed(3), ortho: shot.ortho || null, roll_deg: shot.roll || 0,
       near: cam.near, far: cam.far, matrixWorld: r2(cam.matrixWorld.elements), viewMatrix: r2(cam.matrixWorldInverse.elements), projectionMatrix: r2(cam.projectionMatrix.elements),
       note: 'three.js column-major 4x4; world units metres, y up; pixel = ((ndc.x+1)/2*w, (1-ndc.y)/2*h)' },
     safe45_px: [SAFE.x0, SAFE.x1], book: null, panes: {}, heads: {}, hands: {}, lights: [], warnings: [] };
@@ -125,6 +131,25 @@ window.sidecar = (id) => {
   if (shot.move) out.camera_move = { ...shot.move, note: 'the shot moves from camera.position/target to these over its length; the guide shows the start' };
   if (shot.intent) out.intent = shot.intent;
   if (b.extra) Object.assign(out, b.extra(cam, P));
+  if (shot.v4) {
+    // every labelled object the camera sees: visible pixel count, screen box, centroid; world box of the object
+    const st = new Map();
+    for (let y = 0; y < H; y += 2) for (let x = 0; x < W; x += 2) { const m = idp.meshAt(x, y); if (!m || !m.userData.label) continue;
+      const key = (m.userData.who ? m.userData.who + ':' : '') + m.userData.label; let e = st.get(key); if (!e) st.set(key, (e = { n: 0, x0: 1e9, y0: 1e9, x1: -1, y1: -1, sx: 0, sy: 0, who: m.userData.who || null, label: m.userData.label }));
+      e.n++; e.sx += x; e.sy += y; e.x0 = Math.min(e.x0, x); e.y0 = Math.min(e.y0, y); e.x1 = Math.max(e.x1, x); e.y1 = Math.max(e.y1, y); }
+    const wb = new Map(); b.scene.traverse((o) => { if (!o.isMesh || !o.userData.label || o.userData.who || o.userData.baseVisible === false) return; const L = o.userData.look; if (L && (L.glass || (L.only && !L.only.includes('flat')))) return;
+      const bb = new THREE.Box3().setFromObject(o); const k = o.userData.label; if (!wb.has(k)) wb.set(k, bb.clone()); else wb.get(k).union(bb); });
+    const tot = (W / 2) * (H / 2);
+    out.objects = [...st.values()].filter((e) => e.n >= 6).sort((a, c) => c.n - a.n).map((e) => ({ label: e.label, figure: e.who, frame_fraction: +(e.n / tot).toFixed(5),
+      bbox_px: [e.x0, e.y0, e.x1 + 2, e.y1 + 2], centroid_px: [+(e.sx / e.n).toFixed(0), +(e.sy / e.n).toFixed(0)],
+      world_box: wb.has(e.label) && !e.who ? [wb.get(e.label).min.toArray().map((v) => +v.toFixed(3)), wb.get(e.label).max.toArray().map((v) => +v.toFixed(3))] : undefined }));
+    out.joints = {}; for (const [who, f] of Object.entries(b.figs || {})) { const Pf = f.userData.P; out.joints[who] = {};
+      for (const j of JOINTS) if (Pf[j]) { const p = px(Pf[j], cam); out.joints[who][j] = { px: [p.x, p.y], in_frame: p.front && p.x >= 0 && p.x <= W && p.y >= 0 && p.y <= H, visible: visOf(p, who) }; } }
+    for (const f of Object.values(b.figs || {})) for (const v of f.userData.report?.violations || []) out.warnings.push('joint limit: ' + v);
+    if (shot.contacts) out.contacts = shot.contacts.map(([a, c2, tol = 3]) => { const pa = namedPt(a, b), pc = namedPt(c2, b); const d = pa.distanceTo(pc) * 100;
+      if (d > tol) out.warnings.push(`contact ${a} -> ${c2} is ${d.toFixed(1)} cm apart (tolerance ${tol})`); return { a, b: c2, distance_cm: +d.toFixed(1), ok: d <= tol, a_px: P(pa), b_px: P(pc) }; });
+    out.layout_version = 4;
+  }
   out.figure_report = Object.fromEntries(Object.entries(b.figs || {}).map(([w, f]) => [w, f.userData.report]));
   return out;
 };

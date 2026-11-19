@@ -2,6 +2,15 @@
 """Build the local review page for a preview cut: timestamped notes, likeness notes, decisions.
 
   python tools/review/notes_page.py [--name preview_v3]
+  python tools/review/notes_page.py --name preview_v4            # final cut (previews/chaosmonkey_preview_v4_540p*.mp4)
+  python tools/review/notes_page.py --name preview_v4 --cut preview_v4_trial
+      # test build against media/cut/preview_v4_trial*.mp4 + work/cut/preview_v4_trial/manifest.json;
+      # writes review/_test_preview_v4_trial_notes.html (delete it afterwards)
+
+A name containing "v4" selects the v4 data block (shot descriptions from work/cut/notes_v4/descriptions_v4.json,
+decisions V4_DECISIONS, the proofread table of review/lyrics_zh_v4_proof.md, links to the singing and F1 pages, no
+likeness section); any other name builds the v3 page as before. Stills are cut from media/cut/<cut>_clean.mp4 and
+refreshed whenever that file is newer.
 
 Writes review/<name>_notes.html and review/likeness/*.jpg (film stills and downscaled reference sheets).
 Everything is local: the page reads the video from previews/ and keeps notes in the browser's localStorage.
@@ -95,6 +104,109 @@ DECISIONS = [
          opts=["Another 540p pass with my notes", "1080p master with my notes applied"]),
 ]
 
+# ---- v4 ---------------------------------------------------------------------------------------------------------------
+# stills: ("cut", seconds_in_cut, caption) | ("clip", "media/...mp4", frame_number, caption). Times are in the cut (= song time).
+V4_LINKS = [("review/sing_v4/index.html", "All singing shots, with a sync slider"),
+            ("review/f1_ab/index.html", "F1 (1:47) A/B takes"),
+            ("review/lyrics_zh_v4_proof.md", "The new Chinese lines as a text file")]
+
+V4_DECISIONS = [
+    dict(id="swarm", title="1. The swarm shot (1:52 to 2:00): night painting or ink on paper",
+         why="F4, F5 and F6a are now one 7 s shot: a painted night landscape (青绿 greens, lanterns, gold line) made with a video "
+             "model from painted keyframes, then retimed to the beats. A monkey plucks and blows, generations spawn down the "
+             "terraces, lanterns flare in waves, sectors go dark with a 讫 seal, a twin appears, two 真 seals. It is a different "
+             "look from the ink-on-paper pages around it. At the top of the rise the lanterns across the range draw the "
+             "monkey himself in 亮相. Weak: the crowd reads as texture at this size; the twin's arrival (an ink puff) is quick.",
+         stills=[("cut", 113.0, "1:53 spawn on the ledge"), ("cut", 115.0, "1:55 the terraces, name slips"),
+                 ("cut", 117.0, "1:57 sectors dark, gale of hairs"), ("cut", 119.0, "1:59 the twin, two 真 seals")],
+         opts=["Keep the night painting", "Make it ink on paper like the pages (a different shot, more work)",
+               "Night painting, but darker or sparser", "Neither reads as an agent swarm yet (say why)"]),
+    dict(id="flight", title="2. The whisper flight D4-D6 (1:08 to 1:16) and its hard cut into D7",
+         why="The 3D flight was ranked below this one by a blind reviewer, so the lead replaced it with a painted flight (a video "
+             "model over seven painted keyframes plus our typeset carving, jumps and threads): a macro of 通 lights, the "
+             "light jumps by shared component, the range comes alight at dusk, up through cloud, five pillars read as the "
+             "Buddha's hand and the monkey lands on the middle one. It ends dark blue, then cuts straight to D7 on bare pale "
+             "paper at 1:16.4 (accepted as the medium switch, never watched at speed by the team). Weak: the carving is "
+             "legible only in the first 30 frames; the monkey is small.",
+         stills=[("cut", 69.0, "1:09 macro 通, the glow"), ("cut", 71.5, "1:11 the range lit"),
+                 ("cut", 75.5, "1:15 the landing, rays"), ("cut", 77.0, "1:17 D7, bare paper")],
+         opts=["Keep the flight and the hard cut", "Keep the flight, soften the cut into D7 (say how)",
+               "The flight needs a legible carving through the whole shot", "Monkey too small: make him bigger on the landing",
+               "Something else (say what)"]),
+    dict(id="h6", title="3. H6 (2:52.8 to 2:57.2): the monkey growing from the strand",
+         why="Her hair streams in the gale, one strand works loose, three wet ink strokes make a crouched monkey whose tail is "
+             "the strand, then yellow floods in and he somersaults out. The ink-only monkey is on screen about 0.4 s (the model "
+             "clip was sped up 3 to 5 times); the fully coloured render comes from about two thirds in. Is the growth right, "
+             "and should he be fewer strokes held longer?",
+         stills=[("cut", 173.5, "2:53 hair in the gale"), ("cut", 174.8, "2:55 the ink monkey, tail = strand"),
+                 ("cut", 176.0, "2:56 coloured, somersaulting")],
+         opts=["Right as it is", "Right idea, hold the ink monkey longer (fewer strokes, slower)",
+               "Make him fewer, bolder strokes (say how)", "The strand is too big for his tail", "Not working (say why)"]),
+    dict(id="wind", title="4. C5 wind (0:52.3 to 0:57.0): painterly layer or true fluid simulation",
+         why="In the cut: a video model was asked what the wind does to the page, and that motion is used as a layer on our paper "
+             "(ribbons rising left to right, dissolving). It is painterly and organic but the motion is the model's invention; "
+             "lines cross the egg's face rather than parting round it. The fallback is a real 2D fluid solve with about 35 "
+             "advected brush ribbons that wrap the egg, more physical but stiffer. Stills 3 and 4 are the fallback.",
+         stills=[("cut", 53.2, "0:53 Mama blows (C5a, in the cut)"), ("cut", 55.2, "0:55 the wind layer (in the cut)"),
+                 ("clip", "media/comp/_cand/C5b_A.mp4", 14, "Fluid fallback, early"),
+                 ("clip", "media/comp/_cand/C5b_A.mp4", 30, "Fluid fallback, over the egg")],
+         opts=["Keep the painterly layer (in the cut)", "Use the true fluid simulation", "Painterly, but make the egg part the lines",
+               "Neither: more like a traditional wind-scroll (say how)"]),
+    dict(id="e3", title="5. E3 second half (1:36 to 1:40): the held sword-hand, wider, mouth closed",
+         why="You asked for a 小龙女-style cast on 'a spell I'd remember well'. The mouth-synced model could not do it (open palms), "
+             "so the shot now cuts at 1:36.0 to a wider three-quarter angle where her mouth is closed: two fingers together as one "
+             "blade past her ear, the other palm out, then she looks up to Mama laughing. Hands checked every frame. Weak: it is a "
+             "held pose, no visible flourish; the pushing palm is edge-on; her face is small and frontal with the mouth closed "
+             "while the line is sung; the cut jumps in scale.",
+         stills=[("cut", 94.5, "1:34 E3a, 'Names and faces' (tight)"), ("cut", 97.0, "1:37 E3b, the cast"),
+                 ("cut", 98.8, "1:39 E3b, looks up to Mama")],
+         opts=["Good: keep it", "Keep the angle, ask for a flourish before the hold (another round)",
+               "Same wide angle but let her mouth sing (accept the lip-sync risk)", "Revert to the single tight take",
+               "Another approach (say what)"]),
+    dict(id="j4", title="6. J4 (3:16.6 to 3:20.7): the 1988 half's arms go up 0.9 s early",
+         why="Left half (1988, Mama and little Jade) has its arms fully up at about 197.8 s; the gong is at 198.74 and the 2026 "
+             "half (right) goes up at 198.7. A join to a take with the arms down was tried on paper and cannot be done without a "
+             "visible pop. Options: accept it, or re-make the 1988 half from a keyframe with the arms already raised on the gong "
+             "(or framed so the faces are not the subject).",
+         stills=[("cut", 197.0, "3:17.0 arms down"), ("cut", 198.0, "3:18.0 1988 arms up, 2026 still down"),
+                 ("cut", 199.0, "3:19.0 both up")],
+         opts=["Accept it", "Re-stage the 1988 half so it hits the gong (a new take)",
+               "Re-time the whole shot's gong feel instead (say how)"]),
+    dict(id="f3b", title="7. F3b (1:52.25 to 1:52.75): little Jade's puff, faint",
+         why="The 12-frame match-cut on the blow is faint (the take was sped about 3x) and the blind judge asked for a retake. "
+             "The retake submit was refused by the permission check, so it was not run. A two-take retake is a small spend.",
+         stills=[("cut", 112.3, "1:52.3 F3b"), ("cut", 112.6, "1:52.6 F3b")],
+         opts=["Approve a two-take retake", "Leave it as it is", "Cut the match entirely and stay with the daughter's puff"]),
+    dict(id="tinghua", title="8. 听话 in G2's margin (2:07.5 to 2:14.4)",
+         why="Your note: 听话 should appear somewhere. In G2 the margins are bare paper; a cinnabar 听话 inks in on the left on each "
+             "sung echo (2:10.175 and 2:13.690) and stays, 1.6 times the size of the inscription. Placement was judged on stills "
+             "only.",
+         stills=[("cut", 128.0, "2:08 before"), ("cut", 131.0, "2:11 first 听话"), ("cut", 134.2, "2:14 second 听话")],
+         opts=["Good as is", "Bigger or bolder", "Different place (say where)", "Not needed in the margin, put it in the inscription"]),
+    dict(id="calli", title="9. Chinese calligraphy in the rooms (new in v4)",
+         why="Every sung line now carries its Chinese as light-on-dark vertical calligraphy at a side of the frame (Ma Shan Zheng, "
+             "one small seal), 26 px at 540p, placed where the picture is quiet. The new lines are in the proofread table "
+             "below. Look at size, side, and the light-on-dark treatment.",
+         stills=[("cut", 114.0, "F4 about 1:54"), ("cut", 143.0, "G4 about 2:23"),
+                 ("cut", 188.1, "I4 about 3:08"), ("cut", 205.0, "K1 about 3:25")],
+         opts=["Good as is", "Bigger", "Smaller or fainter", "Move to the other side (say which shots)",
+               "Not light on dark: use ink where the room is bright", "Too many: fewer shots (say which)"]),
+    dict(id="sound", title="10. Sound layer re-timed to the new picture (mix v3b)",
+         why="You approved the moved 'Yes' in mix v3 by ear. This cut plays mix v3b: the song under it is bit-identical to v3's "
+             "(same moved 'Yes'), loudness and peak are the same (-15.83 LUFS, -1.37 dBTP); only the effects layer differs: 28 "
+             "cue rows re-timed or added for the v4 picture (listed in docs/SOUND.md, 'v3b mix'), e.g. the swarm's spawn and "
+             "gale, the pop into depth at 3:10.9, the K4 pages turning in a draught, the C5 wind. Nobody has heard v3b. By "
+             "measurement (a model, not ears) nine of the new cues sit faint under the loudest song passages: the rap "
+             "(1:47-2:01) and drop 2 (3:10-3:20).",
+         stills=[],
+         opts=["Good", "Too much", "Go back to v3 (the mix you approved)"]),
+    dict(id="next", title="11. What next",
+         why="Every shot is now a v4 shot. Either another 540p pass with your notes (say which shots), or the 1080p master with "
+             "specific fixes applied.",
+         opts=["Another 540p pass with my notes", "1080p master with my notes applied", "1080p master as is",
+               "Specific fixes first, then decide (list them in the notes)"]),
+]
+
 CAUSES = {
     "girl": ["Eyes too small, or no highlight in them", "Expression too flat or sullen (never soft, never smiling)",
              "Face too long or too old; head too small for the body", "Cheeks and blush lost; skin grey in the night light",
@@ -144,6 +256,15 @@ HTML = r"""<!DOCTYPE html>
   .stills { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin:12px 0; }
   .still img { width:100%; border-radius:4px; display:block; }
   .still textarea { min-height:34px; margin-top:4px; resize:vertical; font-size:13px; }
+  #links a { color:var(--acc); }
+  #proof { max-width:1560px; margin:0 auto; padding:0 16px 20px; }
+  .pr { display:grid; grid-template-columns:150px minmax(180px,1fr) minmax(260px,1.3fr) 130px minmax(200px,1fr); gap:6px 14px; align-items:start; padding:10px 0; border-top:1px solid var(--line); }
+  @media (max-width:1050px){ .pr{ grid-template-columns:1fr 1fr; } }
+  .zh { font:34px/1.35 "Ma Shan Zheng","Noto Serif CJK SC","Noto Sans CJK SC","Source Han Sans SC","WenQuanYi Zen Hei",serif; color:var(--ink); }
+  .zh span.sep { color:var(--dim); font-size:20px; padding:0 .25em; }
+  .pr .en { color:var(--ink); } .pr .nt { font-size:13px; color:var(--dim); }
+  .pr input[type=text] { font-size:20px; }
+  .pr.ok { opacity:.55; }
   .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:0 18px; }
 </style>
 </head>
@@ -152,6 +273,7 @@ HTML = r"""<!DOCTYPE html>
 <section>
   <h1>Chaos Monkey, __NAME__: timestamped notes</h1>
   <p>Everything you type is kept in this browser and survives a reload. When you are done, press <b>Copy everything</b> in the right column and paste it to Claude, or download it as a file.</p>
+  <div class="bar" id="links"></div>
   <div class="bar">
     <span>Video</span>
     <select id="src">__SOURCES__</select>
@@ -180,6 +302,12 @@ HTML = r"""<!DOCTYPE html>
 </section>
 </main>
 
+<section id="proof">
+  <h2>New Chinese lines (proofread)</h2>
+  <p id="proofintro"></p>
+  <div id="prooflist"></div>
+</section>
+
 <section id="like">
   <h2>Likenesses</h2>
   <p>For each person: your reference on the left, the sheet Claude drew from it on the right, then frames from this cut. Write under any frame. The time under a frame jumps the video there; clicking a picture opens it full size.</p>
@@ -191,7 +319,7 @@ const D = __DATA__;
 const NEWOPTS = ['Use these','Close; fix what I wrote below','Not right'];
 const FPS = 24, KEY = 'chaosmonkey___NAME___review';
 let S = JSON.parse(localStorage.getItem(KEY) || '{}');
-S.notes = S.notes || []; S.dec = S.dec || {}; S.like = S.like || {}; S.still = S.still || {};
+S.notes = S.notes || []; S.dec = S.dec || {}; S.like = S.like || {}; S.still = S.still || {}; S.proof = S.proof || {};
 const $ = id => document.getElementById(id);
 const v = $('v'), src = $('src');
 const save = () => { localStorage.setItem(KEY, JSON.stringify(S)); out(); };
@@ -234,11 +362,26 @@ function box(st, ph){ const ta=document.createElement('textarea'); ta.placeholde
 function renderDec(){ const b=$('decisions'); b.innerHTML='';
   D.decisions.forEach(d=>{ const st=S.dec[d.id]||(S.dec[d.id]={pick:null,text:''}); const el=document.createElement('div'); el.className='dec';
     const h=document.createElement('h3'); h.textContent=d.title; const p=document.createElement('p'); p.textContent=d.why; el.append(h,p);
-    if(d.imgs&&d.imgs.length){ const g=document.createElement('div'); g.className='pair'; d.imgs.forEach(([path,cap])=>g.append(fig(path,cap))); el.append(g); }
+    if(d.imgs&&d.imgs.length){ const g=document.createElement('div'); g.className='pair'; d.imgs.forEach(([path,cap,t])=>g.append(fig(path,cap,t))); el.append(g); }
     choice(el,'dec_'+d.id,'radio',d.opts,st); el.append(box(st,'anything to add (optional)')); b.append(el); }); }
-function fig(path, cap){ const f=document.createElement('figure'); const a=document.createElement('a'); a.href=path; a.target='_blank';
-  const im=document.createElement('img'); im.src=path; im.loading='lazy'; a.append(im); const c=document.createElement('figcaption'); c.textContent=cap; f.append(c,a); return f; }
-function renderLike(){ const b=$('chars'); b.innerHTML='';
+function fig(path, cap, t){ const f=document.createElement('figure'); const a=document.createElement('a'); a.href=path; a.target='_blank';
+  const im=document.createElement('img'); im.src=path; im.loading='lazy'; a.append(im); const c=document.createElement('figcaption'); c.textContent=cap;
+  if(t!=null){ const j=document.createElement('a'); j.className='jump'; j.textContent='  ('+fmt(t)+', show in video)'; j.onclick=()=>jump(t); c.append(j); }
+  f.append(c,a); return f; }
+function renderLinks(){ const b=$('links'); (D.links||[]).forEach(([h,t])=>{ const a=document.createElement('a'); a.href='../'+h; a.target='_blank'; a.textContent=t; b.append(a); b.append(' | '); }); if(!(D.proof&&D.proof.length) && b.lastChild) b.removeChild(b.lastChild); if(D.proof&&D.proof.length){ const a=document.createElement('a'); a.href='#proof'; a.textContent='Jump to the proofread Chinese lines'; b.append(a); } }
+function renderProof(){ const sec=$('proof'); if(!(D.proof&&D.proof.length)){ sec.style.display='none'; return; }
+  $('proofintro').textContent=D.proof_intro||''; const box=$('prooflist'); box.innerHTML='';
+  D.proof.forEach(r=>{ const st=S.proof[r.n]||(S.proof[r.n]={ok:false,fix:''}); const row=document.createElement('div'); row.className='pr'+(st.ok?' ok':'');
+    const a=document.createElement('div'); const j=document.createElement('a'); j.className='jump'; j.textContent='#'+r.n+'  '+r.shot+'  '+r.time; if(r.t!=null){ j.onclick=()=>jump(r.t); j.title='show in video'; } a.append(j);
+    const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=st.ok; cb.onchange=()=>{ st.ok=cb.checked; row.className='pr'+(st.ok?' ok':''); save(); };
+    lab.append(cb,' OK'); lab.style.display='block'; lab.style.marginTop='8px'; a.append(lab);
+    const en=document.createElement('div'); en.className='en'; en.textContent=r.en;
+    const zh=document.createElement('div'); zh.className='zh'; r.zh.split(' / ').forEach((c,i)=>{ if(i){ const sp=document.createElement('span'); sp.className='sep'; sp.textContent='/'; zh.append(sp); } zh.append(c); });
+    const nt=document.createElement('div'); nt.className='nt'; nt.textContent=r.note||'';
+    const fx=document.createElement('input'); fx.type='text'; fx.placeholder='correction (Chinese or a word)'; fx.value=st.fix; fx.oninput=()=>{ st.fix=fx.value; save(); };
+    const lastc=document.createElement('div'); lastc.append(fx);
+    row.append(a,en,zh,nt,lastc); box.append(row); }); }
+function renderLike(){ const b=$('chars'); b.innerHTML=''; if(!D.chars.length){ $('like').style.display='none'; return; }
   D.chars.forEach(c=>{ const st=S.like[c.id]||(S.like[c.id]={pick:null,picks:[],text:''}); const el=document.createElement('div'); el.className='who';
     const h=document.createElement('h2'); h.style.marginTop='0'; h.textContent=c.name; el.append(h);
     if(c.noted){ const n=document.createElement('p'); n.textContent=c.noted; el.append(n); }
@@ -266,7 +409,10 @@ function renderLike(){ const b=$('chars'); b.innerHTML='';
 
 function text(){ let s='CHAOS MONKEY __NAME__: NOTES\n\nTIMESTAMPED NOTES ('+S.notes.length+')\n';
   S.notes.forEach(n=>{ s+='- '+label(n.t)+': '+(n.text.trim()||'(no text)')+'\n'; });
-  s+='\nLIKENESSES\n';
+  if(D.proof&&D.proof.length){ s+='\nNEW CHINESE LINES (proofread)\n';
+    D.proof.forEach(r=>{ const st=S.proof[r.n]||{}; const fx=(st.fix||'').trim();
+      s+='- #'+r.n+' '+r.shot+' '+r.time+'  '+r.zh+': '+(fx?'CORRECTION: '+fx+(st.ok?' (also ticked OK)':''):(st.ok?'OK':'(not checked)'))+'\n'; }); }
+  if(D.chars.length) s+='\nLIKENESSES\n';
   D.chars.forEach(c=>{ const st=S.like[c.id]||{}; const stage=["It's fine","Already in Claude's sheet","The sheet is fine; the film frames drift","Both"];
     s+='- '+c.name+': '+(st.pick==null?'(not answered)':stage[st.pick])+'\n';
     (st.picks||[]).forEach(i=>{ s+='    off: '+D.causes[c.kind][i]+'\n'; });
@@ -278,13 +424,13 @@ function text(){ let s='CHAOS MONKEY __NAME__: NOTES\n\nTIMESTAMPED NOTES ('+S.n
 function out(){ $('out').value=text(); }
 $('copy').onclick=async()=>{ const o=$('out'); try{ await navigator.clipboard.writeText(o.value); }catch(e){ o.select(); document.execCommand('copy'); } $('copy').textContent='Copied'; setTimeout(()=>$('copy').textContent='Copy everything',1500); };
 $('dl').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text()],{type:'text/plain'})); a.download='chaosmonkey___NAME___notes.txt'; a.click(); };
-let armed=0; $('clear').onclick=()=>{ const c=$('clear'); if(Date.now()-armed<4000){ S={notes:[],dec:{},like:{},still:{}}; save(); renderNotes(); renderDec(); renderLike(); c.textContent='Clear all (asks first)'; } else { armed=Date.now(); c.textContent='Press again to clear everything'; setTimeout(()=>c.textContent='Clear all (asks first)',4000); } };
+let armed=0; $('clear').onclick=()=>{ const c=$('clear'); if(Date.now()-armed<4000){ S={notes:[],dec:{},like:{},still:{},proof:{}}; save(); renderNotes(); renderDec(); renderLike(); renderProof(); c.textContent='Clear all (asks first)'; } else { armed=Date.now(); c.textContent='Press again to clear everything'; setTimeout(()=>c.textContent='Clear all (asks first)',4000); } };
 addEventListener('keydown',e=>{ const typing=/TEXTAREA|INPUT|SELECT/.test(document.activeElement.tagName);
   if(e.key==='Escape'){ document.activeElement.blur(); return; } if(typing || e.ctrlKey || e.metaKey || e.altKey) return;
   if(e.key==='n'||e.key==='N'){ e.preventDefault(); addNote(); } else if(e.key===' '){ e.preventDefault(); v.paused?v.play():v.pause(); }
   else if(e.key==='ArrowLeft') seek(-1); else if(e.key==='ArrowRight') seek(1); else if(e.key===',') frame(-1); else if(e.key==='.') frame(1);
   else if(e.key==='[') shotStep(-1); else if(e.key===']') shotStep(1); });
-load(); renderNotes(); renderDec(); renderLike(); out(); tick();
+load(); renderLinks(); renderNotes(); renderDec(); renderLike(); renderProof(); out(); tick();
 </script>
 </body>
 </html>
@@ -318,20 +464,69 @@ def describe(shot, v3):
     return f"v3 brief: {d}"
 
 
+def proof_rows():
+    """Parse the markdown table of review/lyrics_zh_v4_proof.md into rows (n, shot, time, en, zh, note, t = first start)."""
+    import re
+    rows = []
+    for line in (ROOT / "review/lyrics_zh_v4_proof.md").read_text().splitlines():
+        if not re.match(r"\|\s*\d+\s*\|", line):
+            continue
+        c = [x.strip() for x in line.strip().strip("|").split("|")]
+        if len(c) < 5:
+            continue
+        m = re.match(r"(\d+):(\d+(?:\.\d+)?)", c[2])
+        rows.append(dict(n=int(c[0]), shot=c[1], time=c[2], en=c[3], zh=c[4], note=c[5] if len(c) > 5 else "",
+                         t=int(m.group(1)) * 60 + float(m.group(2)) if m else None))
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", default="preview_v3")
+    ap.add_argument("--cut", help="test build: take video, stills and manifest from this cut in media/cut and work/cut "
+                                  "(e.g. preview_v4_trial) and write review/_test_<cut>_notes.html")
     a = ap.parse_args()
     name = a.name
-    clean = ROOT / f"previews/chaosmonkey_{name}_540p_nolyrics.mp4"
-    lyr = ROOT / f"previews/chaosmonkey_{name}_540p.mp4"
+    v4 = "v4" in name
+    if a.cut:
+        clean = ROOT / f"media/cut/{a.cut}_clean.mp4"
+        lyr = ROOT / f"media/cut/{a.cut}.mp4"
+    else:
+        clean = ROOT / f"previews/chaosmonkey_{name}_540p_nolyrics.mp4"
+        lyr = ROOT / f"previews/chaosmonkey_{name}_540p.mp4"
+    if v4:                                   # stills come from the cut named by --name (media/cut/<name>_clean.mp4) unless --cut
+        clean_stills = ROOT / f"media/cut/{a.cut or name}_clean.mp4"
+        if not clean_stills.exists():
+            clean_stills = clean
+    else:
+        clean_stills = clean
     out_dir = ROOT / "review"
     img_dir = out_dir / "likeness"
     img_dir.mkdir(parents=True, exist_ok=True)
+    tag = a.cut or name
 
-    shots = json.loads((ROOT / "docs/shots.json").read_text())["shots"]
+    def still(t, label, src=None, frame=None):
+        """One frame as a jpg under review/likeness, refreshed when the cut is newer."""
+        src = src or clean_stills
+        dst = img_dir / f"{tag}_{label}_{int(round(t * 24)):05d}.jpg" if frame is None else img_dir / f"{src.stem}_f{frame:03d}.jpg"
+        if not dst.exists() or dst.stat().st_mtime < src.stat().st_mtime:        # a rebuilt cut refreshes its stills
+            at = t if frame is None else (frame + 0.5) / 24
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{(int(round(at * 24)) + 0.5) / 24 if frame is None else at:.4f}",
+                            "-i", str(src), "-frames:v", "1", "-q:v", "2", str(dst)], check=True)
+        return f"likeness/{dst.name}"
+
+    if v4:
+        mf = ROOT / f"work/cut/{a.cut or name}/manifest.json"
+        shots = json.loads(mf.read_text())["shots"]
+        timing = json.loads((ROOT / "analysis/timing_v4.json").read_text())
+        descs = json.loads((ROOT / "work/cut/notes_v4/descriptions_v4.json").read_text())
+        desc_of = lambda s: descs.get(s["id"]) or s["desc"]
+    else:
+        shots = json.loads((ROOT / "docs/shots.json").read_text())["shots"]
+        timing = json.loads((ROOT / "analysis/timing.json").read_text())
+        v3 = v3_descriptions()
+        desc_of = lambda s: describe(s, v3)
     by_id = {s["id"]: s for s in shots}
-    timing = json.loads((ROOT / "analysis/timing.json").read_text())
 
     def small(rel):
         src = ROOT / rel
@@ -343,36 +538,49 @@ def main():
         return f"likeness/{dst.name}"
 
     chars = []
-    for c in CHARS:
-        stills = []
-        for sid, dt in c["stills"]:
-            s = by_id[sid]
-            t = round(min(s["in"] + dt, s["out"] - 1 / 24), 3)
-            dst = img_dir / f"{name}_{sid}_{int(round(t * 24)):05d}.jpg"
-            if not dst.exists() or dst.stat().st_mtime < clean.stat().st_mtime:      # a rebuilt cut refreshes its stills
-                subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t:.3f}", "-i", str(clean), "-frames:v", "1",
-                                "-q:v", "2", str(dst)], check=True)
-            stills.append(dict(shot=sid, t=t, img=f"likeness/{dst.name}"))
-        chars.append(dict(id=c["id"], name=c["name"], kind=c["kind"], noted=c.get("noted", ""), new=[small(r) for r in c.get("new", [])], refs=[small(r) for r in c["refs"]],
-                          canon=[small(r) for r in c["canon"]], stills=stills))
+    if not v4:
+        for c in CHARS:
+            stills = []
+            for sid, dt in c["stills"]:
+                s = by_id[sid]
+                t = round(min(s["in"] + dt, s["out"] - 1 / 24), 3)
+                stills.append(dict(shot=sid, t=t, img=still(t, sid)))
+            chars.append(dict(id=c["id"], name=c["name"], kind=c["kind"], noted=c.get("noted", ""), new=[small(r) for r in c.get("new", [])],
+                              refs=[small(r) for r in c["refs"]], canon=[small(r) for r in c["canon"]], stills=stills))
 
-    decisions = [dict(d, imgs=[[small(pth), cap] for pth, cap in d.get("imgs", [])]) for d in DECISIONS]
-    desc = v3_descriptions()
+    if v4:
+        decisions = []
+        for d in V4_DECISIONS:
+            imgs = []
+            for st in d.get("stills", []):
+                if st[0] == "cut":
+                    t = st[1]
+                    imgs.append([still(t, "q_" + d["id"]), st[2], t])
+                else:
+                    imgs.append([still(0, "q_" + d["id"], src=ROOT / st[1], frame=st[2]), st[3], None])
+            decisions.append(dict(id=d["id"], title=d["title"], why=d["why"], opts=d["opts"], imgs=imgs))
+    else:
+        decisions = [dict(d, imgs=[[small(pth), cap] for pth, cap in d.get("imgs", [])]) for d in DECISIONS]
     end = max(s["out"] for s in shots)
     data = dict(
-        shots=[dict(id=s["id"], **{"in": round(s["in"], 4)}, desc=describe(s, desc)) for s in shots]
-              + [dict(id="END", **{"in": round(end, 4)}, desc="Black to the end of the audio: the last note rings out (ending B).")],
+        shots=[dict(id=s["id"], **{"in": round(s["in"], 4)}, desc=desc_of(s)) for s in shots]
+              + [dict(id="END", **{"in": round(end, 4)}, desc=(descs["END"] if v4 else "Black to the end of the audio: the last note rings out (ending B)."))],
         sections=[[s["start"], s["name"]] for s in timing["sections"]],
         lines=[dict(start=l["start"], end=l["end"], text=l["text"]) for l in timing["lines"]],
         decisions=decisions, causes=CAUSES, chars=chars,
+        links=V4_LINKS if v4 else [], proof=proof_rows() if v4 else [],
+        proof_intro=("Every new Chinese line in this cut, in the order of the film. Tick OK if it is right, or type your "
+                     "correction in the box. The grey note is where the lead hesitated. Click the shot and time to jump there; "
+                     "columns are separated by a slash and read right to left on screen.") if v4 else "",
     )
-    sources = (f'<option value="../{lyr.relative_to(ROOT)}">{name}, lyrics on</option>'
-               f'<option value="../{clean.relative_to(ROOT)}">{name}, no lyrics</option>')
+    sources = (f'<option value="../{lyr.relative_to(ROOT)}">{tag}, lyrics on</option>'
+               f'<option value="../{clean.relative_to(ROOT)}">{tag}, no lyrics</option>')
     html = (HTML.replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
             .replace("__SOURCES__", sources).replace("__NAME__", name))
-    out = out_dir / f"{name}_notes.html"
+    out = out_dir / (f"_test_{a.cut}_notes.html" if a.cut else f"{name}_notes.html")
     out.write_text(html, encoding="utf-8")
-    print(out, f"{len(html)//1024} KB,", sum(len(c['stills']) for c in chars), "stills")
+    print(out, f"{len(html)//1024} KB,", sum(len(c['stills']) for c in chars), "likeness stills,",
+          sum(len(d['imgs']) for d in decisions), "decision stills")
 
 
 if __name__ == "__main__":

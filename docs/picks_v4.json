@@ -1,0 +1,54 @@
+{
+ "C5": {
+  "src": "media/comp/spliced_v4/C5.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "D2": {
+  "src": "media/comp/spliced_v4/D2.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "F3": {
+  "src": "media/comp/spliced_v4/F3.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "F6": {
+  "src": "media/comp/spliced_v4/F6.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "I2": {
+  "src": "media/comp/spliced_v4/I2.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "I3": {
+  "src": "media/comp/spliced_v4/I3.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "K2": {
+  "src": "media/comp/spliced_v4/K2.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "L3": {
+  "src": "media/comp/spliced_v4/L3.mp4",
+  "in": 0.0,
+  "rate": 1.0
+ },
+ "G5": {
+  "src": "media/comp/G5.mp4",
+  "in": 0.0,
+  "rate": 1.0,
+  "label": "G5"
+ },
+ "G6": {
+  "src": "media/comp/G5.mp4",
+  "in": 2.8333333333333335,
+  "rate": 1.0,
+  "label": "G5"
+ }
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F1 rap: takes and sync offset</title>
+<style>
+  :root { --bg:#16140f; --panel:#211e17; --ink:#ece4d2; --dim:#a39a86; --line:#3a3528; --acc:#c8452c; --ok:#d9b45a; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 Georgia, "Times New Roman", serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 28px 20px 60px; }
+  h1 { font-size: 24px; font-weight: normal; margin: 0 0 4px; }
+  p.sub { color: var(--dim); margin: 0 0 22px; }
+  .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin: 14px 0; }
+  .label { color: var(--dim); min-width: 92px; font-size: 14px; }
+  button { font: inherit; color: var(--ink); background: var(--panel); border:1px solid var(--line); border-radius: 6px; padding: 7px 14px; cursor:pointer; }
+  button:hover { border-color: var(--dim); }
+  button.on { border-color: var(--ok); color: var(--ok); }
+  button.go { background: var(--acc); border-color: var(--acc); color:#fff; }
+  video { width:100%; background:#000; border-radius: 8px; display:block; }
+  .offset { display:flex; align-items:center; gap:12px; flex:1; min-width: 300px; }
+  input[type=range] { flex:1; accent-color: var(--ok); }
+  .val { font-variant-numeric: tabular-nums; min-width: 190px; }
+  .lyric { font-size: 20px; letter-spacing: 1px; margin: 10px 0 0; }
+  .lyric small { display:block; color: var(--dim); font-size: 14px; letter-spacing: 0; font-style: italic; }
+  textarea { width:100%; height: 150px; background: var(--panel); color: var(--ink); border:1px solid var(--line); border-radius: 6px; padding: 10px; font: 14px/1.45 ui-monospace, Menlo, monospace; }
+  .note { color: var(--dim); font-size: 14px; }
+  .take-note { color: var(--dim); font-size: 14px; margin: 4px 0 0 102px; }
+  @media (max-width: 600px) { .take-note { margin-left: 0; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>F1 rap: takes and sync offset</h1>
+  <p class="sub">1:47.04 to 1:48.83, 43 frames. Pick a take, slide the sound until the mouth sits right, record what you chose.</p>
+
+  <video id="v" muted playsinline preload="auto"></video>
+  <p class="lyric">石头里蹦出来 没有童年<small>Burst out of a stone, no childhood</small></p>
+
+  <div class="row"><span class="label">Take</span><span id="takes"></span></div>
+  <p class="take-note" id="takeNote"></p>
+
+  <div class="row">
+    <span class="label">Sound</span>
+    <div class="offset">
+      <button id="minus" title="Sound one frame earlier">−1 frame</button>
+      <input id="off" type="range" min="-12" max="12" step="1" value="0">
+      <button id="plus" title="Sound one frame later">+1 frame</button>
+    </div>
+    <span class="val" id="offVal"></span>
+  </div>
+
+  <div class="row">
+    <span class="label">Playback</span>
+    <button id="play" class="go">Play (loop)</button>
+    <button id="stop">Stop</button>
+    <button class="spd on" data-s="1">Full speed</button>
+    <button class="spd" data-s="0.5">Half speed</button>
+    <button class="src on" data-a="mix">Full mix</button>
+    <button class="src" data-a="vocal">Vocal only</button>
+    <button id="lead" class="on" title="One second of the song before the shot, picture held on the first frame">1 s lead-in</button>
+  </div>
+
+  <div class="row"><span class="label">This take</span>
+    <button class="verdict" data-v="use">Use it</button>
+    <button class="verdict" data-v="use with this offset">Use with this offset</button>
+    <button class="verdict" data-v="retake">Retake</button>
+    <input id="why" placeholder="note (optional)" style="flex:1;min-width:220px;font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 10px">
+  </div>
+
+  <div class="row"><span class="label">Your picks</span><button id="copy">Copy everything</button><span class="note" id="copied"></span></div>
+  <textarea id="out" readonly></textarea>
+  <p class="note">+ frames = the sound plays later against the picture; − = earlier. One frame is 41.7 ms. The picture file is never changed here: the offset is only applied in your browser, and the number you pick is what gets built into the cut.</p>
+</main>
+<script>
+// Add a take: one line here. file = picture (its own audio is muted), note = what it is.
+const TAKES = [
+  { id: "F1_new_a", file: "F1_new_a_sound.mp4", note: "Re-make with a sung run-up: mouth moves from the first syllable, one index finger throughout, no smear except a mild ghosting at 童; still stays open on 没 and shows closed-smile frames on 头 and 出." },
+  { id: "F1_new_b", file: "F1_new_b_sound.mp4", note: "Re-make with a sung run-up: the mouth articulates best (closes into 蹦 and 没, opens on 童 and 年), but the hand still waves up to her hair and blurs, so it fails the hand test." },
+  { id: "F1 (ar9)",  file: "F1_sound.mp4",     note: "In the cut now. Rap body language; mouth soft; fingers change shape frame to frame." },
+  { id: "F1_alt",    file: "F1_alt_sound.mp4", note: "Better mouth on the strips (closes on 没, opens on 童); hand frozen in a V." },
+];
+const AUDIO = { mix: "audio_mix.m4a", vocal: "audio_vocal.m4a" };  // each starts 1.0 s before the shot
+const PAD = 1.0, FPS = 24, DUR = 43 / FPS;
+
+const v = document.getElementById("v"), a = new Audio();
+let take = 0, off = 0, speed = 1, src = "mix", lead = true, playing = false, timer = null;
+const picks = {};
+
+const $ = id => document.getElementById(id);
+function fmtOff() {
+  const ms = Math.round(off / FPS * 1000);
+  $("offVal").textContent = (off > 0 ? "+" : "") + off + " frames (" + (ms > 0 ? "+" : "") + ms + " ms)" + (off === 0 ? " as built" : off > 0 ? " sound later" : " sound earlier");
+}
+function loadTake(i) {
+  take = i; v.src = TAKES[i].file; v.load();
+  [...$("takes").children].forEach((b, k) => b.classList.toggle("on", k === i));
+  $("takeNote").textContent = TAKES[i].note;
+  const p = picks[TAKES[i].id]; off = p ? p.offset : 0; $("off").value = off; fmtOff();
+  document.querySelectorAll(".verdict").forEach(b => b.classList.toggle("on", p && p.verdict === b.dataset.v));
+  $("why").value = p ? p.note : "";
+  if (playing) start();
+}
+function start() {
+  stopAll(); playing = true;
+  a.src = AUDIO[src]; a.playbackRate = speed; v.playbackRate = speed; a.preservesPitch = true;
+  const pre = lead ? PAD : 0;               // seconds of song before the picture starts
+  const shift = off / FPS;                  // sound later by `shift` seconds
+  const run = () => {
+    v.pause(); v.currentTime = 0;
+    // audio position that should coincide with picture frame 0 is PAD - shift
+    let aStart = PAD - shift - pre, vDelay = pre;
+    if (aStart < 0) { vDelay += -aStart; aStart = 0; }
+    a.currentTime = aStart;
+    a.play();
+    timer = setTimeout(() => { v.play(); }, vDelay / speed * 1000);
+    const total = (vDelay + DUR + 0.35) / speed * 1000;
+    loopT = setTimeout(() => { a.pause(); if (playing) run(); }, total);
+  };
+  a.addEventListener("canplaythrough", run, { once: true }); a.load();
+}
+let loopT = null;
+function stopAll() { playing = false; clearTimeout(timer); clearTimeout(loopT); a.pause(); v.pause(); }
+function record(verdict) {
+  const t = TAKES[take];
+  picks[t.id] = { verdict: verdict || (picks[t.id] && picks[t.id].verdict) || "", offset: off, note: $("why").value.trim() };
+  const lines = ["F1 RAP: TAKES AND SYNC"];
+  for (const k of TAKES) { const p = picks[k.id]; if (!p) continue;
+    lines.push("- " + k.id + ": " + (p.verdict || "(no verdict)") + "; sound offset " + (p.offset > 0 ? "+" : "") + p.offset + " frames" + (p.note ? "\n    note: " + p.note : "")); }
+  $("out").value = lines.join("\n");
+}
+TAKES.forEach((t, i) => { const b = document.createElement("button"); b.textContent = t.id; b.style.marginRight = "8px"; b.onclick = () => loadTake(i); $("takes").appendChild(b); });
+$("off").oninput = e => { off = +e.target.value; fmtOff(); record(); if (playing) start(); };
+$("minus").onclick = () => { off = Math.max(-12, off - 1); $("off").value = off; fmtOff(); record(); if (playing) start(); };
+$("plus").onclick = () => { off = Math.min(12, off + 1); $("off").value = off; fmtOff(); record(); if (playing) start(); };
+$("play").onclick = start; $("stop").onclick = stopAll;
+document.querySelectorAll(".spd").forEach(b => b.onclick = () => { speed = +b.dataset.s; document.querySelectorAll(".spd").forEach(x => x.classList.toggle("on", x === b)); if (playing) start(); });
+document.querySelectorAll(".src").forEach(b => b.onclick = () => { src = b.dataset.a; document.querySelectorAll(".src").forEach(x => x.classList.toggle("on", x === b)); if (playing) start(); });
+$("lead").onclick = () => { lead = !lead; $("lead").classList.toggle("on", lead); if (playing) start(); };
+document.querySelectorAll(".verdict").forEach(b => b.onclick = () => { document.querySelectorAll(".verdict").forEach(x => x.classList.toggle("on", x === b)); record(b.dataset.v); });
+$("why").oninput = () => record();
+$("copy").onclick = () => { navigator.clipboard.writeText($("out").value).then(() => { $("copied").textContent = "copied"; setTimeout(() => $("copied").textContent = "", 1500); }); };
+loadTake(0);
+</script>
+</body>
+</html>

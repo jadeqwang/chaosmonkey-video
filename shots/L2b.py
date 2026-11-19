@@ -1,15 +1,13 @@
-"""L2b song frames 5660-5685 (26 f). ATTIC v3, round 2. The 1988 half of the blanket match cut (the cut is ON 235.833).
-Composed as a true match to BED+CAR's L2 last frame (keyframe media/kf/v3/L2m.jpg, painted from their L2_end for camera
-and placement only): the same high three-quarter view; Mama kneeling lower left, seen from behind, reaching right;
-little Jade's head on the pillow upper centre-right; the quilt lower right. Mama's hands arrive at her chin, tuck
-(236.276), then one hand rests and she looks at her. The blade sign is the wedge in the window upper right.
-Kling v4 on L2m (pick key L2m). L3 (the same scene, pulled back) follows from frame 5686."""
-from shots._attic3 import *
+"""L2b song frames 5660-5685 (26 f). ATTIC v4. The 1988 half of the blanket match cut (the cut is ON 235.833). The v4 L2b camera
+(same as bed26 v4_L2) over a sleeping little Jade: Mama's hands on the turned quilt edge at her waist draw it up (from 235.88),
+tuck at the chin (236.276), then one hand rests and she looks at her. Fallen books at frame right. Kling first+last take
+(media/kf/v4/L2b.jpg -> L2b_end.jpg), pick key L2b."""
+from shots._attic4 import *
 
 T0, T1 = 5660 / 24, 5686 / 24
-S = AtticShot([Seg(T0, T1, 'L2m', key='L2m', window=[[1610, 50], [1845, 85], [1830, 290], [1590, 250]], wedge=(0.50, 0.80),
-                   floor=0.62, keep=[(1000, 420, 420, 300), (720, 300, 380, 380)],
-                   cam=[(T0, 960, 540, 1.0), (T1, 960, 540, 1.0)])])
+S = AtticShot([Seg4(T0, T1, 'L2b', key='L2b', tmap=[[T0, 0.0], [T1, T1 - T0]], window=[[1277, -70], [1700, -70], [1700, 265], [1277, 265]],
+                    wedge=(0.50, 0.80), floor=0.62, keep=[(1090, 380, 300, 200), (900, 480, 380, 260)],
+                    cam=[(T0, 960, 540, 1.0), (T1, 960, 540, 1.0)])])
 
 
 def setup(ctx):

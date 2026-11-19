@@ -1,12 +1,13 @@
-"""A1 0.000-5.458 (131 f). ATTIC v3. Black; on the clapper roll (0.165) the neon blade sign outside the dusty window
-stutters on: a narrow wedge of cinnabar (LAYOUT_V3 option A), lettering in code, not mirrored. Little Jade lies awake,
-a small dark shape. The title (Chaos Monkey / 混沌猴 / Jade Wang / seal) sits small at the lower left from 0.7 s to
-the end of the shot. Code only (keyframes media/kf/v3/A1.jpg, A1_off.jpg)."""
-from shots._attic3 import *
+"""A1 0.000-5.458 (131 f). ATTIC v4. Black; on the clapper roll (0.165) the neon blade sign outside the dusty window stutters
+on: a narrow wedge of cinnabar, lettering in code, not mirrored. Little Jade lies awake, a small shape on her mat; Mama's mat
+beside her is EMPTY with its beige quilt folded at the foot (keyframe media/kf/v4/A1.jpg, A1_off.jpg from the same painting).
+If a Kling take is picked (media/comp/attic4/picks.json key A1) the ON layer plays it, the OFF layer stays still.
+The title (Chaos Monkey / 混沌猴 / Jade Wang / seal) sits small at the lower left from 0.7 s to the end."""
+from shots._attic4 import *
 from shots._attic3 import finish, paper_tex, grade_field
 
 T0, T1 = 0.0, 131 / 24
-WINDOW = (1465, 395, 1680, 657)
+WINDOW = (1313, 213, 1646, 523)
 
 
 def level(t, hits):
@@ -25,19 +26,22 @@ def level(t, hits):
 
 
 def setup(ctx):
-    global ON, OFF, G, TEX, BL, HITS, TA, TRGB
+    global SG, OFF, G, TEX, BL, HITS, TA, TRGB
     W, H = ctx.W, ctx.H
-    ON, OFF = kf3('A1', W, H), kf3('A1_off', W, H)
-    G = grade_field(ON, floor=0.42)
+    SG = Seg4(T0, T1, 'A1', key='A1', tmap=[[T0, 0.0], [T1, T1 - T0]], window=WINDOW, wedge=(0.57, 0.75))
+    SG.setup(ctx)
+    OFF = kf4('A1_off', W, H)
+    G = grade_field(SG.KF, floor=0.42)
     TEX = paper_tex(W, H)
-    BL = Blade('v3_A1', WINDOW, ctx.s, W, H, wedge=(0.56, 0.76))
+    BL = SG.blade
     hs = [(h['t'], h['strength']) for h in ctx.timing.hits('clapper', 0.1, 0.5)]
     HITS = [(h, 0.5 + 0.5 * s) for h, s in hs] or [(0.165, 1.0)]
-    TA, TRGB = title_block(W, H, ctx.s)
+    TA, TRGB = title_block(W, H, ctx.s, x=150, y=800)
 
 
 def render(t, ctx):
     lv = level(t, HITS)
+    ON, _ = SG.frame(t)
     f = OFF + (ON - OFF) * lv
     f = BL.apply(f, t, on=lv)
     f = finish(f, G, TEX)

@@ -4,6 +4,16 @@
     PY=/home/jade/Documents/halys-video/.venv/bin/python
     $PY tools/audio/sfx/build_v2.py            # -> media/sound/mix_v2.wav, layer_v2.wav, work/sound/qa_v2.json, docs/SOUND.md "v2" block
 
+  v4 (preview_v4, G5 "Yes" one beat late; see docs/SOUND.md "v3 mix"):
+    S="inputs/Chaos Monkey - reformatted for duet - v4 yes late.wav"
+    CM_SONG="$S" CM_VOCALS=work/stems/vocals_v4.wav CM_TIMING=analysis/timing_v4.json \
+      $PY tools/audio/sfx/build_v2.py --tag v3 --reuse-layer media/sound/layer_v2.wav
+        -> media/sound/mix_v3.wav = the approved mix_v2 + (edited song - original song): the v2 layer unchanged, ending B re-made
+           from the edited song; work/sound/qa_v3.json
+    Re-timed / new cues (task 2): copy docs/sound_cues.json -> docs/sound_cues_v3.json, edit, then
+      CM_SONG=... CM_VOCALS=... CM_TIMING=... CM_CUES=docs/sound_cues_v3.json $PY tools/audio/sfx/build_v2.py --tag v3
+        -> media/sound/mix_v3.wav, layer_v3.wav, work/sound/qa_v3.json, work/sound/SOUND_v3_auto.md (docs/SOUND.md v2 block untouched)
+
 Inputs : docs/sound_cues.json (v2 cue sheet; v1 kept in docs/sound_cues_v1.json), docs/sound_cues_v1.json + work/sound/qa.json (v1 numbers
          for the before/after table), analysis/timing.json, the song, work/stems/vocals.wav.
 Method (v1 rules kept: song untouched, mix = song + layer, layer never within 6 dB of the vocal where a word sounds):
@@ -35,7 +45,8 @@ from build_layer import (Anchors, Cue, vocal_word, band_follow, band_margin, ban
                          P, SONG, VOCALS, OUTD, WORK, ZERO_SPANS, SONG_QUIET, VOCAL_WIN, BANDS)
 from dsp import (SR, N, db2a, a2db, bp, Momentary, kpow, integrated_lufs, true_peak_db, peak_db, ebur128, load)  # noqa: E402
 
-CUES_V2 = P("docs", "sound_cues.json")
+CUES_V2 = os.environ.get("CM_CUES") or P("docs", "sound_cues.json")
+TAG = "v2"
 CUES_V1 = P("docs", "sound_cues_v1.json")
 QA_V1 = P(WORK, "qa.json")
 DOC = P("docs", "SOUND.md")
@@ -276,8 +287,58 @@ def smr_metric(y, song, t0):
 
 
 # ------------------------------------------------------------------------------------------------ main
+def remix(tag, layer_path, log=print):
+    """mix_<tag> = mix_v2 + (ending_B(SONG) - ending_B(original song)): the approved v2 layer and mix unchanged wherever the song is
+    unchanged (bit-identical there), the edited song where it was edited. Peak guard on the layer only if the edit pushed the true peak."""
+    orig = BL.P("inputs", "Chaos Monkey - reformatted for duet.wav")
+    song, voc = load(SONG), load(VOCALS)
+    s0 = load(orig)
+    v0 = load(BL.P("work", "stems", "vocals.wav"))
+    songB, notesB = ending_B(song, voc)
+    songB0, _ = ending_B(s0, v0)
+    m2, _ = sf.read(os.path.join(OUTD, "mix_v2.wav"), always_2d=True, dtype="float64")
+    lay, _ = sf.read(layer_path, always_2d=True, dtype="float64")
+    m2, lay = m2.T, lay.T
+    assert m2.shape == songB.shape == lay.shape, (m2.shape, songB.shape, lay.shape)
+    dS = songB - songB0
+    ch = np.nonzero(np.any(dS != 0, axis=0))[0]
+    mix = m2 + dS
+    tp = true_peak_db(mix)
+    guard_note = "not needed"
+    if tp > TP_LIMIT - 0.05:
+        lg, ms, gmin = guard(songB, lay, -1.6)
+        mix = songB + lg
+        tp = true_peak_db(mix)
+        guard_note = f"{ms:.0f} ms, max {gmin:.2f} dB"
+    out = os.path.join(OUTD, f"mix_{tag}.wav")
+    write24(out, mix)
+    mx, _ = sf.read(out, always_2d=True, dtype="float64")
+    mx = mx.T
+    outside = np.ones(mix.shape[1], bool)
+    if len(ch):
+        outside[ch[0]:ch[-1] + 1] = False
+    span = slice(ch[0], ch[-1] + 1) if len(ch) else slice(0, 0)
+    qa = {"global": {
+        "song": os.path.relpath(SONG, BL.ROOT), "vocals": os.path.relpath(VOCALS, BL.ROOT), "layer": os.path.relpath(layer_path, BL.ROOT),
+        "song_changed_span_s": [ch[0] / SR, (ch[-1] + 1) / SR] if len(ch) else None,
+        "mix_vs_mix_v2_nonzero_samples_outside_span": int(np.count_nonzero((mx - m2)[:, outside])),
+        "mix_minus_(song+layer)_in_span_max_abs": float(np.abs(mx[:, span] - songB[:, span] - lay[:, span]).max()) if len(ch) else 0.0,
+        "mix_v2_lufs": round(integrated_lufs(m2), 2), f"mix_{tag}_lufs": round(integrated_lufs(mx), 2),
+        "mix_v2_tp": round(true_peak_db(m2), 2), f"mix_{tag}_tp": round(true_peak_db(mx), 2),
+        "song_lufs": round(integrated_lufs(s0), 2), "song_edited_lufs": round(integrated_lufs(song), 2),
+        "clipped_samples": int(np.count_nonzero(np.abs(mx) >= 1.0)), "len_s": mx.shape[1] / SR, "guard": guard_note,
+        "ebur128_mix_v2": ebur128(os.path.join(OUTD, f"mix_{TAG}.wav")), f"ebur128_mix_{tag}": ebur128(out), "ending": notesB}}
+    json.dump(qa, open(os.path.join(WORK, f"qa_{tag}.json"), "w"), indent=1, ensure_ascii=False)
+    log(json.dumps(qa["global"], indent=1))
+
+
 def main(argv):
+    global TAG
     log = print
+    if "--tag" in argv:
+        TAG = argv[argv.index("--tag") + 1]
+    if "--reuse-layer" in argv:
+        return remix(TAG, argv[argv.index("--reuse-layer") + 1], log)
     os.makedirs(WORK, exist_ok=True)
     spec = json.load(open(CUES_V2))
     v1spec = {c["id"]: c for c in json.load(open(CUES_V1))["cues"]}
@@ -358,8 +419,8 @@ def main(argv):
     for a, b in ZERO_SPANS:
         assert np.count_nonzero(layerB[:, N(a):N(b)]) == 0
     mixB = songB + layerB
-    write24(os.path.join(OUTD, "layer_v2.wav"), layerB)
-    write24(os.path.join(OUTD, "mix_v2.wav"), mixB)
+    write24(os.path.join(OUTD, f"layer_{TAG}.wav"), layerB)
+    write24(os.path.join(OUTD, f"mix_{TAG}.wav"), mixB)
     log(f"guard: thr {thr:.1f} dBFS, {ms:.0f} ms affected, max reduction {gmin:.2f} dB; mix TP {tp:.2f}")
 
     # ---- QA
@@ -400,8 +461,8 @@ def main(argv):
     for c in cues:
         inside[max(0, N(c.t0)):min(n, N(c.t1))] = True
     outside_nonzero = int(np.count_nonzero(layerB[:, :n][:, ~inside]))
-    mx, _ = sf.read(os.path.join(OUTD, "mix_v2.wav"), always_2d=True, dtype="float64")
-    lx, _ = sf.read(os.path.join(OUTD, "layer_v2.wav"), always_2d=True, dtype="float64")
+    mx, _ = sf.read(os.path.join(OUTD, f"mix_{TAG}.wav"), always_2d=True, dtype="float64")
+    lx, _ = sf.read(os.path.join(OUTD, f"layer_{TAG}.wav"), always_2d=True, dtype="float64")
     readback = float(np.abs(mx.T - songB - lx.T).max())
     v1l, _ = sf.read(os.path.join(OUTD, "layer_v1.wav"), always_2d=True, dtype="float64")
     v1m, _ = sf.read(os.path.join(OUTD, "mix_v1_endB.wav"), always_2d=True, dtype="float64")
@@ -435,17 +496,17 @@ def main(argv):
         "layer_under_song_400ms_p5_v2": round(float(np.percentile(ls[live & on2] - lm[live & on2], 5)), 1),
         "layer_under_song_400ms_min_v2": round(float((ls[live & on2] - lm[live & on2]).min()), 1),
         "null_outside_cues_nonzero": outside_nonzero, "readback_max_abs_err": readback,
-        "zero_spans_exact": True, "ebur128_song": ebur128(SONG), "ebur128_mix_v2": ebur128(os.path.join(OUTD, "mix_v2.wav")),
+        "zero_spans_exact": True, "ebur128_song": ebur128(SONG), "ebur128_mix_v2": ebur128(os.path.join(OUTD, f"mix_{TAG}.wav")),
         "ending": notesB,
         "layer_peak_after_237.94": round(peak_db(layerB[:, N(237.94):]), 1),
         "layer_peak_237.84_to_238.32": round(peak_db(layerB[:, N(237.84):N(238.32)]), 1),
         "song_B_vs_mix_B_after_238.32_rms": [round(a2db(np.sqrt(np.mean(songB[:, N(238.4):] ** 2))), 1),
                                               round(a2db(np.sqrt(np.mean(mixB[:, N(238.4):] ** 2))), 1)],
     }
-    json.dump(qa, open(os.path.join(WORK, "qa_v2.json"), "w"), indent=1, ensure_ascii=False)
+    json.dump(qa, open(os.path.join(WORK, f"qa_{TAG}.json"), "w"), indent=1, ensure_ascii=False)
     json.dump({c.id: {"times": qa["cues"][c.id]["times"], "t0": qa["cues"][c.id]["t0"], "t1": qa["cues"][c.id]["t1"],
                       "peak_dbfs": qa["cues"][c.id]["peak_dbfs"]} for c in cues},
-              open(os.path.join(WORK, "cues_resolved_v2.json"), "w"), indent=1)
+              open(os.path.join(WORK, f"cues_resolved_{TAG}.json"), "w"), indent=1)
     write_doc(qa, cues)
     g = qa["global"]
     log(f"mix_v2 {g['mix_v2_lufs']} LUFS (song {g['song_lufs']}, v1 {g['mix_v1B_lufs']}), TP {g['mix_v2_tp']}, layer {g['layer_v1_lufs']} -> {g['layer_v2_lufs']} LUFS, "
@@ -497,6 +558,9 @@ def write_doc(qa, cues):
            "\n\n### New-action cues: exact times (s) for the picture teams\n\n" + "\n".join(new_rows) +
            "\n\n### Cues within 150 ms of a word onset (v2)\n\n" + "\n".join(near) +
            "\n\n### Verification (v2)\n\n" + "\n".join(ver) + "\n\n<!-- AUTO_V2:END -->")
+    if TAG != "v2":                                  # never overwrite the approved v2 block; the lead merges a v3 block by hand
+        open(os.path.join(WORK, f"SOUND_{TAG}_auto.md"), "w").write(txt)
+        return
     doc = open(DOC).read()
     if "<!-- AUTO_V2:BEGIN" in doc:
         doc = re.sub(r"<!-- AUTO_V2:BEGIN.*?<!-- AUTO_V2:END -->", lambda m: txt, doc, flags=re.S)

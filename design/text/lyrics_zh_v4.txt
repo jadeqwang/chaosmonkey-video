@@ -1,0 +1,154 @@
+# Chinese inscriptions for the book pages (preview_v3). PROOFREAD v2 by Jade, 2026-11-17. Replaces the lead's draft.
+# Jade's parents will recheck; expect small changes. Rule from Jade: where the novel has the line, use the novel's words.
+# Simplified characters. key | shot(s) | English lyric | inscription (columns separated by " / ")
+# Lines starting with # are comments (parsers must skip them). Source tags are NOT part of the inscription:
+#   [novel ch.N]          = verbatim from 西游记 (100-chapter edition). Do not change any characters.
+#   [novel ch.N, adapted] = novel wording, trimmed or lightly changed to fit the lyric
+#   [original]            = no matching line in the novel; newly written
+
+B3 | B3 | On 花果山, where the cliffs run steep / a stone looked over the sea | 花果山削壁奇峰 / 正当顶上有一块仙石
+# [novel ch.1, adapted] 削壁奇峰 from the 花果山 verse; 正当顶上，有一块仙石 from the prose. "Looked over the sea" is not in the novel and is dropped.
+B4 | B4 | Sunlight by day and moonlight by night | 日沐天光 / 夜浴月光
+# [original] The novel has no day/night line. 月华 changed to 月光 so it doesn't repeat B5.
+B5 | B5 | a thousand years of soaking up light | 每受日精月华 / 感之既久
+# [novel ch.1, adapted] from 每受天真地秀，日精月华，感之既久
+C1 | C1 | It split apart | 一日迸裂
+# [novel ch.1]
+C4 | C4 | A stone egg, round as a ball | 产一石卵 / 似圆球样大
+# [novel ch.1]
+C5 | C5b | the wind blew once, and that was all | 因见风 / 化作一个石猴
+# [novel ch.1]
+D1 | D1 | Born fully formed | 五官俱备 / 四肢皆全
+# [novel ch.1]
+D2 | D2 | He bowed four ways before the day had warmed | 便就学爬学走 / 拜了四方
+# [novel ch.1] 便就 ("right away") carries "before the day had warmed"
+D5 | D5 | One whisper, and the hundred come along | 一窍通时 / 百窍通
+# [novel ch.2]
+E2 | E2 | he never once forgot a spell | 切切记了口诀
+# [novel ch.2] = "carefully committed the incantation to memory". If Jade prefers the literal "never forgot": 口诀过耳 / 一字不忘 [original]
+E4 | E4 | The master leaned in close to his ear | 祖师附耳 / 低言妙法
+# [novel ch.2, adapted] from 遂附耳低言，不知说了些什么妙法
+G2a | G2 | He wouldn't listen, so the gold pulls tight | 若不伏使唤 / 金箍便收紧
+# col 1 [novel ch.8, adapted] from Guanyin's 他若不伏使唤 ("if he won't obey"); col 2 [original]
+G2b | G2 | on the monkey who picked a fight | 惹事的猴儿 / 眼胀头痛
+# col 1 [original]; col 2 [novel ch.8] 眼胀头痛 (the band's effect)
+H5 | H5 | I'm made of the telling, not just the tale | 我由讲述而成 / 不只是那故事
+# [original]
+H6 | H6 | one hair that can't gather, blown on the gale | 一根毫毛 / 被狂风刮在半空 / 如何拢得身
+# [novel ch.21, adapted] from the passage where a demon's wind blows Wukong's hair-clones around: 刮得在那半空中……如何拢得身 ("how could they gather")
+I2 | I2 | you'd fight the gods and win | 强者为尊该让我 / 英雄只此敢争先
+# [novel ch.7] LEAD'S PROPOSAL, pending Jade and her parents: Wukong's own verse to the Buddha claiming heaven's seat
+# (灵霄宝殿非他久，历代人王有分传。强者为尊该让我，英雄只此敢争先). Verify the characters against the 100-chapter text.
+# Fallback if rejected (Opus 5.5's line, [original]): 敢战天兵 / 战必胜
+I3 | I3b | a seat at the table | 蟠桃会上 / 可请我么
+# col 2 [novel ch.5] Wukong asks the fairies "Was I invited?"; they answer 不曾听得说
+K2 | K2b | He opened the Book of Life and Death | 拿过生死簿
+# [novel ch.3, adapted] from 悟空拿过簿子
+K3 | K3 | and crossed out his name in a single breath | 一笔勾之
+# [novel ch.3, adapted] from 一概勾之; also echoes the idiom 一笔勾销
+K4 | K4 | I turned each page, I looked for mine | 逐页检阅 / 寻我名
+# [novel ch.3, adapted] from 悟空亲自检阅
+K5 | K5 | it wasn't there on any line | 簿上尽除名
+# [novel ch.3 chapter title, adapted] from 九幽十类尽除名. If Jade prefers the literal: 行行皆不见 [original]
+
+# ======================================================================================================================
+# v4 additions (CUT, 2026-11-18). Everything ABOVE this line is Jade's proofread v3 file, unchanged.
+# REVISION_V4 §1.3: every sung line now carries its Chinese on screen. Lines below are for the ROOM calligraphy overlay
+# (tools/cut/roomcal.py, light on dark) and for the few stage/album shots that have no inscription; BOOK's G2c is the
+# echo pair already typeset in G2. A line that starts in a room and continues onto a page whose inscription carries it
+# reuses that inscription's key (B3 col 1 in B2, C5 in C5a, I3 in I3a, K2 in K2a, K5 in L1): no new text, not listed here.
+# Proof table with times and the renderings I hesitated over: review/lyrics_zh_v4_proof.md.
+# Tags: [sung]  = the rap is sung in Mandarin: the calligraphy is the sung words themselves (REVISION_V3 §7), not a translation
+#       [novel ch.N ...] / [original] as above.
+
+# NEW v4, for Jade's proofread
+B1a | B1 | 妈妈, will you tell me before I sleep | 妈妈 / 睡觉前讲给我听
+# [original] 妈妈 kept as sung
+# NEW v4, for Jade's proofread
+B1b | B1 | how 孙悟空 came to be? | 孙悟空 / 是怎么来的
+# [original] 孙悟空 kept as sung
+# NEW v4, for Jade's proofread
+C2 | C2 | Monkey! | 猴子
+# [original] the child's shout; alternative 石猴 (the novel's word, but she is shouting, not narrating)
+# NEW v4, for Jade's proofread
+C3 | C3 | Not yet, that's just the start | 还没呢 / 这才刚开始
+# [original]
+# NEW v4, for Jade's proofread
+D3 | D3 | No cradle, no lullaby, no song | 没有摇篮 / 没有摇篮曲 / 也没有歌
+# [original] keeps the English's three "no"s; alternative 没有摇篮 / 没有儿歌 / 没人唱给他听
+# NEW v4, for Jade's proofread
+E1 | E1 | The monkey had a memory just like you | 那猴儿的记性 / 就跟你一样好
+# [original] 猴儿 as the novel calls him in ch.1-2
+# NEW v4, for Jade's proofread
+E3a | E3 | Names and faces, I lose a few | 名字和脸 / 我会忘几个
+# [original]
+# NEW v4, for Jade's proofread
+E3b | E3 | but a spell I'd remember well | 可是口诀 / 我记得牢
+# [original] 口诀 = the word of E2 (切切记了口诀), so the two lines rhyme in meaning
+# NEW v4, for Jade's proofread
+E6 | E6 | a secret only he could hear | 一个秘密 / 只有他听得见
+# [original] (E4's inscription has the novel's 附耳低言 already)
+# NEW v4, for Jade's proofread  [sung]
+F1 | F1 | 石头里蹦出来 没有童年 | 石头里蹦出来 / 没有童年
+# NEW v4, for Jade's proofread  [sung]
+F2 | F2 | 一声耳语 学会七十二变 | 一声耳语 / 学会七十二变
+# NEW v4, for Jade's proofread  [sung]
+F3 | F3a F3b | 拔一把毫毛 吹一口气 | 拔一把毫毛 / 吹一口气
+# NEW v4, for Jade's proofread  [sung]
+F4a | F4 | 千百个我 同时在这里 | 千百个我 / 同时在这里
+# NEW v4, for Jade's proofread  [sung]
+F4b | F4 F5 | 每一个都是我 每一个都算 | 每一个都是我 / 每一个都算
+# NEW v4, for Jade's proofread  [sung]
+F5 | F5 F6a | 说完这句话 各自消散 | 说完这句话 / 各自消散
+# NEW v4, for Jade's proofread  [sung]
+F6a | F6a | 身外身法 谁是真身 | 身外身法 / 谁是真身
+# NEW v4, for Jade's proofread  [sung]
+F6b | F6b | 问了也白问 个个都真 | 问了也白问 / 个个都真
+# NEW v4, for Jade's proofread
+G1a | G1 | Why does he wear a band of gold? | 他为什么 / 戴着金箍
+# [original] 金箍 as in G2a
+# NEW v4, for Jade's proofread
+G1b | G1 | Is it heavy? Is it cold? | 重不重 / 冷不冷
+# [original]
+# NEW v4, for Jade's proofread (BOOK's proposal: the two sung echoes, already typeset in G2's margin)
+G2c | G2 | (听话) | 听话
+# [sung]
+# NEW v4, for Jade's proofread
+G3a | G3 | It isn't fair, it isn't fair | 不公平 / 不公平
+# [original]
+# NEW v4, for Jade's proofread
+G3b | G3 | I don't want it in his hair | 我不要它 / 箍在他头上
+# [original]
+# NEW v4, for Jade's proofread
+G4a | G4 | Then 听话, or you'll get one to wear | 那就听话 / 不然你也戴一个
+# [original] 听话 kept as sung
+# NEW v4, for Jade's proofread
+G4b | G4 G5 | Do what mama says, no more, no less | 妈妈怎么说 / 就怎么做 / 不多也不少
+# [original] 妈妈 kept as sung
+# NEW v4, for Jade's proofread
+G5 | G5 | Yes | 好
+# [original] alternative 嗯 (a mumble; 好 is the agreement she is giving)
+# NEW v4, for Jade's proofread
+H3 | H3 | Tool or threat, trick or kid | 是工具还是祸患 / 是把戏还是孩子
+# [original] alternative, shorter: 是器还是祸 / 是戏还是童
+# NEW v4, for Jade's proofread
+H4 | H4 | the categories arrived before I did | 我还没到 / 名目先到了
+# [original] 名目 = the names/labels given to a thing; alternative 我还没来 / 名分就已定
+# NEW v4, for Jade's proofread
+I1 | I1 | Mischievous baby, Monkey's twin | 淘气的小娃娃 / 猴儿的双胞胎
+# [original]
+# NEW v4, for Jade's proofread
+I4 | I4 | Wouldn't you? You're able. | 你不会么 / 你有这本事
+# [original] 么 answers I3's 可请我么; 本事 is the novel's word for Wukong's powers
+# NEW v4, for Jade's proofread
+J3 | J3 | before the day had warmed | 天色还未暖
+# [original] (D2's inscription carried this phrase as 便就; here it is sung alone)
+# NEW v4, for Jade's proofread
+J4 | J4 | No cradle, no song | 没有摇篮 / 没有歌
+# [original] = D3 shortened, as the song shortens it
+# NEW v4, for Jade's proofread
+K1a | K1 | Do you want to know how he never died, | 想不想知道 / 他怎么长生不死
+# [original] 长生不死 is the novel's phrase for what he sought (ch.1-3)
+# NEW v4, for Jade's proofread
+K1b | K1 | what he did on the other side? | 他在幽冥界 / 做了些什么
+# [novel ch.3 word] 幽冥界 is where the novel sends him (幽冥界 / 森罗殿); alternative plainer 阴间

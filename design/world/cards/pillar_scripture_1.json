@@ -1,0 +1,17 @@
+{
+ "src": "design/world/plates/pillar_scripture_1.png",
+ "w": 1280,
+ "h": 3072,
+ "aspect": 0.4166666666666667,
+ "paper_rgb": [
+  242.0,
+  229.0,
+  211.0
+ ],
+ "bbox_px": [
+  23,
+  103,
+  1164,
+  3071
+ ]
+}

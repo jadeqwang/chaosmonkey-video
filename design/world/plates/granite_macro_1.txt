@@ -1,0 +1,4 @@
+model: openai/gpt-image-2
+{"size": "3840x2160", "quality": "high", "output_format": "png", "images": ["file:design/world/refs/film_hgs_peak.jpg"]}
+
+Chinese ink painting on cream xuan paper, the film's brush as in reference image 1, seen from very close: a granite rock face fills the whole sheet edge to edge, a broad smooth pale flat area in the middle (left almost blank, faint mottling of pale ochre and grey wash, a few tiny dark specks of mica and quartz), framed by angular cracks and dry axe-cut texture strokes near the edges, a few moss dots in the lower right. No text, no characters, no carving, no seal, no border. Flat even scan.

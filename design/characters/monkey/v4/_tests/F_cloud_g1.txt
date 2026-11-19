@@ -1,0 +1,17 @@
+model: openai/gpt-image-2
+params: {"size": "3840x2160", "quality": "high", "output_format": "jpeg"}
+refs: ['design/characters/monkey/v3/monkey_v3b_ALT_fret_leopard_redscarf.jpg']
+secs: 75
+
+PROMPT:
+An animation keyframe pose sheet: the same monkey performer painted four times in one row, full body, each figure filling most of the sheet's height.
+The monkey is ONE fixed character, exactly the one on the attached model sheet: Sun Wukong as a lean, wiry Peking-opera martial performer with long arms, painted in quick calligraphic black ink line and transparent gamboge-yellow wash on cream xuan paper. Keep every costume detail of the sheet in every figure: the yellow jacket and yellow wide trousers covered with a black angular key-fret (meander) pattern in broken ink lines; bands of leopard-spot fur (ochre with black spots) at the collar, along the jacket front, at the cuffs and on the short flap skirt below the black sash; a cinnabar-red silk scarf knotted at the throat over a thin white collar, its two ends loose; the soft yellow cloth cap with the black knot pattern on the front, a row of small yellow pompoms across the brow and a tuft on top; black cloth boots with white soles. Face as on the sheet: a white face with black fur around it, the heart-shaped cinnabar-red field around both eyes running down the nose, gold eyes with black pupils ringed in black, a small down-turned mouth, round ears. Hands: dark brown monkey hands with exactly five fingers each, clearly drawn, no extra fingers, no webbing. The staff: a long thin dark staff a little taller than he is, with a short gold band at each end.
+Style: the same hand as the model sheet: ink line of changing weight, matte wash pooling at the edges, flecks of bare paper; a painting, not a costume photograph, not a doll, not 3D, not anime. Every figure the same size, the same proportions and the same costume, separated by generous bare paper so each can be cut out cleanly; no figure touches or overlaps another; the staff of one figure never crosses another figure. Plain unsized cream xuan paper, evenly lit, flat scan: no shadow under the feet, no ground line, no background, no border, no seal, no text, no labels, no numbers.
+The cloud (figures 1 and 2): his somersault cloud (jindou yun) is a small, tight auspicious cloud drawn in the traditional way: a few curling scroll-ended ink outlines (ruyi cloud curls) with a pale ink-grey and white wash inside, flat on its base, about as long as he is tall, with a short trailing tail of curls; drawn in the same ink hand, not a photographic cloud, not cotton.
+The four poses, left to right:
+1. Riding the cloud: standing on the cloud, knees bent, leaning forward into the speed toward the viewer's left, the right hand flat above his eyes, the staff in the left hand held back, scarf ends streaming behind.
+2. Tumbling on the cloud: in a tucked somersault, upside down, just above the cloud, which curls round under him.
+3. Plucking a hair: standing, he has pulled a single hair from his left forearm and holds it up between finger and thumb close to his lips, cheeks puffed, about to blow on it; staff tucked under the left arm.
+4. Seated: sitting cross-legged on the paper, upright, the left hand resting on the knee, the right hand raised open in front of him, palm up, a small calm commanding smile; the staff lying across his lap.
+
+The attached image is his model sheet (front, side, back views and a face close-up): match its design, colours, face and painting hand exactly; only the poses are new.
